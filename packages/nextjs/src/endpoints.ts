@@ -1,5 +1,8 @@
 // TODO - Catch All Endpoints
 
+
+function 
+
 const endpoints = {
   rest: {
     auth: {
@@ -19,6 +22,48 @@ const endpoints = {
       },
       revoke: {
         get: () => {
+          return {
+            status: 200,
+            body: "Hello World",
+          };
+        },
+      },
+    },
+    push: {
+      post: () => {
+        return {
+          status: 200,
+          body: "Hello World",
+        };
+      },
+    },
+    pull: {
+      get: () => {
+        return {
+          status: 200,
+          body: "Hello World",
+        };
+      },
+    },
+    sync: {
+      post: () => {
+        return {
+          status: 200,
+          body: "Hello World",
+        };
+      },
+    },
+    cache: {
+      get: {
+        post: () => {
+          return {
+            status: 200,
+            body: "Hello World",
+          };
+        },
+      },
+      set: {
+        post: () => {
           return {
             status: 200,
             body: "Hello World",

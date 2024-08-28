@@ -1,0 +1,15 @@
+{
+	"dictionaries": ["typescript"],
+	"ignorePaths": [
+		".github",
+		"CHANGELOG.md",
+		"coverage",
+		"tests",
+		"node_modules",
+		"pnpm-lock.yaml"
+	],
+	"words": [
+		"pglite",
+		"replocal"
+	]
+}
