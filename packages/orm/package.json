@@ -1,6 +1,6 @@
 {
-  "name": "@replocal/nextjs",
-  "description": "NextJS API handlers for Replocal",
+  "name": "@replocal/orm",
+  "description": "ORM adapter for Replocal",
   "version": "0.0.1",
   "license": "MIT",
   "keywords": [],
@@ -34,15 +34,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
-    "@types/next": "^9.0.0",
-    "@types/react": "^18.3.5",
-    "next": "^14.2.7",
     "tsup": "^8.2.4",
     "typescript": "^5.5.4"
-  },
-  "dependencies": {
-    "@paralleldrive/cuid2": "^2.2.2",
-    "@replocal/core": "workspace:^",
-    "react": "^18.3.1"
   }
 }

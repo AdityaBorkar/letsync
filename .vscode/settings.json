@@ -16,4 +16,7 @@
 	"eslint.rules.customizations": [{ "rule": "*", "severity": "warn" }],
 	"eslint.useFlatConfig": true,
 	"typescript.tsdk": "node_modules/typescript/lib",
+	"[jsonc]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
 }
