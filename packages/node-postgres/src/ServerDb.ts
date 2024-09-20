@@ -1,14 +1,7 @@
-import { Replocal_ServerDb } from "@replocal/core";
+import type { Client } from "pg";
 
-export function ServerDb(db: any): Replocal_ServerDb {
+export function ServerDb(database: Client, config: any) {
 	// TODO - Connection Pooling on backend
 
-	return {
-		database: db,
-		waitUntilReady: () =>
-			new Promise(async (resolve) => {
-				await db.connect();
-				resolve(true);
-			}),
-	};
+	return database;
 }

@@ -1,8 +1,8 @@
 import type { Params } from "../handlers.js";
 
-export default async function cacheRetrieve(params: Params) {
+export default async function changesAdd(params: Params) {
 	const input = await params.request.json();
-	console.log("cacheRetrieve REQUEST RECEIVED WITH BODY: ", params);
+	console.log("changesAdd REQUEST RECEIVED WITH BODY: ", input);
 
 	const response = {
 		ack: true,

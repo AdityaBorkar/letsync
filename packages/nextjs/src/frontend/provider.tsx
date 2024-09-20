@@ -1,8 +1,7 @@
 "use client";
 
 // biome-ignore lint/style/useImportType: BUGGY BIOME
-import React, { useEffect, useState } from "react";
-import { createContext } from "react";
+import React, { useEffect, useState, createContext } from "react";
 
 import type { Replocal_ClientDb } from "@replocal/core";
 
@@ -19,18 +18,11 @@ export function ReplocalProvider({
 }) {
 	const [isLoading, setIsLoading] = useState(true);
 
-	// TODO - Detect if `clientDb` satisfies type `Replocal_ClientDb`
+	if (!clientDb || clientDb.__brand !== "REPLOCAL_CLIENT_DB")
+		throw new Error("Invalid REPLOCAL_CLIENT_DB");
 
 	useEffect(() => {
-		clientDb.waitUntilReady().then(() => {
-			setIsLoading(false);
-
-			// TODO - Allow in some cases to delay registration
-			clientDb.device.register();
-
-			// TODO - Allow in some cases to delay syncing
-			clientDb.sync();
-		});
+		initializeClientDb(clientDb).then(() => setIsLoading(false));
 	}, [clientDb]);
 
 	if (isLoading) return null;
@@ -39,4 +31,21 @@ export function ReplocalProvider({
 			{children}
 		</ReplocalContext.Provider>
 	);
+}
+
+function initializeClientDb(clientDb: Replocal_ClientDb) {
+	return new Promise((resolve, reject) => {
+		clientDb.waitUntilReady().then(async () => {
+			// TODO - Authentication & Authorization
+
+			// TODO - Allow in some cases to delay registration
+			await clientDb.device.register();
+
+			// TODO - Allow in some cases to delay syncing
+			await clientDb.push();
+			await clientDb.pull();
+			await clientDb.live();
+			resolve(true);
+		});
+	});
 }

@@ -23,17 +23,24 @@ export type ReplocalConfig = {
 	};
 };
 
+export type EventName = "device:register" | "device:deregister";
+
+// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+export type EventCallbackFn = (data: any) => void;
+
 export type Replocal_ClientDb = {
+	__brand: "REPLOCAL_CLIENT_DB";
 	database: any;
 	waitUntilReady: () => Promise<boolean>;
-	events: {
-		subscribe: (event: string, callback: (data: any) => void) => void;
-		unsubscribe: (event: string, callback: (data: any) => void) => void;
+	event: {
+		subscribe: (event: EventName, callback: EventCallbackFn) => void;
+		unsubscribe: (event: EventName, callback: EventCallbackFn) => void;
 	};
 	device: {
 		register: () => void;
 		deregister: () => void;
 	};
+	flush: () => void;
 	schema: {
 		validate: (schema: any) => void;
 		migrate: (schema: any) => void;
@@ -41,7 +48,20 @@ export type Replocal_ClientDb = {
 	};
 	pull: () => void;
 	push: () => void;
-	sync: () => void;
+	live: () => void;
 };
 
-export type Replocal_ServerDb = {};
+export type Replocal_ServerDb =
+	| {
+			__brand: "REPLOCAL_SERVER_DB";
+			database: any;
+			waitUntilReady: () => Promise<boolean>;
+			type: "SQL";
+			query: (query: string) => Promise<any>;
+	  }
+	| {
+			__brand: "REPLOCAL_SERVER_DB";
+			database: any;
+			waitUntilReady: () => Promise<boolean>;
+			type: "NOSQL";
+	  };

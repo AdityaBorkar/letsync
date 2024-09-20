@@ -6,25 +6,27 @@ import cacheUpsert from "./cache/upsert.js";
 import deviceInfo from "./device/info.js";
 import deviceRegister from "./device/register.js";
 import deviceUnregister from "./device/unregister.js";
+import changesGet from "./changes/get.js";
+import changesAdd from "./changes/add.js";
+import changeCapture from "./changeCapture/index.js";
 
 type NextContext = { params: { slug: string[] } };
 
 const RestEndpoints = {
 	GET: {
+		"/changes": changesGet,
+		"/device": deviceInfo,
 		"/cache": cacheRetrieve,
-		// '/device': deviceInfo,
-		// "/sync": () => {},
-		// '/pull': () => {},
 	},
 	POST: {
-		"/cache": cacheUpsert,
+		"/changes": changesAdd,
 		"/device": deviceRegister,
-		// "/sync": () => {},
-		// "/push": () => {},
+		"/cache": cacheUpsert,
+		"/changeCapture": changeCapture,
 	},
 	DELETE: {
-		"/cache": cacheDelete,
 		"/device": deviceUnregister,
+		"/cache": cacheDelete,
 	},
 } as const;
 
@@ -36,7 +38,7 @@ export default function Router({
 	method: keyof typeof RestEndpoints;
 }) {
 	const endpoints = RestEndpoints[method];
-	const path = "/" + context.params.slug.join("/");
+	const path = `/${context.params.slug.join("/")}`;
 	const isValidPath = Object.keys(endpoints).includes(path);
 	if (!isValidPath) return notFound();
 
