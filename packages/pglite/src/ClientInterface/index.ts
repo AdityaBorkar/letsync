@@ -1,5 +1,9 @@
 import type { PGlite } from "@electric-sql/pglite";
-import type { ReplocalConfig, Replocal_ClientDb } from "@replocal/core";
+import type {
+	ReplocalConfig,
+	Replocal_ClientDb,
+	Replocal_PubSub,
+} from "@replocal/core";
 import device from "./functions/device.js";
 import waitUntilReady from "./functions/waitUntilReady.js";
 import event from "./functions/event.js";
@@ -13,18 +17,28 @@ declare global {
 	var replocal: {
 		db: PGlite;
 		config: ReplocalConfig;
+		pubsub: Replocal_PubSub;
 	};
 }
 
 export type PGliteWithReplocal = PGlite & {
-	replocal: { config: ReplocalConfig };
+	replocal: {
+		config: ReplocalConfig;
+		pubsub: Replocal_PubSub;
+	};
 };
 
 export default function TransformToClientInterface(
 	database: PGliteWithReplocal,
 ): Replocal_ClientDb {
 	// TODO - Connection Pooling on frontend
-	globalThis.replocal = { db: database, config: database.replocal.config };
+	console.log({ config: database.replocal });
+
+	globalThis.replocal = {
+		db: database,
+		config: database.replocal.config,
+		pubsub: database.replocal.pubsub,
+	};
 
 	return {
 		__brand: "REPLOCAL_CLIENT_DB",

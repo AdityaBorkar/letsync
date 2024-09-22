@@ -30,6 +30,7 @@ export type EventCallbackFn = (data: any) => void;
 
 export type Replocal_ClientDb = {
 	__brand: "REPLOCAL_CLIENT_DB";
+	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 	database: any;
 	waitUntilReady: () => Promise<boolean>;
 	event: {
@@ -42,26 +43,46 @@ export type Replocal_ClientDb = {
 	};
 	flush: () => void;
 	schema: {
+		// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 		validate: (schema: any) => void;
+		// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 		migrate: (schema: any) => void;
 		// extend: (schema: any) => void
 	};
 	pull: () => void;
 	push: () => void;
-	live: () => void;
+	live: (userGroup: string) => void;
 };
 
 export type Replocal_ServerDb =
 	| {
 			__brand: "REPLOCAL_SERVER_DB";
+			// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 			database: any;
 			waitUntilReady: () => Promise<boolean>;
 			type: "SQL";
+			// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 			query: (query: string) => Promise<any>;
 	  }
 	| {
 			__brand: "REPLOCAL_SERVER_DB";
+			// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 			database: any;
 			waitUntilReady: () => Promise<boolean>;
 			type: "NOSQL";
 	  };
+
+export type Replocal_PubSub = {
+	__brand: "REPLOCAL_PUBSUB";
+	publish: (
+		userGroup: string,
+		payload: {
+			// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+			[key: string]: any;
+		},
+	) => Promise<void>;
+	subscribe: (
+		userGroup: string,
+		callback: (message: string) => void,
+	) => Promise<void>;
+};

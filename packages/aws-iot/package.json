@@ -1,6 +1,6 @@
 {
-  "name": "@replocal/nextjs",
-  "description": "NextJS API handlers for Replocal",
+  "name": "@replocal/aws-iot",
+  "description": "AWS IoT adapter for Replocal",
   "version": "0.0.1",
   "license": "MIT",
   "keywords": [],
@@ -20,6 +20,9 @@
     "node": ">=18.3.0"
   },
   "main": "./lib/index.js",
+  "exports": {
+    ".": "./lib/index.js"
+  },
   "type": "module",
   "files": [
     "lib/",
@@ -29,21 +32,19 @@
   ],
   "scripts": {
     "tsc": "tsc",
+    "dev": "tsc --watch",
     "build": "tsup",
     "format": "prettier .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
-    "@types/next": "^9.0.0",
-    "@types/react": "^18.3.5",
-    "next": "^14.2.7",
     "tsup": "^8.2.4",
     "typescript": "^5.5.4"
   },
   "dependencies": {
     "@aws-sdk/client-iot-data-plane": "^3.654.0",
-    "@paralleldrive/cuid2": "^2.2.2",
     "@replocal/core": "workspace:^",
-    "react": "^18.3.1"
+    "mqtt": "^5.10.1",
+    "sst": "^3.1.32"
   }
 }

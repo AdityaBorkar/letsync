@@ -6,6 +6,8 @@ export default async function initialize(options: {
 	pg: PGliteInterface;
 	schema: ReplocalConfig["dbSchema"];
 }) {
+	console.log("Initializing Replocal Sync PGLite Extension");
+
 	const { pg, schema } = options;
 
 	// TODO - LastActive, Cursor Position, Typing Indicator

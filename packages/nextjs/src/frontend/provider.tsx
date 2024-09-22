@@ -10,22 +10,44 @@ export const ReplocalContext = createContext<{ db: Replocal_ClientDb | null }>({
 });
 
 export function ReplocalProvider({
-	clientDb,
+	initClientDb,
 	children,
 }: {
-	clientDb: Replocal_ClientDb;
+	initClientDb: () => Promise<Replocal_ClientDb>;
 	children: React.ReactNode;
 }) {
-	const [isLoading, setIsLoading] = useState(true);
-
-	if (!clientDb || clientDb.__brand !== "REPLOCAL_CLIENT_DB")
-		throw new Error("Invalid REPLOCAL_CLIENT_DB");
+	const [clientDb, setClientDb] = useState<Replocal_ClientDb | null>(null);
 
 	useEffect(() => {
-		initializeClientDb(clientDb).then(() => setIsLoading(false));
-	}, [clientDb]);
+		console.log("[Framework] Initializing Replocal Client DB");
+		initClientDb().then((clientDb) => {
+			console.log("[Framework] Replocal Client DB Initialized");
+			if (!clientDb || clientDb.__brand !== "REPLOCAL_CLIENT_DB")
+				throw new Error("Invalid REPLOCAL_CLIENT_DB");
 
-	if (isLoading) return null;
+			clientDb.waitUntilReady().then(async () => {
+				console.log("[Framework] Replocal Client DB Ready");
+
+				// TODO - Authentication & Authorization
+
+				// TODO - Allow in some cases to delay registration
+				await clientDb.device.register();
+
+				// // TODO - Allow in some cases to delay syncing
+				// await clientDb.push();
+				// await clientDb.pull();
+				// await clientDb.live("vasundhara-aakash");
+				// resolve(true);
+			});
+
+			// initializeClientDb(clientDb).then(() => {
+			// 	console.log("[Framework] Replocal Client DB Initialized");
+			// 	setClientDb(clientDb);
+			// });
+		});
+	}, [initClientDb]);
+
+	if (!clientDb) return null;
 	return (
 		<ReplocalContext.Provider value={{ db: clientDb.database }}>
 			{children}
@@ -33,19 +55,19 @@ export function ReplocalProvider({
 	);
 }
 
-function initializeClientDb(clientDb: Replocal_ClientDb) {
-	return new Promise((resolve, reject) => {
-		clientDb.waitUntilReady().then(async () => {
-			// TODO - Authentication & Authorization
+// function initializeClientDb(clientDb: Replocal_ClientDb) {
+// 	return new Promise((resolve, reject) => {
+// 		clientDb.waitUntilReady().then(async () => {
+// 			// TODO - Authentication & Authorization
 
-			// TODO - Allow in some cases to delay registration
-			await clientDb.device.register();
+// 			// TODO - Allow in some cases to delay registration
+// 			await clientDb.device.register();
 
-			// TODO - Allow in some cases to delay syncing
-			await clientDb.push();
-			await clientDb.pull();
-			await clientDb.live();
-			resolve(true);
-		});
-	});
-}
+// 			// TODO - Allow in some cases to delay syncing
+// 			await clientDb.push();
+// 			await clientDb.pull();
+// 			await clientDb.live("vasundhara-aakash");
+// 			resolve(true);
+// 		});
+// 	});
+// }

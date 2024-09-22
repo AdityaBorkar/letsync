@@ -1,4 +1,4 @@
-import { NextRequest } from "next/server.js";
+import type { NextRequest } from "next/server.js";
 import { Params } from "./handlers.js";
 
 export default function Auth(request: NextRequest) {
