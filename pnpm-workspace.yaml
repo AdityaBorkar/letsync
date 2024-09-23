@@ -1,5 +1,9 @@
 packages:
-  - "packages/*"
-  - "docs/"
-  - "managed/"
+  - "packages/types"
+  - "packages/orm/*"
+  - "packages/pubsub/*"
+  - "packages/server-db/*"
+  - "packages/client-db/*"
+  - "packages/framework/*"
+  - "www/*"
   - "!**/tests/**"
