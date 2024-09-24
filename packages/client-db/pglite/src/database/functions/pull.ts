@@ -15,9 +15,9 @@ export default async function pull() {
 	// WRITE_LOCK = true;
 
 	// TODO - STORE CURSOR INDEPENDENTLY OUT OF THE DEVICE
-	const cursor =
-		await db.sql<CursorRecord>`SELECT * FROM metadata WHERE name = 'cursor'`;
-	console.log({ cursor });
+	// const cursor =
+	// 	await db.sql<CursorRecord>`SELECT * FROM metadata WHERE name = 'cursor'`;
+	// console.log({ cursor });
 
 	// const CdcList = await fetcher(
 	// 	`${apiBaseUrl}/changes?cursor=${cursor}`,

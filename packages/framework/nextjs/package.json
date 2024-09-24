@@ -34,17 +34,17 @@
     "node": ">=18.3.0"
   },
   "devDependencies": {
-    "tsup": "^8.2.4",
-    "typescript": "^5.5.4"
+    "tsup": "^8.3.0",
+    "typescript": "^5.6.2"
   },
   "dependencies": {
-    "@aws-sdk/client-iot-data-plane": "^3.654.0",
-    "@paralleldrive/cuid2": "^2.2.2"
+    "@paralleldrive/cuid2": "^2.2.2",
+    "jsonwebtoken": "^9.0.2"
   },
   "peerDependencies": {
-    "next": ">= 14 <= 15",
-    "react": ">= 17 <= 19",
+    "@replocal/types": "workspace:^",
     "@types/react": ">= 17 <= 19",
-    "@replocal/types": "workspace:^"
+    "next": ">= 14 <= 15",
+    "react": ">= 17 <= 19"
   }
 }

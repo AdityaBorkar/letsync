@@ -9,6 +9,7 @@ import deviceUnregister from "./device/unregister.js";
 import changesGet from "./changes/get.js";
 import changesAdd from "./changes/add.js";
 import changeCapture from "./changeCapture/index.js";
+import databaseInit from "./database/init.js";
 
 type NextContext = { params: { slug: string[] } };
 
@@ -17,6 +18,7 @@ const RestEndpoints = {
 		"/changes": changesGet,
 		"/device": deviceInfo,
 		"/cache": cacheRetrieve,
+		"/database/init": databaseInit,
 	},
 	POST: {
 		"/changes": changesAdd,

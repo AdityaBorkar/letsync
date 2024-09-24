@@ -3,6 +3,7 @@ export default async function fetcher(
 	method: string,
 	body?: string,
 ) {
+	// TODO - TYPE COMPLETION
 	const response = await fetch(url, { method, body })
 		.then((res) => res.json())
 		.catch((error) => {

@@ -1,51 +1,49 @@
-// @ts-expect-error
-import type { Resource } from "sst/aws";
-
 import {
 	IoTDataPlaneClient,
 	PublishCommand,
 } from "@aws-sdk/client-iot-data-plane";
 
-import type { Replocal_PubSub } from "../../../types/lib/index.js";
+import type { Replocal_PubSub_Backend } from "@replocal/types";
+import PubSub_Authorizer from "./authorizer.js";
 
-export default function newPubsub(Resource: Resource): Replocal_PubSub {
+export default function PubSub_Backend({
+	prefix,
+}: {
+	prefix: string;
+}): Replocal_PubSub_Backend {
 	const client = new IoTDataPlaneClient();
-	// region: "ap-south-1", // TODO - REMOVE HARDCODED REGION
-	// endpoint: "https://a1lfjmuly172sb-ats.iot.ap-south-1.amazonaws.com", // TODO - REMOVE HARDCODED ENDPOINT
 
 	async function publish(
-		userGroup: string,
+		topic: string,
 		payload: {
 			// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 			[key: string]: any;
 		},
 	) {
-		const prefix = `${Resource.App.name}/${Resource.App.stage}`;
-		console.log({
-			topic: `${prefix}/${userGroup}/replocal`,
-			payload: JSON.stringify(payload, null, 4),
-		});
 		const command = new PublishCommand({
 			payload: Buffer.from(JSON.stringify(payload)),
-			topic: `${prefix}/${userGroup}/replocal`,
+			topic: `${prefix}/replocal/${topic}`,
 		});
 		const response = await client.send(command);
 	}
 
-	async function subscribe(
-		userGroup: string,
-		callback: (message: string) => void,
-	) {
-		const prefix = `${Resource.App.name}/${Resource.App.stage}`;
+	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+	async function subscribe(topic: string, callback: (data: any) => void) {
+		// TODO - WRITE THIS CODE
 		console.log({ prefix });
+		throw new Error("Not implemented. Contact maintainers.");
 		// server.subscribe("src/subscriber.handler", {
 		// 	filter: `${$app.name}/${$app.stage}/chat/room1`,
 		// });
 	}
 
+	const tokenSecret = "TODO";
+
 	return {
-		__brand: "REPLOCAL_PUBSUB",
 		publish,
 		subscribe,
+		tokenSecret,
+		AuthFn: PubSub_Authorizer({ prefix }),
+		__brand: "REPLOCAL_PUBSUB_BACKEND",
 	};
 }

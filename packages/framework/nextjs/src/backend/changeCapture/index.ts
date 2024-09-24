@@ -2,7 +2,7 @@ import { NextResponse } from "next/server.js";
 import type { Params } from "../handlers.js";
 
 export default async function changeCapture(params: Params) {
-	const { serverDb } = params;
+	const { database: serverDb } = params;
 	await serverDb.waitUntilReady();
 	if (serverDb.type === "NOSQL") return NextResponse.json({});
 

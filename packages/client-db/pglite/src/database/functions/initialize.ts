@@ -1,13 +1,13 @@
 import type { PGliteInterface } from "@electric-sql/pglite";
 
-import type { ReplocalConfig } from "../../../../../types/lib/index.js";
+import type { Replocal_Config } from "@replocal/types";
 
 export default async function initialize({
 	pg,
 	schema,
 }: {
 	pg: PGliteInterface;
-	schema: ReplocalConfig["dbSchema"];
+	schema: Replocal_Config["dbSchema"];
 }) {
 	console.log("Initializing Replocal Sync PGLite Extension");
 

@@ -1,9 +1,9 @@
 import type { NextRequest } from "next/server.js";
 import type {
 	Replocal_Config,
-	Replocal_PubSub,
+	Replocal_PubSub_Backend,
 	Replocal_ServerDb,
-} from "@replocal/types/lib/index.js";
+} from "@replocal/types";
 
 import Auth from "./auth.js";
 import Router from "./router.js";
@@ -11,8 +11,8 @@ import Router from "./router.js";
 export type Params = {
 	request: NextRequest;
 	config: Replocal_Config;
-	pubsub: Replocal_PubSub;
-	serverDb: Replocal_ServerDb<unknown>;
+	pubsub: Replocal_PubSub_Backend;
+	database: Replocal_ServerDb<unknown>;
 	auth: {
 		userId: string;
 		deviceId: string;
@@ -23,8 +23,8 @@ export type NextContext = { params: { slug: string[] } };
 
 export function ReplocalHandlers(props: {
 	config: Replocal_Config;
-	pubsub: Replocal_PubSub;
-	serverDb: Replocal_ServerDb<unknown>;
+	pubsub: Replocal_PubSub_Backend;
+	database: Replocal_ServerDb<unknown>;
 }) {
 	// TODO - ZOD VERIFY `props`
 

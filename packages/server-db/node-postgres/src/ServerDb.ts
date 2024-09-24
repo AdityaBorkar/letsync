@@ -1,18 +1,18 @@
 import type {
 	Replocal_ServerDb,
-	ReplocalConfig,
-	Replocal_PubSub,
-} from "@replocal/types/lib/index.js";
+	Replocal_Config,
+	Replocal_PubSub_Backend,
+} from "@replocal/types";
 import type { Client } from "pg";
 
-export function ServerDb({
-	database,
+export function ReplocalServerDb({
 	config,
 	pubsub,
+	database,
 }: {
+	pubsub: Replocal_PubSub_Backend;
+	config: Replocal_Config;
 	database: Client;
-	config: ReplocalConfig;
-	pubsub: Replocal_PubSub;
 }): Replocal_ServerDb<Client> {
 	// TODO - Connection Pooling on backend
 

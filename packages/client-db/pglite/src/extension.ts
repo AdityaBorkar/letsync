@@ -1,18 +1,18 @@
 import type { Extension, PGliteInterface } from "@electric-sql/pglite";
 
 import type {
-	Replocal_PubSub,
-	ReplocalConfig,
-} from "../../../types/lib/index.js";
+	Replocal_PubSub_Frontend,
+	Replocal_Config,
+} from "@replocal/types";
 
-import initialize from "./ClientInterface/functions/initialize.js";
+import initialize from "./database/functions/initialize.js";
 
-export default function ReplocalSync({
+export default function ReplocalSyncExtension({
 	pubsub,
 	config,
 }: {
-	pubsub: Replocal_PubSub | Promise<Replocal_PubSub>;
-	config: ReplocalConfig;
+	pubsub: Replocal_PubSub_Frontend | Promise<Replocal_PubSub_Frontend>;
+	config: Replocal_Config;
 }): Extension {
 	return {
 		name: "Replocal Sync",

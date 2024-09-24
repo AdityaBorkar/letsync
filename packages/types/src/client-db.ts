@@ -1,3 +1,5 @@
+import type { PubsubToken } from "./pubsub.js";
+
 const events = [
 	"auth.grant",
 	"auth.refresh",
@@ -23,7 +25,14 @@ export type Replocal_ClientDb<DT extends unknown> = {
 		unsubscribe: (event: EventName, callback: EventCallbackFn) => Promise<void>;
 	};
 	device: {
-		register: () => Promise<void>;
+		register: () => Promise<
+			| {
+					deviceId: string;
+					pubsubToken: PubsubToken;
+					endpoints: string[];
+			  }
+			| undefined
+		>;
 		deregister: () => Promise<void>;
 	};
 	flush: () => Promise<void>;
@@ -36,6 +45,6 @@ export type Replocal_ClientDb<DT extends unknown> = {
 	};
 	pull: () => Promise<void>;
 	push: () => Promise<void>;
-	live: () => Promise<void>;
+	live: (endpoints: string[]) => Promise<void>;
 	close: () => Promise<void>;
 };
