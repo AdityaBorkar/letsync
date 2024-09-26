@@ -20,22 +20,22 @@ export type EventCallbackFn = (data: any) => void;
 export type Replocal_ClientDb<DT extends unknown> = {
 	__brand: "REPLOCAL_CLIENT_DB";
 	database: DT;
-	event: {
-		subscribe: (event: EventName, callback: EventCallbackFn) => Promise<void>;
-		unsubscribe: (event: EventName, callback: EventCallbackFn) => Promise<void>;
-	};
+	close: () => Promise<void>;
+	flush: () => Promise<void>;
+	pull: () => Promise<void>;
+	push: () => Promise<void>;
+	live: (endpoints: string[]) => Promise<void>;
 	device: {
 		register: () => Promise<
+			| undefined
 			| {
 					deviceId: string;
 					pubsubToken: PubsubToken;
 					endpoints: string[];
 			  }
-			| undefined
 		>;
 		deregister: () => Promise<void>;
 	};
-	flush: () => Promise<void>;
 	schema: {
 		// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 		validate: (schema: any) => Promise<void>;
@@ -43,8 +43,8 @@ export type Replocal_ClientDb<DT extends unknown> = {
 		migrate: (schema: any) => Promise<void>;
 		// extend: (schema: any) => void
 	};
-	pull: () => Promise<void>;
-	push: () => Promise<void>;
-	live: (endpoints: string[]) => Promise<void>;
-	close: () => Promise<void>;
+	event: {
+		subscribe: (event: EventName, callback: EventCallbackFn) => Promise<void>;
+		unsubscribe: (event: EventName, callback: EventCallbackFn) => Promise<void>;
+	};
 };

@@ -5,10 +5,17 @@ interface Props {
 	title: string;
 	description: string;
 	segment: string;
-	navigation: {
-		href: string;
-		label: string;
-	}[];
+	navigation: [
+		{
+			label: string;
+			items: {
+				index: number;
+				group: string;
+				href: string;
+				label: string;
+			}[];
+		},
+	];
 }
 
 const { title, description, segment, navigation } = Astro.props;
@@ -17,6 +24,7 @@ const { title, description, segment, navigation } = Astro.props;
 <!doctype html>
 <html lang="en">
 	<head>
+		<base href="/" />
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -24,100 +32,132 @@ const { title, description, segment, navigation } = Astro.props;
 		<title>{title}</title>
 		<meta name="description" content={description} />
 	</head>
-	<body class="text-gray-200 flex flex-col cursor-default text-sm">
+	<body class="text-gray-200 h-screen antialiased cursor-default text-sm">
 		<header
-			class="grid grid-cols-3 backdrop-blur-lg border-b border-gray-700/50 px-4 py-2 w-full"
+			class="sticky top-0 z-40 backdrop-blur-lg border-b border-gray-700/50 w-full"
 		>
-			<a href="/" class="ml-4 py-2">
-				<img src="/logo.svg" alt="Replocal" class="inline-block" />
-				<span
-					class="text-xs ml-2 text-blue-400 tracking-wider font-semibold inline"
-				>
-					BETA
-				</span>
-			</a>
-			<input
-				type="text"
-				placeholder="Search / AI Assistant"
-				class="rounded-full px-6 py-2 bg-gray-900 border border-gray-700 w-full"
-			/>
-			<nav class="flex justify-end gap-2">
-				<a
-					href="https://x.com/replocal"
-					class="px-4 text-gray-400 hover:text-gray-200"
-				>
-					X
+			<div class="grid max-w-[96rem] grid-cols-3 px-4 py-2">
+				<a href="/" class="ml-[calc(4rem)] py-2">
+					<img src="/logo.svg" alt="Replocal" class="inline-block" />
+					<span
+						class="text-xs ml-2 text-blue-400 tracking-wider font-semibold inline"
+					>
+						BETA
+					</span>
 				</a>
-				<a
-					href="https://discord.gg/replocal"
-					class="px-4 text-gray-400 hover:text-gray-200"
-				>
-					Discord
-				</a>
-				<a
-					href="https://github.com/replocal/replocal"
-					class="px-4 text-gray-400 hover:text-gray-200"
-				>
-					GitHub
-				</a>
-				<a
-					class="hover:bg-gray-100 bg-gray-300 font-medium text-gray-950 transition-all duration-300 rounded-full px-4 py-2"
-					href="https://app.replocal.dev/"
-				>
-					Login
-				</a>
-			</nav>
+				<input
+					type="text"
+					placeholder="Search / AI Assistant"
+					class="rounded-full px-6 py-2 bg-gray-900 border border-gray-700 w-full"
+				/>
+				<nav class="flex justify-end gap-2">
+					<a
+						href="https://x.com/replocal"
+						class="px-4 text-gray-400 hover:text-gray-200"
+					>
+						X
+					</a>
+					<a
+						href="https://discord.gg/replocal"
+						class="px-4 text-gray-400 hover:text-gray-200"
+					>
+						Discord
+					</a>
+					<a
+						href="https://github.com/replocal/replocal"
+						class="px-4 text-gray-400 hover:text-gray-200"
+					>
+						GitHub
+					</a>
+					<a
+						class="hover:bg-gray-100 bg-gray-300 font-medium text-gray-950 transition-all duration-300 rounded-full px-4 py-2"
+						href="https://app.replocal.dev/"
+					>
+						Login
+					</a>
+				</nav>
+			</div>
 		</header>
-		<div class="grid grid-cols-[16rem_auto_16rem] w-[85vw] mx-auto h-full">
-			<aside class="flex flex-col gap-2 border-r border-gray-700">
-				<nav
-					class="flex flex-col py-4 px-8 border-b text-gray-300 border-gray-800"
+
+		<div class="h-screen absolute top-0 left-0 w-full">
+			<div
+				class="grid grid-cols-[16rem_auto_16rem] max-w-[96rem] mx-auto pt-16"
+			>
+				<aside
+					class="flex w-full overflow-auto max-w-[20rem] ml-auto flex-col gap-2"
 				>
-					<a
-						href="/guides"
-						class={cn(
-							"py-2 px-4 rounded-md",
-							segment === "guides" ? "bg-gray-800" : "hover:bg-gray-900"
-						)}>Guides</a
+					<nav class="flex flex-col py-4 px-8 text-gray-300">
+						<a
+							href="/guides"
+							class={cn(
+								"py-2 px-4 rounded-md",
+								segment === "guides" ? "bg-gray-800" : "hover:bg-gray-900"
+							)}>Guides</a
+						>
+						<a
+							href="/docs"
+							class={cn(
+								"py-2 px-4 rounded-md",
+								segment === "docs" ? "bg-gray-800" : "hover:bg-gray-900"
+							)}
+						>
+							Documentation</a
+						>
+						<a
+							href="/reference"
+							class={cn(
+								"py-2 px-4 rounded-md",
+								segment === "reference" ? "bg-gray-800" : "hover:bg-gray-900"
+							)}>API Reference</a
+						>
+					</nav>
+					<div class="border-gray-700 border-b w-[calc(70%)] mx-auto"></div>
+					<nav class="flex flex-col py-4 px-8 text-gray-300">
+						{
+							navigation.map(({ label, items }) => (
+								<div class="flex flex-col mt-8 first:mt-0">
+									<div class="text-xs ml-4 mb-2 text-gray-500 font-medium uppercase tracking-wider">
+										{label}
+									</div>
+									{items.map((item) => (
+										<a
+											href={item.href}
+											class="py-1 px-4 rounded-md hover:bg-gray-800"
+										>
+											{item.label}
+										</a>
+									))}
+								</div>
+							))
+						}
+					</nav>
+				</aside>
+
+				<main
+					class="dark:prose-invert prose pr-20 pl-36 overflow-auto !w-full max-w-[56rem] !min-w-full"
+				>
+					<slot />
+
+					<p
+						class="py-8 mt-8 border-t border-gray-700 text-gray-400 text-center"
 					>
-					<a
-						href="/docs"
-						class={cn(
-							"py-2 px-4 rounded-md",
-							segment === "docs" ? "bg-gray-800" : "hover:bg-gray-900"
-						)}
+						Created with ❤️ by
+						<a href="https://adityaborkar.com" class="text-blue-400">
+							Aditya Borkar
+						</a>
+					</p>
+				</main>
+
+				<aside
+					class="flex flex-col overflow-auto gap-2 px-8 pt-16 border-gray-700"
+				>
+					<div
+						class="uppercase tracking-wider text-xs text-gray-500 font-medium"
 					>
-						Documentation</a
-					>
-					<a
-						href="/reference"
-						class={cn(
-							"py-2 px-4 rounded-md",
-							segment === "reference" ? "bg-gray-800" : "hover:bg-gray-900"
-						)}>API Reference</a
-					>
-				</nav>
-				<nav class="flex flex-col py-4 px-8 text-gray-300">
-					{
-						navigation.map((item) => (
-							<a
-								href={item.href}
-								class="py-2 px-4 rounded-md hover:bg-gray-800"
-							>
-								{item.label}
-							</a>
-						))
-					}
-				</nav>
-			</aside>
-			<main class="px-32">
-				<slot />
-			</main>
-			<aside class="flex flex-col gap-2 border-l px-8 pt-16 border-gray-700">
-				<div class="uppercase tracking-wider text-xs text-gray-500 font-medium">
-					On This Page
-				</div>
-			</aside>
+						On This Page
+					</div>
+				</aside>
+			</div>
 		</div>
 	</body>
 </html>

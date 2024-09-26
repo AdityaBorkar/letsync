@@ -1,4 +1,5 @@
 ---
+import { getCollection } from "astro:content";
 import BaseLayout from "./BaseLayout.astro";
 
 interface Props {
@@ -6,37 +7,36 @@ interface Props {
 	description: string;
 }
 
-const { title, description } = Astro.props;
+const allDocs = await getCollection("docs");
+
+const pages = allDocs
+	.map((doc) => {
+		console.log(doc.id);
+		return {
+			href: `docs/${doc.id}`,
+			index: doc.data.index,
+			label: doc.data.title,
+			group: doc.data.group,
+		};
+	})
+	.sort((a, b) => a.index - b.index);
 
 const navigation = [
 	{
-		href: "/docs/create-packages/framework",
-		label: "Framework",
+		label: "Getting Started",
+		items: pages.filter((page) => page.group === "Getting Started"),
 	},
 	{
-		href: "/docs/create-packages/server-db",
-		label: "Server DB",
+		label: "Connections",
+		items: pages.filter((page) => page.group === "Connections"),
 	},
 	{
-		href: "/docs/create-packages/client-db",
-		label: "Client DB",
-	},
-	{
-		href: "/docs/create-packages/pubsub",
-		label: "PubSub",
-	},
-	{
-		href: "/docs/create-packages/orm",
-		label: "ORM",
+		label: "Integrations",
+		items: pages.filter((page) => page.group === "Integrations"),
 	},
 ];
 ---
 
-<BaseLayout
-	title={title}
-	description={description}
-	segment="docs"
-	navigation={navigation}
->
+<BaseLayout segment="docs" navigation={navigation} {...Astro.props}>
 	<slot />
 </BaseLayout>
