@@ -25,6 +25,7 @@ export type Replocal_PubSub_Backend = {
 	__brand: "REPLOCAL_PUBSUB_BACKEND";
 	publish: PublishFn;
 	subscribe: SubscribeFn;
+	tokenSecret: string;
 	AuthFn: (token: string) => Promise<{
 		subscribe: string[];
 		publish: string[];

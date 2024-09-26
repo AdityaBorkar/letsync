@@ -1,0 +1,153 @@
+---
+import { cn } from "@/lib/utils";
+
+interface Props {
+	title: string;
+	description: string;
+	segment: string;
+	navigation: {
+		href: string;
+		label: string;
+	}[];
+}
+
+const { title, description, segment, navigation } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title}</title>
+		<meta name="description" content={description} />
+	</head>
+	<body class="text-gray-200 flex flex-col cursor-default text-sm">
+		<header
+			class="grid grid-cols-3 backdrop-blur-lg border-b border-gray-700/50 px-4 py-2 w-full"
+		>
+			<a href="/" class="ml-4 py-2">
+				<img src="/logo.svg" alt="Replocal" class="inline-block" />
+				<span
+					class="text-xs ml-2 text-blue-400 tracking-wider font-semibold inline"
+				>
+					BETA
+				</span>
+			</a>
+			<input
+				type="text"
+				placeholder="Search / AI Assistant"
+				class="rounded-full px-6 py-2 bg-gray-900 border border-gray-700 w-full"
+			/>
+			<nav class="flex justify-end gap-2">
+				<a
+					href="https://x.com/replocal"
+					class="px-4 text-gray-400 hover:text-gray-200"
+				>
+					X
+				</a>
+				<a
+					href="https://discord.gg/replocal"
+					class="px-4 text-gray-400 hover:text-gray-200"
+				>
+					Discord
+				</a>
+				<a
+					href="https://github.com/replocal/replocal"
+					class="px-4 text-gray-400 hover:text-gray-200"
+				>
+					GitHub
+				</a>
+				<a
+					class="hover:bg-gray-100 bg-gray-300 font-medium text-gray-950 transition-all duration-300 rounded-full px-4 py-2"
+					href="https://app.replocal.dev/"
+				>
+					Login
+				</a>
+			</nav>
+		</header>
+		<div class="grid grid-cols-[16rem_auto_16rem] w-[85vw] mx-auto h-full">
+			<aside class="flex flex-col gap-2 border-r border-gray-700">
+				<nav
+					class="flex flex-col py-4 px-8 border-b text-gray-300 border-gray-800"
+				>
+					<a
+						href="/guides"
+						class={cn(
+							"py-2 px-4 rounded-md",
+							segment === "guides" ? "bg-gray-800" : "hover:bg-gray-900"
+						)}>Guides</a
+					>
+					<a
+						href="/docs"
+						class={cn(
+							"py-2 px-4 rounded-md",
+							segment === "docs" ? "bg-gray-800" : "hover:bg-gray-900"
+						)}
+					>
+						Documentation</a
+					>
+					<a
+						href="/reference"
+						class={cn(
+							"py-2 px-4 rounded-md",
+							segment === "reference" ? "bg-gray-800" : "hover:bg-gray-900"
+						)}>API Reference</a
+					>
+				</nav>
+				<nav class="flex flex-col py-4 px-8 text-gray-300">
+					{
+						navigation.map((item) => (
+							<a
+								href={item.href}
+								class="py-2 px-4 rounded-md hover:bg-gray-800"
+							>
+								{item.label}
+							</a>
+						))
+					}
+				</nav>
+			</aside>
+			<main class="px-32">
+				<slot />
+			</main>
+			<aside class="flex flex-col gap-2 border-l px-8 pt-16 border-gray-700">
+				<div class="uppercase tracking-wider text-xs text-gray-500 font-medium">
+					On This Page
+				</div>
+			</aside>
+		</div>
+	</body>
+</html>
+
+<style is:global>
+	:root {
+		--accent: 136, 58, 234;
+		--accent-light: 224, 204, 250;
+		--accent-dark: 49, 10, 101;
+		--accent-gradient: linear-gradient(
+			45deg,
+			rgb(var(--accent)),
+			rgb(var(--accent-light)) 30%,
+			white 60%
+		);
+	}
+	html {
+		font-family: "Inter", system-ui, sans-serif;
+		background: #13151a;
+		background-size: 224px;
+	}
+	code {
+		font-family:
+			Menlo,
+			Monaco,
+			Lucida Console,
+			Liberation Mono,
+			DejaVu Sans Mono,
+			Bitstream Vera Sans Mono,
+			Courier New,
+			monospace;
+	}
+</style>

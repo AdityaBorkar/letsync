@@ -1,0 +1,98 @@
+---
+interface Props {
+	title: string;
+}
+
+const { title } = Astro.props;
+
+// TODO - REMEMEMBER: WE ARE TARGETTING DEVELOPERS AS POTENTIAL USERS
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="description" content="Astro description" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title}</title>
+	</head>
+	<body class="text-gray-200 cursor-default text-sm">
+		<header
+			class="flex justify-between shadow-lg items-center backdrop-blur-lg border border-gray-700/50 rounded-full p-2 fixed top-8 left-[calc(50%-28rem)] max-w-[56rem] w-full z-50"
+		>
+			<a href="/" class="ml-4">
+				<img src="/logo.svg" alt="Replocal" class="inline-block" />
+				<span
+					class="text-xs ml-2 text-blue-400 tracking-wider font-semibold inline"
+				>
+					BETA
+				</span>
+			</a>
+			<nav class="flex justify-end gap-2">
+				<a
+					class="hover:bg-gray-800 transition-all duration-300 rounded-full px-4 py-2"
+					href="/about"
+				>
+					About
+				</a>
+				<!-- <a class="hover:bg-gray-800 rounded-full px-4 py-2" href="/">Product</a> -->
+				<a
+					class="hover:bg-gray-800 transition-all duration-300 rounded-full px-4 py-2"
+					href="/features"
+				>
+					Features
+				</a>
+				<a
+					class="hover:bg-gray-800 transition-all duration-300 rounded-full px-4 py-2"
+					href="/pricing"
+				>
+					Pricing
+				</a>
+				<a
+					class="hover:bg-gray-800 transition-all duration-300 rounded-full px-4 py-2"
+					href="/docs"
+				>
+					Documentation
+				</a>
+				<a
+					class="hover:bg-gray-100 bg-gray-300 font-medium text-gray-950 transition-all duration-300 rounded-full px-4 py-2"
+					href="https://app.replocal.dev/"
+				>
+					Login
+				</a>
+			</nav>
+		</header>
+		<slot />
+	</body>
+</html>
+<style is:global>
+	:root {
+		--accent: 136, 58, 234;
+		--accent-light: 224, 204, 250;
+		--accent-dark: 49, 10, 101;
+		--accent-gradient: linear-gradient(
+			45deg,
+			rgb(var(--accent)),
+			rgb(var(--accent-light)) 30%,
+			white 60%
+		);
+	}
+	html {
+		font-family: "Inter", system-ui, sans-serif;
+		background: #13151a;
+		background-size: 224px;
+	}
+	code {
+		font-family:
+			Menlo,
+			Monaco,
+			Lucida Console,
+			Liberation Mono,
+			DejaVu Sans Mono,
+			Bitstream Vera Sans Mono,
+			Courier New,
+			monospace;
+	}
+</style>

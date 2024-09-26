@@ -5,5 +5,5 @@ packages:
   - "packages/server-db/*"
   - "packages/client-db/*"
   - "packages/framework/*"
-  - "www/*"
+  - "website"
   - "!**/tests/**"

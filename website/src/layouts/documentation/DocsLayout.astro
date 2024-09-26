@@ -1,0 +1,42 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+
+interface Props {
+	title: string;
+	description: string;
+}
+
+const { title, description } = Astro.props;
+
+const navigation = [
+	{
+		href: "/docs/create-packages/framework",
+		label: "Framework",
+	},
+	{
+		href: "/docs/create-packages/server-db",
+		label: "Server DB",
+	},
+	{
+		href: "/docs/create-packages/client-db",
+		label: "Client DB",
+	},
+	{
+		href: "/docs/create-packages/pubsub",
+		label: "PubSub",
+	},
+	{
+		href: "/docs/create-packages/orm",
+		label: "ORM",
+	},
+];
+---
+
+<BaseLayout
+	title={title}
+	description={description}
+	segment="docs"
+	navigation={navigation}
+>
+	<slot />
+</BaseLayout>

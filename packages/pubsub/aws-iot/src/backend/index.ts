@@ -8,8 +8,10 @@ import PubSub_Authorizer from "./authorizer.js";
 
 export default function PubSub_Backend({
 	prefix,
+	tokenSecret,
 }: {
 	prefix: string;
+	tokenSecret: string;
 }): Replocal_PubSub_Backend {
 	const client = new IoTDataPlaneClient();
 
@@ -36,8 +38,6 @@ export default function PubSub_Backend({
 		// 	filter: `${$app.name}/${$app.stage}/chat/room1`,
 		// });
 	}
-
-	const tokenSecret = "TODO";
 
 	return {
 		publish,
