@@ -5,20 +5,9 @@ interface Props {
 	title: string;
 	description: string;
 	segment: string;
-	navigation: [
-		{
-			label: string;
-			items: {
-				index: number;
-				group: string;
-				href: string;
-				label: string;
-			}[];
-		},
-	];
 }
 
-const { title, description, segment, navigation } = Astro.props;
+const { title, description, segment } = Astro.props;
 ---
 
 <!doctype html>
@@ -36,9 +25,9 @@ const { title, description, segment, navigation } = Astro.props;
 		<header
 			class="sticky top-0 z-40 backdrop-blur-lg border-b border-gray-700/50 w-full"
 		>
-			<div class="grid max-w-[96rem] grid-cols-3 px-4 py-2">
-				<a href="/" class="ml-[calc(4rem)] py-2">
-					<img src="/logo.svg" alt="Replocal" class="inline-block" />
+			<div class="grid w-[80vw] max-w-[96rem] mx-auto grid-cols-3 px-4 py-2">
+				<a href="/" class="ml-8 py-2">
+					<img src="/logo.svg" alt="letsync.dev" class="inline-block" />
 					<span
 						class="text-xs ml-2 text-blue-400 tracking-wider font-semibold inline"
 					>
@@ -79,21 +68,14 @@ const { title, description, segment, navigation } = Astro.props;
 			</div>
 		</header>
 
-		<div class="h-screen absolute top-0 left-0 w-full">
+		<div class="top-0 left-0 w-full absolute">
 			<div
-				class="grid grid-cols-[16rem_auto_16rem] max-w-[96rem] mx-auto pt-16"
+				class="h-screen *:h-screen grid grid-cols-[16rem_auto_16rem] w-[80vw] max-w-[96rem] mx-auto *:pt-16"
 			>
 				<aside
-					class="flex w-full overflow-auto max-w-[20rem] ml-auto flex-col gap-2"
+					class="flex w-full overflow-auto max-w-[16rem] text-gray-300 ml-auto flex-col gap-2"
 				>
-					<nav class="flex flex-col py-4 px-8 text-gray-300">
-						<a
-							href="/guides"
-							class={cn(
-								"py-2 px-4 rounded-md",
-								segment === "guides" ? "bg-gray-800" : "hover:bg-gray-900"
-							)}>Guides</a
-						>
+					<nav class="flex flex-col py-4 px-8">
 						<a
 							href="/docs"
 							class={cn(
@@ -112,29 +94,11 @@ const { title, description, segment, navigation } = Astro.props;
 						>
 					</nav>
 					<div class="border-gray-700 border-b w-[calc(70%)] mx-auto"></div>
-					<nav class="flex flex-col py-4 px-8 text-gray-300">
-						{
-							navigation.map(({ label, items }) => (
-								<div class="flex flex-col mt-8 first:mt-0">
-									<div class="text-xs ml-4 mb-2 text-gray-500 font-medium uppercase tracking-wider">
-										{label}
-									</div>
-									{items.map((item) => (
-										<a
-											href={item.href}
-											class="py-1 px-4 rounded-md hover:bg-gray-800"
-										>
-											{item.label}
-										</a>
-									))}
-								</div>
-							))
-						}
-					</nav>
+					<slot name="navigation" />
 				</aside>
 
 				<main
-					class="dark:prose-invert prose pr-20 pl-36 overflow-auto !w-full max-w-[56rem] !min-w-full"
+					class="dark:prose-invert prose pr-8 pl-12 overflow-auto min-w-full"
 				>
 					<slot />
 
@@ -149,13 +113,15 @@ const { title, description, segment, navigation } = Astro.props;
 				</main>
 
 				<aside
-					class="flex flex-col overflow-auto gap-2 px-8 pt-16 border-gray-700"
+					class="flex text-neutral-400 flex-col overflow-auto gap-2 px-8 border-gray-700"
 				>
 					<div
-						class="uppercase tracking-wider text-xs text-gray-500 font-medium"
+						class="mt-16 mb-4 uppercase tracking-wider text-xs text-gray-500 font-medium"
 					>
 						On This Page
 					</div>
+
+					<slot name="on-this-page" />
 				</aside>
 			</div>
 		</div>

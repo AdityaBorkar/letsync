@@ -17,11 +17,23 @@ const navigation = [
 ];
 ---
 
-<BaseLayout
-	title={title}
-	description={description}
-	segment="reference"
-	navigation={navigation}
->
+<BaseLayout title={title} description={description} segment="reference">
 	<slot />
+
+	<nav class="flex flex-col py-4 px-8" slot="navigation">
+		{
+			navigation.map(({ label, items }) => (
+				<div class="flex flex-col mt-8 first:mt-0">
+					<div class="text-xs ml-4 mb-2 text-gray-500 font-medium uppercase tracking-wider">
+						{label}
+					</div>
+					{items.map((item) => (
+						<a href={item.href} class="py-1 px-4 rounded-md hover:bg-gray-800">
+							{item.label}
+						</a>
+					))}
+				</div>
+			))
+		}
+	</nav>
 </BaseLayout>

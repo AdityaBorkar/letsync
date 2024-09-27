@@ -1,42 +1,86 @@
 ---
-index: 2
+index: 4
 group: "Integrations"
 title: "Client Database"
 description: "This is a test description"
 ---
 
-### List of Integration Packages
+## Help Needed
 
-Here are the state of planned and released integrations under the @auth/_ and @next-auth/_ scope, as well as next-auth. It also includes community created and maintained integrations. Integrations listed as “Planned” are something we’d love help with! See the help needed section below.
+In case you are a maintainer of a package that uses @replocal/\*, feel free to reach out to Aditya Borkar or hello@replocal.dev, if you want to collaborate on making it an official package, maintained in our repository. If you are interested in bringing @replocal/\* support to your favorite framework, we would love to hear from you! Create a PR to add your package to the list above.
+
+## List of Integration Packages
+
+Here are the state of planned and released integrations under the @replocal/\* scope. It also includes community created and maintained integrations.
+
+> [!TIP]
+> Integrations listed as “Planned” are something we’d love help with! See the help needed section below.
+
+> [!IMPORTANT]
+> Kindly star the packages you use and love. It helps us a lot.
+
+### SQL Databases:
+
+| Name   | Maintainer | Status | NPM Link | GitHub | Guide Link |
+| ------ | ---------- | ------ | -------- | ------ | ---------- |
+| PgLite | Replocal   | Beta   |          |        |            |
+|        |            |        |          |        |            |
+
+### NoSQL Databases:
 
 | Name          | Maintainer | Status  | NPM Link | GitHub      | Guide Link |
 | ------------- | ---------- | ------- | -------- | ----------- | ---------- |
-|               |            |         |          |             |            |
-| PgLite        | Replocal   | Beta    |          | Link+ Stars |            |
+| Dixie.js      |            |         |          | Link+ Stars |            |
+| Fireproof     |            |         |          |             |            |
 | IndexedDB     | Replocal   | Planned |          |             |            |
-| Dixie.js      |            |         |          |             |            |
+| Instant       |            |         |          |             |            |
+| JsStore       |            |         |          |             |            |
+| Liveblocks    |            |         |          |             |            |
+| LokiJS        |            |         |          |             |            |
+| Lovefield     |            |         |          |             |            |
+| m-ld          |            |         |          |             |            |
+| PouchDB       |            |         |          |             |            |
+| remoteStorage | Replocal   | Alpha   |          |             |            |
 | RxDB          |            |         |          |             |            |
 | TinyBase      |            |         |          |             |            |
-| Instant       |            |         |          |             |            |
-| Liveblocks    |            |         |          |             |            |
-| Gun           |            |         |          |             |            |
-| WatermelonDB  |            |         |          |             |            |
 | Triplit       |            |         |          |             |            |
-| Fireproof     |            |         |          |             |            |
-| remoteStorage |            |         |          |             |            |
-| m-ld          |            |         |          |             |            |
 | trystero      |            |         |          |             |            |
+| WatermelonDB  |            |         |          |             |            |
+| Yjs           |            |         |          |             |            |
+|               |            |         |          |             |            |
 
-TODO - CREATE A LIST AGAIN WITH THE MOST USED CLIENT SIDE DATABASES
+### Graph Databases:
 
-Create a PR to add your package to the list above.
-Kindly star the packages you use and love. It helps us a lot.
+| Name | Maintainer | Status | NPM Link | GitHub | Guide Link |
+| ---- | ---------- | ------ | -------- | ------ | ---------- |
+| Gun  |            |        |          |        |            |
+|      |            |        |          |        |            |
 
-In case you are a maintainer of a package that uses @auth/core, feel free to reach out to Balázs or info@authjs.dev, if you want to collaborate on making it an official package, maintained in our repository. If you are interested in bringing @auth/core support to your favorite framework, we would love to hear from you!
+### Vector Databases:
 
-### Guide for making an integration package for "Client Database"
+| Name | Maintainer | Status | NPM Link | GitHub | Guide Link |
+| ---- | ---------- | ------ | -------- | ------ | ---------- |
+| Gun  |            |        |          |        |            |
+|      |            |        |          |        |            |
 
-1. Make sure you package exports the following functions with the typings:
+## Guide for making an integration package for "Client Database"
+
+To make integrations that adhere to the same mental model as `@replocal/*`, you can follow the below guide.
+
+1. Copy the template from [https://github.com/replocal/replocal/tree/main/packages/client-database-template](https://github.com/replocal/replocal/tree/main/packages/client-database-template)
+
+```bash
+[Copy Button]
+
+npx degit replocal/replocal/tree/main/templates/client-db my-db-name
+```
+
+2. Coding styles. The source code files should:
+
+   - Be written in TypeScript
+   - Pass the linting rules of the monorepo
+
+3. You can export many functions, classes, or variables that shall improve the developer experience. The source code files should have the following named export exported from its main module.
 
 ```ts
 export function ReplocalClientDb(props: any): ReplocalClientDb;
@@ -84,4 +128,14 @@ type EventName = "device:register" | "device:deregister";
 type EventCallbackFn = (data: any) => void;
 ```
 
-2. You can export any other functions, classes, or variables that are needed to improve the developer experience.
+4. API reference documentation - We use TypeDoc for automated documentation generation. The documentation should:
+
+   - Be written in JSDoc comments.
+   - Explain how to use and configure the integration: How to do setup, how to configure, etc.
+   - Include a link to the official documentation in the reference section.
+
+5. Deployed Example. This task can be in a follow-up PR. The deployed example should:
+
+   - All the actions (URL) should work as expected.
+   - Have at least one OAuth provider configured.
+   - The example code should live under apps/examples/<framework-name>. For example: apps/examples/express.

@@ -11,32 +11,94 @@ const allDocs = await getCollection("docs");
 
 const pages = allDocs
 	.map((doc) => {
-		console.log(doc.id);
+		const group = doc.id.split("/");
+		group.pop();
 		return {
 			href: `docs/${doc.id}`,
 			index: doc.data.index,
 			label: doc.data.title,
-			group: doc.data.group,
+			group: group.join("/"),
 		};
 	})
-	.sort((a, b) => a.index - b.index);
+	.sort((a, b) =>
+		typeof a.index === "undefined" || typeof b.index === "undefined"
+			? a.label.localeCompare(b.label)
+			: a.index - b.index
+	);
 
 const navigation = [
 	{
 		label: "Getting Started",
-		items: pages.filter((page) => page.group === "Getting Started"),
+		items: pages.filter((page) => page.group === "getting-started"),
 	},
 	{
 		label: "Connections",
-		items: pages.filter((page) => page.group === "Connections"),
+		items: [
+			{
+				label: "Framework",
+				items: pages.filter((page) => page.group === "connections/framework"),
+			},
+			{
+				label: "Client DB",
+				items: pages.filter((page) => page.group === "connections/client-db"),
+			},
+			{
+				label: "Server DB",
+				items: pages.filter((page) => page.group === "connections/server-db"),
+			},
+			{
+				label: "PubSub",
+				items: pages.filter((page) => page.group === "connections/pubsub"),
+			},
+		],
 	},
 	{
 		label: "Integrations",
-		items: pages.filter((page) => page.group === "Integrations"),
+		items: pages.filter((page) => page.group === "integrations"),
 	},
 ];
 ---
 
-<BaseLayout segment="docs" navigation={navigation} {...Astro.props}>
+<BaseLayout segment="docs" {...Astro.props}>
 	<slot />
+
+	<slot slot="on-this-page" name="on-this-page" />
+
+	<nav class="flex flex-col py-4 px-8" slot="navigation">
+		{
+			navigation.map(({ label, items }) => (
+				<div class="flex flex-col mt-8 first:mt-0">
+					<div class="text-xs ml-4 mb-2 text-gray-500 font-medium uppercase tracking-wider">
+						{label}
+					</div>
+					{items.map((item) => {
+						if ("href" in item)
+							return (
+								<a
+									href={item.href}
+									class="py-1 px-4 rounded-md hover:bg-gray-800"
+								>
+									{item.label}
+								</a>
+							);
+						return (
+							<>
+								<div class="py-1 px-4 rounded-md hover:bg-gray-800">
+									{item.label}
+								</div>
+								{item.items.map((subItem) => (
+									<a
+										href={subItem.href}
+										class="ml-4 py-1 px-4 rounded-md hover:bg-gray-800"
+									>
+										{subItem.label}
+									</a>
+								))}
+							</>
+						);
+					})}
+				</div>
+			))
+		}
+	</nav>
 </BaseLayout>

@@ -9,21 +9,7 @@ const docs = defineCollection({
 	schema: z.object({
 		title: z.string(),
 		description: z.string(),
-		index: z.number(),
-		group: z.enum(["Getting Started", "Connections", "Integrations"]),
-	}),
-});
-
-const guides = defineCollection({
-	loader: glob({
-		pattern: ["**/*.mdx", "!**/wip-*.mdx"],
-		base: "./content/guides",
-	}),
-	schema: z.object({
-		title: z.string(),
-		description: z.string(),
-		index: z.number(),
-		group: z.enum(["Getting Started", "Connections", "Integrations"]),
+		index: z.number().optional(),
 	}),
 });
 
@@ -40,4 +26,4 @@ const reference = defineCollection({
 	}),
 });
 
-export const collections = { docs, guides, reference };
+export const collections = { docs, reference };

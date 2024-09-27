@@ -1,10 +1,10 @@
 ---
-index: 5
+index: 2
 group: "Integrations"
-title: "ORM"
+title: "Architecture"
 description: "This is a test description"
 # pubDate: "2024-01-01"
 # updatedDate: "2024-01-01"
 ---
 
-Here is my _great_ post!
+Figma Photos for the architecture diagram and how it is designed.
