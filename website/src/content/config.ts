@@ -15,14 +15,11 @@ const docs = defineCollection({
 
 const reference = defineCollection({
 	loader: glob({
-		pattern: ["**/*.mdx", "!**/wip-*.mdx"],
+		pattern: "**/[^wip-]*.md",
 		base: "./content/reference",
 	}),
 	schema: z.object({
 		title: z.string(),
-		description: z.string(),
-		index: z.number(),
-		group: z.enum(["Getting Started", "Connections", "Integrations"]),
 	}),
 });
 

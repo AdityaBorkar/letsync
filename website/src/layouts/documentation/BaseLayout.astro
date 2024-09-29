@@ -1,4 +1,6 @@
 ---
+import GitHubLogo from "@/assets/GitHub.svg";
+import XLogo from "@/assets/X.svg";
 import { cn } from "@/lib/utils";
 
 interface Props {
@@ -37,33 +39,33 @@ const { title, description, segment } = Astro.props;
 				<input
 					type="text"
 					placeholder="Search / AI Assistant"
-					class="rounded-full px-6 py-2 bg-gray-900 border border-gray-700 w-full"
+					class="rounded-full invisible px-6 py-2 bg-gray-900 border border-gray-700 w-full"
 				/>
 				<nav class="flex justify-end gap-2">
 					<a
-						href="https://x.com/replocal"
-						class="px-4 text-gray-400 hover:text-gray-200"
+						href="https://x.com/adityab_tech"
+						class="mt-1 p-2 rounded-full size-8 text-gray-400 hover:text-gray-200 bg-white"
 					>
-						X
+						<img src={XLogo.src} />
 					</a>
-					<a
+					<!-- <a
 						href="https://discord.gg/replocal"
 						class="px-4 text-gray-400 hover:text-gray-200"
 					>
 						Discord
-					</a>
+					</a> -->
 					<a
-						href="https://github.com/replocal/replocal"
-						class="px-4 text-gray-400 hover:text-gray-200"
+						href="https://github.com/AdityaBorkar/letsync"
+						class="mt-1 p-2 rounded-full size-8 text-gray-400 hover:text-gray-200 bg-white"
 					>
-						GitHub
+						<img src={GitHubLogo.src} />
 					</a>
-					<a
+					<!-- <a
 						class="hover:bg-gray-100 bg-gray-300 font-medium text-gray-950 transition-all duration-300 rounded-full px-4 py-2"
-						href="https://app.replocal.dev/"
+						href="https://console.letsync.dev/"
 					>
 						Login
-					</a>
+					</a> -->
 				</nav>
 			</div>
 		</header>

@@ -2,37 +2,42 @@
 import MarketingLayout from "@/layouts/MarketingLayout.astro";
 ---
 
-<MarketingLayout title="Replocal - Replicate Locally">
+<MarketingLayout title="Features" description="Features for letsync">
 	<div
 		class="h-screen text-center w-full flex flex-col justify-center items-center"
 	>
-		<h2>Features</h2>
-		<ul>
-			<li>Easy to Use</li>
-			<li>Free & Open Source</li>
-			<li>Self Hostable</li>
-			<li>Incremental Adoption</li>
-			<li>Secure (Work-in-progress)</li>
-		</ul>
+		<h2 class="text-4xl font-bold my-24">Features</h2>
 
-		<h2>Local-First Checklist</h2>
-		<ul>
-			<li>No Spinners: your work at your fingertips</li>
-			<li>Your work is not trapped on one device</li>
-			<li>The network is optional</li>
-			<li>Seamless collaboration with your colleagues</li>
-			<li>The Long Now</li>
-			<li>Security and privacy by default</li>
-			<li>You retain ultimate ownership and control</li>
-		</ul>
+		<div class="grid grid-cols-3 max-w-4xl mx-auto gap-16">
+			<div class="max-w-96 text-left p-4 rounded-md border border-gray-800">
+				Swap database providers with ease
+			</div>
+			<div class="max-w-96 text-left p-4 rounded-md border border-gray-800">
+				Use multiple database providers in a single app
+			</div>
+			<div class="max-w-96 text-left p-4 rounded-md border border-gray-800">
+				Supports Self Hosting
+			</div>
+			<div class="max-w-96 text-left p-4 rounded-md border border-gray-800">
+				Privacy by default - You choose the data to sync
+			</div>
+			<div class="max-w-96 text-left p-4 rounded-md border border-gray-800">
+				Data Ownership is decided by you - User / Company
+			</div>
+			<div class="max-w-96 text-left p-4 rounded-md border border-gray-800">
+				Incremental Adoption
+			</div>
+			<div class="max-w-96 text-left p-4 rounded-md border border-gray-800">
+				Works offline
+			</div>
+			<div class="max-w-96 text-left p-4 rounded-md border border-gray-800">
+				Versioning and Conflict Resolution
+			</div>
+			<div class="max-w-96 text-left p-4 rounded-md border border-gray-800">
+				End-to-End (E2E) Encryption (Coming Soon)
+			</div>
+		</div>
 
-		<h2>Default Checklist</h2>
-		<ul>
-			<li>Offline</li>
-			<li>Private</li>
-			<li>Secure</li>
-			<li>Ownership</li>
-			<li>Versioned</li>
-		</ul>
+		<!-- Testimonials -->
 	</div>
 </MarketingLayout>
