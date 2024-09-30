@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server.js";
-import type { Params } from "../handlers.js";
+import type { Params } from "../../handlers.js";
 
 export default async function changeCapture(params: Params) {
 	const { database: serverDb } = params;

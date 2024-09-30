@@ -18,13 +18,34 @@ You need to expose certain endpoints for Replocal to work. You can refer <a href
 ```ts
 // Path: app/api/replocal/[...slug]/route.ts
 
-import { ReplocalHandlers } from "@replocal/nextjs";
-import { database, pubsub } from "@/lib/replocal.server";
-import config from "@/lib/replocal.config";
-
-const handlers = ReplocalHandlers({ config, database, pubsub });
+import { handlers } from "@/lib/letsync.server";
 
 export const { GET, POST } = handlers;
+```
+
+```ts
+// Path: lib/letsync.server.ts
+
+import { ReplocalHandlers } from "@replocal/nextjs";
+import { ReplocalServerDb } from "@replocal/*";
+import { PubSub_Backend } from "@replocal/*";
+
+const pubsub = PubSub_Backend(/* PubSub Config */);
+
+export const database = ReplocalServerDb(/* Database */);
+
+export const handlers = ReplocalHandlers({
+	database,
+	pubsub,
+	auth() {
+		// TODO - AUTHENTICATION & AUTHORIZATION for backend endpoints
+		return {
+			authorized: true,
+			provider: "cookies",
+			endpoints: ["vasundhara-aakash"],
+		};
+	},
+});
 ```
 
 ## Client Setup
@@ -68,6 +89,37 @@ export default function Providers({ children }: { children?: React.ReactNode }) 
       fallback={<div>Loading...</div>}
     >
       {children}
+    </ReplocalProvider>
+  )
+}
+```
+
+```ts
+// Path: lib/letsync.client.ts
+
+'use client'
+
+import { ReplocalProvider } from '@replocal/nextjs'
+import { ReplocalClientDb } from '@replocal/*'
+import { PubSub_Frontend } from '@replocal/*'
+
+interface LetsyncProviderProps {
+  children?: React.ReactNode
+  pubsub: Parameters<typeof PubSub_Frontend>[0]
+}
+
+export default function LetsyncProvider(props: LetsyncProviderProps) {
+
+  const pubsub = PubSub_Frontend(/* PubSub Config */)
+  const database = ReplocalClientDb(/* DB Client */)
+
+  return (
+    <ReplocalProvider
+      pubsub={pubsub}
+      database={database}
+      fallback={<div>Loading...</div>}
+    >
+      {props.children}
     </ReplocalProvider>
   )
 }

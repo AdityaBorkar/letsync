@@ -1,15 +1,25 @@
-export default function PubSub_Authorizer({ prefix }: { prefix: string }): (
-	token: string,
-) => Promise<{
+import jwt from "jsonwebtoken";
+
+export default function Authorizer({
+	secret,
+	prefix,
+}: {
+	secret: string;
+	prefix: string;
+}): (token: string) => Promise<{
 	publish: string[];
 	subscribe: string[];
 }> {
 	return async (token: string) => {
-		// TODO - DO AUTHENTICATION with `token`
-		console.log({ token });
+		try {
+			if (!token) throw new Error("No token provided");
 
-		if (!token) {
-			// TODO: How to reject request?
+			const decoded = await jwt.verify(token, secret, {
+				algorithms: ["HS256"],
+			});
+			console.log({ decoded });
+		} catch (error) {
+			console.log({ error });
 			return { subscribe: [], publish: [] };
 		}
 

@@ -4,14 +4,14 @@ import {
 } from "@aws-sdk/client-iot-data-plane";
 
 import type { Replocal_PubSub_Backend } from "@replocal/types";
-import PubSub_Authorizer from "./authorizer.js";
+import Authorizer from "./authorizer.js";
 
 export default function PubSub_Backend({
 	prefix,
-	tokenSecret,
+	secret,
 }: {
 	prefix: string;
-	tokenSecret: string;
+	secret: string;
 }): Replocal_PubSub_Backend {
 	const client = new IoTDataPlaneClient();
 
@@ -40,10 +40,10 @@ export default function PubSub_Backend({
 	}
 
 	return {
-		publish,
-		subscribe,
-		tokenSecret,
-		AuthFn: PubSub_Authorizer({ prefix }),
 		__brand: "REPLOCAL_PUBSUB_BACKEND",
+		AuthFn: Authorizer({ prefix, secret }),
+		subscribe,
+		publish,
+		secret,
 	};
 }

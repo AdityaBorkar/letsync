@@ -5,28 +5,41 @@ import getLatestSchema from "../utils/getLatestSchema.js";
 import type { Params } from "../handlers.js";
 
 export default async function deviceRegister(params: Params) {
-	const { userId } = params.auth;
+	try {
+		const { userId } = params.auth;
 
-	// TODO - PERFORM AUTHENTICATION
+		const schema = await getLatestSchema(); // TODO - FROM DATABASE CACHE
+		const device = {
+			userId,
+			cursor: null,
+			deviceId: createId(),
+			schemaVersion: schema.version,
+		};
 
-	const schema = await getLatestSchema(); // TODO - FROM DATABASE CACHE
-	const device = {
-		userId,
-		state: null,
-		deviceId: createId(),
-		schemaVersion: schema.version,
-	};
-	const result = "CREATE ${deviceId}";
+		const endpoints = [] as string[];
 
-	// TODO - ISSUE ACCESS TOKEN
+		if (params.database.type === "NOSQL") {
+			params.database.waitUntilReady();
+			params.database.query(`CREATE ${device.deviceId}`);
 
-	const endpoints = [] as string[];
-	const expiresAt = new Date().valueOf() + 1000 * 60 * 60 * 24; // 1 day
-	const secret = params.pubsub.tokenSecret;
-	const accessToken = jwt.sign({ endpoints }, secret, { expiresIn: "24h" }); // TODO: Possibly add `ip-address`
+			endpoints.push(params.database.database.url);
+		}
 
-	const pubsubToken = { value: accessToken, expiresAt };
+		const pubsubToken = jwt.sign(
+			{
+				endpoints,
+				// TODO: Possibly add `ip-address`
+			},
+			params.pubsub.secret,
+			{ expiresIn: "24h" },
+		);
 
-	const response = { device, schema, pubsubToken, endpoints };
-	return new Response(JSON.stringify(response), { status: 200 });
+		const response = { device, schema, pubsubToken, endpoints };
+		return new Response(JSON.stringify(response), { status: 200 });
+	} catch (error) {
+		console.error(error);
+		return new Response(JSON.stringify({ error: "Internal Server Error" }), {
+			status: 500,
+		});
+	}
 }
