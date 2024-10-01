@@ -1,4 +1,4 @@
-import type { Params } from "../handlers.js";
+import type { Params } from "../types.js";
 
 export default async function cacheDelete(params: Params) {
 	const input = await params.request.json();

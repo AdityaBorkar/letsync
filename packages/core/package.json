@@ -1,6 +1,6 @@
 {
-  "name": "@replocal/nextjs",
-  "description": "NextJS API handlers for Replocal",
+  "name": "@replocal/core",
+  "description": "Core functionality for Replocal",
   "version": "0.0.1",
   "license": "MIT",
   "keywords": [],
@@ -40,13 +40,9 @@
   },
   "dependencies": {
     "@paralleldrive/cuid2": "^2.2.2",
-    "@replocal/core": "workspace:^",
     "jsonwebtoken": "^9.0.2"
   },
   "peerDependencies": {
-    "@replocal/types": "workspace:^",
-    "@types/react": ">= 17 <= 19",
-    "next": ">= 14 <= 15",
-    "react": ">= 17 <= 19"
+    "@replocal/types": "workspace:^"
   }
 }

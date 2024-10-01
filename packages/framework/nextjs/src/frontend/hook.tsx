@@ -2,9 +2,9 @@
 
 import React, { useContext } from "react";
 
-import { ReplocalContext } from "./provider.js";
+import { LetsyncContext } from "./provider.js";
 
 export function useReplocal() {
-	const { database, pubsub } = useContext(ReplocalContext);
+	const { database, pubsub } = useContext(LetsyncContext);
 	return { database, pubsub };
 }

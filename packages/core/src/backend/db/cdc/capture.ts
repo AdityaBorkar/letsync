@@ -1,17 +1,13 @@
-import { NextResponse } from "next/server.js";
-import type { Params } from "../../handlers.js";
+import type { Params } from "@/backend/types.js";
 
-export default async function changeCapture(params: Params) {
+export default async function cdcCapture(params: Params) {
 	const { database: serverDb } = params;
 	await serverDb.waitUntilReady();
-	if (serverDb.type === "NOSQL") return NextResponse.json({});
+	if (serverDb.type === "NOSQL") return Response.json({});
 
 	const auth = params.request.headers.get("Authorization");
 	if (auth !== "Basic ZFB5emZSMlFSTkNQTVR1U1VaZjVVT3BFeVNkcG03OWE=")
-		return NextResponse.json(
-			{ error: "Invalid Authorization" },
-			{ status: 401 },
-		);
+		return Response.json({ error: "Invalid Authorization" }, { status: 401 });
 
 	const input = await params.request.json();
 	// TODO: Zod verify `input`
@@ -50,5 +46,5 @@ export default async function changeCapture(params: Params) {
 		`INSERT INTO cdc (id, tableName, key, data, updated) VALUES ${cdcData};`,
 	);
 
-	return NextResponse.json({});
+	return Response.json({});
 }

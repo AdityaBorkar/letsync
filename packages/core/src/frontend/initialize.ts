@@ -1,8 +1,11 @@
 import type {
 	Replocal_ClientDb,
 	Replocal_PubSub_Frontend,
-} from "@replocal/types";
-import type { Connected_Replocal_PubSub } from "./provider.js";
+} from "@/types/index.js";
+
+type Connected_Replocal_PubSub = Awaited<
+	ReturnType<Replocal_PubSub_Frontend["connect"]>
+>;
 
 const pubsubSpoof = {
 	async publish() {

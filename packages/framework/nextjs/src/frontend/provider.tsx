@@ -5,15 +5,15 @@ import React, { useEffect, useState, createContext } from "react";
 import type {
 	Replocal_ClientDb,
 	Replocal_PubSub_Frontend,
-} from "@replocal/types";
-import initialize from "./initialize.js";
+} from "@replocal/core";
+import { frontend } from "@replocal/core";
 
-export type Connected_Replocal_PubSub = Awaited<
+export type Connected_Letsync_PubSub = Awaited<
 	ReturnType<Replocal_PubSub_Frontend["connect"]>
 >;
 
 // biome-ignore lint/complexity/noUselessTypeConstraint: <explanation>
-interface ReplocalProviderProps<DT extends unknown> {
+interface LetsyncProviderProps<DT extends unknown> {
 	workers?: boolean;
 	database: Promise<Replocal_ClientDb<DT>>;
 	pubsub: Replocal_PubSub_Frontend;
@@ -21,49 +21,50 @@ interface ReplocalProviderProps<DT extends unknown> {
 	children: React.ReactNode;
 }
 
-export const ReplocalContext = createContext<{
+export const LetsyncContext = createContext<{
 	// TODO - Type Support
 	database: unknown;
-	pubsub: Connected_Replocal_PubSub;
+	pubsub: Connected_Letsync_PubSub;
 }>({
 	database: null as unknown,
-	pubsub: null as unknown as Connected_Replocal_PubSub,
+	pubsub: null as unknown as Connected_Letsync_PubSub,
 });
 
 // biome-ignore lint/complexity/noUselessTypeConstraint: <explanation>
-export function ReplocalProvider<DT extends unknown>({
+export function LetsyncProvider<DT extends unknown>({
 	workers = false,
 	database,
 	pubsub,
 	fallback,
 	children,
-}: ReplocalProviderProps<DT>) {
+}: LetsyncProviderProps<DT>) {
 	const [context, setContext] = useState<{
 		database: DT;
-		pubsub: Connected_Replocal_PubSub;
+		pubsub: Connected_Letsync_PubSub;
 	} | null>(null);
 
 	useEffect(() => {
-		const replocal = initialize({ workers, pubsub, database })
-			.then((replocal) => {
+		const letsync = frontend
+			.initialize({ workers, pubsub, database })
+			.then((letsync) => {
 				setContext({
-					database: replocal.database.database,
-					pubsub: replocal.pubsub,
+					database: letsync.database.database,
+					pubsub: letsync.pubsub,
 				});
-				return replocal;
+				return letsync;
 			})
 			.catch((error) => {
-				console.error("[Framework] Error in initializing Replocal: ", error);
+				console.error("[Letsync Framework] Initialization Failed: ", error);
 			});
 		return () => {
-			replocal.then((replocal) => replocal?.close());
+			letsync.then((replocal) => replocal?.close());
 		};
 	}, [workers, pubsub, database]);
 
 	if (context === null) return fallback ?? null;
 	return (
-		<ReplocalContext.Provider value={context}>
+		<LetsyncContext.Provider value={context}>
 			{children}
-		</ReplocalContext.Provider>
+		</LetsyncContext.Provider>
 	);
 }

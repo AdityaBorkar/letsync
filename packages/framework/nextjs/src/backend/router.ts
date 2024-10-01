@@ -1,32 +1,23 @@
-import cacheDelete from "./cache/delete.js";
-import cacheRetrieve from "./cache/retrieve.js";
-import cacheUpsert from "./cache/upsert.js";
-import deviceRegister from "./device/register.js";
-import deviceUnregister from "./device/unregister.js";
-import changesGet from "./db/changes/get.js";
-import changesAdd from "./db/changes/add.js";
-import changeCapture from "./db/cdc/index.js";
-import databaseInit from "./db/init/index.js";
-import changesStatus from "./db/changes/status.js";
+import { backend } from "@replocal/core";
 
 type NextContext = { params: { slug: string[] } };
 
 const RestEndpoints = {
 	GET: {
 		// "/cache": cacheRetrieve,
-		"/db/changes/status": changesStatus,
-		"/db/changes": changesGet,
-		"/db/init": databaseInit,
+		"/db/changes/status": backend.db.changes.status,
+		"/db/changes": backend.db.changes.get,
+		"/db/init": backend.db.init,
 	},
 	POST: {
 		// "/cache": cacheUpsert,
-		"/db/changes": changesAdd,
-		"/db/cdc": changeCapture,
-		"/device": deviceRegister,
+		"/db/changes": backend.db.changes.add,
+		"/db/cdc": backend.db.cdc.capture,
+		"/device": backend.device.register,
 	},
 	DELETE: {
 		// "/cache": cacheDelete,
-		"/device": deviceUnregister,
+		"/device": backend.device.unregister,
 	},
 } as const;
 

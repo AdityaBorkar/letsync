@@ -1,5 +1,6 @@
 packages:
   - "website"
+  - "packages/core"
   - "packages/types"
   - "packages/pubsub/*"
   - "packages/framework/*"

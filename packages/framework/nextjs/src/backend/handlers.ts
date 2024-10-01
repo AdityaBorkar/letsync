@@ -2,7 +2,7 @@ import type { NextRequest } from "next/server.js";
 import type {
 	Replocal_PubSub_Backend,
 	Replocal_ServerDb,
-} from "@replocal/types";
+} from "@replocal/core";
 
 import Router from "./router.js";
 
@@ -25,7 +25,7 @@ export function ReplocalHandlers(props: {
 		request: NextRequest,
 	) =>
 		| { userId: string; deviceId: string }
-		| { message: string; statusCode: number };
+		| { message: string; statusCode: 401 | 403 | 404 | 500 };
 }) {
 	// TODO - ZOD VERIFY `props`
 	const { pubsub, database, auth: Auth } = props;
