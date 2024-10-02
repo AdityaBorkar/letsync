@@ -1,6 +1,6 @@
 {
-  "name": "@replocal/aws-iot",
-  "description": "AWS IoT adapter for Replocal",
+  "name": "@letsync/aws-iot",
+  "description": "AWS IoT adapter for Letsync",
   "version": "0.0.1",
   "license": "MIT",
   "keywords": [],
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/AdityaBorkar/replocal"
+    "url": "https://github.com/AdityaBorkar/letsync"
   },
   "publishConfig": {
     "provenance": true
@@ -48,7 +48,7 @@
     "mqtt": "^5.10.1"
   },
   "peerDependencies": {
-    "@replocal/types": "workspace:^",
+    "@letsync/core": "workspace:^",
     "sst": "^3.1.32"
   }
 }

@@ -2,21 +2,18 @@
 
 // biome-ignore lint/style/useImportType: BUGGY BIOME
 import React, { useEffect, useState, createContext } from "react";
-import type {
-	Replocal_ClientDb,
-	Replocal_PubSub_Frontend,
-} from "@replocal/core";
-import { frontend } from "@replocal/core";
+import type { Letsync_ClientDb, Letsync_PubSub_Frontend } from "@letsync/core";
+import { frontend } from "@letsync/core";
 
 export type Connected_Letsync_PubSub = Awaited<
-	ReturnType<Replocal_PubSub_Frontend["connect"]>
+	ReturnType<Letsync_PubSub_Frontend["connect"]>
 >;
 
 // biome-ignore lint/complexity/noUselessTypeConstraint: <explanation>
 interface LetsyncProviderProps<DT extends unknown> {
 	workers?: boolean;
-	database: Promise<Replocal_ClientDb<DT>>;
-	pubsub: Replocal_PubSub_Frontend;
+	database: Promise<Letsync_ClientDb<DT>>;
+	pubsub: Letsync_PubSub_Frontend;
 	fallback?: React.ReactNode;
 	children: React.ReactNode;
 }
@@ -57,7 +54,7 @@ export function LetsyncProvider<DT extends unknown>({
 				console.error("[Letsync Framework] Initialization Failed: ", error);
 			});
 		return () => {
-			letsync.then((replocal) => replocal?.close());
+			letsync.then((letsync) => letsync?.close());
 		};
 	}, [workers, pubsub, database]);
 

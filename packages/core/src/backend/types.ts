@@ -1,11 +1,11 @@
 import type {
-	Replocal_PubSub_Backend,
-	Replocal_ServerDb,
+	Letsync_PubSub_Backend,
+	Letsync_ServerDb,
 } from "@/types/index.js";
 
 export type Params = {
-	database: Replocal_ServerDb<unknown>;
-	pubsub: Replocal_PubSub_Backend;
+	database: Letsync_ServerDb<unknown>;
+	pubsub: Letsync_PubSub_Backend;
 	request: Request;
 	auth: {
 		userId: string;

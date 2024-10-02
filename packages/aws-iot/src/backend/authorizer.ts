@@ -26,8 +26,8 @@ export default function Authorizer({
 		const topics = ["vasundhara-aakash"];
 
 		return {
-			publish: [], // [`${prefix}/replocal/${topic}`],
-			subscribe: topics.map((topic) => `${prefix}/replocal/${topic}`),
+			publish: [], // [`${prefix}/letsync/${topic}`],
+			subscribe: topics.map((topic) => `${prefix}/letsync/${topic}`),
 		};
 	};
 }

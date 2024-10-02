@@ -1,26 +1,25 @@
 import type { Extension, PGliteInterface } from "@electric-sql/pglite";
 
-import type {
-	Replocal_PubSub_Frontend,
-	Replocal_Config,
-} from "@replocal/types";
+import type { Letsync_PubSub_Frontend, Letsync_Config } from "@letsync/core";
 
-import initialize from "./database/functions/initialize.js";
+// import initialize from "@letsync/core/src/frontend/db/functions/initialize.js";
 
-export default function ReplocalSyncExtension({
+export default function LetsyncSyncExtension({
 	pubsub,
 	config,
 }: {
-	pubsub: Replocal_PubSub_Frontend | Promise<Replocal_PubSub_Frontend>;
-	config: Replocal_Config;
+	pubsub: Letsync_PubSub_Frontend | Promise<Letsync_PubSub_Frontend>;
+	config: Letsync_Config;
 }): Extension {
 	return {
-		name: "Replocal Sync",
+		name: "Letsync Sync",
 		async setup(pg: PGliteInterface) {
 			return {
-				init: () => initialize({ pg, schema: config.dbSchema }),
+				// init: () => initialize({ pg, schema: config.dbSchema }),
 				namespaceObj: { config, pubsub },
 			};
 		},
 	};
 }
+
+// TODO - Use enscripten to compile to wasm and enable native calls to support adapter functions, thereby reducing risk of runtime errors

@@ -1,14 +1,11 @@
 import type { NextRequest } from "next/server.js";
-import type {
-	Replocal_PubSub_Backend,
-	Replocal_ServerDb,
-} from "@replocal/core";
+import type { Letsync_PubSub_Backend, Letsync_ServerDb } from "@letsync/core";
 
 import Router from "./router.js";
 
 export type Params = {
-	database: Replocal_ServerDb<unknown>;
-	pubsub: Replocal_PubSub_Backend;
+	database: Letsync_ServerDb<unknown>;
+	pubsub: Letsync_PubSub_Backend;
 	request: NextRequest;
 	auth: {
 		userId: string;
@@ -18,9 +15,9 @@ export type Params = {
 
 export type NextContext = { params: { slug: string[] } };
 
-export function ReplocalHandlers(props: {
-	database: Replocal_ServerDb<unknown>;
-	pubsub: Replocal_PubSub_Backend;
+export function LetsyncHandlers(props: {
+	database: Letsync_ServerDb<unknown>;
+	pubsub: Letsync_PubSub_Backend;
 	auth: (
 		request: NextRequest,
 	) =>

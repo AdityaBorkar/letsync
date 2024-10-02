@@ -1,17 +1,23 @@
 export type {
 	PubsubToken,
-	Replocal_PubSub_Backend,
-	Replocal_PubSub_Frontend,
+	Letsync_PubSub_Backend,
+	Letsync_PubSub_Frontend,
 } from "./pubsub.js";
 
 export type {
-	Replocal_ClientDb,
+	ClientDb_OpsAdapter,
+	ClientDbAdapter,
+	Letsync_ClientDb,
 	EventCallbackFn,
 	EventName,
 } from "./client-db.js";
 
-export type { Replocal_ServerDb } from "./server-db.js";
+export type {
+	Letsync_ServerDb,
+	Letsync_ServerDb as ServerDbAdapter,
+} from "./server-db.js";
 
 export type { DeviceRecord } from "./db-schema.js";
 
-export type { Replocal_Config } from "./config.js";
+export type { Letsync_Config } from "./config.js";
+export type { Letsync_Config as Config } from "./config.js";

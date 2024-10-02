@@ -1,4 +1,4 @@
-export type Replocal_Config = {
+export type Letsync_Config = {
 	sync: {
 		apiBaseUrl: string;
 		auth: () => {

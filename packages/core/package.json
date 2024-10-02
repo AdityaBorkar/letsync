@@ -1,6 +1,6 @@
 {
-  "name": "@replocal/core",
-  "description": "Core functionality for Replocal",
+  "name": "@letsync/core",
+  "description": "Core functionality for Letsync",
   "version": "0.0.1",
   "license": "MIT",
   "keywords": [],
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/AdityaBorkar/replocal"
+    "url": "https://github.com/AdityaBorkar/letsync"
   },
   "publishConfig": {
     "provenance": true
@@ -43,6 +43,6 @@
     "jsonwebtoken": "^9.0.2"
   },
   "peerDependencies": {
-    "@replocal/types": "workspace:^"
+    "@letsync/core": "workspace:^"
   }
 }

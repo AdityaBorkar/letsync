@@ -1,3 +1,4 @@
-export { default as ReplocalSyncExtension } from "./extension.js";
-export { default as ReplocalClientDb } from "./database/index.js";
-export type { PGliteWithReplocal } from "./database/index.js";
+// export { default as LetsyncSyncExtension } from "./extension.js";
+// export type { PGliteWithLetsync } from "./database/index.js";
+
+export { default as useDatabaseAdapter } from "./adapter.js";

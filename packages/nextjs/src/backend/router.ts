@@ -1,4 +1,4 @@
-import { backend } from "@replocal/core";
+import { backend } from "@letsync/core";
 
 type NextContext = { params: { slug: string[] } };
 

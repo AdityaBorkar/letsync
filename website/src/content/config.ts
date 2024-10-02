@@ -4,7 +4,7 @@ import { glob } from "astro/loaders";
 const docs = defineCollection({
 	loader: glob({
 		pattern: "**/[^wip-]*.md",
-		base: "./content/docs",
+		base: "./cms/docs",
 	}),
 	schema: z.object({
 		title: z.string(),
@@ -16,7 +16,7 @@ const docs = defineCollection({
 const reference = defineCollection({
 	loader: glob({
 		pattern: "**/[^wip-]*.md",
-		base: "./content/reference",
+		base: "./cms/reference",
 	}),
 	schema: z.object({
 		title: z.string(),

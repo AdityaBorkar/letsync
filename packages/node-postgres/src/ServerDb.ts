@@ -1,19 +1,19 @@
 import type {
-	Replocal_ServerDb,
-	Replocal_Config,
-	Replocal_PubSub_Backend,
-} from "@replocal/types";
+	Letsync_ServerDb,
+	Letsync_Config,
+	Letsync_PubSub_Backend,
+} from "@letsync/core";
 import type { Client } from "pg";
 
-export function ReplocalServerDb({
+export function LetsyncServerDb({
 	config,
 	pubsub,
 	database,
 }: {
-	pubsub: Replocal_PubSub_Backend;
-	config: Replocal_Config;
+	pubsub: Letsync_PubSub_Backend;
+	config: Letsync_Config;
 	database: Client;
-}): Replocal_ServerDb<Client> {
+}): Letsync_ServerDb<Client> {
 	// TODO - Connection Pooling on backend
 
 	// TODO - MIGRATE / SET SCHEMA
@@ -27,7 +27,7 @@ export function ReplocalServerDb({
 	}
 
 	return {
-		__brand: "REPLOCAL_SERVER_DB",
+		__brand: "LETSYNC_SERVER_DB",
 		type: "SQL",
 		database,
 		waitUntilReady,

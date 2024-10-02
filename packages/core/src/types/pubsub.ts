@@ -12,8 +12,8 @@ type PublishFn = (
 	},
 ) => Promise<void>;
 
-export type Replocal_PubSub_Frontend = {
-	__brand: "REPLOCAL_PUBSUB_FRONTEND";
+export type Letsync_PubSub_Frontend = {
+	__brand: "LETSYNC_PUBSUB_FRONTEND";
 	connect: (props: { token: string; clientId: string }) => Promise<{
 		publish: PublishFn;
 		subscribe: SubscribeFn;
@@ -21,8 +21,8 @@ export type Replocal_PubSub_Frontend = {
 	}>;
 };
 
-export type Replocal_PubSub_Backend = {
-	__brand: "REPLOCAL_PUBSUB_BACKEND";
+export type Letsync_PubSub_Backend = {
+	__brand: "LETSYNC_PUBSUB_BACKEND";
 	secret: string;
 	publish: PublishFn;
 	subscribe: SubscribeFn;

@@ -3,7 +3,7 @@ import {
 	PublishCommand,
 } from "@aws-sdk/client-iot-data-plane";
 
-import type { Replocal_PubSub_Backend } from "@replocal/types";
+import type { Letsync_PubSub_Backend } from "@letsync/core";
 import Authorizer from "./authorizer.js";
 
 export default function PubSub_Backend({
@@ -12,7 +12,7 @@ export default function PubSub_Backend({
 }: {
 	prefix: string;
 	secret: string;
-}): Replocal_PubSub_Backend {
+}): Letsync_PubSub_Backend {
 	const client = new IoTDataPlaneClient();
 
 	async function publish(
@@ -24,7 +24,7 @@ export default function PubSub_Backend({
 	) {
 		const command = new PublishCommand({
 			payload: Buffer.from(JSON.stringify(payload)),
-			topic: `${prefix}/replocal/${topic}`,
+			topic: `${prefix}/letsync/${topic}`,
 		});
 		const response = await client.send(command);
 	}
@@ -40,7 +40,7 @@ export default function PubSub_Backend({
 	}
 
 	return {
-		__brand: "REPLOCAL_PUBSUB_BACKEND",
+		__brand: "LETSYNC_PUBSUB_BACKEND",
 		AuthFn: Authorizer({ prefix, secret }),
 		subscribe,
 		publish,

@@ -1,6 +1,6 @@
 {
-  "name": "@replocal/nextjs",
-  "description": "NextJS API handlers for Replocal",
+  "name": "@letsync/nextjs",
+  "description": "NextJS API handlers for Letsync",
   "version": "0.0.1",
   "license": "MIT",
   "keywords": [],
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/AdityaBorkar/replocal"
+    "url": "https://github.com/AdityaBorkar/letsync"
   },
   "publishConfig": {
     "provenance": true
@@ -40,11 +40,11 @@
   },
   "dependencies": {
     "@paralleldrive/cuid2": "^2.2.2",
-    "@replocal/core": "workspace:^",
+    "@letsync/core": "workspace:^",
     "jsonwebtoken": "^9.0.2"
   },
   "peerDependencies": {
-    "@replocal/types": "workspace:^",
+    "@letsync/core": "workspace:^",
     "@types/react": ">= 17 <= 19",
     "next": ">= 14 <= 15",
     "react": ">= 17 <= 19"

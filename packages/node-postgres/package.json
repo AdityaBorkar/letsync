@@ -1,6 +1,6 @@
 {
-  "name": "@replocal/node-postgres",
-  "description": "Node-postgres adapter for Replocal",
+  "name": "@letsync/node-postgres",
+  "description": "Node-postgres adapter for Letsync",
   "version": "0.0.1",
   "license": "MIT",
   "keywords": [],
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/AdityaBorkar/replocal"
+    "url": "https://github.com/AdityaBorkar/letsync"
   },
   "publishConfig": {
     "provenance": true
@@ -37,7 +37,7 @@
     "@types/pg": "^8.11.10",
     "tsup": "^8.2.4",
     "typescript": "^5.5.4",
-    "@replocal/types": "workspace:^"
+    "@letsync/core": "workspace:^"
   },
   "dependencies": {
     "pg": "^8.13.0"
