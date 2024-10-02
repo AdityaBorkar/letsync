@@ -1,9 +1,5 @@
 packages:
   - "website"
-  - "packages/core"
-  - "packages/types"
-  - "packages/pubsub/*"
-  - "packages/framework/*"
-  - "packages/server-db/*"
-  - "packages/client-db/*"
+  - "packages/*"
+  - "examples/*"
   - "!**/tests/**"

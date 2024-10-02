@@ -1,4 +1,4 @@
-<h1 align="center">REPLOCAL</h1>
+<h1 align="center">LETSYNC</h1>
 
 <p align="center">Badges</p>
 
@@ -20,6 +20,7 @@
 ```shell
 npm i example-repo
 ```
+
 ```ts
 import { greet } from "example-repo";
 
@@ -29,6 +30,7 @@ greet("Hello, world! 💖");
 ## Features
 
 Evaluating if the following features are needed:
+
 - Push Notifications
 - Background Sync
 - Multiple Local Databases
@@ -39,6 +41,7 @@ Evaluating if the following features are needed:
 - Keep it free forever and rely on sponserships and OpenColelctive and Donations
 
 ## Contributors
+
 <!-- spellchecker: disable -->
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore-start -->
