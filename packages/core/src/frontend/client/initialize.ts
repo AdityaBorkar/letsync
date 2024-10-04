@@ -1,36 +1,16 @@
 import type {
-	Letsync_ClientDb,
-	Letsync_PubSub_Frontend,
+	ClientDbAdapter,
+	Letsync_PubSub_Frontend as PubsubAdapter,
 } from "@/types/index.js";
 
-type Connected_Letsync_PubSub = Awaited<
-	ReturnType<Letsync_PubSub_Frontend["connect"]>
->;
-
-const pubsubSpoof = {
-	async publish() {
-		console.error("Client not connected!");
-		return;
-	},
-	async subscribe() {
-		console.error("Client not connected!");
-		return;
-	},
-	async disconnect() {
-		console.error("Client not connected!");
-		return;
-	},
-} satisfies Connected_Letsync_PubSub;
-
-// biome-ignore lint/complexity/noUselessTypeConstraint: <explanation>
-export default async function initialize<DT extends unknown>({
+export default async function initialize({
 	workers,
 	pubsub: _pubsub,
 	database: _database,
 }: {
 	workers: boolean;
-	pubsub: Letsync_PubSub_Frontend;
-	database: Promise<Letsync_ClientDb<DT>>;
+	pubsub: PubsubAdapter;
+	database: Promise<ClientDbAdapter>;
 }) {
 	// TODO - RUN BOTH IN SEPARATE SHARED-WORKERS
 	if (workers)
@@ -40,7 +20,7 @@ export default async function initialize<DT extends unknown>({
 		throw new Error("INVALID LETSYNC_PUBSUB");
 
 	const database = await _database;
-	if (!database || database.__brand !== "LETSYNC_CLIENT_DB")
+	if (!database || database.__brand !== "LETSYNC_CLIENT_DATABASE")
 		throw new Error("INVALID LETSYNC_CLIENT_DB");
 
 	const data = await database.device.register();
@@ -70,3 +50,18 @@ export default async function initialize<DT extends unknown>({
 		},
 	};
 }
+
+const pubsubSpoof = {
+	async publish() {
+		console.error("Client not connected!");
+		return;
+	},
+	async subscribe() {
+		console.error("Client not connected!");
+		return;
+	},
+	async disconnect() {
+		console.error("Client not connected!");
+		return;
+	},
+} satisfies Awaited<ReturnType<PubsubAdapter["connect"]>>;

@@ -7,7 +7,6 @@ export type {
 export type {
 	ClientDb_OpsAdapter,
 	ClientDbAdapter,
-	Letsync_ClientDb,
 	EventCallbackFn,
 	EventName,
 } from "./client-db.js";

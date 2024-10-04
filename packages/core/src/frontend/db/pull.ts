@@ -1,4 +1,4 @@
-import fetcher from "../utils/fetcher.js";
+import fetcher from "../utils/fetch.js";
 import type { Props } from "./index.js";
 
 type CursorRecord = {

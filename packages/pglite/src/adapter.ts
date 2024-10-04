@@ -7,6 +7,8 @@ import type {
 	ClientDb_OpsAdapter,
 	Letsync_PubSub_Frontend as PubsubAdapter,
 } from "@letsync/core";
+import exportData from "./exportData.js";
+import getStorageMetrics from "./getStorageMetrics.js";
 
 /**
  * Write your adapter docs here.
@@ -32,8 +34,6 @@ export default function useDatabaseAdapter<DT extends PGlite>(props: {
 	config: Config;
 	pubsub: PubsubAdapter;
 }): ClientDbAdapter {
-	// TODO - SUPPORT REACT SUSPENSE
-
 	const { database, pubsub, config } = props;
 
 	if (!(database instanceof PGlite)) throw new Error("Invalid database");
@@ -43,17 +43,15 @@ export default function useDatabaseAdapter<DT extends PGlite>(props: {
 
 	const dbOpsAdapter = {
 		sql: database.sql,
+		query: database.query,
 		txn: database.transaction,
-		storageMetrics: () => {},
-		exportData: () => {},
-		close: () => database.close(),
-	} as unknown as ClientDb_OpsAdapter; // satisfies ClientDb_OpsAdapter
+		close: database.close,
+		storageMetrics: () => getStorageMetrics(database),
+		exportData: (props: Parameters<typeof exportData>[0]) =>
+			exportData(props, database),
+	} satisfies ClientDb_OpsAdapter;
 
-	const functions = frontend.clientDb({
-		config,
-		pubsub,
-		database: dbOpsAdapter,
-	});
+	const methods = frontend.clientDb({ config, pubsub, dbOpsAdapter });
 
-	return { __brand: "LETSYNC_CLIENT_DATABASE", ...functions };
+	return { __brand: "LETSYNC_CLIENT_DATABASE", ...methods };
 }

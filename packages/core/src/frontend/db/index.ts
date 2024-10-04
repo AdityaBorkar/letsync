@@ -32,9 +32,9 @@ export type Props = {
 export default function clientDb(props: {
 	config: Config;
 	pubsub: PubsubAdapter;
-	database: ClientDb_OpsAdapter;
+	dbOpsAdapter: ClientDb_OpsAdapter;
 }): Omit<ClientDbAdapter, "database" | "__brand"> {
-	const { database, pubsub, config } = props;
+	const { dbOpsAdapter: database, pubsub, config } = props;
 
 	if (pubsub.__brand !== "LETSYNC_PUBSUB_FRONTEND")
 		throw new Error("Invalid pubsub");
@@ -42,18 +42,18 @@ export default function clientDb(props: {
 	const { storageMetrics, exportData } = database;
 
 	const Props = {
-		schema: config.dbSchema,
-		database,
 		pubsub,
+		database,
+		schema: config.dbSchema,
 		config: { ...config, databaseName: "SET THIS" },
 	};
 
 	return {
 		exportData,
 		storageMetrics,
-		sql: (...query: string[]) => sql({ query, ...Props }),
-		// biome-ignore lint/suspicious/noExplicitAny: <explanation>
-		txn: (tx: any) => txn({ tx, ...Props }),
+		sql: (...params: Parameters<typeof sql>) => sql(params, Props),
+		// query: (query: string) => query(query, Props),
+		// txn: (tx: any) => txn({ tx, ...Props }),
 		close: () => close({ ...Props }),
 		flush: () => flush({ ...Props }),
 		pull: () => pull({ ...Props }),
@@ -75,3 +75,5 @@ export default function clientDb(props: {
 		},
 	};
 }
+
+// TODO - REPLACE NAMES WITH ARCHITECTURE DESIGN PATTERNS

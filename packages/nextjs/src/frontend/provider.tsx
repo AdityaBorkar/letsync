@@ -1,51 +1,39 @@
 "use client";
 
-// biome-ignore lint/style/useImportType: BUGGY BIOME
-import React, { useEffect, useState, createContext } from "react";
-import type { Letsync_ClientDb, Letsync_PubSub_Frontend } from "@letsync/core";
+import type {
+	ClientDbAdapter,
+	Letsync_PubSub_Frontend as PubsubAdapter,
+} from "@letsync/core";
+import type { LetsyncContextType } from "./context.js";
+
+// biome-ignore lint/style/useImportType: BIOME BUG
+import React, { useEffect, useState } from "react";
+import { LetsyncContext } from "./context.js";
 import { frontend } from "@letsync/core";
 
-export type Connected_Letsync_PubSub = Awaited<
-	ReturnType<Letsync_PubSub_Frontend["connect"]>
->;
-
-// biome-ignore lint/complexity/noUselessTypeConstraint: <explanation>
-interface LetsyncProviderProps<DT extends unknown> {
+interface LetsyncProviderProps {
 	workers?: boolean;
-	database: Promise<Letsync_ClientDb<DT>>;
-	pubsub: Letsync_PubSub_Frontend;
+	database: Promise<ClientDbAdapter>;
+	pubsub: PubsubAdapter;
 	fallback?: React.ReactNode;
 	children: React.ReactNode;
 }
 
-export const LetsyncContext = createContext<{
-	// TODO - Type Support
-	database: unknown;
-	pubsub: Connected_Letsync_PubSub;
-}>({
-	database: null as unknown,
-	pubsub: null as unknown as Connected_Letsync_PubSub,
-});
-
-// biome-ignore lint/complexity/noUselessTypeConstraint: <explanation>
-export function LetsyncProvider<DT extends unknown>({
+export function LetsyncProvider({
 	workers = false,
 	database,
 	pubsub,
 	fallback,
 	children,
-}: LetsyncProviderProps<DT>) {
-	const [context, setContext] = useState<{
-		database: DT;
-		pubsub: Connected_Letsync_PubSub;
-	} | null>(null);
+}: LetsyncProviderProps) {
+	const [context, setContext] = useState<LetsyncContextType | null>(null);
 
 	useEffect(() => {
-		const letsync = frontend
+		const letsync = frontend.client
 			.initialize({ workers, pubsub, database })
 			.then((letsync) => {
 				setContext({
-					database: letsync.database.database,
+					database: letsync.database,
 					pubsub: letsync.pubsub,
 				});
 				return letsync;
@@ -53,6 +41,7 @@ export function LetsyncProvider<DT extends unknown>({
 			.catch((error) => {
 				console.error("[Letsync Framework] Initialization Failed: ", error);
 			});
+
 		return () => {
 			letsync.then((letsync) => letsync?.close());
 		};

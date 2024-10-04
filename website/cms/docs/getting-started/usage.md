@@ -1,5 +1,5 @@
 ---
-index: 4
+index: 3
 group: "Getting Started"
 title: "Usage"
 description: "This is a test description"
