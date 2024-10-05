@@ -13,8 +13,8 @@ import { frontend } from "@letsync/core";
 
 interface LetsyncProviderProps {
 	workers?: boolean;
-	database: Promise<ClientDbAdapter>;
-	pubsub: PubsubAdapter;
+	database: ClientDbAdapter; // Promise<ClientDbAdapter>;
+	pubsub: PubsubAdapter; // Promise<PubsubAdapter>;
 	fallback?: React.ReactNode;
 	children: React.ReactNode;
 }

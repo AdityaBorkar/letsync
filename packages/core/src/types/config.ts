@@ -1,12 +1,5 @@
 export type Letsync_Config = {
-	sync: {
-		apiBaseUrl: string;
-		auth: () => {
-			authorized: true;
-			provider: string;
-			endpoints: string[];
-		};
-	};
+	apiBaseUrl?: string;
 	localDb?: {
 		/**
 		 * Extends the schema structure for local database

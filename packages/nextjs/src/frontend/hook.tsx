@@ -2,7 +2,7 @@
 
 import React, { useContext } from "react";
 
-import { LetsyncContext } from "./provider.js";
+import { LetsyncContext } from "./context.js";
 
 export function useLetsync() {
 	const { database, pubsub } = useContext(LetsyncContext);

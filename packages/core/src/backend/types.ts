@@ -11,4 +11,10 @@ export type Params = {
 		userId: string;
 		deviceId: string;
 	};
+	acl: (args: { userId: string; metadata: string }) =>
+		| false
+		| {
+				roles?: string[];
+				granular?: string[];
+		  };
 };

@@ -1,13 +1,11 @@
-import fetcher from "../utils/fetch.js";
+import fetcher from "../utils/TypedFetch.js";
 import type { Props } from "./index.js";
 
-type CursorRecord = {
-	lastUpdated: string;
-};
+// biome-ignore lint/suspicious/noEmptyInterface: <explanation>
+interface PullProps {}
 
-export default async function pull(props: Props) {
-	const { config, database } = props;
-	const apiBaseUrl = config.sync.apiBaseUrl;
+export default async function pull(props: PullProps, superProps: Props) {
+	const { apiBaseUrl, database, metadata } = superProps;
 
 	// if (WRITE_LOCK) {
 	// 	console.log("FAILED - WRITE LOCK IS ENABLED.");

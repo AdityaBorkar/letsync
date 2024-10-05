@@ -6,13 +6,16 @@ import type {
 import type { Client } from "pg";
 
 export function LetsyncServerDb({
-	config,
 	pubsub,
 	database,
 }: {
 	pubsub: Letsync_PubSub_Backend;
-	config: Letsync_Config;
+	dbSchema: Letsync_Config["dbSchema"];
 	database: Client;
+	// | (() => {
+	// 		instance: Client;
+	// 		wrapper: any;
+	//   });
 }): Letsync_ServerDb<Client> {
 	// TODO - Connection Pooling on backend
 

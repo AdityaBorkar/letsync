@@ -44,14 +44,20 @@ export interface ClientDbAdapter {
 		register: () => Promise<
 			| undefined
 			| {
-					deviceId: string;
-					pubsubToken: PubsubToken;
-					endpoints: string[];
+					device: {
+						userId: string;
+						deviceId: string;
+						isActive: boolean;
+					};
+					pubsub: {
+						token: string;
+						endpoints: string[];
+					};
 			  }
 		>;
 	};
 	schema: {
-		getAvailableUpgrades: () => Promise<string[]>;
+		getAvailableUpgrades: () => Promise<number[]>;
 		migrate: (version: number) => Promise<void>;
 	};
 	event: {

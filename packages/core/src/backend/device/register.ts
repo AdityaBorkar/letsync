@@ -1,62 +1,53 @@
 import { createId } from "@paralleldrive/cuid2";
 import jwt from "jsonwebtoken";
 
-import getLatestSchema from "@/utils/getLatestSchema.js";
+import getLatestSchema from "@/backend/utils/getLatestSchema.js";
 import type { Params } from "@/backend/types.js";
+import type { ApiRouter } from "@/types/ApiRouter.js";
 
 export default async function deviceRegister(params: Params) {
 	try {
-		const { userId } = params.auth;
+		const { database, pubsub, request, auth, acl } = params;
+		const { userId } = auth;
 
-		const url = new URL(params.request.url);
-		const orgId = url.searchParams.get("orgId");
-		if (!orgId)
-			return new Response(
-				JSON.stringify({ error: "Organization ID is required" }),
-				{ status: 400 },
-			);
+		const device = { userId, isActive: true, deviceId: createId() };
+		const metadata = decodeURI(
+			new URL(request.url).searchParams.get("metadata") || "",
+		);
+
+		const ACL = acl({ userId, metadata });
+		if (!ACL)
+			return new Response(JSON.stringify({ error: "Unauthorized" }), {
+				status: 401,
+			});
+
+		const endpoints: string[] = [
+			...(ACL.roles || []).map((role) => `role:${role}`),
+			`user:${userId}`,
+		];
 
 		const schema = await getLatestSchema(); // TODO - FROM DATABASE CACHE
 
-		const device = {
-			userId,
-			cursor: null,
-			deviceId: createId(),
-			schemaVersion: schema.version,
-		};
-
-		const endpoints = [] as string[];
-
-		if (params.database.type === "SQL") {
-			await params.database.waitUntilReady();
-
-			const orgData = await params.database.query(
-				`SELECT * from orgs WHERE orgId = ${orgId}`,
+		await params.database.waitUntilReady();
+		if (database.type === "SQL") {
+			await database.query(
+				`INSERT INTO devices (deviceId, userId, isActive, schemaVersion) VALUES ('${device.deviceId}', '${device.userId}', TRUE, ${schema.version})`,
 			);
-
-			// TODO - USE THIS TO ASSIGN ACL (PERMISSIONS)
-			// TODO - CHECK IF USER EXISTS IN ORGANIZATION AND WHAT ARE THE ACL
-
-			if (!orgData.users.includes(userId))
-				return new Response(JSON.stringify({ error: "Unauthorized" }), {
-					status: 401,
-				});
-
-			await params.database.query(
-				`INSERT INTO devices (deviceId, userId, cursor, schemaVersion) VALUES ('${device.deviceId}', '${device.userId}', NULL, ${device.schemaVersion})`,
-			);
-
-			endpoints.push(orgId, userId);
 		}
 
-		const pubsubToken = jwt.sign(
+		const token = jwt.sign(
 			// TODO: Possibly add `ip-address`, `deviceId`
 			{ endpoints },
-			params.pubsub.secret,
+			pubsub.secret,
 			{ expiresIn: "24h" },
 		);
 
-		const response = { device, schema, pubsubToken, endpoints };
+		const response = {
+			device,
+			schema,
+			pubsub: { token, endpoints },
+		} satisfies ApiRouter["POST"]["/device"]["response"];
+
 		return new Response(JSON.stringify(response), { status: 200 });
 	} catch (error) {
 		console.error(error);

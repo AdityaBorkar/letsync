@@ -13,6 +13,8 @@ export default function PubSub_Frontend(props: {
 		const connection = await $connect({ ...props, ...superProps });
 
 		async function subscribe(topic: string, callback: (data: string) => void) {
+			if (!connection.connected) throw new Error("PubSub Connection not ready");
+
 			const fullTopic = `${superProps.prefix}/letsync/${topic}`;
 			await connection.subscribeAsync(fullTopic, { qos: 1 });
 			connection.on("message", (fullTopic: string, payload: Buffer) => {
@@ -30,6 +32,8 @@ export default function PubSub_Frontend(props: {
 				[key: string]: any;
 			},
 		) {
+			if (!connection.connected) throw new Error("PubSub Connection not ready");
+
 			// TODO  - IF CONNECTION NOT READY, STORE TOPIC IN QUEUE
 			const message = JSON.stringify(payload);
 			const fullTopic = `${superProps.prefix}/letsync/${topic}`;
@@ -37,6 +41,8 @@ export default function PubSub_Frontend(props: {
 		}
 
 		async function disconnect() {
+			if (!connection.connected) throw new Error("PubSub Connection not ready");
+
 			// TODO - TEST THIS, AI GENERATED.
 			await connection.end();
 		}

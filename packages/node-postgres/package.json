@@ -31,6 +31,7 @@
     "tsc": "tsc",
     "build": "tsup",
     "format": "prettier .",
+    "dev": "tsup --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {

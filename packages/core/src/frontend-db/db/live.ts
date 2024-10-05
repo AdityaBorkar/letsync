@@ -1,8 +1,13 @@
 import type { Props } from "./index.js";
 
-export default async function live(props: Props & { endpoints: string[] }) {
+interface LiveProps {
+	endpoints: string[];
+}
+
+export default async function live(props: LiveProps, superProps: Props) {
 	// TODO - MQTT ENDPOINT SUBSCRIPTION
-	const { endpoints, config, pubsub } = props;
+	const { endpoints } = props;
+	const { apiBaseUrl, pubsub } = superProps;
 
 	// TODO - POLL FOR ALLOWED TOPICS AND THEN SUBSCRIBE TO ALL
 

@@ -28,6 +28,7 @@
     "tsc": "tsc",
     "build": "tsup",
     "format": "prettier .",
+    "dev": "tsup --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "engines": {
@@ -41,8 +42,5 @@
   "dependencies": {
     "@paralleldrive/cuid2": "^2.2.2",
     "jsonwebtoken": "^9.0.2"
-  },
-  "peerDependencies": {
-    "@letsync/core": "workspace:^"
   }
 }

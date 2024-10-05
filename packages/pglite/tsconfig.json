@@ -2,7 +2,7 @@
 	"extends": "../../tsconfig.json",
 	"include": [
 		"src",
-		"../core/src/frontend/utils",
-		"../core/src/frontend/stores"
+		"../core/src/frontend-db/utils",
+		"../core/src/frontend-db/stores"
 	]
 }

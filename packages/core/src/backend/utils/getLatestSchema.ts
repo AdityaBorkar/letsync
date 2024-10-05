@@ -1,5 +1,3 @@
 export default function getLatestSchema() {
-  return {
-    version: 1,
-  }
+	return { version: 1 };
 }
