@@ -15,6 +15,7 @@ export default async function deviceRegister(params: Params) {
 			new URL(request.url).searchParams.get("metadata") || "",
 		);
 
+		// TODO - SOLVE THIS
 		const ACL = acl({ userId, metadata });
 		if (!ACL)
 			return new Response(JSON.stringify({ error: "Unauthorized" }), {
@@ -22,11 +23,12 @@ export default async function deviceRegister(params: Params) {
 			});
 
 		const endpoints: string[] = [
+			// TODO - SOLVE THIS
 			...(ACL.roles || []).map((role) => `role:${role}`),
 			`user:${userId}`,
 		];
 
-		const schema = await getLatestSchema(); // TODO - FROM DATABASE CACHE
+		const schema = await getLatestSchema();
 
 		await params.database.waitUntilReady();
 		if (database.type === "SQL") {
@@ -36,8 +38,7 @@ export default async function deviceRegister(params: Params) {
 		}
 
 		const token = jwt.sign(
-			// TODO: Possibly add `ip-address`, `deviceId`
-			{ endpoints },
+			{ userId, deviceId: device.deviceId },
 			pubsub.secret,
 			{ expiresIn: "24h" },
 		);

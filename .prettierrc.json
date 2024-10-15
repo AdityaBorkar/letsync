@@ -12,5 +12,6 @@
 		"prettier-plugin-sh",
 		"prettier-plugin-packagejson"
 	],
-	"useTabs": true
+	"useTabs": true,
+	"trailingComma": "none"
 }

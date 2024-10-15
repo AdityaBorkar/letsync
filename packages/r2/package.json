@@ -1,0 +1,46 @@
+{
+  "name": "@letsync/r2",
+  "description": "R2 functionality for Letsync",
+  "version": "0.0.1",
+  "license": "MIT",
+  "keywords": [],
+  "author": {
+    "name": "Aditya Borkar",
+    "email": "aditya.borkar.programs@gmail.com",
+    "url": "https://adityaborkar.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AdityaBorkar/letsync"
+  },
+  "publishConfig": {
+    "provenance": true
+  },
+  "main": "./lib/index.js",
+  "type": "module",
+  "files": [
+    "lib/",
+    "package.json",
+    "LICENSE.md",
+    "README.md"
+  ],
+  "scripts": {
+    "tsc": "tsc",
+    "build": "tsup",
+    "format": "prettier .",
+    "dev": "tsup --watch",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "engines": {
+    "node": ">=18.3.0"
+  },
+  "devDependencies": {
+    "@types/jsonwebtoken": "^9.0.7",
+    "tsup": "^8.3.0",
+    "typescript": "^5.6.2"
+  },
+  "dependencies": {
+    "@paralleldrive/cuid2": "^2.2.2",
+    "jsonwebtoken": "^9.0.2"
+  }
+}

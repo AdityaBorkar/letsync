@@ -1,5 +1,0 @@
-packages:
-  - "website"
-  - "packages/*"
-  - "examples/*"
-  - "!**/tests/**"

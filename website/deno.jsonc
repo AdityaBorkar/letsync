@@ -1,0 +1,30 @@
+{
+	"tasks": {
+		"dev": "astro dev",
+		"start": "astro dev",
+		"build": "astro check && astro build",
+		"preview": "astro preview",
+		"astro": "astro"
+	},
+	"dependencies": {
+		"@astrojs/check": "npm:@astrojs/check@^0.9.3",
+		"@astrojs/mdx": "npm:@astrojs/mdx@^3.1.7",
+		"@astrojs/react": "npm:@astrojs/react@^3.6.2",
+		"@astrojs/tailwind": "npm:@astrojs/tailwind@^5.1.1",
+		"@tailwindcss/typography": "npm:@tailwindcss/typography@^0.5.15",
+		"@types/react": "npm:@types/react@^18.3.9",
+		"@types/react-dom": "npm:@types/react-dom@^18.3.0",
+		"astro": "npm:astro@5.0.0-beta.2",
+		"class-variance-authority": "npm:class-variance-authority@^0.7.0",
+		"clsx": "npm:clsx@^2.1.1",
+		"react": "npm:react@^18.3.1",
+		"react-dom": "npm:react-dom@^18.3.1",
+		"tailwind-merge": "npm:tailwind-merge@^2.5.2",
+		"tailwindcss": "npm:tailwindcss@^3.4.13",
+		"typescript": "npm:typescript@^5.6.2"
+	}
+	// "compilerOptions": {
+	// 	"jsx": "react-jsx",
+	// 	"jsxImportSource": "react"
+	// }
+}

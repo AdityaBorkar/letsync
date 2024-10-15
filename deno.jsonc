@@ -1,0 +1,35 @@
+{
+	"tasks": {
+		"publish": "",
+		"build": "",
+		"incremental-build": ""
+	},
+	"workspace": [
+		"./website"
+		// "./packages/aws-iot",
+		// "./packages/cli",
+		// "./packages/cockroachdb",
+		// "./packages/core",
+		// "./packages/d1",
+		// "./packages/devtools",
+		// "./packages/durable-objects-websockets",
+		// "./packages/nextjs",
+		// "./packages/node-postgres",
+		// "./packages/pglite",
+		// "./packages/r2",
+		// TODO: Add Examples
+	],
+	"imports": {
+		// "@biomejs/biome": "npm:@biomejs/biome@^1.9.3",
+		// "prettier": "npm:prettier@^3.3.3",
+		// "prettier-plugin-packagejson": "npm:prettier-plugin-packagejson@^2.5.3",
+		// "prettier-plugin-sh": "npm:prettier-plugin-sh@^0.14.0",
+	}
+	// "compilerOptions": {
+	// 	"esModuleInterop": true,
+	// 	"module": "NodeNext",
+	// 	"resolveJsonModule": true,
+	// 	"strict": true,
+	// 	"target": "ES2022"
+	// }
+}

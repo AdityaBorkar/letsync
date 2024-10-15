@@ -1,3 +1,0 @@
-- package.json Boilerplate
-- README.md Boilerplate
-- package Boilerplate
