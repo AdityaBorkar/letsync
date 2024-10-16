@@ -5,10 +5,10 @@
 		"incremental-build": ""
 	},
 	"workspace": [
-		"./website"
-		// "./packages/aws-iot",
-		// "./packages/cli",
-		// "./packages/cockroachdb",
+		"./website",
+		"./packages/aws-iot",
+		"./packages/cli",
+		"./packages/cockroachdb"
 		// "./packages/core",
 		// "./packages/d1",
 		// "./packages/devtools",
@@ -16,20 +16,43 @@
 		// "./packages/nextjs",
 		// "./packages/node-postgres",
 		// "./packages/pglite",
-		// "./packages/r2",
-		// TODO: Add Examples
+		// "./packages/r2"
+		// TODO: Add `/examples/*`
 	],
 	"imports": {
-		// "@biomejs/biome": "npm:@biomejs/biome@^1.9.3",
-		// "prettier": "npm:prettier@^3.3.3",
-		// "prettier-plugin-packagejson": "npm:prettier-plugin-packagejson@^2.5.3",
-		// "prettier-plugin-sh": "npm:prettier-plugin-sh@^0.14.0",
+		// TODO: Publish on JSR with complete support for JSR
+	},
+	"fmt": {
+		"no-semicolons": true,
+		"single-quote": true,
+		"unstable-component": true,
+		"unstable-css": true,
+		"unstable-html": true,
+		"unstable-yaml": true
+	},
+	"use": [
+		"webgpu",
+		"broadcast-channel",
+		"worker-options"
+	],
+	"compilerOptions": {
+		// "esModuleInterop": true,
+		// "module": "NodeNext",
+		// "resolveJsonModule": true,
+		// "target": "ES2022",
+		"strict": true,
+		"noFallthroughCasesInSwitch": true,
+		"noImplicitOverride": true,
+		"noImplicitReturns": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"noUncheckedIndexedAccess": true,
+		"exactOptionalPropertyTypes": true,
+		"allowUnreachableCode": false,
+		"allowUnusedLabels": false
 	}
-	// "compilerOptions": {
-	// 	"esModuleInterop": true,
-	// 	"module": "NodeNext",
-	// 	"resolveJsonModule": true,
-	// 	"strict": true,
-	// 	"target": "ES2022"
-	// }
 }
+
+// ! RIGHT NOW KEEP THE DENO 2.0 CONFIGURATION READY AND UPGRADE LATER WHEN https://github.com/denoland/deno/issues/24504 is resolved
+// TODO - Learn from https://github.com/JoshuaKGoldberg/create-typescript-app and include all the options and include the boilerplate for Deno+JSR in a public repo and blog
+// TODO - What to do about `knip.json`?
