@@ -1,0 +1,26 @@
+{
+  "name": "letsync",
+  "license": "MIT",
+  "workspaces": [
+    "website/",
+    "packages/*",
+    "examples/*"
+  ],
+  "scripts": {
+    "build:all": "nx run-many --target=build",
+    "build:core": "nx run @letsync/core:build",
+    "build:website": "nx run website:build",
+    "release": "nx run release",
+    "dev": "nx run dev"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.9.3",
+    "release-it": "^17.10.0",
+    "nx": "20.0.1"
+  },
+  "trustedDependencies": [
+    "@biomejs/biome",
+    "esbuild",
+    "sharp"
+  ]
+}

@@ -8,5 +8,5 @@
 		"node_modules",
 		"pnpm-lock.yaml"
 	],
-	"words": ["pglite", "letsync"]
+	"words": ["Deno", "letsync", "pglite", "astro", "Letsync", "tailwindcss"]
 }

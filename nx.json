@@ -1,0 +1,69 @@
+{
+  "$schema": "./node_modules/nx/schemas/nx-schema.json",
+  "targetDefaults": {
+    "build": {
+      "dependsOn": [
+        "^build"
+      ],
+      "outputs": [
+        "{projectRoot}/lib"
+      ],
+      "cache": true
+    },
+    "format": {
+      "dependsOn": [
+        "^format"
+      ],
+      "outputs": [
+        "{projectRoot}/lib"
+      ],
+      "cache": true
+    },
+    "lint": {
+      "dependsOn": [
+        "^lint"
+      ],
+      "cache": true
+    },
+    "lint:knip": {
+      "dependsOn": [
+        "^lint:knip"
+      ],
+      "cache": true
+    },
+    "lint:md": {
+      "dependsOn": [
+        "^lint:md"
+      ],
+      "cache": true
+    },
+    "lint:packages": {
+      "dependsOn": [
+        "^lint:packages"
+      ],
+      "cache": true
+    },
+    "lint:spelling": {
+      "dependsOn": [
+        "^lint:spelling"
+      ],
+      "cache": true
+    },
+    "prepare": {
+      "dependsOn": [
+        "^prepare"
+      ],
+      "cache": true
+    },
+    "test": {
+      "dependsOn": [
+        "^test"
+      ],
+      "cache": true
+    },
+    "tsc": {
+      "cache": true
+    }
+  },
+  "defaultBase": "develop"
+}

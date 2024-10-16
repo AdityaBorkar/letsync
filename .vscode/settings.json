@@ -1,28 +1,10 @@
 {
-	"editor.codeActionsOnSave": { "source.fixAll.eslint": "explicit" },
-	"editor.defaultFormatter": "esbenp.prettier-vscode",
+	"deno.enable": false, // true
+	"editor.defaultFormatter": "biomejs.biome", // "denoland.vscode-deno"
 	"editor.formatOnSave": true,
 	"editor.rulers": [80],
-	"eslint.probe": [
-		"javascript",
-		"javascriptreact",
-		"json",
-		"jsonc",
-		"markdown",
-		"typescript",
-		"typescriptreact",
-		"yaml"
-	],
-	"eslint.rules.customizations": [{ "rule": "*", "severity": "warn" }],
-	"eslint.useFlatConfig": true,
 	"typescript.tsdk": "node_modules/typescript/lib",
 	"[jsonc]": {
-		"editor.defaultFormatter": "denoland.vscode-deno"
-	},
-	"cSpell.words": [
-		"astro",
-		"Letsync",
-		"tailwindcss"
-	],
-	"deno.enable": true
+		"editor.defaultFormatter": "vscode.json-language-features"
+	}
 }

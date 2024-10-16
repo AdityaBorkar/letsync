@@ -26,5 +26,16 @@
     "package.json",
     "LICENSE.md",
     "README.md"
-  ]
+  ],
+  "scripts": {
+    "tsc": "tsc",
+    "build": "tsup",
+    "format": "prettier .",
+    "dev": "tsup --watch",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "tsup": "^8.2.4",
+    "typescript": "^5.5.4"
+  }
 }

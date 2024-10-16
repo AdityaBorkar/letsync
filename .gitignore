@@ -1,10 +1,32 @@
+# nx
+.nx/cache
+.nx/workspace-data
+
+# node modules
 node_modules/
 **/node_modules/
 
-**/lib/
+# test
 **/coverage/
 
-.cursorrules
-*.cursorrules
+# build
+**/lib/
+**/dist/
 
-.boilerplate/
+# logs
+**/npm-debug.log*
+**/yarn-debug.log*
+**/yarn-error.log*
+**/pnpm-debug.log*
+**/pnpm-debug.log*
+**/*debug.log*
+
+# environment variables
+**/env*
+
+# miscellaneous
+.cursorrules*
+**/DS_Store
+
+# jetbrains setting folder
+.idea/

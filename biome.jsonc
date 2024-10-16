@@ -1,0 +1,51 @@
+{
+	"$schema": "https://biomejs.dev/schemas/1.9.3/schema.json",
+	"files": {
+		"ignoreUnknown": false,
+		"ignore": [
+			".all-contributorsrc",
+			".husky/",
+			"coverage/",
+			"pnpm-lock.yaml",
+			"CHANGELOG.md",
+			"lib/",
+			"node_modules/"
+		]
+	},
+	"formatter": {
+		"enabled": true,
+		"indentWidth": 2,
+		"indentStyle": "tab"
+		// https://github.com/un-ts/prettier/tree/master/packages/sh
+		// https://github.com/matzkoh/prettier-plugin-packagejson
+		// https://github.com/JoshuaKGoldberg/prettier-plugin-curly
+	},
+	"organizeImports": {
+		"enabled": true
+	},
+	"linter": {
+		"enabled": true,
+		"rules": {
+			"all": true
+		}
+		// https://github.com/gajus/eslint-plugin-jsdoc
+		// https://github.com/ota-meshi/eslint-plugin-yml
+		// https://github.com/ota-meshi/eslint-plugin-jsonc
+		// https://github.com/gmullerb/eslint-plugin-regex
+		// https://github.com/JoshuaKGoldberg/eslint-plugin-package-json
+		// https://github.com/eslint-community/eslint-plugin-eslint-comments
+		// https://perfectionist.dev/guide/introduction
+		// MarkdownLint
+	},
+	"javascript": {
+		"formatter": {
+			"semicolons": "always",
+			"quoteStyle": "double"
+		}
+	},
+	"json": {
+		"formatter": {
+			"trailingCommas": "none"
+		}
+	}
+}
