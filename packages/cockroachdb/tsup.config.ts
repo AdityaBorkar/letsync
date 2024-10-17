@@ -9,3 +9,7 @@ export default defineConfig({
 	outDir: "lib",
 	sourcemap: true,
 });
+
+// ! Migrate from tsup to rspack
+// dev: rspack serve
+// build: rspack build

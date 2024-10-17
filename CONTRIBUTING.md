@@ -27,12 +27,19 @@ Right now, we are a small community, hence we haven't created a Discord Server. 
     Lint Stylistic	--exclude-lint-stylistic
     Lint YML	--exclude-lint-yml
     Linting	
+- Conventional Commits - https://www.conventionalcommits.org/en/v1.0.0/
 
 ## Flows for this Repository:
 
-- Direct commits to the `develop` branch
-- Open a PR for publish in the `experimental` branch with auto-versioning
-- Open a PR for publish in the `stable` branch with auto-versioning
+- Semantic Versioning
+- Direct commits to the `develop` branch.
+- Open a PR for publish in the `experimental` branch with auto-versioning. Squash merge.
+- Open a PR for publish in the `stable` branch with auto-versioning. Squash merge.
+
+- Releases
+- Deployments
+  - Preview
+  - Production
 
 > Note: you can create feature-based branches and merge them to `develop` branch.
 > `stable` and `experimental` branches are write protected. No direct commits allowed. Only PRs allowed.

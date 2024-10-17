@@ -7,20 +7,35 @@
     "examples/*"
   ],
   "scripts": {
+    "dev": "nx run dev",
+    "lint": "biome lint .",
+    "format": "biome check .",
     "build:all": "nx run-many --target=build",
     "build:core": "nx run @letsync/core:build",
     "build:website": "nx run website:build",
-    "release": "nx run release",
-    "dev": "nx run dev"
+    "release": "nx release --dry-run"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.3",
-    "release-it": "^17.10.0",
-    "nx": "20.0.1"
+    "@nx/js": "20.0.1",
+    "@nx/rspack": "20.0.1",
+    "@rspack/cli": "^1.0.13",
+    "@rspack/core": "^1.0.13",
+    "@rspack/dev-server": "1.0.5",
+    "@rspack/plugin-minify": "^0.7.5",
+    "@rspack/plugin-react-refresh": "^1.0.0",
+    "@swc-node/register": "~1.9.1",
+    "@swc/core": "~1.5.7",
+    "@swc/helpers": "~0.5.11",
+    "nx": "20.0.1",
+    "prettier": "^2.6.2",
+    "react-refresh": "~0.14.0",
+    "release-it": "^17.10.0"
   },
   "trustedDependencies": [
     "@biomejs/biome",
     "esbuild",
     "sharp"
-  ]
+  ],
+  "dependencies": {}
 }
