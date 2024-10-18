@@ -31,6 +31,18 @@ Right now, we are a small community, hence we haven't created a Discord Server. 
 
 ## Flows for this Repository:
 
+// TODO - On Code Merge
+// bun nx sync
+// bun run format
+// git commit -m "chore(release): {version}"
+// bun run lint
+// bun run check-types
+// bun run build
+// git commit -m "chore(release): {version}"
+// bun run release
+// --
+// ! What if conventional commit message is not followed?
+
 - Semantic Versioning
 - Direct commits to the `develop` branch.
 - Open a PR for publish in the `experimental` branch with auto-versioning. Squash merge.

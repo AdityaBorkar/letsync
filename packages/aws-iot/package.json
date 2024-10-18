@@ -19,10 +19,6 @@
   "engines": {
     "node": ">=18.3.0"
   },
-  "main": "./lib/index.js",
-  "exports": {
-    ".": "./lib/index.js"
-  },
   "type": "module",
   "files": [
     "lib/",
@@ -30,13 +26,17 @@
     "LICENSE.md",
     "README.md"
   ],
+  "main": "./lib/index.js",
+  "exports": {
+    "backend": "./lib/backend/index.js",
+    "frontend": "./lib/frontend/index.js"
+  },
   "scripts": {
-    "build": "tsup",
-    "dev": "tsup --watch"
+    "build": "tsc",
+    "dev": "tsc --watch"
   },
   "devDependencies": {
     "@types/jsonwebtoken": "^9.0.7",
-    "tsup": "^8.2.4",
     "typescript": "^5.5.4"
   },
   "dependencies": {
@@ -45,7 +45,6 @@
     "mqtt": "^5.10.1"
   },
   "peerDependencies": {
-    "@letsync/core": "workspace:^",
-    "sst": "^3.1.32"
+    "@letsync/core": "workspace:^"
   }
 }

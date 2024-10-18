@@ -10,6 +10,11 @@ export default defineConfig({
 	sourcemap: true,
 });
 
-// ! Migrate from tsup to rspack
-// dev: rspack serve
-// build: rspack build
+// bunfig.toml
+[build];
+entrypoints = ["./src/index.ts"];
+outdir = "./dist";
+target = "node";
+format = "esm";
+
+// bun build ./index.tsx --outdir ./build

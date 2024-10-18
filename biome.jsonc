@@ -40,7 +40,7 @@
 	"javascript": {
 		"formatter": {
 			"semicolons": "always",
-			"quoteStyle": "double"
+			"quoteStyle": "single"
 		}
 	},
 	"json": {

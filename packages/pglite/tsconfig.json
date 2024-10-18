@@ -1,8 +1,9 @@
 {
-	"extends": "../../tsconfig.json",
-	"include": [
-		"src",
-		"../core/src/frontend-db/utils",
-		"../core/src/frontend-db/stores"
-	]
+  "extends": "../../tsconfig.json",
+  "include": [
+    "src",
+    "../core/src/frontend-db/utils",
+    "../core/src/frontend-db/stores"
+  ],
+  "references": []
 }

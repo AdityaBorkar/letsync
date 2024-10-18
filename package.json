@@ -28,13 +28,16 @@
     "@swc/core": "~1.5.7",
     "@swc/helpers": "~0.5.11",
     "nx": "20.0.1",
+    "oxlint": "^0.9.10",
     "prettier": "^2.6.2",
     "react-refresh": "~0.14.0",
     "release-it": "^17.10.0"
   },
   "trustedDependencies": [
     "@biomejs/biome",
+    "@swc/core",
     "esbuild",
+    "nx",
     "sharp"
   ],
   "dependencies": {}
