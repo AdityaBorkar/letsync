@@ -1,4 +1,6 @@
-import type { Props } from "./index.js";
+import type { Props } from './index.js';
 
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-export default function txn(props: Props & { tx: any }) {}
+export function txn(props: Props & { tx: any }) {
+	console.log({ props });
+}

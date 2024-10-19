@@ -1,14 +1,14 @@
-import type { PubsubToken } from "./pubsub.js";
+// import type { PubsubToken } from "./pubsub.js";
 
 const events = [
-	"auth.grant",
-	"auth.refresh",
-	"auth.revoke",
-	"devices.register",
-	"devices.deregister",
-	"devices.pull",
-	"devices.push",
-	"devices.sync",
+	'auth.grant',
+	'auth.refresh',
+	'auth.revoke',
+	'devices.register',
+	'devices.deregister',
+	'devices.pull',
+	'devices.push',
+	'devices.sync',
 ] as const;
 
 export type EventName = (typeof events)[number];
@@ -28,7 +28,7 @@ export interface ClientDb_OpsAdapter {
 }
 
 export interface ClientDbAdapter {
-	__brand: "LETSYNC_CLIENT_DATABASE";
+	__brand: 'LETSYNC_CLIENT_DATABASE';
 	sql: Method_Sql;
 	// txn: Method_Txn;
 	// query: Method_Query;
@@ -94,7 +94,7 @@ type Method_Txn = <T>(
 ) => Promise<Results<T> | undefined>;
 
 type Method_ExportData = (
-	compression: "none" | "gzip" | "auto",
+	compression: 'none' | 'gzip' | 'auto',
 ) => Promise<File | Blob>;
 
 type Method_StorageMetrics = () => void;

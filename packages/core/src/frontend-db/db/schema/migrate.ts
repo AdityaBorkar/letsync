@@ -1,21 +1,20 @@
-import type { Props } from "../index.js";
+import type { Props } from '../index.js';
 
 interface MigrateSchemaProps {
 	version: number;
 }
 
-export default async function migrate(
-	props: MigrateSchemaProps,
-	superProps: Props,
-) {
+export async function migrate(props: MigrateSchemaProps, superProps: Props) {
 	const { metadata } = superProps;
 
-	const schema = await metadata.get("schema");
+	const schema = await metadata.get('schema');
 
-	if (props.version === schema.version)
-		throw new Error("SCHEMA IS ALREADY AT LATEST VERSION");
-	if (props.version < schema.version)
-		throw new Error("SCHEMA DOWNGRADE IS CURRENTLY NOT SUPPORTED");
+	if (props.version === schema.version) {
+		throw new Error('SCHEMA IS ALREADY AT LATEST VERSION');
+	}
+	if (props.version < schema.version) {
+		throw new Error('SCHEMA DOWNGRADE IS CURRENTLY NOT SUPPORTED');
+	}
 
 	// ...
 }

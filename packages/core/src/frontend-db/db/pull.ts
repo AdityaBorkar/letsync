@@ -1,12 +1,12 @@
-import fetcher from "../utils/TypedFetch.js";
-import type { Props } from "./index.js";
+import type { Props } from './index.js';
+// import fetcher from '../utils/TypedFetch.js';
 
 // biome-ignore lint/suspicious/noEmptyInterface: <explanation>
 interface PullProps {}
 
-export default async function pull(props: PullProps, superProps: Props) {
-	const { apiBaseUrl, database, metadata } = superProps;
-
+export function pull(props: PullProps, superProps: Props) {
+	// const { apiBaseUrl, database, metadata } = superProps;
+	console.log({ props, superProps });
 	// if (WRITE_LOCK) {
 	// 	console.log("FAILED - WRITE LOCK IS ENABLED.");
 	// 	return;

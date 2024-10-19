@@ -1,2 +1,5 @@
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-async function validate(schema: any) {}
+export function validate(schema: any) {
+	// ...
+	console.log({ schema });
+}

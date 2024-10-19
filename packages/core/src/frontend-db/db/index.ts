@@ -5,21 +5,21 @@ import type {
 	Letsync_PubSub_Frontend as PubsubAdapter,
 	EventName,
 	EventCallbackFn,
-} from "@/types/index.js";
-import flush from "./flush.js";
-import pull from "./pull.js";
-import push from "./push.js";
-import live from "./live.js";
-import close from "./close.js";
-import { register } from "./device/register.js";
-import { deregister } from "./device/deregister.js";
-import subscribe from "./event/subscribe.js";
-import unsubscribe from "./event/unsubscribe.js";
-import txn from "./txn.js";
-import sql from "./sql.js";
-import migrate from "./schema/migrate.js";
-import getAvailableUpgrades from "./schema/getAvailableUpgrades.js";
-import type { TableRecords } from "@/types/db-schema.js";
+} from '@/types/index.js';
+import { flush } from './flush.js';
+import { pull } from './pull.js';
+import { push } from './push.js';
+import { live } from './live.js';
+import { close } from './close.js';
+import { register } from './device/register.js';
+import { deregister } from './device/deregister.js';
+import { subscribe } from './event/subscribe.js';
+import { unsubscribe } from './event/unsubscribe.js';
+import { txn } from './txn.js';
+import { sql } from './sql.js';
+import migrate from './schema/migrate.js';
+import getAvailableUpgrades from './schema/getAvailableUpgrades.js';
+import type { TableRecords } from '@/types/db-schema.js';
 
 export type Props = {
 	name: string;
@@ -33,19 +33,19 @@ export type Props = {
 	};
 	pubsub: PubsubAdapter;
 	apiBaseUrl: string;
-	dbSchema: Config["dbSchema"];
+	dbSchema: Config['dbSchema'];
 };
 
 export default function clientDb(props: {
 	apiBaseUrl: string;
 	pubsub: PubsubAdapter;
-	dbSchema: Config["dbSchema"];
+	dbSchema: Config['dbSchema'];
 	dbOpsAdapter: ClientDb_OpsAdapter;
-}): Omit<ClientDbAdapter, "database" | "__brand"> {
+}): Omit<ClientDbAdapter, 'database' | '__brand'> {
 	const { dbOpsAdapter: database, pubsub, dbSchema, apiBaseUrl } = props;
 
-	if (pubsub.__brand !== "LETSYNC_PUBSUB_FRONTEND")
-		throw new Error("Invalid pubsub");
+	if (pubsub.__brand !== 'LETSYNC_PUBSUB_FRONTEND')
+		throw new Error('Invalid pubsub');
 
 	const { storageMetrics, exportData } = database;
 
@@ -60,16 +60,16 @@ export default function clientDb(props: {
 		},
 		async get(name: string) {
 			const record = await database.sql<
-				TableRecords["Metadata"]
+				TableRecords['Metadata']
 			>`SELECT * FROM metadata WHERE name = ${name}`;
 			// TODO - What if multiple records are found in NoSQL databases?
 			const content = record.rows[0].content;
 			return JSON.parse(content);
 		},
-	} satisfies Props["metadata"];
+	} satisfies Props['metadata'];
 
 	const superProps = {
-		name: "SET THIS",
+		name: 'SET THIS',
 		metadata: MetadataManager,
 		database,
 		pubsub,

@@ -1,17 +1,19 @@
-import type { Props } from "./index.js";
+import type { Props } from './index.js';
 
 interface LiveProps {
 	endpoints: string[];
 }
 
-export default async function live(props: LiveProps, superProps: Props) {
+export function live(props: LiveProps, superProps: Props) {
 	// TODO - MQTT ENDPOINT SUBSCRIPTION
 	const { endpoints } = props;
-	const { apiBaseUrl, pubsub } = superProps;
+	// const { apiBaseUrl, pubsub } = superProps;
+	console.log({ props, superProps });
 
 	// TODO - POLL FOR ALLOWED TOPICS AND THEN SUBSCRIBE TO ALL
 
 	for (const endpoint of endpoints) {
+		console.log({ endpoint });
 		// pubsub.subscribe(endpoint, (data) => {
 		// 	console.log("CONGRATULATIONS!! RECIEVED DATA:");
 		// 	console.log({ data });

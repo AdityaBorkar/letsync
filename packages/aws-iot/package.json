@@ -32,7 +32,7 @@
     "frontend": "./lib/frontend/index.js"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "tsc --build",
     "dev": "tsc --watch"
   },
   "devDependencies": {
@@ -45,6 +45,6 @@
     "mqtt": "^5.10.1"
   },
   "peerDependencies": {
-    "@letsync/core": "workspace:^"
+    "@letsync/core": "workspace:*"
   }
 }
