@@ -1,3 +1,9 @@
+# Linting Setup
+
+Migrate to support the following options:
+
+```ts
+// eslint.config.ts
 import eslint from "@eslint/js";
 import comments from "@eslint-community/eslint-plugin-eslint-comments/configs";
 import vitest from "@vitest/eslint-plugin";
@@ -137,3 +143,4 @@ export default tseslint.config(
 		},
 	},
 );
+```

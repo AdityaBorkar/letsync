@@ -32,10 +32,8 @@ Right now, we are a small community, hence we haven't created a Discord Server. 
 ## Flows for this Repository:
 
 // TODO - On Code Merge
-// bun nx sync
-// bun run format
-// git commit -m "chore(release): {version}"
-// bun run lint
+// bun run prepare
+// git commit -m "chore(refactor): lint, format, organize-imports"
 // bun run check-types
 // bun run build
 // git commit -m "chore(release): {version}"
