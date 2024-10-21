@@ -1,10 +1,10 @@
-import type { ApiRouter } from "@/types/ApiRouter.js";
+import type { ApiRouter } from '@/types/ApiRouter.js';
 
 export default async function TypedFetch<
 	MethodType extends keyof ApiRouter,
 	EndpointType extends keyof ApiRouter[MethodType],
 	// @ts-expect-error
-	SearchParamsType extends ApiRouter[MethodType][EndpointType]["searchParams"],
+	SearchParamsType extends ApiRouter[MethodType][EndpointType]['searchParams'],
 >(props: {
 	method: MethodType;
 	baseUrl: string;
@@ -19,7 +19,7 @@ export default async function TypedFetch<
 			// TODO - Zod Verify Response
 			return res.json() as Promise<
 				// @ts-expect-error
-				ApiRouter[MethodType][EndpointType]["response"]
+				ApiRouter[MethodType][EndpointType]['response']
 			>;
 		})
 		.catch((error) => {

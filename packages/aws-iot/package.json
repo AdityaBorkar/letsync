@@ -1,50 +1,45 @@
 {
-  "name": "@letsync/aws-iot",
-  "description": "AWS IoT adapter for Letsync",
-  "version": "0.0.1",
-  "license": "MIT",
-  "keywords": [],
-  "author": {
-    "name": "Aditya Borkar",
-    "email": "aditya.borkar.programs@gmail.com",
-    "url": "https://adityaborkar.com"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/AdityaBorkar/letsync"
-  },
-  "publishConfig": {
-    "provenance": true
-  },
-  "engines": {
-    "node": ">=18.3.0"
-  },
-  "type": "module",
-  "files": [
-    "lib/",
-    "package.json",
-    "LICENSE.md",
-    "README.md"
-  ],
-  "main": "./lib/index.js",
-  "exports": {
-    "backend": "./lib/backend/index.js",
-    "frontend": "./lib/frontend/index.js"
-  },
-  "scripts": {
-    "build": "tsc --build",
-    "dev": "tsc --watch"
-  },
-  "devDependencies": {
-    "@types/jsonwebtoken": "^9.0.7",
-    "typescript": "^5.5.4"
-  },
-  "dependencies": {
-    "@aws-sdk/client-iot-data-plane": "^3.654.0",
-    "jsonwebtoken": "^9.0.2",
-    "mqtt": "^5.10.1"
-  },
-  "peerDependencies": {
-    "@letsync/core": "workspace:*"
-  }
+	"name": "@letsync/aws-iot",
+	"description": "AWS IoT adapter for Letsync",
+	"version": "0.0.1",
+	"license": "MIT",
+	"keywords": [],
+	"author": {
+		"name": "Aditya Borkar",
+		"email": "aditya.borkar.programs@gmail.com",
+		"url": "https://adityaborkar.com"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/AdityaBorkar/letsync"
+	},
+	"publishConfig": {
+		"provenance": true
+	},
+	"engines": {
+		"node": ">=18.3.0"
+	},
+	"type": "module",
+	"files": ["lib/", "package.json", "LICENSE.md", "README.md"],
+	"main": "./lib/index.js",
+	"exports": {
+		"backend": "./lib/backend/index.js",
+		"frontend": "./lib/frontend/index.js"
+	},
+	"scripts": {
+		"build": "tsc --build",
+		"dev": "tsc --watch"
+	},
+	"devDependencies": {
+		"@types/jsonwebtoken": "^9.0.7",
+		"typescript": "^5.5.4"
+	},
+	"dependencies": {
+		"@aws-sdk/client-iot-data-plane": "^3.654.0",
+		"jsonwebtoken": "^9.0.2",
+		"mqtt": "^5.10.1"
+	},
+	"peerDependencies": {
+		"@letsync/core": "workspace:*"
+	}
 }

@@ -15,7 +15,7 @@ export function live(props: LiveProps, superProps: Props) {
 	for (const endpoint of endpoints) {
 		console.log({ endpoint });
 		// pubsub.subscribe(endpoint, (data) => {
-		// 	console.log("CONGRATULATIONS!! RECIEVED DATA:");
+		// 	console.log("CONGRATULATIONS!! RECEIVED DATA:");
 		// 	console.log({ data });
 		// 	// TODO - WRITE
 		// });

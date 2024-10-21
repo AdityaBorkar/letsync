@@ -1,6 +1,5 @@
 ---
-import { getCollection } from "astro:content";
-import BaseLayout from "./BaseLayout.astro";
+import { getCollection } from 'astro:content';
 
 interface Props {
 	title: string;
@@ -11,10 +10,10 @@ const { title, description } = Astro.props;
 
 const packages: { [name: string]: string[] } = {};
 
-const packagesCollection = await getCollection("reference");
+const packagesCollection = await getCollection('reference');
 for (const pkg of packagesCollection) {
-	const pathName = pkg.id.split("/");
-	packages[pathName[0] || "Unknown"] = pathName.slice(1);
+	const pathName = pkg.id.split('/');
+	packages[pathName[0] || 'Unknown'] = pathName.slice(1);
 }
 
 console.log({ packages });

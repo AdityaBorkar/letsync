@@ -1,7 +1,3 @@
 {
-    "use": [
-        "webgpu",
-        "broadcast-channel",
-        "worker-options"
-    ]
+	"use": ["webgpu", "broadcast-channel", "worker-options"]
 }

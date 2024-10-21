@@ -2,6 +2,24 @@
 
 Migrate to support the following options:
 
+- Lint JSDocs
+- Lint JSON
+- Lint ESLint
+- Lint JSON
+- Lint Knip
+- Lint MD
+- Lint Package JSON
+- Lint Packages
+- Lint Perfectionist
+- Lint Regex
+- Lint Spelling
+- Lint Strict
+- Lint Stylistic
+- Lint YML
+- Linting
+
+Migrate EsLint Config to Biome:
+
 ```ts
 // eslint.config.ts
 import eslint from "@eslint/js";

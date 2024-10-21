@@ -22,5 +22,5 @@
 		"exactOptionalPropertyTypes": true,
 		"allowUnreachableCode": false,
 		"allowUnusedLabels": false
-	},
+	}
 }

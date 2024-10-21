@@ -1,23 +1,22 @@
 ---
-import { getCollection, render } from "astro:content";
-import RefLayout from "@/layouts/documentation/RefLayout.astro";
+import { getCollection, render } from 'astro:content';
 
 // TODO - AUTO GENERATE REFERENCE PAGES ACCORDING TO THE JSDOCS
 
 export async function getStaticPaths() {
-	const pages = await getCollection("reference");
+	const pages = await getCollection('reference');
 	return pages.flatMap((page) => {
 		// @ts-expect-error
-		const [name, version, ...slug] = page.id.split("/");
+		const [name, version, ...slug] = page.id.split('/');
 		return [
 			{
 				// TODO - INACCURATE PATH, AS IT GENERATES `latest` for all versions
-				params: { slug: [name, "latest", ...slug].join("/") },
-				props: { page, group: page.id.split("/") },
+				params: { slug: [name, 'latest', ...slug].join('/') },
+				props: { page, group: page.id.split('/') },
 			},
 			{
 				params: { slug: page.id },
-				props: { page, group: page.id.split("/") },
+				props: { page, group: page.id.split('/') },
 			},
 		];
 	});
@@ -29,11 +28,11 @@ const { Content, headings } = await render(page);
 const navigation = [
 	// TODO - GET FUNCTIONS
 	{
-		label: "Getting Started",
+		label: 'Getting Started',
 		items: [
 			{
-				href: "/docs/installation",
-				label: "Installation",
+				href: '/docs/installation',
+				label: 'Installation',
 			},
 		],
 	},

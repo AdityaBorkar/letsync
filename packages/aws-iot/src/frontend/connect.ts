@@ -1,4 +1,4 @@
-import mqtt from "mqtt";
+import mqtt from 'mqtt';
 
 export default async function connect(props: {
 	token: string;
@@ -13,18 +13,18 @@ export default async function connect(props: {
 			{
 				protocolVersion: 5,
 				manualConnect: true,
-				username: "",
+				username: '',
 				password: props.token,
 				clientId: `device_${props.clientId}`,
 			},
 		);
 
-		connection.on("connect", async () => {
+		connection.on('connect', async () => {
 			resolve(connection);
 		});
 
-		connection.on("error", async (error) => {
-			console.error("Error connecting to MQTT", error);
+		connection.on('error', async (error) => {
+			console.error('Error connecting to MQTT', error);
 			reject();
 		});
 

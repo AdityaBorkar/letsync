@@ -4,77 +4,55 @@ We are a small community of contributors. We accept open source contributions, b
 
 ## Where to ask Questions?
 
-Right now, we are a small community, hence we haven't created a Discord Server. Ask your questions directly on X or GitHub Discussions. DM / Tag me.
+Right now, we are a small community, hence we haven't created a Discord Server. Ask your questions directly on GitHub Discussions or X (DM or tag @aditya_btech).
 
 ## Tech Stack
 
 - Bun (to be replaced with Deno. Refer `roadmap/CHECKLIST_deno.md`)
-- NPM Workspaces
-- Publishing to NPM and JSR
-- Linting
-  - Lint JSDocs
-  - Lint JSON
-  - Lint ESLint
-    Lint JSON	--exclude-lint-json			💯
-    Lint Knip	--exclude-lint-knip		✅	💯
-    Lint MD	--exclude-lint-md			💯
-    Lint Package JSON	--exclude-lint-package-json			💯
-    Lint Packages	--exclude-lint-packages
-    Lint Perfectionist	--exclude-lint-perfectionist
-    Lint Regex	--exclude-lint-regex
-    Lint Spelling	--exclude-lint-spelling
-    Lint Strict	--exclude-lint-strict
-    Lint Stylistic	--exclude-lint-stylistic
-    Lint YML	--exclude-lint-yml
-    Linting	
-- Conventional Commits - https://www.conventionalcommits.org/en/v1.0.0/
+- Nx for monorepo management
+- NPM and JSR for package publishing
+- Biome for linting, formatting, and organizing imports
+- commitizen and cz-conventional-changelog for commit messages
 
-## Flows for this Repository:
+We follow the following standards:
 
-// TODO - On Code Merge
-// bun run prepare
-// git commit -m "chore(refactor): lint, format, organize-imports"
-// bun run check-types
-// bun run build
-// git commit -m "chore(release): {version}"
-// bun run release
-// --
-// ! What if conventional commit message is not followed?
+- [Semantic Versioning](https://semver.org/)
+- [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
 
-- Semantic Versioning
-- Direct commits to the `develop` branch.
-- Open a PR for publish in the `experimental` branch with auto-versioning. Squash merge.
-- Open a PR for publish in the `stable` branch with auto-versioning. Squash merge.
+Branches:
 
-- Releases
-- Deployments
-  - Preview
-  - Production
+- `stable`
+  - For stable releases
+  - Environment = `Production`
+  - Versioning = `x.y.z`
+- `next`
+  - For staging releases
+  - Environment = `Staging`
+  - Versioning = `x.y.z-next.n`
+- `<feature-branch>`
+  - For development purposes
 
-> Note: you can create feature-based branches and merge them to `develop` branch.
-> `stable` and `experimental` branches are write protected. No direct commits allowed. Only PRs allowed.
+> Note: You can create feature-based branches and merge them to `next` branch.
+> `stable` and `next` branches are write protected. No direct commits allowed. Only PRs allowed.
 
------------------------------------------------------------
+## Flows for this Repository
 
-GitHub Actions workflows are added for each of the enabled tooling pieces to run them in CI.
-On the GitHub repository, metadata will be populated:
-Issue labels for issue areas, statuses, and types.
-Repository settings such as branch protections and squash merging PRs
+For contributors:
 
-- [] Build Process / GitHub Workflows
-  - [] Packages Size
-  - [] Testing Results
-  - [] Changelog
-  - [] Versioning
-[ ] Migrate to Biome
-[ ] Publishing
-    [ ] Publish on JSR
-    [ ] Publish on NPM
-[ ] Vitest Tests
-[ ] Website Deployment
-[ ] Boilerplates
-[ ] Examples
-[ ] Write hints for cursorrules
+- Fork the repository and create a new branch `any-name-you-want` from `next` branch.
+- Direct commits to the new branch `any-name-you-want`.
+- Open a PR for publish in the `next` branch. Squash merge.
+- Conventional Commit Message for the PR Commit.
+
+For maintainers:
+
+- Open a PR for publish in the `stable` branch. Squash merge.
+- Conventional Commit Message for the PR Commit.
+- Release and Publish Workflows
+
+## How to set Environment Variables for Local Development?
+
+Write here
 
 ## Limitations
 
@@ -84,4 +62,3 @@ Repository settings such as branch protections and squash merging PRs
   - Astro: Parsing, Formatting and Linting are PARTIALLY SUPPORTED.
   - YAML: Parsing IN PROGRESS. Formatting and Linting NOT SUPPORTED.
   - Markdown: Parsing IN PROGRESS. Formatting and Linting NOT SUPPORTED.
-- We are using Bun.

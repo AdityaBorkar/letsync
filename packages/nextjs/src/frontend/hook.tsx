@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import React, { useContext } from "react";
+import { useContext } from 'react';
 
-import { LetsyncContext } from "./context.js";
+import { LetsyncContext } from './context.js';
 
 export function useLetsync() {
 	const { database, pubsub } = useContext(LetsyncContext);

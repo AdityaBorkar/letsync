@@ -1,4 +1,4 @@
-import type { PGlite } from "@electric-sql/pglite";
+import type { PGlite } from '@electric-sql/pglite';
 
 /**
  * Returns data in MB

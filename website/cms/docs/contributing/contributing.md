@@ -9,4 +9,4 @@ description: "This is a test description"
 
 Figma Photos for the architecture diagram and how it is designed.
 
-https://authjs.dev/concepts
+[https://authjs.dev/concepts](https://authjs.dev/concepts)

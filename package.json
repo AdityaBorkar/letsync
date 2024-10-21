@@ -1,35 +1,34 @@
 {
-  "name": "letsync",
-  "license": "MIT",
-  "workspaces": [
-    "website/",
-    "packages/*",
-    "examples/*"
-  ],
-  "scripts": {
-    "commit": "git add . && cz",
-    "dev": "nx run dev",
-    "check-for-upgrades": "bun outdated",
-    "format": "bun biome ci --formatter-enabled=true --linter-enabled=true --organize-imports-enabled=true",
-    "build": "nx run-many --target=build",
-    "release": "nx release --dry-run"
-  },
-  "trustedDependencies": [
-    "@biomejs/biome",
-    "nx",
-    "sharp"
-  ],
-  "dependencies": {
-    "@biomejs/biome": "^1.9.4",
-    "@nx/js": "20.0.3",
-    "commitizen": "^4.3.1",
-    "cz-conventional-changelog": "^3.3.0",
-    "nx": "20.0.3",
-    "oxlint": "^0.10.0"
-  },
-  "config": {
-    "commitizen": {
-      "path": "cz-conventional-changelog"
-    }
-  }
+	"name": "letsync",
+	"license": "MIT",
+	"workspaces": ["website/", "packages/*", "examples/*"],
+	"scripts": {
+		"dev": "nx run dev",
+		"commit": "git add . && cz",
+		"format": "bun biome format --write",
+		"lint:code": "bun biome lint",
+		"lint:knip": "knip",
+		"lint:cspell": "cspell lint .",
+		"lint:md": "markdownlint \"**/*.md\" --ignore \"**/node_modules/**\" --disable MD010 MD013",
+		"build": "nx run-many --target=build",
+		"release": "nx release --dry-run",
+		"check-for-updates": "bun upgrade --dry-run && bun outdated"
+	},
+	"trustedDependencies": ["@biomejs/biome", "nx", "sharp"],
+	"dependencies": {
+		"@biomejs/biome": "^1.9.4",
+		"@nx/js": "20.0.3",
+		"commitizen": "^4.3.1",
+		"cspell": "^8.15.4",
+		"cz-conventional-changelog": "^3.3.0",
+		"knip": "^5.33.3",
+		"markdownlint": "^0.35.0",
+		"markdownlint-cli": "^0.42.0",
+		"nx": "20.0.3"
+	},
+	"config": {
+		"commitizen": {
+			"path": "cz-conventional-changelog"
+		}
+	}
 }

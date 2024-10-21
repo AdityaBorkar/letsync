@@ -1,14 +1,14 @@
-import { frontend } from "@letsync/core";
+import { frontend } from '@letsync/core';
 
-import { PGlite } from "@electric-sql/pglite";
+import { PGlite } from '@electric-sql/pglite';
 import type {
 	Config,
 	ClientDbAdapter,
 	ClientDb_OpsAdapter,
 	Letsync_PubSub_Frontend as PubsubAdapter,
-} from "@letsync/core";
-import exportData from "./exportData.js";
-import getStorageMetrics from "./getStorageMetrics.js";
+} from '@letsync/core';
+import exportData from './exportData.js';
+import getStorageMetrics from './getStorageMetrics.js';
 
 /**
  * Write your adapter docs here.
@@ -32,12 +32,12 @@ import getStorageMetrics from "./getStorageMetrics.js";
 export default function useDatabaseAdapter<DT extends PGlite>(props: {
 	pubsub: PubsubAdapter;
 	database: DT;
-	dbSchema: Config["dbSchema"];
+	dbSchema: Config['dbSchema'];
 	apiBaseUrl?: string;
 }): ClientDbAdapter {
 	const { database, pubsub, dbSchema, apiBaseUrl } = props;
 
-	if (!(database instanceof PGlite)) throw new Error("Invalid database");
+	if (!(database instanceof PGlite)) throw new Error('Invalid database');
 
 	const API_BASE_URL =
 		apiBaseUrl ||
@@ -45,7 +45,7 @@ export default function useDatabaseAdapter<DT extends PGlite>(props: {
 		import.meta.env.NEXT_PUBLIC_LETSYNC_API_BASE_URL ||
 		// @ts-expect-error
 		import.meta.env.LETSYNC_API_BASE_URL;
-	if (!API_BASE_URL) throw new Error("API Base URL is not set"); // ! TODO - TEST
+	if (!API_BASE_URL) throw new Error('API Base URL is not set'); // ! TODO - TEST
 
 	// ? PGLITE AUTOMATICALLY WAITS FOR THE DATABASE TO BE READY
 	// await database.waitReady;
@@ -67,5 +67,5 @@ export default function useDatabaseAdapter<DT extends PGlite>(props: {
 		apiBaseUrl: API_BASE_URL,
 	});
 
-	return { __brand: "LETSYNC_CLIENT_DATABASE", ...methods };
+	return { __brand: 'LETSYNC_CLIENT_DATABASE', ...methods };
 }

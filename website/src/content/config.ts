@@ -1,10 +1,10 @@
-import { defineCollection, z } from "astro:content";
-import { glob } from "astro/loaders";
+import { defineCollection, z } from 'astro:content';
+import { glob } from 'astro/loaders';
 
 const docs = defineCollection({
 	loader: glob({
-		pattern: "**/[^wip-]*.md",
-		base: "./cms/docs",
+		pattern: '**/[^wip-]*.md',
+		base: './cms/docs',
 	}),
 	schema: z.object({
 		title: z.string(),
@@ -15,8 +15,8 @@ const docs = defineCollection({
 
 const reference = defineCollection({
 	loader: glob({
-		pattern: "**/[^wip-]*.md",
-		base: "./cms/reference",
+		pattern: '**/[^wip-]*.md',
+		base: './cms/reference',
 	}),
 	schema: z.object({
 		title: z.string(),

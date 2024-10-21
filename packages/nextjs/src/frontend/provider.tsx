@@ -1,15 +1,15 @@
-"use client";
+'use client';
 
 import type {
 	ClientDbAdapter,
 	Letsync_PubSub_Frontend as PubsubAdapter,
-} from "@letsync/core";
-import type { LetsyncContextType } from "./context.js";
+} from '@letsync/core';
+import type { LetsyncContextType } from './context.js';
 
 // biome-ignore lint/style/useImportType: BIOME BUG
-import React, { useEffect, useState } from "react";
-import { LetsyncContext } from "./context.js";
-import { frontend } from "@letsync/core";
+import React, { useEffect, useState } from 'react';
+import { LetsyncContext } from './context.js';
+import { frontend } from '@letsync/core';
 
 interface LetsyncProviderProps {
 	workers?: boolean;
@@ -39,7 +39,7 @@ export function LetsyncProvider({
 				return letsync;
 			})
 			.catch((error) => {
-				console.error("[Letsync Framework] Initialization Failed: ", error);
+				console.error('[Letsync Framework] Initialization Failed: ', error);
 			});
 
 		return () => {

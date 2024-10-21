@@ -19,21 +19,21 @@ export type EventCallbackFn = (data: any) => void;
 // ---
 
 export interface ClientDb_OpsAdapter {
-	txn: Method_Txn;
-	sql: Method_Sql;
-	query: Method_Query;
+	txn: MethodTxn;
+	sql: MethodSql;
+	query: MethodQuery;
 	close: () => Promise<void>;
-	exportData: Method_ExportData;
-	storageMetrics: Method_StorageMetrics;
+	exportData: MethodExportData;
+	storageMetrics: MethodStorageMetrics;
 }
 
 export interface ClientDbAdapter {
 	__brand: 'LETSYNC_CLIENT_DATABASE';
-	sql: Method_Sql;
+	sql: MethodSql;
 	// txn: Method_Txn;
 	// query: Method_Query;
-	exportData: Method_ExportData;
-	storageMetrics: Method_StorageMetrics;
+	exportData: MethodExportData;
+	storageMetrics: MethodStorageMetrics;
 	close: () => Promise<void>;
 	flush: () => Promise<void>;
 	pull: () => Promise<void>;
@@ -68,13 +68,13 @@ export interface ClientDbAdapter {
 
 // ---
 
-type Method_Sql = <RT>(
+type MethodSql = <RT>(
 	sqlStrings: TemplateStringsArray,
 	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 	...params: any[]
 ) => Promise<Results<RT>>;
 
-type Method_Query = <RT>(
+type MethodQuery = <RT>(
 	query: string,
 	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 	params?: any[],
@@ -82,22 +82,22 @@ type Method_Query = <RT>(
 ) => Promise<Results<RT>>;
 
 interface Transaction {
-	sql: Method_Sql;
-	query: Method_Query;
+	sql: MethodSql;
+	query: MethodQuery;
 	// exec(query: string, options?: QueryOptions): Promise<Array<Results>>;
 	rollback(): Promise<void>;
 	get closed(): boolean;
 }
 
-type Method_Txn = <T>(
+type MethodTxn = <T>(
 	callback: (tx: Transaction) => Promise<Results<T>>,
 ) => Promise<Results<T> | undefined>;
 
-type Method_ExportData = (
+type MethodExportData = (
 	compression: 'none' | 'gzip' | 'auto',
 ) => Promise<File | Blob>;
 
-type Method_StorageMetrics = () => void;
+type MethodStorageMetrics = () => void;
 
 // ---
 

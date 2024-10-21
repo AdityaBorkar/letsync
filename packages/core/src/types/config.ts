@@ -8,6 +8,6 @@ export type Letsync_Config = {
 		optimisticColumnName?: string;
 	};
 	dbSchema: {
-		[key: string | "devices" | "schemas" | "cache"]: string;
+		[key: string | 'devices' | 'schemas' | 'cache']: string;
 	};
 };

@@ -13,7 +13,7 @@ pnpm install @letsync/nextjs
 
 ## Server Setup
 
-You need to expose certain endpoints for Letsync to work. You can refer <a href="/docs/architecture#server-endpoints">Architecture > Server Endpoints</a> to understand the endpoints and how to expose them.
+You need to expose certain endpoints for Letsync to work. You can refer [Architecture > Server Endpoints](/docs/architecture#server-endpoints) to understand the endpoints and how to expose them.
 
 ```ts
 // Path: app/api/letsync/[...slug]/route.ts
@@ -23,7 +23,7 @@ import { handlers } from "@/lib/letsync.server";
 export const { GET, POST } = handlers;
 ```
 
-```ts
+<!-- ```ts
 // Path: lib/letsync.server.ts
 
 import { LetsyncHandlers } from "@letsync/nextjs";
@@ -46,7 +46,7 @@ export const handlers = LetsyncHandlers({
 		};
 	},
 });
-```
+``` -->
 
 ## Client Setup
 

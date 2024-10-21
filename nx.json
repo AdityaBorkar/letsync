@@ -1,118 +1,86 @@
 {
-  "$schema": "./node_modules/nx/schemas/nx-schema.json",
-  "defaultBase": "develop",
-  "release": {
-    "projectsRelationship": "independent",
-    "projects": [
-      "packages/*"
-    ],
-    "changelog": {
-      "projectChangelogs": {
-        "createRelease": "github"
-      }
-    },
-    "git": {
-      "commitMessage": "chore(release): {version}"
-    },
-    "conventionalCommits": {
-      "types": {
-        "chore": {
-          "changelog": false
-        },
-        "docs": {
-          "semverBump": "none",
-          "changelog": {
-            "title": "Documentation Changes"
-          }
-        }
-      }
-    }
-  },
-  "targetDefaults": {
-    "build": {
-      "dependsOn": [
-        "^build"
-      ],
-      "outputs": [
-        "{projectRoot}/lib"
-      ],
-      "cache": true
-    },
-    "format": {
-      "dependsOn": [
-        "^format"
-      ],
-      "outputs": [
-        "{projectRoot}/lib"
-      ],
-      "cache": true
-    },
-    "lint": {
-      "dependsOn": [
-        "^lint"
-      ],
-      "cache": true
-    },
-    "lint:knip": {
-      "dependsOn": [
-        "^lint:knip"
-      ],
-      "cache": true
-    },
-    "lint:md": {
-      "dependsOn": [
-        "^lint:md"
-      ],
-      "cache": true
-    },
-    "lint:packages": {
-      "dependsOn": [
-        "^lint:packages"
-      ],
-      "cache": true
-    },
-    "lint:spelling": {
-      "dependsOn": [
-        "^lint:spelling"
-      ],
-      "cache": true
-    },
-    "prepare": {
-      "dependsOn": [
-        "^prepare"
-      ],
-      "cache": true
-    },
-    "test": {
-      "dependsOn": [
-        "^test"
-      ],
-      "cache": true
-    },
-    "tsc": {
-      "cache": true
-    }
-  },
-  "plugins": [
-    {
-      "plugin": "@nx/js/typescript",
-      "options": {
-        "typecheck": {
-          "targetName": "typecheck"
-        },
-        "build": {
-          "targetName": "build",
-          "configName": "tsconfig.lib.json"
-        }
-      }
-    },
-    {
-      "plugin": "@nx/rspack/plugin",
-      "options": {
-        "buildTargetName": "build",
-        "serveTargetName": "serve",
-        "previewTargetName": "preview"
-      }
-    }
-  ]
+	"$schema": "./node_modules/nx/schemas/nx-schema.json",
+	"defaultBase": "develop",
+	"release": {
+		"projectsRelationship": "independent",
+		"projects": ["packages/*"],
+		"changelog": {
+			"projectChangelogs": {
+				"createRelease": "github"
+			}
+		},
+		"git": {
+			"commitMessage": "chore(release): {version}"
+		},
+		"conventionalCommits": {
+			"types": {
+				"chore": {
+					"changelog": false
+				},
+				"docs": {
+					"semverBump": "none",
+					"changelog": {
+						"title": "Documentation Changes"
+					}
+				}
+			}
+		}
+	},
+	"targetDefaults": {
+		"build": {
+			"dependsOn": ["^build"],
+			"outputs": ["{projectRoot}/lib"],
+			"cache": true
+		},
+		"format": {
+			"dependsOn": ["^format"],
+			"outputs": ["{projectRoot}/lib"],
+			"cache": true
+		},
+		"lint": {
+			"dependsOn": ["^lint"],
+			"cache": true
+		},
+		"lint:knip": {
+			"dependsOn": ["^lint:knip"],
+			"cache": true
+		},
+		"lint:md": {
+			"dependsOn": ["^lint:md"],
+			"cache": true
+		},
+		"lint:packages": {
+			"dependsOn": ["^lint:packages"],
+			"cache": true
+		},
+		"lint:spelling": {
+			"dependsOn": ["^lint:spelling"],
+			"cache": true
+		},
+		"prepare": {
+			"dependsOn": ["^prepare"],
+			"cache": true
+		},
+		"test": {
+			"dependsOn": ["^test"],
+			"cache": true
+		},
+		"tsc": {
+			"cache": true
+		}
+	},
+	"plugins": [
+		{
+			"plugin": "@nx/js/typescript",
+			"options": {
+				"typecheck": {
+					"targetName": "typecheck"
+				},
+				"build": {
+					"targetName": "build",
+					"configName": "tsconfig.lib.json"
+				}
+			}
+		}
+	]
 }

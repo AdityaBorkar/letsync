@@ -1,4 +1,4 @@
-import jwt from "jsonwebtoken";
+import jwt from 'jsonwebtoken';
 
 export default function Authorizer({
 	secret,
@@ -12,10 +12,10 @@ export default function Authorizer({
 }> {
 	return async (token: string) => {
 		try {
-			if (!token) throw new Error("No token provided");
+			if (!token) throw new Error('No token provided');
 
 			const decoded = await jwt.verify(token, secret, {
-				algorithms: ["HS256"],
+				algorithms: ['HS256'],
 			});
 			console.log({ decoded });
 		} catch (error) {
@@ -23,7 +23,7 @@ export default function Authorizer({
 			return { subscribe: [], publish: [] };
 		}
 
-		const topics = ["vasundhara-aakash"];
+		const topics = ['vasundhara-aakash'];
 
 		return {
 			publish: [], // [`${prefix}/letsync/${topic}`],

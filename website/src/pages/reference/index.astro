@@ -1,13 +1,12 @@
 ---
-import RefLayout from "@/layouts/documentation/RefLayout.astro";
-import { getCollection } from "astro:content";
+import { getCollection } from 'astro:content';
 
 const packages = new Set<string>();
 
-const packagesCollection = await getCollection("reference");
+const packagesCollection = await getCollection('reference');
 for (const pkg of packagesCollection) {
-	const pathName = pkg.id.split("/");
-	packages.add(pathName[0] || "Unknown");
+	const pathName = pkg.id.split('/');
+	packages.add(pathName[0] || 'Unknown');
 }
 ---
 

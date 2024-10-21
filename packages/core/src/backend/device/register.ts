@@ -1,9 +1,9 @@
-import { createId } from "@paralleldrive/cuid2";
-import jwt from "jsonwebtoken";
+import { createId } from '@paralleldrive/cuid2';
+import jwt from 'jsonwebtoken';
 
-import getLatestSchema from "@/backend/utils/getLatestSchema.js";
-import type { Params } from "@/backend/types.js";
-import type { ApiRouter } from "@/types/ApiRouter.js";
+import getLatestSchema from '@/backend/utils/getLatestSchema.js';
+import type { Params } from '@/backend/types.js';
+import type { ApiRouter } from '@/types/ApiRouter.js';
 
 export default async function deviceRegister(params: Params) {
 	try {
@@ -12,13 +12,13 @@ export default async function deviceRegister(params: Params) {
 
 		const device = { userId, isActive: true, deviceId: createId() };
 		const metadata = decodeURI(
-			new URL(request.url).searchParams.get("metadata") || "",
+			new URL(request.url).searchParams.get('metadata') || '',
 		);
 
 		// TODO - SOLVE THIS
 		const ACL = acl({ userId, metadata });
 		if (!ACL)
-			return new Response(JSON.stringify({ error: "Unauthorized" }), {
+			return new Response(JSON.stringify({ error: 'Unauthorized' }), {
 				status: 401,
 			});
 
@@ -31,7 +31,7 @@ export default async function deviceRegister(params: Params) {
 		const schema = await getLatestSchema();
 
 		await params.database.waitUntilReady();
-		if (database.type === "SQL") {
+		if (database.type === 'SQL') {
 			await database.query(
 				`INSERT INTO devices (deviceId, userId, isActive, schemaVersion) VALUES ('${device.deviceId}', '${device.userId}', TRUE, ${schema.version})`,
 			);
@@ -40,19 +40,19 @@ export default async function deviceRegister(params: Params) {
 		const token = jwt.sign(
 			{ userId, deviceId: device.deviceId },
 			pubsub.secret,
-			{ expiresIn: "24h" },
+			{ expiresIn: '24h' },
 		);
 
 		const response = {
 			device,
 			schema,
 			pubsub: { token, endpoints },
-		} satisfies ApiRouter["POST"]["/device"]["response"];
+		} satisfies ApiRouter['POST']['/device']['response'];
 
 		return new Response(JSON.stringify(response), { status: 200 });
 	} catch (error) {
 		console.error(error);
-		return new Response(JSON.stringify({ error: "Internal Server Error" }), {
+		return new Response(JSON.stringify({ error: 'Internal Server Error' }), {
 			status: 500,
 		});
 	}
