@@ -1,0 +1,40 @@
+name: Setup Bun
+
+on:
+    workflow_call:
+  
+jobs:
+    setup:
+        name: Setup
+        runs-on: ubuntu-latest
+        timeout-minutes: 10
+        permissions:
+            contents: read
+        steps:
+        - name: Checkout repository
+          uses: actions/checkout@v4
+          with:
+            fetch-depth: 0
+    
+        - name: Restore Cache (node_modules)
+          uses: actions/cache/restore@v4
+          with:
+            path: node_modules
+            key: ${{ runner.OS }}-node_modules-${{ hashFiles('bun.lockb') }}
+            
+        - name: Install Bun
+          uses: oven-sh/setup-bun@v2
+    
+        - name: Upgrade Bun
+          run: bun upgrade
+          shell: bash
+        
+        - name: Install dependencies
+          run: bun install
+          shell: bash
+        
+        - name: Save Cache (node_modules)
+          uses: actions/cache@v3
+          with:
+            path: node_modules
+            key: ${{ runner.OS }}-node_modules-${{ hashFiles('bun.lockb') }}

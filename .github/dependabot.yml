@@ -1,0 +1,23 @@
+# https://docs.github.com/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
+
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directories:
+      - "/"
+      - "/website"
+      - "/packages/*"
+      - "/examples/*"
+    schedule:
+      interval: "weekly"
+    target-branch: "development"
+    commit-message:
+      prefix: "refactor"
+    groups:
+      production-dependencies:
+        dependency-type: "production"
+      development-dependencies:
+        dependency-type: "development"
+    labels:
+      - "dependencies"
+    open-pull-requests-limit: 2
