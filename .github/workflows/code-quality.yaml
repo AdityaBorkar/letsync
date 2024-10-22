@@ -2,16 +2,12 @@ name: Code Quality
 
 on:
   push:
-    branches:
-      - stable
-      - staging
+    branches: [stable, staging]
   pull_request:
-    branches:
-      - stable
-      - staging
+    branches: [stable, staging]
 
 jobs:
-  quality:
+  code-quality:
     name: Code Quality
     runs-on: ubuntu-latest
     timeout-minutes: 10
@@ -19,6 +15,11 @@ jobs:
       contents: read
       id-token: write # needed for provenance data generation
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          
       - name: Setup
         uses: AdityaBorkar/letsync/.github/workflows/init.yml
       
@@ -41,7 +42,7 @@ jobs:
         
       - name: Release
         shell: bash
-        run: | 
+        run: |
           git add .
           git commit -m "chore(release): {version}"
           bun nx release

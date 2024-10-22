@@ -10,12 +10,7 @@ jobs:
         timeout-minutes: 10
         permissions:
             contents: read
-        steps:
-        - name: Checkout repository
-          uses: actions/checkout@v4
-          with:
-            fetch-depth: 0
-    
+        steps:    
         - name: Restore Cache (node_modules)
           uses: actions/cache/restore@v4
           with:
