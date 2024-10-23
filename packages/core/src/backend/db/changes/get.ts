@@ -7,5 +7,5 @@ export default async function changesGet(params: Params) {
 	const response = {
 		ack: true,
 	};
-	return;
+	return response;
 }

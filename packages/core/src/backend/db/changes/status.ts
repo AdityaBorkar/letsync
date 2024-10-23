@@ -7,4 +7,5 @@ export default async function changesStatus(params: Params) {
 	const response = {
 		ack: true,
 	};
+	return response;
 }

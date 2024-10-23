@@ -27,12 +27,13 @@ export function PubSub({
 			topic: `${prefix}/letsync/${topic}`,
 		});
 		const response = await client.send(command);
+		console.log({ response });
 	}
 
 	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
-	function subscribe(topic: string, callback: (data: any) => void) {
+	async function subscribe(topic: string, callback: (data: any) => void) {
 		// TODO - WRITE THIS CODE
-		console.log({ prefix });
+		console.log({ prefix, topic, callback });
 		throw new Error('Not implemented. Contact maintainers.');
 		// server.subscribe("src/subscriber.handler", {
 		// 	filter: `${$app.name}/${$app.stage}/chat/room1`,

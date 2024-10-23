@@ -21,6 +21,8 @@ export function LetsyncServerDb({
 
 	// TODO - MIGRATE / SET SCHEMA
 
+	console.log({ pubsub });
+
 	async function waitUntilReady() {
 		try {
 			await database.connect();

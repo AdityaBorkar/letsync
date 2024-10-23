@@ -1,3 +1,0 @@
-{
-	"use": ["webgpu", "broadcast-channel", "worker-options"]
-}

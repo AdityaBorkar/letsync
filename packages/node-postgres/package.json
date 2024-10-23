@@ -16,22 +16,19 @@
 	"publishConfig": {
 		"provenance": true
 	},
+	"main": "./dist/index.js",
+	"type": "module",
+	"files": ["dist/", "package.json", "LICENSE.md", "README.md"],
+	"scripts": {
+		"dev": "tsc --watch",
+		"build": "tsc --build",
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
 	"engines": {
 		"node": ">=18.3.0"
 	},
-	"main": "./lib/index.js",
-	"type": "module",
-	"files": ["lib/", "package.json", "LICENSE.md", "README.md"],
-	"scripts": {
-		"tsc": "tsc",
-		"build": "tsup",
-		"format": "prettier .",
-		"dev": "tsup --watch",
-		"test": "echo \"Error: no test specified\" && exit 1"
-	},
 	"devDependencies": {
 		"@types/pg": "^8.11.10",
-		"tsup": "^8.2.4",
 		"typescript": "^5.5.4",
 		"@letsync/core": "workspace:^"
 	},

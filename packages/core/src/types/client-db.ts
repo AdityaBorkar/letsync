@@ -35,10 +35,10 @@ export interface ClientDbAdapter {
 	exportData: MethodExportData;
 	storageMetrics: MethodStorageMetrics;
 	close: () => Promise<void>;
-	flush: () => Promise<void>;
-	pull: () => Promise<void>;
-	push: () => Promise<void>;
-	live: (endpoints: string[]) => Promise<void>;
+	flush: () => Promise<void> | void; // TODO: stick to SYNC / ASYNC
+	pull: () => Promise<void> | void; // TODO: stick to SYNC / ASYNC
+	push: () => Promise<void> | void; // TODO: stick to SYNC / ASYNC
+	live: (endpoints: string[]) => Promise<void> | void; // TODO: stick to SYNC / ASYNC
 	device: {
 		deregister: () => Promise<void>;
 		register: () => Promise<

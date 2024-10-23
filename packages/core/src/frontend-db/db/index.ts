@@ -16,8 +16,8 @@ import { deregister } from './device/deregister.js';
 import { subscribe } from './event/subscribe.js';
 import { unsubscribe } from './event/unsubscribe.js';
 import { sql } from './sql.js';
-import migrate from './schema/migrate.js';
-import getAvailableUpgrades from './schema/getAvailableUpgrades.js';
+import { migrate } from './schema/migrate.js';
+import { getAvailableUpgrades } from './schema/getAvailableUpgrades.js';
 import type { TableRecords } from '@/types/db-schema.js';
 
 export type Props = {
@@ -40,7 +40,7 @@ export default function clientDb(props: {
 	pubsub: PubsubAdapter;
 	dbSchema: Config['dbSchema'];
 	dbOpsAdapter: ClientDb_OpsAdapter;
-}): Omit<ClientDbAdapter, 'database' | '__brand'> {
+}): Omit<ClientDbAdapter, '__brand'> {
 	const { dbOpsAdapter: database, pubsub, dbSchema, apiBaseUrl } = props;
 
 	if (pubsub.__brand !== 'LETSYNC_PUBSUB_FRONTEND')
@@ -62,7 +62,8 @@ export default function clientDb(props: {
 				TableRecords['Metadata']
 			>`SELECT * FROM metadata WHERE name = ${name}`;
 			// TODO - What if multiple records are found in NoSQL databases?
-			const content = record.rows[0].content;
+			const content = record.rows[0]?.content;
+			if (!content) return null;
 			return JSON.parse(content);
 		},
 	} satisfies Props['metadata'];

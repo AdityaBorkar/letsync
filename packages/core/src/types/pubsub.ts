@@ -26,7 +26,7 @@ export type Letsync_PubSub_Backend = {
 	secret: string;
 	publish: PublishFn;
 	subscribe: SubscribeFn;
-	AuthFn: (token: string) => Promise<{
+	authFn: (token: string) => Promise<{
 		subscribe: string[];
 		publish: string[];
 	}>;

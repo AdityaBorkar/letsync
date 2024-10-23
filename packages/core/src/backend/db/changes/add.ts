@@ -7,4 +7,5 @@ export default async function changesAdd(params: Params) {
 	const response = {
 		ack: true,
 	};
+	return response;
 }

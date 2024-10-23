@@ -16,15 +16,12 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          
+
       - name: Setup
-        uses: AdityaBorkar/letsync/.github/workflows/init.yml
-      
+        uses: ./.github/workflows/init.yaml
+       
       - name: Print Environment Info
         run: bun nx report
-        shell: bash
 
       # - name: Publish packages
       #   run: bun nx release publish

@@ -10,21 +10,23 @@
 		"lint:knip": "knip",
 		"lint:cspell": "cspell lint .",
 		"lint:md": "markdownlint \"**/*.md\" --ignore \"**/node_modules/**\" --disable MD010 MD013",
-		"build": "nx run-many --target=build",
-		"release": "nx release --dry-run",
-		"check-for-updates": "bun upgrade --dry-run && bun outdated"
+		"typecheck": "nx run-many --target=typecheck",
+		"build": "nx run-many --target=build --projects=packages/*,website",
+		"test:actions": "gh act -P ubuntu-latest=-self-hosted -W \"./.github/workflows/release.yml\" | grep --color=always -v '::'"
 	},
-	"trustedDependencies": ["@biomejs/biome", "nx", "sharp"],
+	"trustedDependencies": ["@biomejs/biome", "esbuild", "nx", "sharp"],
 	"dependencies": {
 		"@biomejs/biome": "^1.9.4",
 		"@nx/js": "20.0.3",
+		"@types/node": "^22.7.9",
 		"commitizen": "^4.3.1",
 		"cspell": "^8.15.4",
 		"cz-conventional-changelog": "^3.3.0",
 		"knip": "^5.33.3",
 		"markdownlint": "^0.35.0",
 		"markdownlint-cli": "^0.42.0",
-		"nx": "20.0.3"
+		"nx": "20.0.3",
+		"typescript": "^5.6.3"
 	},
 	"config": {
 		"commitizen": {

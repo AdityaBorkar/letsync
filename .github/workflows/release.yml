@@ -1,0 +1,93 @@
+name: Release
+
+on:
+  push:
+    branches: [stable, staging]
+  pull_request:
+    branches: [stable, staging]
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup
+        uses: ./.github/workflows/common
+
+      - name: Format, Lint, and Check
+        run: |
+          bun run format
+          bun run lint:code
+          bun run lint:md
+          bun run lint:cspell
+          bun run lint:knip
+
+      - name: Commit changes if any
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add .
+          git diff --quiet && git diff --staged --quiet || git commit -m "refactor: format and lint"
+
+      - name: Build Packages
+        run: |
+          bun tsc --noEmit
+          bun run build
+
+      # - name: Release
+      #   if: github.event_name == 'push' && (github.ref == 'refs/heads/stable' || github.ref == 'refs/heads/staging')
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   run: |
+      #     git add .
+      #     git commit -m "chore(release): {version}"
+      #     bun nx release --dry-run
+
+  release-check:
+    name: Release Check
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup
+        uses: ./.github/workflows/common
+
+      - name: Format, Lint, and Check
+        run: |
+          bun run format --reporter markdown
+          bun run lint:code --reporter markdown
+          bun run lint:md --reporter markdown
+          bun run lint:cspell --reporter markdown
+          bun run lint:knip --reporter markdown
+          report check results in github comment
+
+      - name: Commit changes if any
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add .
+          git diff --quiet && git diff --staged --quiet || git commit -m "refactor: format and lint"
+
+      - name: Build Packages
+        run: |
+          bun tsc --noEmit
+          bun run build
+
+      # - name: Release
+      #   if: github.event_name == 'push' && (github.ref == 'refs/heads/stable' || github.ref == 'refs/heads/staging')
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   run: |
+      #     git add .
+      #     git commit -m "chore(release): {version}"
+      #     bun nx release

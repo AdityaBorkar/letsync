@@ -33,6 +33,7 @@ export default async function initialize({
 	const schemaUpgrades = await database.schema.getAvailableUpgrades();
 	if (schemaUpgrades.length > 0 && onInitUpgradeSchemaToLatest) {
 		const latestSchema = schemaUpgrades[schemaUpgrades.length - 1];
+		if (!latestSchema) throw new Error('Error fetching latest schema');
 		await database.schema.migrate(latestSchema);
 	}
 

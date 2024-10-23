@@ -5,4 +5,5 @@ export default async function cacheDelete(params: Params) {
 	console.log('cacheDelete REQUEST RECEIVED WITH BODY: ', input);
 
 	const response = { ack: true };
+	return response;
 }

@@ -1,5 +1,6 @@
 ---
 import { getCollection, render } from 'astro:content';
+import RefLayout from '@/layouts/documentation/RefLayout.astro';
 
 // TODO - AUTO GENERATE REFERENCE PAGES ACCORDING TO THE JSDOCS
 
@@ -48,7 +49,10 @@ const navigation = [
 						{label}
 					</div>
 					{items.map((item) => (
-						<a href={item.href} class="py-1 px-4 rounded-md hover:bg-gray-800">
+						<a
+							href={item.href}
+							class="py-1 px-4 rounded-md hover:bg-gray-800"
+						>
 							{item.label}
 						</a>
 					))}

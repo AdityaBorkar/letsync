@@ -14,6 +14,7 @@ export default function LetsyncSyncExtension({
 	return {
 		name: 'Letsync Sync',
 		async setup(pg: PGliteInterface) {
+			console.log({ pg });
 			return {
 				// init: () => initialize({ pg, schema: config.dbSchema }),
 				namespaceObj: { config, pubsub },

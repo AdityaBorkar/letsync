@@ -5,4 +5,5 @@ export default async function deviceUnregister(params: Params) {
 	console.log('deviceUnregister REQUEST RECEIVED WITH BODY: ', input);
 	// TODO - TERMINATE PUBSUB CONNECTION
 	const response = { ack: true };
+	return response;
 }

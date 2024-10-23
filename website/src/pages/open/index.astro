@@ -1,4 +1,6 @@
 ---
+import MarketingLayout from '@/layouts/MarketingLayout.astro';
+
 const lastUpdated = new Date('2024-02-20');
 
 Astro.redirect('/');
@@ -20,13 +22,16 @@ Astro.redirect('/');
 			class="text-lg text-gray-400 hover:text-gray-300 transition-all mt-16 max-w-[40rem] ml-auto"
 		>
 			Any Startup that shares its metrics as open as technically and
-			operationally possible is an Open Startup. We are inspired by existing
-			open startups like Cal and Buffer to be more transparent and share more
-			information about our company. This page still a work in progress and we
-			will continue to update it and make it more transparent.
+			operationally possible is an Open Startup. We are inspired by
+			existing open startups like Cal and Buffer to be more transparent
+			and share more information about our company. This page still a work
+			in progress and we will continue to update it and make it more
+			transparent.
 		</p>
 
-		<div class="bottom-16 absolute w-full text-center text-base text-gray-400">
+		<div
+			class="bottom-16 absolute w-full text-center text-base text-gray-400"
+		>
 			Scroll Below
 		</div>
 	</section>
@@ -34,35 +39,37 @@ Astro.redirect('/');
 	<section>
 		<h2 class="text-3xl mt-32 mb-8 font-bold">Our Team</h2>
 		<p>
-			We use: PostgreSQL to store our data Jitsu.com to track telemetry and
-			anonymized events Metabase.com to run queries and show the graphs
-			Stripe.com to collect money Orbit.love for community analytics AskGit.com
-			to receive GitHub analytics Airtable.com to store static information
-			SyncInc.so to sync our Airtable (and soon Stripe) into a dedicated
-			PostgreSQL which connects to Metabase For example, we’re planning to show
-			our Stripe data in Metabase but it’s a real PITA to get it done correctly
-			and we have fires of higher priority to put out first. Everything revenue,
-			retention, churn is likely launching before December 2021! Pinky promise.
+			We use: PostgreSQL to store our data Jitsu.com to track telemetry
+			and anonymized events Metabase.com to run queries and show the
+			graphs Stripe.com to collect money Orbit.love for community
+			analytics AskGit.com to receive GitHub analytics Airtable.com to
+			store static information SyncInc.so to sync our Airtable (and soon
+			Stripe) into a dedicated PostgreSQL which connects to Metabase For
+			example, we’re planning to show our Stripe data in Metabase but it’s
+			a real PITA to get it done correctly and we have fires of higher
+			priority to put out first. Everything revenue, retention, churn is
+			likely launching before December 2021! Pinky promise.
 		</p>
 		<h2>Team Members</h2>
 		<div>
-			Name, Title, Joined, Residency, Salary, Compared to Bay Area, Compared to
-			[Your Country]
+			Name, Title, Joined, Residency, Salary, Compared to Bay Area,
+			Compared to [Your Country]
 		</div>
 	</section>
 
 	<section>
 		<h2 class="text-3xl mt-32 mb-8 font-bold">Our Tech Stack</h2>
 		<p>
-			We use: PostgreSQL to store our data Jitsu.com to track telemetry and
-			anonymized events Metabase.com to run queries and show the graphs
-			Stripe.com to collect money Orbit.love for community analytics AskGit.com
-			to receive GitHub analytics Airtable.com to store static information
-			SyncInc.so to sync our Airtable (and soon Stripe) into a dedicated
-			PostgreSQL which connects to Metabase For example, we’re planning to show
-			our Stripe data in Metabase but it’s a real PITA to get it done correctly
-			and we have fires of higher priority to put out first. Everything revenue,
-			retention, churn is likely launching before December 2021! Pinky promise.
+			We use: PostgreSQL to store our data Jitsu.com to track telemetry
+			and anonymized events Metabase.com to run queries and show the
+			graphs Stripe.com to collect money Orbit.love for community
+			analytics AskGit.com to receive GitHub analytics Airtable.com to
+			store static information SyncInc.so to sync our Airtable (and soon
+			Stripe) into a dedicated PostgreSQL which connects to Metabase For
+			example, we’re planning to show our Stripe data in Metabase but it’s
+			a real PITA to get it done correctly and we have fires of higher
+			priority to put out first. Everything revenue, retention, churn is
+			likely launching before December 2021! Pinky promise.
 		</p>
 	</section>
 
@@ -78,8 +85,8 @@ Astro.redirect('/');
 
 		<h3 class="text-2xl mt-16 mb-4 font-bold">GitHub / Software Metrics</h3>
 		<div>
-			GitHub - Monthly New Stars + Cumulative Stars, New Issues + Cumulative
-			Issues, merged Pull Requests,
+			GitHub - Monthly New Stars + Cumulative Stars, New Issues +
+			Cumulative Issues, merged Pull Requests,
 			<div>List of Contributers</div>
 		</div>
 

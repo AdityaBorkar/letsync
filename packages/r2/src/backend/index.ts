@@ -4,9 +4,9 @@ import {
 } from '@aws-sdk/client-iot-data-plane';
 
 import type { Letsync_PubSub_Backend } from '@letsync/core';
-import Authorizer from './authorizer.js';
+import { PubSubAuthorizer } from './authorizer.js';
 
-export default function PubSub_Backend({
+export function PubSub({
 	prefix,
 	secret,
 }: {
@@ -27,12 +27,13 @@ export default function PubSub_Backend({
 			topic: `${prefix}/letsync/${topic}`,
 		});
 		const response = await client.send(command);
+		console.log({ response });
 	}
 
 	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 	async function subscribe(topic: string, callback: (data: any) => void) {
 		// TODO - WRITE THIS CODE
-		console.log({ prefix });
+		console.log({ prefix, topic, callback });
 		throw new Error('Not implemented. Contact maintainers.');
 		// server.subscribe("src/subscriber.handler", {
 		// 	filter: `${$app.name}/${$app.stage}/chat/room1`,
@@ -41,7 +42,7 @@ export default function PubSub_Backend({
 
 	return {
 		__brand: 'LETSYNC_PUBSUB_BACKEND',
-		AuthFn: Authorizer({ prefix, secret }),
+		authFn: PubSubAuthorizer({ prefix, secret }),
 		subscribe,
 		publish,
 		secret,

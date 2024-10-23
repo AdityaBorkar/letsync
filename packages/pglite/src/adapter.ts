@@ -67,5 +67,6 @@ export default function useDatabaseAdapter<DT extends PGlite>(props: {
 		apiBaseUrl: API_BASE_URL,
 	});
 
+	// @ts-expect-error
 	return { __brand: 'LETSYNC_CLIENT_DATABASE', ...methods };
 }

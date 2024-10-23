@@ -7,7 +7,6 @@ export default async function databaseInit(params: Params) {
 
 	console.log('databaseInit REQUEST RECEIVED WITH BODY: ', input);
 
-	const response = {
-		ack: true,
-	};
+	const response = { ack: true };
+	return response;
 }
