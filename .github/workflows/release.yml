@@ -1,4 +1,4 @@
-name: Release Packages and Deployments
+name: Release
 
 on:
   # push:
@@ -8,7 +8,7 @@ on:
 
 jobs:
   release:
-    name: Release Job
+    name: Release Packages and Deployments
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
