@@ -4,5 +4,6 @@
 	"editor.formatOnSave": true,
 	"editor.rulers": [80],
 	"typescript.tsdk": "node_modules/typescript/lib",
-	"git.enableCommitSigning": true
+	"git.enableCommitSigning": true,
+	"git.useEditorAsCommitInput": false
 }
