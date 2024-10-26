@@ -64,7 +64,7 @@ jobs:
       - name: Import GPG key
         uses: crazy-max/ghaction-import-gpg@v6
         with:
-          passphrase: ${{ secrets.GPG_PASSPHRASE }}
+          passphrase: ${{ secrets.PASSPHRASE }}
           gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
           git_config_global: true
           git_commit_gpgsign: true
@@ -79,9 +79,10 @@ jobs:
           if [ -n "$(git status --porcelain)" ]; then
             git add .
             git commit -S -m "chore: automated changes by github actions" || echo "No changes to commit"
-            git pull --rebase origin ${{ github.head_ref }}
-            git push --force-with-lease origin HEAD:${{ github.head_ref }}
+            git push origin HEAD:${{ github.head_ref }}
           fi
+        # git pull --rebase origin ${{ github.head_ref }}
+        # git push --force-with-lease origin HEAD:${{ github.head_ref }}
       
       - name: Comment on PR
         if: github.event_name == 'pull_request'
