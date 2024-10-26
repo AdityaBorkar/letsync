@@ -12,5 +12,5 @@
 			"entry": "src/index.ts"
 		}
 	},
-	"ignoreWorkspaces": ["website/**"]
+	"ignoreWorkspaces": ["www/**"]
 }

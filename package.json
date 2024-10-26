@@ -1,7 +1,7 @@
 {
 	"name": "letsync",
 	"license": "MIT",
-	"workspaces": ["website/", "packages/*", "examples/*"],
+	"workspaces": ["www/", "packages/*", "examples/*"],
 	"scripts": {
 		"dev": "nx run dev",
 		"commit": "git add . && cz",
@@ -11,7 +11,7 @@
 		"lint:cspell": "cspell lint .",
 		"lint:md": "markdownlint \"**/*.md\" --ignore \"**/node_modules/**\" --disable MD010 MD013",
 		"typecheck": "nx run-many --target=typecheck",
-		"build": "nx run-many --target=build --projects=packages/*,website",
+		"build": "nx run-many --target=build --projects=packages/*,www",
 		"test:actions": "gh act -P ubuntu-latest=-self-hosted -W \"./.github/workflows/release.yml\" | grep --color=always -v '::'"
 	},
 	"trustedDependencies": ["@biomejs/biome", "esbuild", "nx", "sharp"],

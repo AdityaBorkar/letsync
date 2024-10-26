@@ -2,9 +2,9 @@ name: Release
 
 on:
   push:
-    branches: [stable, staging]
+    branches: [stable, staging, development]
   pull_request:
-    branches: [stable, staging]
+    branches: [stable, staging, development]
 
 jobs:
   release:
@@ -112,12 +112,16 @@ jobs:
     
       - name: Build Packages
         if: github.event_name == 'push'
-        run: bun run build
+        run: |
+          bun nx reset
+          bun run build
+        # Print docs
+        
         # check docs is written + lint them
         # docs codegen
 
       # - name: Release
-      #   if: github.event_name == 'push' && (github.ref == 'refs/heads/stable' || github.ref == 'refs/heads/staging')
+      #   if: github.event_name == 'push'
       #   env:
       #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       #   run: |
