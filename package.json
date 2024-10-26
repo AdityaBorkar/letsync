@@ -9,10 +9,10 @@
 		"lint:code": "bun biome lint",
 		"lint:knip": "knip",
 		"lint:cspell": "cspell lint .",
-		"lint:md": "markdownlint \"**/*.md\" --ignore \"**/node_modules/**\" --disable MD010 MD013",
+		"lint:md": "markdownlint \"**/*.md\" --disable MD010 MD013 --ignore \"**/node_modules/**\"",
 		"typecheck": "nx run-many --target=typecheck",
 		"build": "nx run-many --target=build --projects=packages/*,www",
-		"test:actions": "gh act -P ubuntu-latest=-self-hosted -W \"./.github/workflows/release.yml\" | grep --color=always -v '::'"
+		"test:actions": "gh act -P ubuntu-latest=-self-hosted -W \"./.github/workflows/lint-pr.yml\" | grep --color=always -v '::'"
 	},
 	"trustedDependencies": ["@biomejs/biome", "esbuild", "nx", "sharp"],
 	"dependencies": {

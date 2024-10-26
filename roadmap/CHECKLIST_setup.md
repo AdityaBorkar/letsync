@@ -28,3 +28,5 @@
 - [ ] What if someone has to edit only one subfolder, should we run commands only for that subfolder?
 
 - Support for git "staged changes"
+
+- [fix it](https://github.com/amannn/action-semantic-pull-request/issues?q=Resource+not+accessible+by+integration)
