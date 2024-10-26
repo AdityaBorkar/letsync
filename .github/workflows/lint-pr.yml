@@ -1,0 +1,14 @@
+name: Release
+
+on:
+    pull_request:
+        branches: [stable, staging]
+
+
+jobs:
+  lint-pr:
+    name: Lint PR
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
