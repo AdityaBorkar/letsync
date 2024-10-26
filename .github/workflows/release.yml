@@ -122,7 +122,6 @@ jobs:
           bun nx reset
           bun run build
         # Print docs
-
         # check docs is written + lint them
         # docs codegen
 

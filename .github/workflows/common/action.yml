@@ -20,7 +20,6 @@ runs:
     - name: Upgrade Bun
       run: bun upgrade
       shell: bash
-      
   # Always running on the latest version is not a good idea. Changes to bun shall directly affect the pipeline.
   # We will revisit this during migration to Deno 2 LTS
     
