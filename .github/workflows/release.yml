@@ -24,31 +24,37 @@ jobs:
       - id: format-code
         name: Format Code
         run: bun run format
+        shell: bash
         continue-on-error: true
 
       - id: lint-code
         name: Lint Code
         run: bun run lint:code
+        shell: bash
         continue-on-error: true
 
       - id: lint-markdown
         name: Lint Markdown
         run: bun run lint:md
+        shell: bash
         continue-on-error: true
 
       - id: lint-spelling
         name: Lint Spelling
         run: bun run lint:cspell
+        shell: bash
         continue-on-error: true
 
       - id: lint-knip
         name: Lint Knip
         run: bun run lint:knip --reporter markdown
+        shell: bash
         continue-on-error: true
 
       - id: check-types
         name: Check Types
         run: bun tsc --noEmit
+        shell: bash
         continue-on-error: true
 
       - name: Commit changes if any
@@ -116,7 +122,7 @@ jobs:
           bun nx reset
           bun run build
         # Print docs
-        
+
         # check docs is written + lint them
         # docs codegen
 
