@@ -12,7 +12,7 @@
 		"lint:md": "markdownlint \"**/*.md\" --ignore \"**/node_modules/**\" --disable MD010 MD013",
 		"typecheck": "nx run-many --target=typecheck",
 		"build": "nx run-many --target=build --projects=packages/*,www",
-		"test:actions": "gh act -P ubuntu-latest=-self-hosted -W \"./.github/workflows/release.yml\" | grep --color=always -v '::'"
+		"test:actions": "gh act -P ubuntu-latest=-self-hosted -W \"./.github/workflows/lint-pr.yml\" | grep --color=always -v '::'"
 	},
 	"trustedDependencies": ["@biomejs/biome", "esbuild", "nx", "sharp"],
 	"dependencies": {
