@@ -1,12 +1,14 @@
 name: "Lint PR Title"
 
 on:
-    pull_request_target:
-        types:
-          - opened
-          - edited
-          - synchronize
-          - reopened
+    pull_request:
+      branches:
+        - '**'
+      types:
+        - opened
+        - edited
+        - synchronize
+        - reopened
 
 permissions:
   pull-requests: read
