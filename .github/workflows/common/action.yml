@@ -1,4 +1,4 @@
-name: 'Hello World'
+name: 'Setup Repository'
 
 runs:
   using: "composite"

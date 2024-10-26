@@ -1,7 +1,7 @@
-name: "Lint PR Title"
+name: Lint PR Title
 
 on:
-    pull_request:
+    pull_request_target:
       branches:
         - '**'
       types:
@@ -12,6 +12,7 @@ on:
 
 permissions:
   pull-requests: read
+  statuses: write
 
 jobs:
   main:

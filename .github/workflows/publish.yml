@@ -1,4 +1,4 @@
-name: Publish Release
+name: Publish Packages and Deployments
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
 
 jobs:
   publish:
-    name: Publish
+    name: Publish Job
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
