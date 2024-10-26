@@ -6,6 +6,10 @@ on:
   pull_request:
     branches: [stable, next, development]
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.sha }}
+  cancel-in-progress: true
+
 jobs:
   release:
     name: Release Packages and Deployments
@@ -75,7 +79,8 @@ jobs:
           if [ -n "$(git status --porcelain)" ]; then
             git add .
             git commit -S -m "chore: automated changes by github actions" || echo "No changes to commit"
-            git push origin HEAD:${{ github.head_ref }}
+            git pull --rebase origin ${{ github.head_ref }}
+            git push --force-with-lease origin HEAD:${{ github.head_ref }}
           fi
       
       - name: Comment on PR
