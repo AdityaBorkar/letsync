@@ -1,1 +1,1 @@
-export { default as clientDb } from "./db/index.js";
+export { default as clientDb } from './db/index.js';

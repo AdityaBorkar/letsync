@@ -8,4 +8,5 @@ type UnsubscribeProps = {
 
 export async function unsubscribe(props: UnsubscribeProps, superProps: Props) {
 	// ...
+	console.log({ props, superProps });
 }

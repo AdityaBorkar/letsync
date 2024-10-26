@@ -1,0 +1,130 @@
+name: Release
+
+on:
+  push:
+    branches: [stable, staging, development]
+  pull_request:
+    branches: [stable, staging, development]
+
+jobs:
+  release:
+    name: Release Job
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+      issues: write
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Repository
+        uses: ./.github/workflows/common
+
+      - id: format-code
+        name: Format Code
+        run: bun run format
+        continue-on-error: true
+
+      - id: lint-code
+        name: Lint Code
+        run: bun run lint:code
+        continue-on-error: true
+
+      - id: lint-markdown
+        name: Lint Markdown
+        run: bun run lint:md
+        continue-on-error: true
+
+      - id: lint-spelling
+        name: Lint Spelling
+        run: bun run lint:cspell
+        continue-on-error: true
+
+      - id: lint-knip
+        name: Lint Knip
+        run: bun run lint:knip --reporter markdown
+        continue-on-error: true
+
+      - id: check-types
+        name: Check Types
+        run: bun tsc --noEmit
+        continue-on-error: true
+
+      - name: Commit changes if any
+        if: github.event_name == 'pull_request'
+        run: |
+            git config --local user.email "action@github.com"
+            git config --local user.name "GitHub Action"
+            git add .
+            git diff --quiet && git diff --staged --quiet || git commit -m "refactor: format and lint"
+            git push origin HEAD:${{ github.head_ref }}
+      
+      - name: Comment on PR
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const { context, github } = require('@actions/github');
+            const issue_number = context.payload.pull_request.number;
+
+            const codeOutput = context.steps['lint-code'].outcome === 'success' 
+              ? 'Linting passed successfully.'
+              : `Linting failed. Output:\n\n${context.steps['lint-code'].outputs.stdout}`;
+
+            const lintMdOutput = context.steps['lint-markdown'].outcome === 'success' 
+              ? 'Markdown linting passed successfully.'
+              : `Markdown linting failed. Output:\n\n${context.steps['lint-markdown'].outputs.stdout}`;
+
+            const cspellOutput = context.steps['lint-cspell'].outcome === 'success' 
+              ? 'Cspell linting passed successfully.'
+              : `Cspell linting failed. Output:\n\n${context.steps['lint-cspell'].outputs.stdout}`;
+
+            const knipOutput = context.steps['lint-knip'].outcome === 'success' 
+              ? 'Knip linting passed successfully.'
+              : `Knip linting failed. Output:\n\n${context.steps['lint-knip'].outputs.stdout}`;
+
+
+            const body = `
+            ## Formatting
+
+            Done.
+            
+            ## Linting
+
+            ### Code
+
+            ${codeOutput}
+
+            ### Markdown
+
+            ${lintMdOutput}
+
+            ### Cspell
+
+            ${cspellOutput}
+
+            ### Knip
+
+            ${knipOutput}
+            `;
+            
+            await github.rest.issues.createComment({ ...context.repo, issue_number, body });
+    
+      - name: Build Packages
+        if: github.event_name == 'push'
+        run: |
+          bun nx reset
+          bun run build
+        # Print docs
+        
+        # check docs is written + lint them
+        # docs codegen
+
+      # - name: Release
+      #   if: github.event_name == 'push'
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   run: |
+      #     git add .
+      #     git commit -m "chore(release): {version}"
+      #     bun nx release --dry-run

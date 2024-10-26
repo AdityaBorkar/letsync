@@ -1,6 +1,6 @@
-import type { Extension, PGliteInterface } from "@electric-sql/pglite";
+import type { Extension, PGliteInterface } from '@electric-sql/pglite';
 
-import type { Letsync_PubSub_Frontend, Letsync_Config } from "@letsync/core";
+import type { Letsync_PubSub_Frontend, Letsync_Config } from '@letsync/core';
 
 // import initialize from "@letsync/core/src/frontend/db/functions/initialize.js";
 
@@ -12,8 +12,9 @@ export default function LetsyncSyncExtension({
 	config: Letsync_Config;
 }): Extension {
 	return {
-		name: "Letsync Sync",
+		name: 'Letsync Sync',
 		async setup(pg: PGliteInterface) {
+			console.log({ pg });
 			return {
 				// init: () => initialize({ pg, schema: config.dbSchema }),
 				namespaceObj: { config, pubsub },

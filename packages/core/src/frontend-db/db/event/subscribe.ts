@@ -8,4 +8,5 @@ type SubscribeProps = {
 
 export async function subscribe(props: SubscribeProps, superProps: Props) {
 	// ...
+	console.log({ props, superProps });
 }

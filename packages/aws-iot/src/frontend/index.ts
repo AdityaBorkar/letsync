@@ -29,7 +29,7 @@ export function PubSub(props: {
 			});
 		}
 
-		function publish(
+		async function publish(
 			topic: string,
 			payload: {
 				// biome-ignore lint/suspicious/noExplicitAny: <explanation>

@@ -6,7 +6,6 @@
 		"esModuleInterop": true,
 		"module": "NodeNext",
 		"moduleResolution": "NodeNext",
-		"noEmit": true,
 		"isolatedModules": true,
 		"resolveJsonModule": true,
 		"skipLibCheck": true,
@@ -22,5 +21,5 @@
 		"exactOptionalPropertyTypes": true,
 		"allowUnreachableCode": false,
 		"allowUnusedLabels": false
-	},
+	}
 }

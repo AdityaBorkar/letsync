@@ -1,18 +1,12 @@
 {
-  "extends": "../../tsconfig.json",
-  "include": [
-    "src/",
-  ],
-  "exclude": [
-    "lib"
-  ],
-  "compilerOptions": {
-    "baseUrl": ".",
-    "paths": {
-      "@/*": [
-        "src/*"
-      ]
-    },
-    "outDir": "lib"
-  }
+	"extends": "../../tsconfig.json",
+	"include": ["src/"],
+	"exclude": ["dist"],
+	"compilerOptions": {
+		"baseUrl": ".",
+		"paths": {
+			"@/*": ["src/*"]
+		},
+		"outDir": "dist"
+	}
 }

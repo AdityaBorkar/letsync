@@ -3,13 +3,16 @@
 	"files": {
 		"ignoreUnknown": false,
 		"ignore": [
-			".all-contributorsrc",
+			"**/lib/*",
+			"**/dist/*",
+			"**/.astro/*",
+			"**/coverage/*",
+			"**/CHANGELOG.md",
+			"**/node_modules/*",
 			".husky/",
-			"coverage/",
-			"pnpm-lock.yaml",
-			"CHANGELOG.md",
-			"lib/",
-			"node_modules/"
+			".nx/cache/",
+			".nx/workspace-data/",
+			".all-contributorsrc"
 		]
 	},
 	"formatter": {
@@ -26,7 +29,7 @@
 	"linter": {
 		"enabled": true,
 		"rules": {
-			"all": true
+			// "all": true
 		}
 		// https://github.com/gajus/eslint-plugin-jsdoc
 		// https://github.com/ota-meshi/eslint-plugin-yml
