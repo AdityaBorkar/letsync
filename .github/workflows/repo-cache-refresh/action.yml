@@ -38,12 +38,10 @@ runs:
 
     - name: Delete Cache (node_modules)
       if: steps.restore-cache.outputs.cache-hit == 'true'
-      steps:
-        - name: Delete Cache (node_modules)
-          run: |
-            gh extension install actions/gh-actions-cache
-            gh actions-cache delete "${{ runner.os }}-bun-${{ hashFiles('bun.lockb') }}" --confirm
-          shell: bash
+      run: |
+        gh extension install actions/gh-actions-cache
+        gh actions-cache delete "${{ runner.os }}-bun-${{ hashFiles('bun.lockb') }}" --confirm
+      shell: bash
 
     - name: Save Cache (node_modules)
       if: steps.restore-cache.outputs.cache-hit != 'true'
