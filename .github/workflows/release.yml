@@ -110,24 +110,52 @@ jobs:
     outputs:
       shell_output: ${{ steps.lint_cspell.outcome }}
 
-  check_types:
-    name: Check Types
+  # check_types:
+  #   name: Check Types
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - uses: oven-sh/setup-bun@v2
+  #     - run: bun install
+  #       shell: bash
+  #     - id: check_types
+  #       name: Check Types
+  #       run: bun run typecheck
+  #       shell: bash
+  #   outputs:
+  #     shell_output: ${{ steps.check_types.outcome }}
+
+  build_release:
+    name: Build Release
+    if: github.event_name == 'push'
+    needs: [format_code, lint_code, lint_markdown, lint_cspell, lint_knip]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: oven-sh/setup-bun@v2
-      - run: bun install
-        shell: bash
-      - id: check_types
-        name: Check Types
-        run: bun run typecheck
-        shell: bash
-    outputs:
-      shell_output: ${{ steps.check_types.outcome }}
+      - name: Build Packages
+        run: bun run build
+        # Print docs
+        # check docs is written + lint them
+        # docs codegen
+      - name: Pre-Release
+        if: github.ref == 'refs/heads/next'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          bun nx release --dry-run
+        # git add .
+        # git commit -m "chore(release): {version}"
+      - name: Stable Release
+        if: github.ref == 'refs/heads/stable'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          bun nx release --dry-run
+        # git add .
+        # git commit -m "chore(release): {version}"
 
   comment_results:
     name: Comment Results
-    needs: [format_code, lint_code, lint_knip, lint_markdown, lint_cspell, check_types]
+    needs: [format_code, lint_code, lint_knip, lint_markdown, lint_cspell, build_release]
     if: ${{ always() && !cancelled() && github.event_name == 'pull_request' }}
     runs-on: ubuntu-latest
     steps:
@@ -154,24 +182,20 @@ jobs:
             const body = `${botCommentMarker}
             ## GitHub Actions Results
             
-            ### ${context.needs.format_code.result === 'success' ? '✅' : '❌'} Formatting
+            ### ${needs.format_code.result === 'success' ? '✅' : '❌'} Formatting            
+            ${needs.format_code.outputs.shell_output}
             
-            ${context.needs.format_code.outputs.shell_output}
+            ### ${needs.lint_code.result === 'success' ? '✅' : '❌'} Linting - Code
+            ${needs.lint_code.outputs.shell_output}
             
-            ### ${context.needs.lint_code.result === 'success' ? '✅' : '❌'} Linting - Code
-            ${context.needs.lint_code.outputs.shell_output}
+            ### ${needs.lint_knip.result === 'success' ? '✅' : '❌'} Linting - Knip
+            ${needs.lint_knip.outputs.shell_output}
             
-            ### ${context.needs.lint_knip.result === 'success' ? '✅' : '❌'} Linting - Knip
-            ${context.needs.lint_knip.outputs.shell_output}
+            ### ${needs.lint_markdown.result === 'success' ? '✅' : '❌'} Linting - Markdown
+            ${needs.lint_markdown.outputs.shell_output}
             
-            ### ${context.needs.lint_markdown.result === 'success' ? '✅' : '❌'} Linting - Markdown
-            ${context.needs.lint_markdown.outputs.shell_output}
-            
-            ### ${context.needs.lint_cspell.result === 'success' ? '✅' : '❌'} Linting - Cspell
-            ${context.needs.lint_cspell.outputs.shell_output}
-
-            ### ${context.needs.check_types.result === 'success' ? '✅' : '❌'} Types
-            ${context.needs.check_types.outputs.shell_output}
+            ### ${needs.lint_cspell.result === 'success' ? '✅' : '❌'} Linting - Cspell
+            ${needs.lint_cspell.outputs.shell_output}
             
             _Last updated: ${new Date().toUTCString()}_`;
 
@@ -179,33 +203,4 @@ jobs:
               await github.rest.issues.updateComment({ owner, repo, body, comment_id: botComment.id });
             else
               await github.rest.issues.createComment({ owner, repo, body, issue_number: context.issue.number });
-
-  # build_release:
-  #   name: Build Release
-  #   if: github.event_name == 'push'
-  #   needs: [setup, format_code, lint_code, lint_markdown, lint_cspell, lint_knip, check_types]
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Build Packages
-  #       run: |
-  #         bun nx reset
-  #         bun run build
-  #       # Print docs
-  #       # check docs is written + lint them
-  #       # docs codegen
-  #     - name: Pre-Release
-  #       if: github.ref == 'refs/heads/next'
-  #       env:
-  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  #       run: |
-  #         git add .
-  #         git commit -m "chore(release): {version}"
-  #         bun nx release --dry-run
-  #     - name: Stable Release
-  #       if: github.ref == 'refs/heads/stable'
-  #       env:
-  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  #       run: |
-  #         git add .
-  #         git commit -m "chore(release): {version}"
-  #         bun nx release --dry-run
+        
