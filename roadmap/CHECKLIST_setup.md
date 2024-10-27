@@ -32,3 +32,4 @@
     - No incremental builds
     - ! `typecheck` fails because there are no builds to link packages
   - Publish Workflow
+  - knip --fix

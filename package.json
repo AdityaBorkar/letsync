@@ -11,8 +11,7 @@
 		"lint:cspell": "cspell lint .",
 		"lint:md": "markdownlint \"**/*.md\" --disable MD010 MD013 --ignore \"**/node_modules/**\"",
 		"typecheck": "nx run-many --target=typecheck --projects=packages/*,www",
-		"build": "nx run-many --target=build --projects=packages/*,www",
-		"test:actions": "gh act -P ubuntu-latest=-self-hosted -W \"./.github/workflows/release.yml\" | grep --color=always -v '::'"
+		"build": "nx run-many --target=build --projects=packages/*,www"
 	},
 	"trustedDependencies": ["@biomejs/biome", "esbuild", "nx", "sharp"],
 	"dependencies": {
@@ -23,7 +22,6 @@
 		"cspell": "^8.15.4",
 		"cz-conventional-changelog": "^3.3.0",
 		"knip": "^5.33.3",
-		"markdownlint": "^0.35.0",
 		"markdownlint-cli": "^0.42.0",
 		"nx": "20.0.3",
 		"typescript": "^5.6.3"

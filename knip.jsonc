@@ -1,16 +1,11 @@
 {
-	"$schema": "https://unpkg.com/knip@latest/schema.json",
-	"ignoreExportsUsedInFile": {
-		"interface": true,
-		"type": true
-	},
+	"$schema": "https://unpkg.com/knip@latest/schema-jsonc.json",
 	"workspaces": {
-		"packages/*": {
-			"entry": "src/index.ts"
-		},
-		"examples/*": {
-			"entry": "src/index.ts"
+		"packages/**": {
+			"entry": "src/index.{ts,tsx}",
+			"project": "src/**/*.{ts,tsx}"
 		}
 	},
-	"ignoreWorkspaces": ["www/**"]
+	"ignoreWorkspaces": ["www/**"],
+	"ignore": ["www/src/env.d.ts", "boilerplate/**", "examples/**"]
 }

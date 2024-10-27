@@ -33,3 +33,6 @@ bin
 
 # typescript
 tsconfig.tsbuildinfo
+
+# TEMPORARY WORKAROUND FOR KNIP
+vitest.config.ts

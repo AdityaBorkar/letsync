@@ -29,13 +29,10 @@
 		"node": ">=18.3.0"
 	},
 	"devDependencies": {
-		"@types/jsonwebtoken": "^9.0.7",
 		"typescript": "^5.6.2"
 	},
 	"dependencies": {
-		"@paralleldrive/cuid2": "^2.2.2",
-		"@letsync/core": "workspace:^",
-		"jsonwebtoken": "^9.0.2"
+		"@letsync/core": "workspace:^"
 	},
 	"peerDependencies": {
 		"@letsync/core": "workspace:^",
