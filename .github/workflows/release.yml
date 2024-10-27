@@ -12,6 +12,9 @@ permissions:
   contents: write
   statuses: write
   issues: write
+  checks: write
+  pull-requests: write
+  packages: write
 
 jobs:
   format_code:
@@ -130,6 +133,10 @@ jobs:
     needs: [format_code, lint_code, lint_knip, lint_markdown, lint_cspell]
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - run: bun install
+        shell: bash
       - name: Build Packages
         id: build_packages_cmd
         run: bun run build
@@ -163,6 +170,10 @@ jobs:
     name: Comment Results
     needs: [format_code, lint_code, lint_knip, lint_markdown, lint_cspell, build]
     if: ${{ always() && !cancelled() && github.event_name == 'pull_request' }}
+    permissions:
+      contents: write
+      statuses: write
+      issues: write
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
