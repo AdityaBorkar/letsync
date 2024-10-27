@@ -1,46 +1,73 @@
 name: Release
 
 on:
-  # push:
-  #   branches: [stable, next, development]
   pull_request:
-    branches: [stable, next, development]
+    branches: [stable, next]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.sha }}
   cancel-in-progress: true
 
+permissions:
+  contents: write
+  statuses: write
+  issues: write
+
 jobs:
   setup:
     name: Setup Repository
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
     steps:
-      - uses: ./.github/workflows/common
+      - uses: actions/checkout@v4
+      - uses: ./.github/workflows/setup-repo
 
   format_code:
     name: Format Code
     needs: setup
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      issues: write
+    continue-on-error: true
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/workflows/get-repo-cache
-      - id: lint-code
-        name: Lint Code
-        run: bun run lint:code
+      - id: format_code
+        name: Format Code
+        run: bun run format
         shell: bash
+      - name: Import GPG key
+        uses: crazy-max/ghaction-import-gpg@v6
+        with:
+          passphrase: ${{ secrets.GPG_PASSPHRASE }}
+          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
+          git_config_global: true
+          git_commit_gpgsign: true
+          git_committer_name: "GitHub Actions Bot"
+          git_committer_email: "aditya.borkar.programs+github.actions@gmail.com"
+          git_push_gpgsign: false
+          git_tag_gpgsign: true
+          git_user_signingkey: true
+      - name: Commit changes (if any)
+        if: github.event_name == 'pull_request'
+        run: |
+          if [ -n "$(git status --porcelain)" ]; then
+            git add .
+            git commit -S -m "chore: automated changes by github actions" || echo "No changes to commit"
+            git pull --rebase origin ${{ github.head_ref }}
+            git push --force-with-lease origin HEAD:${{ github.head_ref }}
+          fi
+      - uses: ./.github/workflows/update-status
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          isSuccess: ${{ steps.format_code.outcome == 'success' }}
+          successMsg: 'Code formatting passed successfully.'
+          failureMsg: 'Code formatting failed.'
+    outputs:
+      shell_output: ${{ steps.format_code.outcome }}
 
   lint_code:
     name: Lint Code
     needs: setup
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      issues: write
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/workflows/get-repo-cache
@@ -48,14 +75,21 @@ jobs:
         name: Lint Code
         run: bun run lint:code
         shell: bash
+        continue-on-error: true
+      - uses: ./.github/workflows/update-status
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          isSuccess: ${{ steps.lint_code.outcome == 'success' }}
+          successMsg: 'Code linting passed successfully.'
+          failureMsg: 'Code linting failed.'
+    outputs:
+      shell_output: ${{ steps.lint_code.outcome }}
 
   lint_knip:
     name: Lint Knip
     needs: setup
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      issues: write
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/workflows/get-repo-cache
@@ -63,14 +97,21 @@ jobs:
         name: Lint Knip
         run: bun run lint:knip --reporter markdown
         shell: bash
+        continue-on-error: true
+      - uses: ./.github/workflows/update-status
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          isSuccess: ${{ steps.lint_knip.outcome == 'success' }}
+          successMsg: 'Knip linting passed successfully.'
+          failureMsg: 'Knip linting failed.'
+    outputs:
+      shell_output: ${{ steps.lint_knip.outcome }}
 
   lint_markdown:
     name: Lint Markdown
     needs: setup
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      issues: write
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/workflows/get-repo-cache
@@ -78,14 +119,21 @@ jobs:
         name: Lint Markdown
         run: bun run lint:md
         shell: bash
+        continue-on-error: true
+      - uses: ./.github/workflows/update-status
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          isSuccess: ${{ steps.lint_markdown.outcome == 'success' }}
+          successMsg: 'Markdown linting passed successfully.'
+          failureMsg: 'Markdown linting failed.'
+    outputs:
+      shell_output: ${{ steps.lint_markdown.outcome }}
 
   lint_cspell:
     name: Lint CSpell
     needs: setup
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      issues: write
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/workflows/get-repo-cache
@@ -93,14 +141,21 @@ jobs:
         name: Lint CSpell
         run: bun run lint:cspell
         shell: bash
+        continue-on-error: true
+      - uses: ./.github/workflows/update-status
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          isSuccess: ${{ steps.lint_cspell.outcome == 'success' }}
+          successMsg: 'Cspell linting passed successfully.'
+          failureMsg: 'Cspell linting failed.'
+    outputs:
+      shell_output: ${{ steps.lint_cspell.outcome }}
 
   check_types:
     name: Check Types
     needs: setup
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      issues: write
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/workflows/get-repo-cache
@@ -108,99 +163,98 @@ jobs:
         name: Check Types
         run: bun tsc --noEmit
         shell: bash
+        continue-on-error: true
+      - uses: ./.github/workflows/update-status
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          isSuccess: ${{ steps.check_types.outcome == 'success' }}
+          successMsg: 'Type checking passed successfully.'
+          failureMsg: 'Type checking failed.'
+    outputs:
+      shell_output: ${{ steps.check_types.outcome }}
 
-      # - name: Import GPG key
-      #   uses: crazy-max/ghaction-import-gpg@v6
-      #   with:
-      #     passphrase: ${{ secrets.GPG_PASSPHRASE }}
-      #     gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
-      #     git_config_global: true
-      #     git_commit_gpgsign: true
-      #     git_committer_name: "GitHub Actions Bot"
-      #     git_committer_email: "aditya.borkar.programs+github.actions@gmail.com"
-      #     git_push_gpgsign: false
-      #     git_tag_gpgsign: true
-      #     git_user_signingkey: true
+  comment_results:
+    name: Comment Results
+    if: github.event_name == 'pull_request'
+    needs: setup
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Comment on PR
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            const repo = context.repo.repo;
+            const owner = context.repo.owner;
+            const botCommentMarker = '<!-- PR-STATUS-COMMENT -->';+
 
-      # - name: Commit changes (if any)
-      #   if: github.event_name == 'pull_request'
-      #   run: |
-      #     if [ -n "$(git status --porcelain)" ]; then
-      #       git add .
-      #       git commit -S -m "chore: automated changes by github actions" || echo "No changes to commit"
-      #       git pull --rebase origin ${{ github.head_ref }}
-      #       git push --force-with-lease origin HEAD:${{ github.head_ref }}
-      #     fi
-      #   # git push origin HEAD:${{ github.head_ref }}
+            const comments = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+            });
+            const botComment = comments.data.find(comment => 
+              comment.body.includes(botCommentMarker)
+            );
+
+            const body = `${botCommentMarker}
+            ## GitHub Actions Results
             
-      # - name: Comment on PR
-      #   if: github.event_name == 'pull_request'
-      #   uses: actions/github-script@v7
-      #   with:
-      #     github-token: ${{secrets.GITHUB_TOKEN}}
-      #     script: |
-      #       github.rest.issues.createComment({
-      #         issue_number: context.issue.number,
-      #         owner: context.repo.owner,
-      #         repo: context.repo.repo,
-      #         body: `
-      #           ## Formatting
+            ### ${context.needs.format_code.result === 'success' ? '✅' : '❌'} Formatting
+            
+            ${context.needs.format_code.outputs.shell_output}
+            
+            ### ${context.needs.lint_code.result === 'success' ? '✅' : '❌'} Linting - Code
+            ${context.needs.lint_code.outputs.shell_output}
+            
+            ### ${context.needs.lint_knip.result === 'success' ? '✅' : '❌'} Linting - Knip
+            ${context.needs.lint_knip.outputs.shell_output}
+            
+            ### ${context.needs.lint_markdown.result === 'success' ? '✅' : '❌'} Linting - Markdown
+            ${context.needs.lint_markdown.outputs.shell_output}
+            
+            ### ${context.needs.lint_cspell.result === 'success' ? '✅' : '❌'} Linting - Cspell
+            ${context.needs.lint_cspell.outputs.shell_output}
 
-      #           ${context.steps['format-code'].outcome === 'success' 
-      #             ? 'Formatting done successfully.'
-      #             : `Formatting failed. Output:\n\n${context.steps['format-code'].outputs.stdout}`}
+            ### ${context.needs.check_types.result === 'success' ? '✅' : '❌'} Types
+            ${context.needs.check_types.outputs.shell_output}
+            
+            _Last updated: ${new Date().toUTCString()}_`;
 
-      #           ## Linting
+            if (botComment)
+              await github.rest.issues.updateComment({ owner, repo, body, comment_id: botComment.id });
+            else
+              await github.rest.issues.createComment({ owner, repo, body, issue_number: context.issue.number });
 
-      #           ### Code
-
-      #           ${context.steps['lint-code'].outcome === 'success' 
-      #             ? 'Linting passed successfully.'
-      #             : `Linting failed. Output:\n\n${context.steps['lint-code'].outputs.stdout}`}
-
-      #           ### Markdown
-
-      #           ${context.steps['lint-markdown'].outcome === 'success' 
-      #             ? 'Markdown linting passed successfully.'
-      #             : `Markdown linting failed. Output:\n\n${context.steps['lint-markdown'].outputs.stdout}`}
-
-      #           ### Cspell
-
-      #           ${context.steps['lint-cspell'].outcome === 'success' 
-      #             ? 'Cspell linting passed successfully.'
-      #             : `Cspell linting failed. Output:\n\n${context.steps['lint-cspell'].outputs.stdout}`}
-
-      #           ### Knip
-
-      #           ${context.steps['lint-knip'].outcome === 'success' 
-      #             ? 'Knip linting passed successfully.'
-      #             : `Knip linting failed. Output:\n\n${context.steps['lint-knip'].outputs.stdout}`}
-      #       `
-      #       })
-
-      # - name: Build Packages
-      #   if: github.event_name == 'push'
-      #   run: |
-      #     bun nx reset
-      #     bun run build
-      #   # Print docs
-      #   # check docs is written + lint them
-      #   # docs codegen
-
-      # - name: Pre-Release
-      #   if: github.ref == 'refs/heads/next'
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #   run: |
-      #     git add .
-      #     git commit -m "chore(release): {version}"
-      #     bun nx release --dry-run
-
-      # - name: Stable Release
-      #   if: github.ref == 'refs/heads/stable'
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #   run: |
-      #     git add .
-      #     git commit -m "chore(release): {version}"
-      #     bun nx release --dry-run
+  # build_release:
+  #   name: Build Release
+  #   if: github.event_name == 'push'
+  #   needs: [setup, format_code, lint_code, lint_markdown, lint_cspell, lint_knip, check_types]
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Build Packages
+  #       run: |
+  #         bun nx reset
+  #         bun run build
+  #       # Print docs
+  #       # check docs is written + lint them
+  #       # docs codegen
+  #     - name: Pre-Release
+  #       if: github.ref == 'refs/heads/next'
+  #       env:
+  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #       run: |
+  #         git add .
+  #         git commit -m "chore(release): {version}"
+  #         bun nx release --dry-run
+  #     - name: Stable Release
+  #       if: github.ref == 'refs/heads/stable'
+  #       env:
+  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #       run: |
+  #         git add .
+  #         git commit -m "chore(release): {version}"
+  #         bun nx release --dry-run

@@ -32,6 +32,7 @@ runs:
     
     # - name: Run postinstall scripts
     #   run: bun pm trust --all
+    #   continue-on-error: true
 
     - name: Save Cache (node_modules)
       uses: actions/cache/save@v4
