@@ -9,6 +9,7 @@ runs:
       with:
         path: |
           ~/.bun
-          ./node_modules
-        key: ${{ runner.OS }}-bun-${{ hashFiles('bun.lockb') }}
-        restore-keys: ${{ runner.OS }}-bun
+          **/node_modules
+          .nx/cache
+        key: ${{ runner.os }}-bun-${{ hashFiles('bun.lockb') }}
+        restore-keys: ${{ runner.os }}-bun

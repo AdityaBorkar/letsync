@@ -177,7 +177,7 @@ jobs:
   comment_results:
     name: Comment Results
     if: github.event_name == 'pull_request'
-    needs: setup
+    needs: [setup, format_code, lint_code, lint_knip, lint_markdown, lint_cspell, check_types]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -189,7 +189,7 @@ jobs:
           script: |
             const repo = context.repo.repo;
             const owner = context.repo.owner;
-            const botCommentMarker = '<!-- PR-STATUS-COMMENT -->';+
+            const botCommentMarker = '<!-- PR-STATUS-COMMENT -->';
 
             const comments = await github.rest.issues.listComments({
               owner: context.repo.owner,

@@ -9,10 +9,11 @@ runs:
       with:
         path: |
           ~/.bun
-          ./node_modules
-        key: ${{ runner.OS }}-bun-${{ hashFiles('bun.lockb') }}
-        restore-keys: ${{ runner.OS }}-bun
-      # TODO - Support nx cache
+          **/node_modules
+          .nx/cache
+        key: ${{ runner.os }}-bun-${{ hashFiles('bun.lockb') }}
+        restore-keys: |
+          ${{ runner.os }}-bun
 
     - name: Install Bun
       if: steps.restore-cache.outputs.cache-hit != 'true'
@@ -37,5 +38,8 @@ runs:
     - name: Save Cache (node_modules)
       uses: actions/cache/save@v4
       with:
-        path: ~/.bun
-        key: ${{ runner.OS }}-bun-${{ hashFiles('bun.lockb') }}
+        path: |
+          ~/.bun
+          **/node_modules
+          .nx/cache
+        key: ${{ runner.os }}-bun-${{ hashFiles('bun.lockb') }}

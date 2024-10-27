@@ -1,30 +1,33 @@
-name: 'Setup Repository'
+name: 'Update Status'
 
 inputs:
   isSuccess:
     description: 'Whether the status is success'
     required: true
+    type: boolean
   successMsg:
     description: 'The description of the status when it is success'
     required: true
+    type: string
   failureMsg:
     description: 'The description of the status when it is failure'
     required: true
+    type: string
 
 runs:
   using: "composite"
   steps:    
     - name: Set status
-        uses: actions/github-script@v7
-        with:
-          github-token: ${{secrets.GITHUB_TOKEN}}
-          script: |
-            const state = ${{ inputs.isSuccess }};
-            github.rest.repos.createCommitStatus({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              sha: context.payload.pull_request.head.sha,
-              state: state ? 'success' : 'failure',
-              context: 'Lint Code',
-              description: state ? '${{ inputs.successDescription }}' : '${{ inputs.failureDescription }}'
-            })
+      uses: actions/github-script@v7
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        script: |
+          const state = '${{ inputs.isSuccess }}' === 'true';
+          github.rest.repos.createCommitStatus({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            sha: context.payload.pull_request.head.sha,
+            state: state ? 'success' : 'failure',
+            context: 'Lint Code',
+            description: state ? '${{ inputs.successMsg }}' : '${{ inputs.failureMsg }}'
+          });
