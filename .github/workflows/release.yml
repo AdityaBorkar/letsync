@@ -125,9 +125,8 @@ jobs:
   #   outputs:
   #     shell_output: ${{ steps.check_types.outcome }}
 
-  build_release:
-    name: Build Release
-    if: github.event_name == 'push'
+  build:
+    name: Build
     needs: [format_code, lint_code, lint_knip, lint_markdown, lint_cspell]
     runs-on: ubuntu-latest
     steps:
@@ -137,26 +136,32 @@ jobs:
         # Print docs
         # check docs is written + lint them
         # docs codegen
-      # - name: Pre-Release
-      #   if: github.ref == 'refs/heads/next'
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #   run: |
-      #     bun nx release --dry-run
-      #   # git add .
-      #   # git commit -m "chore(release): {version}"
-      # - name: Stable Release
-      #   if: github.ref == 'refs/heads/stable'
-      #   run: |
-      #     bun nx release --dry-run
-      #   # git add .
-      #   # git commit -m "chore(release): {version}"
-    outputs:
-      shell_output: ${{ steps.build_packages_cmd.outputs.result }}
+
+  # release:
+  #   name: Release
+  #   needs: [build]
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Pre-Release
+  #       if: github.ref == 'refs/heads/next'
+  #       env:
+  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #       run: |
+  #         bun nx release --dry-run --skip-publish
+  #     #   # git add .
+  #     #   # git commit -m "chore(release): {version}"
+  #     - name: Stable Release
+  #       if: github.ref == 'refs/heads/stable'
+  #       run: |
+  #         bun nx release --dry-run --skip-publish
+  #       # git add .
+  #       # git commit -m "chore(release): {version}"
+  #   outputs:
+  #     shell_output: ${{ steps.build_packages_cmd.outputs.result }}
 
   comment_results:
     name: Comment Results
-    needs: [format_code, lint_code, lint_knip, lint_markdown, lint_cspell, build_release]
+    needs: [format_code, lint_code, lint_knip, lint_markdown, lint_cspell, build]
     if: ${{ always() && !cancelled() && github.event_name == 'pull_request' }}
     runs-on: ubuntu-latest
     steps:
@@ -185,20 +190,7 @@ jobs:
             const body = `${botCommentMarker}
             ## GitHub Actions Results
             
-            ### ${needs.format_code.result === 'success' ? '✅' : '❌'} Formatting            
-            ${needs.format_code.outputs.shell_output}
-            
-            ### ${needs.lint_code.result === 'success' ? '✅' : '❌'} Linting - Code
-            ${needs.lint_code.outputs.shell_output}
-            
-            ### ${needs.lint_knip.result === 'success' ? '✅' : '❌'} Linting - Knip
-            ${needs.lint_knip.outputs.shell_output}
-            
-            ### ${needs.lint_markdown.result === 'success' ? '✅' : '❌'} Linting - Markdown
-            ${needs.lint_markdown.outputs.shell_output}
-            
-            ### ${needs.lint_cspell.result === 'success' ? '✅' : '❌'} Linting - Cspell
-            ${needs.lint_cspell.outputs.shell_output}
+            ...
             
             _Last updated: ${new Date().toUTCString()}_`;
 
@@ -206,3 +198,18 @@ jobs:
               await github.rest.issues.updateComment({ owner, repo, body, comment_id: botComment.id });
             else
               await github.rest.issues.createComment({ owner, repo, body, issue_number: context.issue.number });
+
+          # ### ${needs.format_code.result === 'success' ? '✅' : '❌'} Formatting            
+          # ${needs.format_code.outputs.shell_output}
+          
+          # ### ${needs.lint_code.result === 'success' ? '✅' : '❌'} Linting - Code
+          # ${needs.lint_code.outputs.shell_output}
+          
+          # ### ${needs.lint_knip.result === 'success' ? '✅' : '❌'} Linting - Knip
+          # ${needs.lint_knip.outputs.shell_output}
+          
+          # ### ${needs.lint_markdown.result === 'success' ? '✅' : '❌'} Linting - Markdown
+          # ${needs.lint_markdown.outputs.shell_output}
+          
+          # ### ${needs.lint_cspell.result === 'success' ? '✅' : '❌'} Linting - Cspell
+          # ${needs.lint_cspell.outputs.shell_output}
