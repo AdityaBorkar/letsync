@@ -3,25 +3,26 @@ name: 'Setup Repository'
 runs:
   using: "composite"
   steps:    
+    # Using GitHub Artifacts results in permission loss. Identify if this is a problem.
     - id: restore-cache
-      name: Restore Cache (node_modules)
-      uses: actions/cache/restore@v4
+      name: Restore Cache
+      uses: actions/download-artifact@v4
       with:
+        name: ${{ runner.os }}-bun-${{ hashFiles('bun.lockb') }}
+        merge-multiple: true
         path: |
           ~/.bun
           **/node_modules
           .nx/cache
-        key: ${{ runner.os }}-bun-${{ hashFiles('bun.lockb') }}
-        restore-keys: |
-          ${{ runner.os }}-bun
 
     - name: Install Bun
-      if: steps.restore-cache.outputs.cache-hit != 'true'
+      if: steps.restore-cache.outputs.artifact-id == ''
       uses: oven-sh/setup-bun@v2
       with:
         bun-version: latest
 
     - name: Upgrade Bun
+      if: steps.restore-cache.outputs.artifact-id != ''
       run: bun upgrade
       shell: bash
       # Always running on the latest version is not a good idea. Changes to bun shall directly affect the pipeline.
@@ -36,10 +37,12 @@ runs:
     #   continue-on-error: true
 
     - name: Save Cache (node_modules)
-      uses: actions/cache/save@v4
+      uses: actions/upload-artifact@v4
       with:
+        name: ${{ runner.os }}-bun-${{ hashFiles('bun.lockb') }}
+        overwrite: true
+        retention-days: 10
         path: |
           ~/.bun
           **/node_modules
           .nx/cache
-        key: ${{ runner.os }}-bun-${{ hashFiles('bun.lockb') }}
