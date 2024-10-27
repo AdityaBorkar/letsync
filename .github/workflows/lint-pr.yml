@@ -1,12 +1,11 @@
 name: Lint Pull Request
 
 on:
-    pull_request:
+    pull_request_target:
       types:
         - opened
         - edited
         - synchronize
-        - reopened
 
 permissions:
   pull-requests: write
@@ -56,11 +55,7 @@ jobs:
         with:
           header: pr-title-lint-error
           message: |
-            Hey there and thank you for opening this pull request! 👋🏼
-            
-            We require pull request titles to follow the [Conventional Commits specification](https://www.conventionalcommits.org/en/v1.0.0/) and it looks like your proposed title needs to be adjusted.
-
-            Details:
+            We require pull request titles to follow the [Conventional Commits specification](https://www.conventionalcommits.org/en/v1.0.0/) and it looks like your proposed title needs to be adjusted. Details:
             
             ```
             ${{ steps.lint_pr_title.outputs.error_message }}
@@ -71,3 +66,17 @@ jobs:
         with:   
           header: pr-title-lint-error
           delete: true
+
+      - name: Set failure status
+        if: steps.lint_pr_title.outputs.error_message != null
+        uses: actions/github-script@v6
+        with:
+          script: |
+            github.rest.repos.createCommitStatus({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              sha: context.payload.pull_request.head.sha,
+              state: 'failure',
+              context: 'Lint PR Title',
+              description: 'PR title needs to follow conventional commits specification'
+            })

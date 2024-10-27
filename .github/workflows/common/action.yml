@@ -7,10 +7,13 @@ runs:
       name: Restore Cache (node_modules)
       uses: actions/cache/restore@v4
       with:
-        path: ~/.bun
+        path: |
+          ~/.bun
+          ./node_modules
         key: ${{ runner.OS }}-bun-${{ hashFiles('bun.lockb') }}
         restore-keys: ${{ runner.OS }}-bun
-        
+      # TODO - Support nx cache
+
     - name: Install Bun
       if: steps.restore-cache.outputs.cache-hit != 'true'
       uses: oven-sh/setup-bun@v2
@@ -20,8 +23,8 @@ runs:
     - name: Upgrade Bun
       run: bun upgrade
       shell: bash
-  # Always running on the latest version is not a good idea. Changes to bun shall directly affect the pipeline.
-  # We will revisit this during migration to Deno 2 LTS
+      # Always running on the latest version is not a good idea. Changes to bun shall directly affect the pipeline.
+      # We will revisit this during migration to Deno 2 LTS
     
     - name: Install dependencies
       run: bun install
