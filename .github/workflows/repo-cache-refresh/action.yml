@@ -7,10 +7,7 @@ runs:
       name: Restore Cache (node_modules)
       uses: actions/cache/restore@v4
       with:
-        path: |
-          ~/.bun
-          **/node_modules
-          .nx/cache
+        path: ~/.bun/install/cache
         key: ${{ runner.os }}-bun-${{ hashFiles('bun.lockb') }}
         restore-keys: |
           ${{ runner.os }}-bun
@@ -39,7 +36,7 @@ runs:
     - name: Test Run
       run: bun -v
       shell: bash
-      
+
     - name: Delete Cache (node_modules)
       if: steps.restore-cache.outputs.cache-hit == 'true'
       run: |
@@ -51,8 +48,5 @@ runs:
       if: steps.restore-cache.outputs.cache-hit != 'true'
       uses: actions/cache/save@v4
       with:
-        path: |
-          ~/.bun
-          **/node_modules
-          .nx/cache
+        path: ~/.bun/install/cache
         key: ${{ runner.os }}-bun-${{ hashFiles('bun.lockb') }}

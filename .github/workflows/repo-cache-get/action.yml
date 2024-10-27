@@ -7,10 +7,7 @@ runs:
       name: Restore Repository Cache
       uses: actions/cache/restore@v4
       with:
-        path: |
-          ~/.bun
-          **/node_modules
-          .nx/cache
+        path: ~/.bun/install/cache
         key: ${{ runner.os }}-bun-${{ hashFiles('bun.lockb') }}
         restore-keys: ${{ runner.os }}-bun
     - name: Test Run
