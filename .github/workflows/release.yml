@@ -22,7 +22,7 @@ jobs:
       - uses: oven-sh/setup-bun@v2
       - run: bun install
         shell: bash
-      - id: format_code
+      - id: format_code_cmd
         name: Format Code
         run: bun run format
         shell: bash
@@ -48,7 +48,7 @@ jobs:
             git push --force-with-lease origin HEAD:${{ github.head_ref }}
           fi
     outputs:
-      shell_output: ${{ steps.format_code.outcome }}
+      shell_output: ${{ steps.format_code_cmd.outcome }}
 
   lint_code:
     name: Lint Code
@@ -58,12 +58,12 @@ jobs:
       - uses: oven-sh/setup-bun@v2
       - run: bun install
         shell: bash
-      - id: lint_code
+      - id: lint_code_cmd
         name: Lint Code
         run: bun run lint:code
         shell: bash
     outputs:
-      shell_output: ${{ steps.lint_code.outcome }}
+      shell_output: ${{ steps.lint_code_cmd.outcome }}
 
   lint_knip:
     name: Lint Knip
@@ -73,12 +73,12 @@ jobs:
       - uses: oven-sh/setup-bun@v2
       - run: bun install
         shell: bash
-      - id: lint_knip
+      - id: lint_knip_cmd
         name: Lint Knip
         run: bun run lint:knip --reporter markdown
         shell: bash
     outputs:
-      shell_output: ${{ steps.lint_knip.outcome }}
+      shell_output: ${{ steps.lint_knip_cmd.outcome }}
 
   lint_markdown:
     name: Lint Markdown
@@ -88,12 +88,12 @@ jobs:
       - uses: oven-sh/setup-bun@v2
       - run: bun install
         shell: bash
-      - id: lint_markdown
+      - id: lint_markdown_cmd
         name: Lint Markdown
         run: bun run lint:md
         shell: bash
     outputs:
-      shell_output: ${{ steps.lint_markdown.outcome }}
+      shell_output: ${{ steps.lint_markdown_cmd.outcome }}
 
   lint_cspell:
     name: Lint CSpell
@@ -103,12 +103,12 @@ jobs:
       - uses: oven-sh/setup-bun@v2
       - run: bun install
         shell: bash
-      - id: lint_cspell
+      - id: lint_cspell_cmd
         name: Lint CSpell
         run: bun run lint:cspell
         shell: bash
     outputs:
-      shell_output: ${{ steps.lint_cspell.outcome }}
+      shell_output: ${{ steps.lint_cspell_cmd.outcome }}
 
   # check_types:
   #   name: Check Types
@@ -128,7 +128,7 @@ jobs:
   build_release:
     name: Build Release
     if: github.event_name == 'push'
-    needs: [format_code, lint_code, lint_markdown, lint_cspell, lint_knip]
+    needs: [format_code, lint_code, lint_knip, lint_markdown, lint_cspell]
     runs-on: ubuntu-latest
     steps:
       - name: Build Packages
@@ -146,8 +146,6 @@ jobs:
         # git commit -m "chore(release): {version}"
       - name: Stable Release
         if: github.ref == 'refs/heads/stable'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           bun nx release --dry-run
         # git add .
@@ -163,6 +161,8 @@ jobs:
       - name: Comment on PR
         if: github.event_name == 'pull_request'
         uses: actions/github-script@v7
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
@@ -203,4 +203,3 @@ jobs:
               await github.rest.issues.updateComment({ owner, repo, body, comment_id: botComment.id });
             else
               await github.rest.issues.createComment({ owner, repo, body, issue_number: context.issue.number });
-        
