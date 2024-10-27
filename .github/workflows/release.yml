@@ -127,7 +127,8 @@ jobs:
 
   comment_results:
     name: Comment Results
-    if: github.event_name == 'pull_request'
+    needs: [format_code, lint_code, lint_knip, lint_markdown, lint_cspell, check_types]
+    if: ${{ always() && !cancelled() && github.event_name == 'pull_request' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
