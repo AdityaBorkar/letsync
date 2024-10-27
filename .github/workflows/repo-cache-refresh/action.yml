@@ -14,6 +14,7 @@ runs:
           ~/.bun
           **/node_modules
           .nx/cache
+      continue-on-error: true
 
     - name: Install Bun
       if: steps.restore-cache.outputs.artifact-id == ''
