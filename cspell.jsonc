@@ -1,5 +1,7 @@
 {
-	"dictionaries": ["typescript"],
+	"dictionaries": [
+		"typescript"
+	],
 	"ignorePaths": [
 		".github",
 		".nx",
@@ -78,6 +80,7 @@
 		"tsconfigs",
 		"tseslint",
 		"turso",
+		"typecheck",
 		"typedarrays",
 		"uncategorized",
 		"unlisten",

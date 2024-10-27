@@ -21,7 +21,7 @@
   - [ ] Changelog
   - [ ] Versioning
   - [ ] Repository settings such as branch protections and squash merging PRs
-- [ ] Retire .env files. If not possible, use https://dotenv-linter.github.io/#/?id=dotenv-linter
+- [ ] Retire .env files. If not possible, use [Dotenv Linter](https://dotenv-linter.github.io/#/?id=dotenv-linter)
 
 - [ ] What if conventional commit message is not followed? - REJECT MERGE
 - [ ] Issue labels for issue areas, statuses, and types

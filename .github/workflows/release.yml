@@ -120,7 +120,7 @@ jobs:
         shell: bash
       - id: check_types
         name: Check Types
-        run: bun tsc --noEmit
+        run: bun run typecheck
         shell: bash
     outputs:
       shell_output: ${{ steps.check_types.outcome }}
@@ -128,7 +128,6 @@ jobs:
   comment_results:
     name: Comment Results
     if: github.event_name == 'pull_request'
-    needs: [format_code, lint_code, lint_knip, lint_markdown, lint_cspell, check_types]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

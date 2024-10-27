@@ -17,7 +17,7 @@ Migrate to support the following options:
 - Lint Stylistic
 - Lint YML
 - Linting
-- https://stylelint.io/
+- [Stylelint](https://stylelint.io/)
 
 Migrate EsLint Config to Biome:
 
