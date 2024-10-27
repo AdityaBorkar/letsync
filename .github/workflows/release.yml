@@ -48,7 +48,7 @@ jobs:
             git push --force-with-lease origin HEAD:${{ github.head_ref }}
           fi
     outputs:
-      shell_output: ${{ steps.format_code_cmd.outcome }}
+      shell_output: ${{ steps.format_code_cmd.outputs.result }}
 
   lint_code:
     name: Lint Code
@@ -63,7 +63,7 @@ jobs:
         run: bun run lint:code
         shell: bash
     outputs:
-      shell_output: ${{ steps.lint_code_cmd.outcome }}
+      shell_output: ${{ steps.lint_code_cmd.outputs.result }}
 
   lint_knip:
     name: Lint Knip
@@ -78,7 +78,7 @@ jobs:
         run: bun run lint:knip --reporter markdown
         shell: bash
     outputs:
-      shell_output: ${{ steps.lint_knip_cmd.outcome }}
+      shell_output: ${{ steps.lint_knip_cmd.outputs.result }}
 
   lint_markdown:
     name: Lint Markdown
@@ -93,7 +93,7 @@ jobs:
         run: bun run lint:md
         shell: bash
     outputs:
-      shell_output: ${{ steps.lint_markdown_cmd.outcome }}
+      shell_output: ${{ steps.lint_markdown_cmd.outputs.result }}
 
   lint_cspell:
     name: Lint CSpell
@@ -108,7 +108,7 @@ jobs:
         run: bun run lint:cspell
         shell: bash
     outputs:
-      shell_output: ${{ steps.lint_cspell_cmd.outcome }}
+      shell_output: ${{ steps.lint_cspell_cmd.outputs.result }}
 
   # check_types:
   #   name: Check Types
@@ -132,24 +132,27 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Build Packages
+        id: build_packages_cmd
         run: bun run build
         # Print docs
         # check docs is written + lint them
         # docs codegen
-      - name: Pre-Release
-        if: github.ref == 'refs/heads/next'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          bun nx release --dry-run
-        # git add .
-        # git commit -m "chore(release): {version}"
-      - name: Stable Release
-        if: github.ref == 'refs/heads/stable'
-        run: |
-          bun nx release --dry-run
-        # git add .
-        # git commit -m "chore(release): {version}"
+      # - name: Pre-Release
+      #   if: github.ref == 'refs/heads/next'
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   run: |
+      #     bun nx release --dry-run
+      #   # git add .
+      #   # git commit -m "chore(release): {version}"
+      # - name: Stable Release
+      #   if: github.ref == 'refs/heads/stable'
+      #   run: |
+      #     bun nx release --dry-run
+      #   # git add .
+      #   # git commit -m "chore(release): {version}"
+    outputs:
+      shell_output: ${{ steps.build_packages_cmd.outputs.result }}
 
   comment_results:
     name: Comment Results
