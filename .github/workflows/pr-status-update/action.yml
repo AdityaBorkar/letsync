@@ -13,6 +13,10 @@ inputs:
     description: 'The description of the status when it is failure'
     required: true
     type: string
+  github-token:
+    description: 'GitHub token for authentication'
+    required: true
+    type: string
 
 runs:
   using: "composite"
@@ -20,7 +24,7 @@ runs:
     - name: Set status
       uses: actions/github-script@v7
       with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
+        github-token: ${{ inputs.github-token }}
         script: |
           const state = '${{ inputs.isSuccess }}' === 'true';
           github.rest.repos.createCommitStatus({

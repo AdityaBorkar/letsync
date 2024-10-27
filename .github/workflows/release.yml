@@ -55,12 +55,11 @@ jobs:
             git push --force-with-lease origin HEAD:${{ github.head_ref }}
           fi
       - uses: ./.github/workflows/pr-status-update
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           isSuccess: ${{ steps.format_code.outcome == 'success' }}
           successMsg: 'Code formatting passed successfully.'
           failureMsg: 'Code formatting failed.'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
     outputs:
       shell_output: ${{ steps.format_code.outcome }}
 
@@ -77,12 +76,11 @@ jobs:
         shell: bash
         continue-on-error: true
       - uses: ./.github/workflows/pr-status-update
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           isSuccess: ${{ steps.lint_code.outcome == 'success' }}
           successMsg: 'Code linting passed successfully.'
           failureMsg: 'Code linting failed.'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
     outputs:
       shell_output: ${{ steps.lint_code.outcome }}
 
@@ -99,12 +97,11 @@ jobs:
         shell: bash
         continue-on-error: true
       - uses: ./.github/workflows/pr-status-update
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           isSuccess: ${{ steps.lint_knip.outcome == 'success' }}
           successMsg: 'Knip linting passed successfully.'
           failureMsg: 'Knip linting failed.'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
     outputs:
       shell_output: ${{ steps.lint_knip.outcome }}
 
@@ -121,8 +118,6 @@ jobs:
         shell: bash
         continue-on-error: true
       - uses: ./.github/workflows/pr-status-update
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           isSuccess: ${{ steps.lint_markdown.outcome == 'success' }}
           successMsg: 'Markdown linting passed successfully.'
@@ -143,12 +138,11 @@ jobs:
         shell: bash
         continue-on-error: true
       - uses: ./.github/workflows/pr-status-update
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           isSuccess: ${{ steps.lint_cspell.outcome == 'success' }}
           successMsg: 'Cspell linting passed successfully.'
           failureMsg: 'Cspell linting failed.'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
     outputs:
       shell_output: ${{ steps.lint_cspell.outcome }}
 
@@ -165,12 +159,11 @@ jobs:
         shell: bash
         continue-on-error: true
       - uses: ./.github/workflows/pr-status-update
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           isSuccess: ${{ steps.check_types.outcome == 'success' }}
           successMsg: 'Type checking passed successfully.'
           failureMsg: 'Type checking failed.'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
     outputs:
       shell_output: ${{ steps.check_types.outcome }}
 

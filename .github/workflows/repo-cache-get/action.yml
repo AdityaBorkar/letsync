@@ -2,14 +2,14 @@ name: 'Get Repository Cache'
 
 runs:
   using: "composite"
-  steps:
+  steps:    
     - id: restore-cache
-      name: Restore Cache
-      uses: actions/download-artifact@v4
+      name: Restore Repository Cache
+      uses: actions/cache/restore@v4
       with:
-        name: ${{ runner.os }}-bun-${{ hashFiles('bun.lockb') }}
-        merge-multiple: true
         path: |
           ~/.bun
           **/node_modules
           .nx/cache
+        key: ${{ runner.os }}-bun-${{ hashFiles('bun.lockb') }}
+        restore-keys: ${{ runner.os }}-bun

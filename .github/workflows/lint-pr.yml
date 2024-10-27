@@ -78,6 +78,6 @@ jobs:
               repo: context.repo.repo,
               sha: context.payload.pull_request.head.sha,
               state: isFailure ? 'failure' : 'success',
-              context: 'Lint PR Title',
+              context: 'Lint Pull Request / Lint PR Title (pull_request)',
               description: isFailure ? 'PR title needs to follow conventional commits specification' : 'PR title is valid'
             })
