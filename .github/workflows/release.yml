@@ -8,13 +8,7 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.sha }}
   cancel-in-progress: true
 
-permissions:
-  contents: write
-  statuses: write
-  issues: write
-  checks: write
-  pull-requests: write
-  packages: write
+permissions: write-all
 
 jobs:
   format_code:
