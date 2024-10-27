@@ -13,3 +13,6 @@ runs:
           .nx/cache
         key: ${{ runner.os }}-bun-${{ hashFiles('bun.lockb') }}
         restore-keys: ${{ runner.os }}-bun
+    - name: Test Run
+      run: bun -v
+      shell: bash

@@ -36,6 +36,10 @@ runs:
     #   run: bun pm trust --all
     #   continue-on-error: true
 
+    - name: Test Run
+      run: bun -v
+      shell: bash
+      
     - name: Delete Cache (node_modules)
       if: steps.restore-cache.outputs.cache-hit == 'true'
       run: |

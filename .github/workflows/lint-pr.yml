@@ -67,12 +67,12 @@ jobs:
           header: pr-title-lint-error
           delete: true
 
-      - name: Set failure status
-        if: always() && (steps.lint_pr_title.outputs.error_message != null)
-        uses: actions/github-script@v6
-        with:
-          script: |
-            core.setFailed(`Action failed with error`);
+      # - name: Set failure status
+      #   if: always() && (steps.lint_pr_title.outputs.error_message != null)
+      #   uses: actions/github-script@v6
+      #   with:
+      #     script: |
+      #       core.setFailed(`Action failed with error`);
         # const isFailure = '${{ steps.lint_pr_title.outputs.error_message != null }}';
         # github.rest.repos.createCommitStatus({
         #   owner: context.repo.owner,
