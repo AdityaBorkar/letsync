@@ -2,7 +2,7 @@ name: 'Setup Repository'
 
 runs:
   using: "composite"
-  steps:    
+  steps:
     - id: restore-cache
       name: Restore Cache (node_modules)
       uses: actions/cache/restore@v4
