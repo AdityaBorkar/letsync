@@ -18,6 +18,8 @@ jobs:
   format_code:
     name: Format Code
     runs-on: ubuntu-latest
+    outputs:
+      bash: ${{ steps.format_code_cmd.outputs.bash }}
     steps:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
@@ -25,7 +27,7 @@ jobs:
         shell: bash
       - id: format_code_cmd
         name: Format Code
-        run: bun run format
+        run: echo "bash=$(bun run format)" >> $GITHUB_OUTPUT
         shell: bash
       - name: Import GPG key
         uses: crazy-max/ghaction-import-gpg@v6
@@ -48,12 +50,12 @@ jobs:
             git pull --rebase origin ${{ github.head_ref }}
             git push --force-with-lease origin HEAD:${{ github.head_ref }}
           fi
-    outputs:
-      shell_output: ${{ steps.format_code_cmd.outputs.result }}
 
   lint_code:
     name: Lint Code
     runs-on: ubuntu-latest
+    outputs:
+      bash: ${{ steps.lint_code_cmd.outputs.bash }}
     steps:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
@@ -61,14 +63,14 @@ jobs:
         shell: bash
       - id: lint_code_cmd
         name: Lint Code
-        run: bun run lint:code
+        run: echo "bash=$(bun run lint:code)" >> $GITHUB_OUTPUT
         shell: bash
-    outputs:
-      shell_output: ${{ steps.lint_code_cmd.outputs.result }}
 
   lint_knip:
     name: Lint Knip
     runs-on: ubuntu-latest
+    outputs:
+      bash: ${{ steps.lint_knip_cmd.outputs.bash }}
     steps:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
@@ -76,15 +78,14 @@ jobs:
         shell: bash
       - id: lint_knip_cmd
         name: Lint Knip
-        run: bun run lint:knip --reporter markdown
+        run: echo "bash=$(bun run lint:knip --reporter markdown)" >> $GITHUB_OUTPUT
         shell: bash
-        continue-on-error: true # TODO APPLY EVERYWHERE
-    outputs:
-      shell_output: ${{ steps.lint_knip_cmd.outputs.result }}
 
   lint_markdown:
     name: Lint Markdown
     runs-on: ubuntu-latest
+    outputs:
+      bash: ${{ steps.lint_markdown_cmd.outputs.bash }}
     steps:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
@@ -92,14 +93,14 @@ jobs:
         shell: bash
       - id: lint_markdown_cmd
         name: Lint Markdown
-        run: bun run lint:md
+        run: echo "bash=$(bun run lint:md)" >> $GITHUB_OUTPUT
         shell: bash
-    outputs:
-      shell_output: ${{ steps.lint_markdown_cmd.outputs.result }}
 
   lint_cspell:
     name: Lint CSpell
     runs-on: ubuntu-latest
+    outputs:
+      bash: ${{ steps.lint_cspell_cmd.outputs.bash }}
     steps:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
@@ -107,15 +108,15 @@ jobs:
         shell: bash
       - id: lint_cspell_cmd
         name: Lint CSpell
-        run: bun run lint:cspell
+        run: echo "bash=$(bun run lint:cspell)" >> $GITHUB_OUTPUT
         shell: bash
-    outputs:
-      shell_output: ${{ steps.lint_cspell_cmd.outputs.result }}
 
   build:
     name: Build
     needs: [format_code, lint_code, lint_knip, lint_markdown, lint_cspell]
     runs-on: ubuntu-latest
+    outputs:
+      bash: ${{ steps.build_packages_cmd.outputs.bash }}
     steps:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
@@ -123,11 +124,11 @@ jobs:
         shell: bash
       - name: Build Packages
         id: build_packages_cmd
-        run: bun run build
+        run: echo "bash=$(bun run build)" >> $GITHUB_OUTPUT
+        shell: bash
         # Print docs
         # check docs is written + lint them
         # docs codegen
-
   # release:
   #   name: Release
   #   needs: [build]
@@ -166,16 +167,16 @@ jobs:
             ## GitHub Actions Results
 
             ### ${{ needs.format_code.result == 'success' && '✅' || '❌' }} Formatting
-            ${{ needs.format_code.outputs.shell_output }}
+            ${{ needs.format_code.outputs.bash }}
             
             ### ${{ needs.lint_code.result == 'success' && '✅' || '❌' }} Linting - Code
-            ${{ needs.lint_code.outputs.shell_output }}
+            ${{ needs.lint_code.outputs.bash }}
             
             ### ${{ needs.lint_knip.result == 'success' && '✅' || '❌' }} Linting - Knip
-            ${{ needs.lint_knip.outputs }}
+            ${{ needs.lint_knip.outputs.bash }}
             
             ### ${{ needs.lint_markdown.result == 'success' && '✅' || '❌' }} Linting - Markdown
-            ${{ needs.lint_markdown.outputs.shell_output }}
+            ${{ needs.lint_markdown.outputs.bash }}
             
             ### ${{ needs.lint_cspell.result == 'success' && '✅' || '❌' }} Linting - Cspell
-            ${{ needs.lint_cspell.outputs.shell_output }}
+            ${{ needs.lint_cspell.outputs.bash }}
