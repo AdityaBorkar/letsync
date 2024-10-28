@@ -162,7 +162,7 @@ jobs:
         with:
           header: pr-status-checks
           message: |
-          ## GitHub Actions Results
+            ## GitHub Actions Results
         # ### ${needs.format_code.result === 'success' ? '✅' : '❌'} Formatting            
         # ${needs.format_code.outputs.shell_output}
         
