@@ -163,17 +163,18 @@ jobs:
           header: pr-status-checks
           message: |
             ## GitHub Actions Results
-        # ### ${needs.format_code.result === 'success' ? '✅' : '❌'} Formatting            
-        # ${needs.format_code.outputs.shell_output}
-        
-        # ### ${needs.lint_code.result === 'success' ? '✅' : '❌'} Linting - Code
-        # ${needs.lint_code.outputs.shell_output}
-        
-        # ### ${needs.lint_knip.result === 'success' ? '✅' : '❌'} Linting - Knip
-        # ${needs.lint_knip.outputs.shell_output}
-        
-        # ### ${needs.lint_markdown.result === 'success' ? '✅' : '❌'} Linting - Markdown
-        # ${needs.lint_markdown.outputs.shell_output}
-        
-        # ### ${needs.lint_cspell.result === 'success' ? '✅' : '❌'} Linting - Cspell
-        # ${needs.lint_cspell.outputs.shell_output}
+            
+            ### ${needs.format_code.result === 'success' ? '✅' : '❌'} Formatting            
+            ${needs.format_code.outputs.shell_output}
+            
+            ### ${needs.lint_code.result === 'success' ? '✅' : '❌'} Linting - Code
+            ${needs.lint_code.outputs.shell_output}
+            
+            ### ${needs.lint_knip.result === 'success' ? '✅' : '❌'} Linting - Knip
+            ${needs.lint_knip.outputs.shell_output}
+            
+            ### ${needs.lint_markdown.result === 'success' ? '✅' : '❌'} Linting - Markdown
+            ${needs.lint_markdown.outputs.shell_output}
+            
+            ### ${needs.lint_cspell.result === 'success' ? '✅' : '❌'} Linting - Cspell
+            ${needs.lint_cspell.outputs.shell_output}
