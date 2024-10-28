@@ -151,7 +151,7 @@ jobs:
 
   comment_results:
     name: Comment Results
-    needs: [build]
+    needs: [format_code, lint_code, lint_knip, lint_markdown, lint_cspell, build]
     if: ${{ always() && !cancelled() && github.event_name == 'pull_request' }}
     runs-on: ubuntu-latest
     permissions:
@@ -164,7 +164,7 @@ jobs:
           message: |
             ## GitHub Actions Results
 
-            ### ${{ needs.format_code.result == 'success' && '✅' || '❌' }} Formatting
+            ### ${{ needs.format_code.result }} ${{ needs.format_code.result == 'success' && '✅' || '❌' }} Formatting
             ${{ needs.format_code.outputs.shell_output }}
             
             ### ${{ needs.lint_code.result == 'success' && '✅' || '❌' }} Linting - Code
