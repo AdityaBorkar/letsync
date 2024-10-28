@@ -78,8 +78,12 @@ jobs:
         shell: bash
       - id: lint_knip_cmd
         name: Lint Knip
-        run: echo "bash=$(bun run lint:knip --reporter markdown)" >> $GITHUB_OUTPUT
-        shell: bash
+        run: |
+          echo "result<<EOF" >> $GITHUB_OUTPUT
+          bun run lint:knip --reporter markdown >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+        # echo "bash=$(bun run lint:knip --reporter markdown)" >> $GITHUB_OUTPUT >> $GITHUB_STEP_SUMMARY
+        # shell: bash
 
   lint_markdown:
     name: Lint Markdown

@@ -8,7 +8,7 @@
 		"format": "bun biome format --write",
 		"lint:code": "bun biome lint",
 		"lint:knip": "knip",
-		"lint:cspell": "cspell lint .",
+		"lint:cspell": "cspell lint . --no-progress",
 		"lint:md": "markdownlint \"**/*.md\" --disable MD010 MD013 --ignore \"**/node_modules/**\"",
 		"typecheck": "nx run-many --target=typecheck --projects=packages/*,www",
 		"build": "nx run-many --target=build --projects=packages/*,www"
