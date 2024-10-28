@@ -111,21 +111,6 @@ jobs:
     outputs:
       shell_output: ${{ steps.lint_cspell_cmd.outputs.result }}
 
-  # check_types:
-  #   name: Check Types
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v4
-  #     - uses: oven-sh/setup-bun@v2
-  #     - run: bun install
-  #       shell: bash
-  #     - id: check_types
-  #       name: Check Types
-  #       run: bun run typecheck
-  #       shell: bash
-  #   outputs:
-  #     shell_output: ${{ steps.check_types.outcome }}
-
   build:
     name: Build
     needs: [format_code, lint_code, lint_knip, lint_markdown, lint_cspell]
@@ -166,62 +151,29 @@ jobs:
 
   comment_results:
     name: Comment Results
-    needs: [format_code, lint_code, lint_knip, lint_markdown, lint_cspell, build]
+    needs: [build]
     if: ${{ always() && !cancelled() && github.event_name == 'pull_request' }}
-    permissions:
-      contents: write
-      statuses: write
-      issues: write
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
     steps:
       - uses: actions/checkout@v4
       - uses: marocchino/sticky-pull-request-comment@v2
         with:
           header: pr-status-checks
           message: |
-            ## GitHub Actions Results
-            
-            ### ${needs.format_code.result === 'success' ? '✅' : '❌'} Formatting            
-            ${needs.format_code.outputs.shell_output}
-            
-            ### ${needs.lint_code.result === 'success' ? '✅' : '❌'} Linting - Code
-            ${needs.lint_code.outputs.shell_output}
-            
-            ### ${needs.lint_knip.result === 'success' ? '✅' : '❌'} Linting - Knip
-            ${needs.lint_knip.outputs.shell_output}
-            
-            ### ${needs.lint_markdown.result === 'success' ? '✅' : '❌'} Linting - Markdown
-            ${needs.lint_markdown.outputs.shell_output}
-            
-            ### ${needs.lint_cspell.result === 'success' ? '✅' : '❌'} Linting - Cspell
-            ${needs.lint_cspell.outputs.shell_output}
-              
-    # - name: Comment on PR
-    #   if: github.event_name == 'pull_request'
-    #   uses: actions/github-script@v7
-    #   env:
-    #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    #   with:
-    #     github-token: ${{secrets.GITHUB_TOKEN}}
-    #     script: |
-    #       const repo = context.repo.repo;
-    #       const owner = context.repo.owner;
-    #       const botCommentMarker = '<!-- PR-STATUS-COMMENT -->';
-
-    #       const comments = await github.rest.issues.listComments({
-    #         owner: context.repo.owner,
-    #         repo: context.repo.repo,
-    #         issue_number: context.issue.number,
-    #       });
-    #       const botComment = comments.data.find(comment => 
-    #         comment.body.includes(botCommentMarker)
-    #       );
-
-    #       console.log({botComment:JSON.stringify(botComment, null, 2)});
-
-    #       const body = `${botCommentMarker}`;
-
-    #       if (botComment)
-    #         await github.rest.issues.updateComment({ owner, repo, body, comment_id: botComment.id });
-    #       else
-    #         await github.rest.issues.createComment({ owner, repo, body, issue_number: context.issue.number });
+          ## GitHub Actions Results
+        # ### ${needs.format_code.result === 'success' ? '✅' : '❌'} Formatting            
+        # ${needs.format_code.outputs.shell_output}
+        
+        # ### ${needs.lint_code.result === 'success' ? '✅' : '❌'} Linting - Code
+        # ${needs.lint_code.outputs.shell_output}
+        
+        # ### ${needs.lint_knip.result === 'success' ? '✅' : '❌'} Linting - Knip
+        # ${needs.lint_knip.outputs.shell_output}
+        
+        # ### ${needs.lint_markdown.result === 'success' ? '✅' : '❌'} Linting - Markdown
+        # ${needs.lint_markdown.outputs.shell_output}
+        
+        # ### ${needs.lint_cspell.result === 'success' ? '✅' : '❌'} Linting - Cspell
+        # ${needs.lint_cspell.outputs.shell_output}
