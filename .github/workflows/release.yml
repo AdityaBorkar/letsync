@@ -1,186 +1,56 @@
-name: Release
+name: Publish
 
 on:
-  pull_request:
-    branches: [stable, next]
-
-concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.sha }}
-  cancel-in-progress: true
-
-permissions:
-  issues: write
-  statuses: write
-  contents: write
-  pull-requests: write
+  push:
+    tags:
+      - v*.*.*
 
 jobs:
-  format_code:
-    name: Format Code
+  publish:
+    name: Publish Packages and Deployments
     runs-on: ubuntu-latest
-    outputs:
-      bash: ${{ steps.format_code_cmd.outputs.bash }}
-    steps:
-      - uses: actions/checkout@v4
-      - uses: oven-sh/setup-bun@v2
-      - run: bun install
-        shell: bash
-      - id: format_code_cmd
-        name: Format Code
-        run: echo "bash=$(bun run format)" >> $GITHUB_OUTPUT
-        shell: bash
-      - name: Import GPG key
-        uses: crazy-max/ghaction-import-gpg@v6
-        with:
-          passphrase: ${{ secrets.GPG_PASSPHRASE }}
-          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
-          git_config_global: true
-          git_commit_gpgsign: true
-          git_committer_name: "GitHub Actions Bot"
-          git_committer_email: "aditya.borkar.programs+github.actions@gmail.com"
-          git_push_gpgsign: false
-          git_tag_gpgsign: true
-          git_user_signingkey: true
-      - name: Commit changes (if any)
-        if: github.event_name == 'pull_request'
-        run: |
-          if [ -n "$(git status --porcelain)" ]; then
-            git add .
-            git commit -S -m "chore: automated changes by github actions" || echo "No changes to commit"
-            git pull --rebase origin ${{ github.head_ref }}
-            git push --force-with-lease origin HEAD:${{ github.head_ref }}
-          fi
-
-  lint_code:
-    name: Lint Code
-    runs-on: ubuntu-latest
-    outputs:
-      bash: ${{ steps.lint_code_cmd.outputs.bash }}
-    steps:
-      - uses: actions/checkout@v4
-      - uses: oven-sh/setup-bun@v2
-      - run: bun install
-        shell: bash
-      - id: lint_code_cmd
-        name: Lint Code
-        run: echo "bash=$(bun run lint:code)" >> $GITHUB_OUTPUT
-        shell: bash
-
-  lint_knip:
-    name: Lint Knip
-    runs-on: ubuntu-latest
-    outputs:
-      bash: ${{ steps.lint_knip_cmd.outputs.bash }}
-    steps:
-      - uses: actions/checkout@v4
-      - uses: oven-sh/setup-bun@v2
-      - run: bun install
-        shell: bash
-      - id: lint_knip_cmd
-        name: Lint Knip
-        run: |
-          echo "result<<EOF" >> $GITHUB_OUTPUT
-          bun run lint:knip --reporter markdown >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
-        # echo "bash=$(bun run lint:knip --reporter markdown)" >> $GITHUB_OUTPUT >> $GITHUB_STEP_SUMMARY
-        # shell: bash
-
-  lint_markdown:
-    name: Lint Markdown
-    runs-on: ubuntu-latest
-    outputs:
-      bash: ${{ steps.lint_markdown_cmd.outputs.bash }}
-    steps:
-      - uses: actions/checkout@v4
-      - uses: oven-sh/setup-bun@v2
-      - run: bun install
-        shell: bash
-      - id: lint_markdown_cmd
-        name: Lint Markdown
-        run: echo "bash=$(bun run lint:md)" >> $GITHUB_OUTPUT
-        shell: bash
-
-  lint_cspell:
-    name: Lint CSpell
-    runs-on: ubuntu-latest
-    outputs:
-      bash: ${{ steps.lint_cspell_cmd.outputs.bash }}
-    steps:
-      - uses: actions/checkout@v4
-      - uses: oven-sh/setup-bun@v2
-      - run: bun install
-        shell: bash
-      - id: lint_cspell_cmd
-        name: Lint CSpell
-        run: echo "bash=$(bun run lint:cspell)" >> $GITHUB_OUTPUT
-        shell: bash
-
-  build:
-    name: Build
-    needs: [format_code, lint_code, lint_knip, lint_markdown, lint_cspell]
-    runs-on: ubuntu-latest
-    outputs:
-      bash: ${{ steps.build_packages_cmd.outputs.bash }}
-    steps:
-      - uses: actions/checkout@v4
-      - uses: oven-sh/setup-bun@v2
-      - run: bun install
-        shell: bash
-      - name: Build Packages
-        id: build_packages_cmd
-        run: echo "bash=$(bun run build)" >> $GITHUB_OUTPUT
-        shell: bash
-        # Print docs
-        # check docs is written + lint them
-        # docs codegen
-  # release:
-  #   name: Release
-  #   needs: [build]
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Pre-Release
-  #       if: github.ref == 'refs/heads/next'
-  #       env:
-  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  #       run: |
-  #         bun nx release --dry-run --skip-publish
-  #     #   # git add .
-  #     #   # git commit -m "chore(release): {version}"
-  #     - name: Stable Release
-  #       if: github.ref == 'refs/heads/stable'
-  #       run: |
-  #         bun nx release --dry-run --skip-publish
-  #       # git add .
-  #       # git commit -m "chore(release): {version}"
-  #   outputs:
-  #     shell_output: ${{ steps.build_packages_cmd.outputs.result }}
-
-  comment_results:
-    name: Comment Results
-    needs: [format_code, lint_code, lint_knip, lint_markdown, lint_cspell, build]
-    if: ${{ always() && !cancelled() && github.event_name == 'pull_request' }}
-    runs-on: ubuntu-latest
+    timeout-minutes: 10
     permissions:
-      pull-requests: write
+      contents: read
+      id-token: write # needed for provenance data generation
     steps:
-      - uses: actions/checkout@v4
-      - uses: marocchino/sticky-pull-request-comment@v2
-        with:
-          header: pr-status-checks
-          message: |
-            ## GitHub Actions Results
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-            ### ${{ needs.format_code.result == 'success' && '✅' || '❌' }} Formatting
-            ${{ needs.format_code.outputs.bash }}
-            
-            ### ${{ needs.lint_code.result == 'success' && '✅' || '❌' }} Linting - Code
-            ${{ needs.lint_code.outputs.bash }}
-            
-            ### ${{ needs.lint_knip.result == 'success' && '✅' || '❌' }} Linting - Knip
-            ${{ needs.lint_knip.outputs.bash }}
-            
-            ### ${{ needs.lint_markdown.result == 'success' && '✅' || '❌' }} Linting - Markdown
-            ${{ needs.lint_markdown.outputs.bash }}
-            
-            ### ${{ needs.lint_cspell.result == 'success' && '✅' || '❌' }} Linting - Cspell
-            ${{ needs.lint_cspell.outputs.bash }}
+      - name: Setup
+        uses: ./.github/workflows/init.yaml
+       
+      - name: Print Environment Info
+        run: bun nx report
+
+      # - name: Publish packages
+      #   run: bun nx release publish
+      #   shell: bash
+      #   env:
+      #     NODE_AUTH_TOKEN: ${{ secrets.NPM_ACCESS_TOKEN }}
+      #     NPM_CONFIG_PROVENANCE: true
+
+# TODO - DO NOT RELEASE ON EVERY MERGE. RUN A RELEASE JOB SEPARATELY.
+# PR title = release: {date}
+
+# release:
+#   name: Release and Publish
+#   needs: [build]
+#   runs-on: ubuntu-latest
+#   steps:
+#     - name: Pre-Release
+#       if: github.ref == 'refs/heads/next'
+#       env:
+#         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#       run: |
+#         bun nx release --dry-run --skip-publish
+#     #   # git add .
+#     #   # git commit -m "chore(release): {version}"
+#     - name: Stable Release
+#       if: github.ref == 'refs/heads/stable'
+#       run: |
+#         bun nx release --dry-run --skip-publish
+#       # git add .
+#       # git commit -m "chore(release): {version}"
+#   outputs:
+#     shell_output: ${{ steps.build_packages_cmd.outputs.result }}
