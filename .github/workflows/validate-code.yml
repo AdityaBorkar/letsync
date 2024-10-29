@@ -1,0 +1,194 @@
+name: Code Validation
+
+on:
+  pull_request:
+    branches: [stable, next]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.sha }}
+  cancel-in-progress: true
+
+permissions:
+  issues: write
+  statuses: write
+  contents: write
+  pull-requests: write
+
+jobs:
+  format_code:
+    name: Format Code
+    runs-on: ubuntu-latest
+    outputs:
+      bash: ${{ steps.format_code_cmd.outputs.bash }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - run: bun install
+      - id: format_code_cmd
+        name: Format Code
+        run: echo "bash=$(bun run format)" >> $GITHUB_OUTPUT
+      - name: Import GPG key
+        uses: crazy-max/ghaction-import-gpg@v6
+        with:
+          passphrase: ${{ secrets.GPG_PASSPHRASE }}
+          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
+          git_config_global: true
+          git_commit_gpgsign: true
+          git_committer_name: "GitHub Actions Bot"
+          git_committer_email: "aditya.borkar.programs+github.actions@gmail.com"
+          git_push_gpgsign: false
+          git_tag_gpgsign: true
+          git_user_signingkey: true
+      - name: Commit changes (if any)
+        if: github.event_name == 'pull_request'
+        run: |
+          if [ -n "$(git status --porcelain)" ]; then
+            git add .
+            git commit -S -m "chore: automated changes by github actions" || echo "No changes to commit"
+            git pull --rebase origin ${{ github.head_ref }}
+            git push --force-with-lease origin HEAD:${{ github.head_ref }}
+          fi
+      # TODO - HUSKY FOR PRE-COMMITS OR ENABLE
+
+  lint_code:
+    name: Lint Code
+    runs-on: ubuntu-latest
+    outputs:
+      bash: ${{ steps.lint_code_cmd.outputs.bash }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - run: bun install
+      - id: lint_code_cmd
+        name: Lint Code
+        run: |
+          {
+            echo "bash<<EOF"
+            echo "$(bun run lint:code)"
+            echo "EOF"
+          } >> $GITHUB_OUTPUT
+
+  lint_knip:
+    name: Lint Knip
+    runs-on: ubuntu-latest
+    outputs:
+      bash: ${{ steps.lint_knip_cmd.outputs.bash }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - run: bun install
+      - id: lint_knip_cmd
+        name: Lint Knip
+        run: |
+          {
+            echo "bash<<EOF"
+            echo "$(bun run lint:knip --reporter markdown)"
+            echo "EOF"
+          } >> $GITHUB_OUTPUT
+
+  lint_markdown:
+    name: Lint Markdown
+    runs-on: ubuntu-latest
+    outputs:
+      bash: ${{ steps.lint_markdown_cmd.outputs.bash }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - run: bun install
+      - id: lint_markdown_cmd
+        name: Lint Markdown
+        run: echo "bash=$(bun run lint:md)" >> $GITHUB_OUTPUT
+
+  lint_cspell:
+    name: Lint CSpell
+    runs-on: ubuntu-latest
+    outputs:
+      bash: ${{ steps.lint_cspell_cmd.outputs.bash }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - run: bun install
+      - id: lint_cspell_cmd
+        name: Lint CSpell
+        run: echo "bash=$(bun run lint:cspell)" >> $GITHUB_OUTPUT
+
+  build:
+    name: Build
+    needs: [format_code, lint_code, lint_knip, lint_markdown, lint_cspell]
+    runs-on: ubuntu-latest
+    outputs:
+      packages_bash: ${{ steps.build_packages_cmd.outputs.bash }}
+      website_bash: ${{ steps.build_website_cmd.outputs.bash }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - run: bun install
+      - name: Build Packages
+        id: build_packages_cmd
+        run: |
+          {
+            echo "bash<<EOF"
+            echo "$(CI=true bun run build:packages)"
+            echo "EOF"
+          } >> $GITHUB_OUTPUT
+      - name: Build Website
+        id: build_website_cmd
+        run: |
+          {
+            echo "bash<<EOF"
+            echo "$(CI=true bun run build:www)"
+            echo "EOF"
+          } >> $GITHUB_OUTPUT
+
+  workflow_status:
+    name: Workflow status
+    needs: [format_code, lint_code, lint_knip, lint_markdown, lint_cspell, build]
+    if: ${{ always() && !cancelled() && github.event_name == 'pull_request' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          echo "## ${{ needs.lint_code.result == 'success' && '✅' || '❌' }} Lint Code" >> $GITHUB_STEP_SUMMARY
+          echo "${{ needs.lint_code.outputs.bash }}" >> $GITHUB_STEP_SUMMARY
+          echo "## ${{ needs.lint_knip.result == 'success' && '✅' || '❌' }} Lint Knip" >> $GITHUB_STEP_SUMMARY
+          echo "${{ needs.lint_knip.outputs.bash }}" >> $GITHUB_STEP_SUMMARY
+          echo "## ${{ needs.lint_markdown.result == 'success' && '✅' || '❌' }} Lint Markdown" >> $GITHUB_STEP_SUMMARY
+          echo "${{ needs.lint_markdown.outputs.bash }}" >> $GITHUB_STEP_SUMMARY
+          echo "## ${{ needs.lint_cspell.result == 'success' && '✅' || '❌' }} Lint CSpell" >> $GITHUB_STEP_SUMMARY
+          echo "${{ needs.lint_cspell.outputs.bash }}" >> $GITHUB_STEP_SUMMARY
+          echo "## ${{ needs.build.result == 'success' && '✅' || '❌' }} Build" >> $GITHUB_STEP_SUMMARY
+          echo "${{ needs.build.outputs.website_bash }}" >> $GITHUB_STEP_SUMMARY
+          echo "${{ needs.build.outputs.packages_bash }}" >> $GITHUB_STEP_SUMMARY
+      # echo "## STATE Workflows" >> $GITHUB_STEP_SUMMARY
+      - uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: pr-status-checks
+          message: |
+            ## 🤖 PR Summary ℹ️
+            <sup>This comment is automatically generated and will be overwritten every time changes are committed to this branch.</sup>
+
+            ### Workflows
+
+            Workflow Name | Status | Summary
+            ------------- | ------ | -------
+            Next Release Checklist | Failed | [Summary](https://github.com/github/docs/actions/runs/11523701252?pr=35043#summary-32082272571)
+            Lint Pull Request | Passed | [Summary](https://github.com/github/docs/actions/runs/11523701252?pr=35043#summary-32082272571)
+            ------------- | ------ | -------
+
+            ### Package Changes
+
+            Merging this pull request will trigger the following releases:
+
+            Package Name | Release Version | Release Notes
+            ------------- | ------ | ----
+            @letsync/core | Build Failed | [Changelog]()
+            @letsync/cli | 0.2.0-next.0 | [Changelog]()
+            ------------- | ------ | ----
+
+            <sup>Version numbers are subject to change until the release is published.</sup>
+
+            ### Documentation Changes
+
+            None / Preview Link - [...](...)
+
+            Can documentation changes be applied without version release?

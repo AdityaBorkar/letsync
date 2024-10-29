@@ -3,15 +3,15 @@ import type { Letsync_PubSub_Backend, Letsync_ServerDb } from '@letsync/core';
 
 import Router from './router.js';
 
-export type Params = {
-	database: Letsync_ServerDb<unknown>;
-	pubsub: Letsync_PubSub_Backend;
-	request: NextRequest;
-	auth: {
-		userId: string;
-		deviceId: string;
-	};
-};
+// export type Params = {
+// 	database: Letsync_ServerDb<unknown>;
+// 	pubsub: Letsync_PubSub_Backend;
+// 	request: NextRequest;
+// 	auth: {
+// 		userId: string;
+// 		deviceId: string;
+// 	};
+// };
 
 export type NextContext = { params: { slug: string[] } };
 

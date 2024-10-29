@@ -22,17 +22,14 @@
 	"scripts": {
 		"dev": "tsc --watch",
 		"build": "tsc --build",
+		"typecheck": "tsc --noEmit",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
 	"engines": {
 		"node": ">=18.3.0"
 	},
 	"devDependencies": {
-		"@types/jsonwebtoken": "^9.0.7",
 		"typescript": "^5.6.2"
 	},
-	"dependencies": {
-		"@paralleldrive/cuid2": "^2.2.2",
-		"jsonwebtoken": "^9.0.2"
-	}
+	"dependencies": {}
 }

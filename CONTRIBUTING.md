@@ -62,3 +62,9 @@ Write here
   - Astro: Parsing, Formatting and Linting are PARTIALLY SUPPORTED.
   - YAML: Parsing IN PROGRESS. Formatting and Linting NOT SUPPORTED.
   - Markdown: Parsing IN PROGRESS. Formatting and Linting NOT SUPPORTED.
+
+## Test GitHub Actions Locally
+
+```bash
+gh act -P ubuntu-latest=-self-hosted -W "./.github/workflows/release.yml" | grep --color=always -v '::'
+```

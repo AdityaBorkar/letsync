@@ -6,11 +6,11 @@ export interface TableRecords {
 	};
 }
 
-export interface Metadata {
-	Device: {
-		deviceId: string;
-		userId: string;
-		schemaVersion: string;
-		state: string;
-	};
-}
+// export interface Metadata {
+// 	Device: {
+// 		deviceId: string;
+// 		userId: string;
+// 		schemaVersion: string;
+// 		state: string;
+// 	};
+// }

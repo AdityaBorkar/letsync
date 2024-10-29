@@ -78,6 +78,7 @@
 		"tsconfigs",
 		"tseslint",
 		"turso",
+		"typecheck",
 		"typedarrays",
 		"uncategorized",
 		"unlisten",
