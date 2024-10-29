@@ -125,10 +125,20 @@ jobs:
       - run: bun install
       - name: Build Packages
         id: build_packages_cmd
-        run: echo "bash=$(bun run build:packages)" >> $GITHUB_OUTPUT
+        run: |
+          {
+            echo "bash<<EOF"
+            echo "$(bun run build:packages)"
+            echo "EOF"
+          } >> $GITHUB_OUTPUT
       - name: Build Website
         id: build_website_cmd
-        run: echo "bash=$(bun run build:www)" >> $GITHUB_OUTPUT
+        run: |
+          {
+            echo "bash<<EOF"
+            echo "$(bun run build:www)"
+            echo "EOF"
+          } >> $GITHUB_OUTPUT
 
   workflow_status:
     name: Workflow status
