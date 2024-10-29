@@ -128,7 +128,7 @@ jobs:
         run: |
           {
             echo "bash<<EOF"
-            echo "$(bun run build:packages)"
+            echo "$(CI=true bun run build:packages)"
             echo "EOF"
           } >> $GITHUB_OUTPUT
       - name: Build Website
@@ -136,7 +136,7 @@ jobs:
         run: |
           {
             echo "bash<<EOF"
-            echo "$(bun run build:www)"
+            echo "$(CI=true bun run build:www)"
             echo "EOF"
           } >> $GITHUB_OUTPUT
 
