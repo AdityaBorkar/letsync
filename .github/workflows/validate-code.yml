@@ -117,40 +117,54 @@ jobs:
     needs: [format_code, lint_code, lint_knip, lint_markdown, lint_cspell]
     runs-on: ubuntu-latest
     outputs:
-      packages-bash: ${{ steps.build_packages_cmd.outputs.bash }}
-      website-bash: ${{ steps.build_website_cmd.outputs.bash }}
+      packages_bash: ${{ steps.build_packages_cmd.outputs.bash }}
+      website_bash: ${{ steps.build_website_cmd.outputs.bash }}
     steps:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
       - run: bun install
       - name: Build Packages
         id: build_packages_cmd
-        run: echo "bash=$(bun run build:packages)" >> $GITHUB_OUTPUT
+        run: |
+          {
+            echo "bash<<EOF"
+            echo "$(CI=true bun run build:packages)"
+            echo "EOF"
+          } >> $GITHUB_OUTPUT
       - name: Build Website
         id: build_website_cmd
-        run: echo "bash=$(bun run build:www)" >> $GITHUB_OUTPUT
+        run: |
+          {
+            echo "bash<<EOF"
+            echo "$(CI=true bun run build:www)"
+            echo "EOF"
+          } >> $GITHUB_OUTPUT
 
-  comment_results:
-    name: Comment Results
+  workflow_status:
+    name: Workflow status
     needs: [format_code, lint_code, lint_knip, lint_markdown, lint_cspell, build]
     if: ${{ always() && !cancelled() && github.event_name == 'pull_request' }}
     runs-on: ubuntu-latest
-    # permissions:
-    #   pull-requests: write
     steps:
       - uses: actions/checkout@v4
       - run: |
-          echo "## STATE Workflows" >> $GITHUB_STEP_SUMMARY
-          echo "## STATE Linting Code" >> $GITHUB_STEP_SUMMARY
-          echo "## STATE Lint Knip" >> $GITHUB_STEP_SUMMARY
-          echo "## STATE Lint Markdown" >> $GITHUB_STEP_SUMMARY
-          echo "## STATE Lint CSpell" >> $GITHUB_STEP_SUMMARY
-          echo "## STATE Build" >> $GITHUB_STEP_SUMMARY
+          echo "## ${{ needs.lint_code.result == 'success' && '✅' || '❌' }} Lint Code" >> $GITHUB_STEP_SUMMARY
+          echo "${{ needs.lint_code.outputs.bash }}" >> $GITHUB_STEP_SUMMARY
+          echo "## ${{ needs.lint_knip.result == 'success' && '✅' || '❌' }} Lint Knip" >> $GITHUB_STEP_SUMMARY
+          echo "${{ needs.lint_knip.outputs.bash }}" >> $GITHUB_STEP_SUMMARY
+          echo "## ${{ needs.lint_markdown.result == 'success' && '✅' || '❌' }} Lint Markdown" >> $GITHUB_STEP_SUMMARY
+          echo "${{ needs.lint_markdown.outputs.bash }}" >> $GITHUB_STEP_SUMMARY
+          echo "## ${{ needs.lint_cspell.result == 'success' && '✅' || '❌' }} Lint CSpell" >> $GITHUB_STEP_SUMMARY
+          echo "${{ needs.lint_cspell.outputs.bash }}" >> $GITHUB_STEP_SUMMARY
+          echo "## ${{ needs.build.result == 'success' && '✅' || '❌' }} Build" >> $GITHUB_STEP_SUMMARY
+          echo "${{ needs.build.outputs.website_bash }}" >> $GITHUB_STEP_SUMMARY
+          echo "${{ needs.build.outputs.packages_bash }}" >> $GITHUB_STEP_SUMMARY
+      # echo "## STATE Workflows" >> $GITHUB_STEP_SUMMARY
       - uses: marocchino/sticky-pull-request-comment@v2
         with:
           header: pr-status-checks
           message: |
-            ## 🤖 Automatically generated comment ℹ️
+            ## 🤖 PR Summary ℹ️
             <sup>This comment is automatically generated and will be overwritten every time changes are committed to this branch.</sup>
 
             ### Workflows
