@@ -1,2 +1,2 @@
-import initialize from "./initialize.js";
+import initialize from './initialize.js';
 export const client = { initialize };

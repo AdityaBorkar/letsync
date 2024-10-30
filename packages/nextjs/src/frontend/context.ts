@@ -1,11 +1,11 @@
-import { createContext } from "react";
+import { createContext } from 'react';
 import type {
 	ClientDbAdapter,
 	Letsync_PubSub_Frontend as PubsubAdapter,
-} from "@letsync/core";
+} from '@letsync/core';
 
 export type Connected_PubsubAdapter = Awaited<
-	ReturnType<PubsubAdapter["connect"]>
+	ReturnType<PubsubAdapter['connect']>
 >;
 
 export interface LetsyncContextType {

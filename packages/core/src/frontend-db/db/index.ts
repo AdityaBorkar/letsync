@@ -15,10 +15,9 @@ import { register } from './device/register.js';
 import { deregister } from './device/deregister.js';
 import { subscribe } from './event/subscribe.js';
 import { unsubscribe } from './event/unsubscribe.js';
-import { txn } from './txn.js';
 import { sql } from './sql.js';
-import migrate from './schema/migrate.js';
-import getAvailableUpgrades from './schema/getAvailableUpgrades.js';
+import { migrate } from './schema/migrate.js';
+import { getAvailableUpgrades } from './schema/getAvailableUpgrades.js';
 import type { TableRecords } from '@/types/db-schema.js';
 
 export type Props = {
@@ -41,7 +40,7 @@ export default function clientDb(props: {
 	pubsub: PubsubAdapter;
 	dbSchema: Config['dbSchema'];
 	dbOpsAdapter: ClientDb_OpsAdapter;
-}): Omit<ClientDbAdapter, 'database' | '__brand'> {
+}): Omit<ClientDbAdapter, '__brand'> {
 	const { dbOpsAdapter: database, pubsub, dbSchema, apiBaseUrl } = props;
 
 	if (pubsub.__brand !== 'LETSYNC_PUBSUB_FRONTEND')
@@ -55,15 +54,16 @@ export default function clientDb(props: {
 		},
 		// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 		upsert(name: string, content: { [key: string]: any }) {
-			const contentJSON = JSON.stringify(content);
-			return database.sql`INSERT INTO metadata (name, content, lastUpdated) VALUES (${name}, ${contentJSON}, ${new Date().toISOString()}) ON CONFLICT (name) DO UPDATE SET content = EXCLUDED.content, lastUpdated = EXCLUDED.lastUpdated`;
+			const contentJson = JSON.stringify(content);
+			return database.sql`INSERT INTO metadata (name, content, lastUpdated) VALUES (${name}, ${contentJson}, ${new Date().toISOString()}) ON CONFLICT (name) DO UPDATE SET content = EXCLUDED.content, lastUpdated = EXCLUDED.lastUpdated`;
 		},
 		async get(name: string) {
 			const record = await database.sql<
 				TableRecords['Metadata']
 			>`SELECT * FROM metadata WHERE name = ${name}`;
 			// TODO - What if multiple records are found in NoSQL databases?
-			const content = record.rows[0].content;
+			const content = record.rows[0]?.content;
+			if (!content) return null;
 			return JSON.parse(content);
 		},
 	} satisfies Props['metadata'];

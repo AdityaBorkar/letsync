@@ -1,0 +1,8 @@
+{
+	"deno.enable": false, // true
+	"editor.defaultFormatter": "biomejs.biome", // "denoland.vscode-deno"
+	"editor.formatOnSave": true,
+	"editor.rulers": [80],
+	"typescript.tsdk": "node_modules/typescript/lib",
+	"git.enableCommitSigning": true
+}

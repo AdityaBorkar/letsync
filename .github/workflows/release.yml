@@ -1,0 +1,56 @@
+name: Publish
+
+on:
+  push:
+    tags:
+      - v*.*.*
+
+jobs:
+  publish:
+    name: Publish Packages and Deployments
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      id-token: write # needed for provenance data generation
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup
+        uses: ./.github/workflows/init.yaml
+       
+      - name: Print Environment Info
+        run: bun nx report
+
+      # - name: Publish packages
+      #   run: bun nx release publish
+      #   shell: bash
+      #   env:
+      #     NODE_AUTH_TOKEN: ${{ secrets.NPM_ACCESS_TOKEN }}
+      #     NPM_CONFIG_PROVENANCE: true
+
+# TODO - DO NOT RELEASE ON EVERY MERGE. RUN A RELEASE JOB SEPARATELY.
+# PR title = release: {date}
+
+# release:
+#   name: Release and Publish
+#   needs: [build]
+#   runs-on: ubuntu-latest
+#   steps:
+#     - name: Pre-Release
+#       if: github.ref == 'refs/heads/next'
+#       env:
+#         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#       run: |
+#         bun nx release --dry-run --skip-publish
+#     #   # git add .
+#     #   # git commit -m "chore(release): {version}"
+#     - name: Stable Release
+#       if: github.ref == 'refs/heads/stable'
+#       run: |
+#         bun nx release --dry-run --skip-publish
+#       # git add .
+#       # git commit -m "chore(release): {version}"
+#   outputs:
+#     shell_output: ${{ steps.build_packages_cmd.outputs.result }}

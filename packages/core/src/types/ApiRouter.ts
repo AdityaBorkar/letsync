@@ -1,6 +1,6 @@
 export type ApiRouter = {
 	POST: {
-		"/device": {
+		'/device': {
 			searchParams: undefined;
 			response: {
 				device: {
@@ -19,7 +19,7 @@ export type ApiRouter = {
 		};
 	};
 	GET: {
-		"/device": {
+		'/device': {
 			searchParams: { deviceId: string };
 			response: {
 				device: {
@@ -36,7 +36,7 @@ export type ApiRouter = {
 				};
 			};
 		};
-		"/schema/versions": {
+		'/schema/versions': {
 			searchParams: undefined;
 			response: {
 				versions: number[];
@@ -44,7 +44,7 @@ export type ApiRouter = {
 		};
 	};
 	DELETE: {
-		"/device": {
+		'/device': {
 			searchParams: { deviceId: string };
 			response: {
 				success: boolean;

@@ -10,7 +10,6 @@ node_modules/
 **/coverage/
 
 # build
-**/lib/
 **/dist/
 
 # logs
@@ -27,9 +26,13 @@ node_modules/
 # miscellaneous
 .cursorrules*
 **/DS_Store
+bin
 
 # jetbrains setting folder
 .idea/
 
 # typescript
 tsconfig.tsbuildinfo
+
+# TEMPORARY WORKAROUND FOR KNIP
+vitest.config.ts

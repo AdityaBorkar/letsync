@@ -1,0 +1,11 @@
+{
+	"$schema": "https://unpkg.com/knip@latest/schema-jsonc.json",
+	"workspaces": {
+		"packages/**": {
+			"entry": "src/index.{ts,tsx}",
+			"project": "src/**/*.{ts,tsx}"
+		}
+	},
+	"ignoreWorkspaces": ["www/**"],
+	"ignore": ["www/src/env.d.ts", "boilerplate/**", "examples/**"]
+}

@@ -1,7 +1,7 @@
 import type {
 	Letsync_PubSub_Backend,
 	Letsync_ServerDb,
-} from "@/types/index.js";
+} from '@/types/index.js';
 
 export type Params = {
 	database: Letsync_ServerDb<unknown>;

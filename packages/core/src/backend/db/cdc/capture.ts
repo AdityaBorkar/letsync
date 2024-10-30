@@ -1,13 +1,13 @@
-import type { Params } from "@/backend/types.js";
+import type { Params } from '@/backend/types.js';
 
 export default async function cdcCapture(params: Params) {
 	const { database: serverDb } = params;
 	await serverDb.waitUntilReady();
-	if (serverDb.type === "NOSQL") return Response.json({});
+	if (serverDb.type === 'NOSQL') return Response.json({});
 
-	const auth = params.request.headers.get("Authorization");
-	if (auth !== "Basic ZFB5emZSMlFSTkNQTVR1U1VaZjVVT3BFeVNkcG03OWE=")
-		return Response.json({ error: "Invalid Authorization" }, { status: 401 });
+	const auth = params.request.headers.get('Authorization');
+	if (auth !== 'Basic ZFB5emZSMlFSTkNQTVR1U1VaZjVVT3BFeVNkcG03OWE=')
+		return Response.json({ error: 'Invalid Authorization' }, { status: 401 });
 
 	const input = await params.request.json();
 	// TODO: Zod verify `input`
@@ -27,8 +27,8 @@ export default async function cdcCapture(params: Params) {
 	const cdcData = cdc
 		.map((payloadItem) => {
 			const { after, key, topic, updated } = payloadItem;
-			const userGroup = topic.split(".")[0].replaceAll('"', ""); // TODO: Improve logic, does not work for `"vasundhara.aakash".public.employees`
-			const tableName = topic.split(".")[2]; // TODO: Improve logic, does not work for `"vasundhara.aakash".public.employees`
+			const userGroup = topic.split('.')[0].replaceAll('"', ''); // TODO: Improve logic, does not work for `"vasundhara.aakash".public.employees`
+			const tableName = topic.split('.')[2]; // TODO: Improve logic, does not work for `"vasundhara.aakash".public.employees`
 
 			params.pubsub.publish(userGroup, after);
 
@@ -39,9 +39,9 @@ export default async function cdcCapture(params: Params) {
 				`'${JSON.stringify(after)}'`,
 				`'epoch' + (${Number.parseInt(updated)}::float/10000000000)::interval`, // TODO - THIS TIMESTAMP IS NOT CORRECT.
 			];
-			return `(${data.join(", ")})`;
+			return `(${data.join(', ')})`;
 		})
-		.join(", ");
+		.join(', ');
 	await serverDb.query(
 		`INSERT INTO cdc (id, tableName, key, data, updated) VALUES ${cdcData};`,
 	);

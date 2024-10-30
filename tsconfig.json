@@ -6,7 +6,6 @@
 		"esModuleInterop": true,
 		"module": "NodeNext",
 		"moduleResolution": "NodeNext",
-		"noEmit": true,
 		"isolatedModules": true,
 		"resolveJsonModule": true,
 		"skipLibCheck": true,
@@ -23,4 +22,5 @@
 		"allowUnreachableCode": false,
 		"allowUnusedLabels": false
 	},
+	"references": [{ "path": "./boilerplate/package" }]
 }
