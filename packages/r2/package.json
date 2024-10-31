@@ -1,7 +1,7 @@
 {
   "name": "@letsync/r2",
   "description": "R2 functionality for Letsync",
-  "version": "0.1.0",
+  "version": "0.0.1",
   "license": "MIT",
   "keywords": [],
   "author": {
