@@ -14,7 +14,7 @@
 		"build:packages": "nx run-many --target=build --projects=packages/*",
 		"build:www": "nx run-many --target=build --projects=www"
 	},
-	"trustedDependencies": ["@biomejs/biome", "esbuild", "nx", "sharp"],
+	"trustedDependencies": ["@biomejs/biome", "nx", "sharp"],
 	"dependencies": {
 		"@biomejs/biome": "^1.9.4",
 		"@nx/js": "20.0.6",

@@ -157,8 +157,8 @@ jobs:
           echo "## ${{ needs.lint_cspell.result == 'success' && '✅' || '❌' }} Lint CSpell" >> $GITHUB_STEP_SUMMARY
           echo "${{ needs.lint_cspell.outputs.bash }}" >> $GITHUB_STEP_SUMMARY
           echo "## ${{ needs.build.result == 'success' && '✅' || '❌' }} Build" >> $GITHUB_STEP_SUMMARY
-          echo "${{ needs.build.outputs.website_bash }}" >> $GITHUB_STEP_SUMMARY
-          echo "${{ needs.build.outputs.packages_bash }}" >> $GITHUB_STEP_SUMMARY
+          echo "```bash\n${{ needs.build.outputs.website_bash }}\n```" >> $GITHUB_STEP_SUMMARY
+          echo "```bash\n${{ needs.build.outputs.packages_bash }}\n```" >> $GITHUB_STEP_SUMMARY
       # echo "## STATE Workflows" >> $GITHUB_STEP_SUMMARY
       - uses: marocchino/sticky-pull-request-comment@v2
         with:
@@ -169,11 +169,10 @@ jobs:
 
             ### Workflows
 
-            Workflow Name | Status | Summary
-            ------------- | ------ | -------
-            Next Release Checklist | Failed | [Summary](https://github.com/github/docs/actions/runs/11523701252?pr=35043#summary-32082272571)
-            Lint Pull Request | Passed | [Summary](https://github.com/github/docs/actions/runs/11523701252?pr=35043#summary-32082272571)
-            ------------- | ------ | -------
+            Workflow Name | Summary
+            ------------- | -------
+            Next Release Checklist | [Summary](https://github.com/github/docs/actions/runs/${{ github.run_id }}?pr=${{ github.event.pull_request.number }}#summary-${{ github.run_attempt }}})
+            Lint Pull Request | [Summary](https://github.com/github/docs/actions/runs/${{ github.run_id }}?pr=${{ github.event.pull_request.number }}#summary-${{ github.run_attempt }}})
 
             ### Package Changes
 
@@ -183,7 +182,6 @@ jobs:
             ------------- | ------ | ----
             @letsync/core | Build Failed | [Changelog]()
             @letsync/cli | 0.2.0-next.0 | [Changelog]()
-            ------------- | ------ | ----
 
             <sup>Version numbers are subject to change until the release is published.</sup>
 
