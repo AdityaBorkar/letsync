@@ -1,35 +1,39 @@
 {
-	"name": "letsync",
-	"license": "MIT",
-	"workspaces": ["www/", "packages/*", "examples/*"],
-	"scripts": {
-		"dev": "nx run dev",
-		"commit": "git add . && cz",
-		"format": "bun biome format --write",
-		"lint:code": "bun biome lint",
-		"lint:knip": "knip",
-		"lint:cspell": "cspell lint . --no-progress",
-		"lint:md": "markdownlint \"**/*.md\" --disable MD010 MD013 --ignore \"**/node_modules/**\"",
-		"typecheck": "nx run-many --target=typecheck --projects=packages/*,www",
-		"build:packages": "nx run-many --target=build --projects=packages/*",
-		"build:www": "nx run-many --target=build --projects=www"
-	},
-	"trustedDependencies": ["@biomejs/biome", "nx", "sharp"],
-	"dependencies": {
-		"@biomejs/biome": "^1.9.4",
-		"@nx/js": "20.0.6",
-		"@types/node": "^22.8.4",
-		"commitizen": "^4.3.1",
-		"cspell": "^8.15.5",
-		"cz-conventional-changelog": "^3.3.0",
-		"knip": "^5.34.4",
-		"markdownlint-cli": "^0.42.0",
-		"nx": "20.0.6",
-		"typescript": "^5.6.3"
-	},
-	"config": {
-		"commitizen": {
-			"path": "cz-conventional-changelog"
-		}
-	}
+  "name": "letsync",
+  "license": "MIT",
+  "workspaces": ["www/", "packages/*", "examples/*"],
+  "scripts": {
+    "dev": "nx run dev",
+    "commit": "git add . && cz",
+    "format": "bun biome format --write",
+    "lint:code": "bun biome lint",
+    "lint:knip": "knip",
+    "lint:cspell": "cspell lint . --no-progress",
+    "lint:md": "markdownlint \"**/*.md\" --disable MD010 MD013 --ignore \"**/node_modules/**\"",
+    "typecheck": "nx run-many --target=typecheck --projects=packages/*,www",
+    "build:packages": "nx run-many --target=build --projects=packages/*",
+    "build:www": "nx run-many --target=build --projects=www",
+    "release": "bun nx release",
+    "deploy": "echo 'TODO' && exit 0"
+  },
+  "trustedDependencies": ["@biomejs/biome", "@swc/core", "esbuild", "nx", "sharp"],
+  "dependencies": {
+    "@biomejs/biome": "^1.9.4",
+    "@nx/js": "20.0.6",
+    "@swc-node/register": "^1.10.9",
+    "@swc/core": "^1.7.42",
+    "@types/node": "^22.8.4",
+    "commitizen": "^4.3.1",
+    "cspell": "^8.15.5",
+    "cz-conventional-changelog": "^3.3.0",
+    "knip": "^5.34.4",
+    "markdownlint-cli": "^0.42.0",
+    "nx": "20.0.6",
+    "typescript": "^5.6.3"
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
+  }
 }
