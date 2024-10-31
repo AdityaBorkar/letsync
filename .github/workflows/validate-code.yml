@@ -1,3 +1,8 @@
+# TODO - HUSKY AND COMMIT MESSAGE CHECKS
+# - biome apply all rules for linting
+# - [ ] Retire .env files. If not possible, use [Dotenv Linter](https://dotenv-linter.github.io/#/?id=dotenv-linter)
+# - [fix it](https://github.com/amannn/action-semantic-pull-request/issues?q=Resource+not+accessible+by+integration)
+
 name: Code Validation
 
 on:
@@ -48,7 +53,6 @@ jobs:
             git pull --rebase origin ${{ github.head_ref }}
             git push --force-with-lease origin HEAD:${{ github.head_ref }}
           fi
-      # TODO - HUSKY FOR PRE-COMMITS OR ENABLE
 
   lint_code:
     name: Lint Code
@@ -97,7 +101,12 @@ jobs:
       - run: bun install
       - id: lint_markdown_cmd
         name: Lint Markdown
-        run: echo "bash=$(bun run lint:md)" >> $GITHUB_OUTPUT
+        run: |
+          {
+            echo "bash<<EOF"
+            echo "$(bun run lint:md)"
+            echo "EOF"
+          } >> $GITHUB_OUTPUT
 
   lint_cspell:
     name: Lint CSpell
@@ -110,7 +119,12 @@ jobs:
       - run: bun install
       - id: lint_cspell_cmd
         name: Lint CSpell
-        run: echo "bash=$(bun run lint:cspell)" >> $GITHUB_OUTPUT
+        run: |
+          {
+            echo "bash<<EOF"
+            echo "$(bun run lint:cspell)"
+            echo "EOF"
+          } >> $GITHUB_OUTPUT
 
   build:
     name: Build
@@ -140,6 +154,24 @@ jobs:
             echo "EOF"
           } >> $GITHUB_OUTPUT
 
+  tests:
+    name: Tests
+    runs-on: ubuntu-latest
+    outputs:
+      bash: ${{ steps.tests_cmd.outputs.bash }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - run: bun install
+      - id: tests_cmd
+        name: Tests
+        run: |
+          {
+            echo "bash<<EOF"
+            echo "No tests yet"
+            echo "EOF"
+          } >> $GITHUB_OUTPUT
+
   workflow_status:
     name: Workflow status
     needs: [format_code, lint_code, lint_knip, lint_markdown, lint_cspell, build]
@@ -157,9 +189,8 @@ jobs:
           echo "## ${{ needs.lint_cspell.result == 'success' && '✅' || '❌' }} Lint CSpell" >> $GITHUB_STEP_SUMMARY
           echo "${{ needs.lint_cspell.outputs.bash }}" >> $GITHUB_STEP_SUMMARY
           echo "## ${{ needs.build.result == 'success' && '✅' || '❌' }} Build" >> $GITHUB_STEP_SUMMARY
-          echo "${{ needs.build.outputs.website_bash }}" >> $GITHUB_STEP_SUMMARY
-          echo "${{ needs.build.outputs.packages_bash }}" >> $GITHUB_STEP_SUMMARY
-      # echo "## STATE Workflows" >> $GITHUB_STEP_SUMMARY
+          echo "```bash\n${{ needs.build.outputs.website_bash }}\n```" >> $GITHUB_STEP_SUMMARY
+          echo "```bash\n${{ needs.build.outputs.packages_bash }}\n```" >> $GITHUB_STEP_SUMMARY
       - uses: marocchino/sticky-pull-request-comment@v2
         with:
           header: pr-status-checks
@@ -169,11 +200,10 @@ jobs:
 
             ### Workflows
 
-            Workflow Name | Status | Summary
-            ------------- | ------ | -------
-            Next Release Checklist | Failed | [Summary](https://github.com/github/docs/actions/runs/11523701252?pr=35043#summary-32082272571)
-            Lint Pull Request | Passed | [Summary](https://github.com/github/docs/actions/runs/11523701252?pr=35043#summary-32082272571)
-            ------------- | ------ | -------
+            Workflow Name | Summary
+            ------------- | -------
+            Next Release Checklist | [Summary](https://github.com/github/docs/actions/runs/${{ github.run_id }}?pr=${{ github.event.pull_request.number }}#summary-${{ github.run_attempt }}})
+            Lint Pull Request | [Summary](https://github.com/github/docs/actions/runs/${{ github.run_id }}?pr=${{ github.event.pull_request.number }}#summary-${{ github.run_attempt }}})
 
             ### Package Changes
 
@@ -183,12 +213,11 @@ jobs:
             ------------- | ------ | ----
             @letsync/core | Build Failed | [Changelog]()
             @letsync/cli | 0.2.0-next.0 | [Changelog]()
-            ------------- | ------ | ----
 
             <sup>Version numbers are subject to change until the release is published.</sup>
 
             ### Documentation Changes
 
-            None / Preview Link - [...](...)
+            Preview Link - [...](...)
 
             Can documentation changes be applied without version release?
