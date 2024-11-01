@@ -2,7 +2,7 @@ name: Code Validation
 
 on:
   pull_request:
-    branches: [stable, next]
+    branches: [stable, stable-next, canary, canary-next]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.sha }}
@@ -26,7 +26,12 @@ jobs:
       - run: bun install
       - id: format_code_cmd
         name: Format Code
-        run: echo "bash=$(bun run format)" >> $GITHUB_OUTPUT
+        run: |
+          {
+            echo "bash<<EOF"
+            echo "$(bun run format)"
+            echo "EOF"
+          } >> $GITHUB_OUTPUT
       - name: Import GPG key
         uses: crazy-max/ghaction-import-gpg@v6
         with:

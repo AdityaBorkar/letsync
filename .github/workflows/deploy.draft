@@ -1,0 +1,47 @@
+## 📦 Package Changes
+
+<sup>Version numbers are subject to change until the release is published.</sup>
+
+### @letsync/core (v0.1.0)
+
+| Metric | Value | Change |
+| --- | --- | --- |
+| Package Size (Uncompressed) | 100MB | +10% |
+| Package Size (Gzipped) | 100MB | +10% |
+| Test Coverage | 90% | +0% |
+
+**Changelog:**
+  - Ok
+  - Dokey
+
+<details>
+  <summary>**Release Notes**</summary>
+
+  Written notes here about the release in MDX format. Get inspiration from React Native Blogs and Medusa Changelogs.
+</details>
+
+### @letsync/cli (v0.1.0-next.2)
+
+| Metric | Value | Change |
+| --- | --- | --- |
+| Package Size (Uncompressed) | 100MB | +10% |
+| Package Size (Gzipped) | 100MB | +10% |
+| Test Coverage | 90% | +0% |
+
+**Changelog:**
+  - Ok
+  - Dokey
+
+<details>
+  <summary>**Release Notes**</summary>
+
+  Written notes here about the release in MDX format. Get inspiration from React Native Blogs and Medusa Changelogs.
+</details>
+
+## 📖 Documentation Changes
+
+Preview Deployment: [link](...)
+
+**Changelog:**
+  - Ok
+  - Dokey

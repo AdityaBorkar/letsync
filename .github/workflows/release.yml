@@ -1,56 +1,207 @@
-name: Publish
+name: Release Packages
 
 on:
   push:
-    tags:
-      - v*.*.*
+    branches: [stable, canary]
+      
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  issues: write
+  statuses: write
+  contents: write
+  id-token: write
+  pull-requests: write
 
 jobs:
   publish:
     name: Publish Packages and Deployments
     runs-on: ubuntu-latest
-    timeout-minutes: 10
-    permissions:
-      contents: read
-      id-token: write # needed for provenance data generation
+    outputs:
+      versioning: ${{ steps.versioning.outputs.bash }}
+      changelog: ${{ steps.changelog.outputs.bash }}
+      publishing: ${{ steps.publishing.outputs.bash }}
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - run: bun install
+      - id: versioning
+        run: |
+          {
+            echo "bash<<EOF"
+            echo "$(bun nx release version --first-release --projects=packages/* ${{ github.ref == 'refs/heads/next' && '--preid=next' || '' }})"
+            echo "EOF"
+          } >> $GITHUB_OUTPUT
+        # if [[ "${{ github.event.pull_request.base.ref }}" == "next" ]]; then
+        #   echo "$(bun nx release version --projects=packages/* --preid=next)"
+        # else
+        #   echo "$(bun nx release version --projects=packages/*)"
+        # fi
+        env:
+          NPM_CONFIG_PROVENANCE: true
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_ACCESS_TOKEN }}
+      - id: changelog
+        run: |
+          {
+            echo "bash<<EOF"
+            echo "$(bun nx release changelog --first-release --projects=packages/*)"
+            echo "EOF"
+          } >> $GITHUB_OUTPUT
+        env:
+          NPM_CONFIG_PROVENANCE: true
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_ACCESS_TOKEN }}
+      - id: publishing
+        run: |
+          {
+            echo "bash<<EOF"
+            echo "$(bun nx release publish --first-release --projects=packages/*)"
+            echo "EOF"
+          } >> $GITHUB_OUTPUT
+        env:
+          NPM_CONFIG_PROVENANCE: true
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_ACCESS_TOKEN }}
+      
+      # - name: Import GPG key
+      #   uses: crazy-max/ghaction-import-gpg@v6
+      #   with:
+      #     passphrase: ${{ secrets.GPG_PASSPHRASE }}
+      #     gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
+      #     git_config_global: true
+      #     git_commit_gpgsign: true
+      #     git_committer_name: "GitHub Actions Bot"
+      #     git_committer_email: "aditya.borkar.programs+github.actions@gmail.com"
+      #     git_push_gpgsign: false
+      #     git_tag_gpgsign: true
+      #     git_user_signingkey: true
+      # - name: Commit changes (if any)
+      #   if: github.event_name == 'pull_request'
+      #   run: |
+      #     if [ -n "$(git status --porcelain)" ]; then
+      #       git add .
+      #       git commit -S -m "chore: automated changes by github actions" || echo "No changes to commit"
+      #       git pull --rebase origin ${{ github.head_ref }}
+      #       git push --force-with-lease origin HEAD:${{ github.head_ref }}
+      #     fi
+      # - HUSKY AND COMMIT MESSAGE CHECKS
+      # - biome apply all rules for linting
 
-      - name: Setup
-        uses: ./.github/workflows/init.yaml
-       
-      - name: Print Environment Info
-        run: bun nx report
+      - uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: pr-status-checks
+          message: |
+            ## 🤖 Release Summary ℹ️
+            <sup>This comment is automatically generated and will be overwritten every time changes are committed to this branch.</sup>
 
-      # - name: Publish packages
-      #   run: bun nx release publish
-      #   shell: bash
-      #   env:
-      #     NODE_AUTH_TOKEN: ${{ secrets.NPM_ACCESS_TOKEN }}
-      #     NPM_CONFIG_PROVENANCE: true
+            ## 📦 Package Changes
 
-# TODO - DO NOT RELEASE ON EVERY MERGE. RUN A RELEASE JOB SEPARATELY.
-# PR title = release: {date}
+            <sup>Version numbers are subject to change until the release is published.</sup>
+            
+            ### @letsync/core (v0.1.0)
 
-# release:
-#   name: Release and Publish
-#   needs: [build]
-#   runs-on: ubuntu-latest
-#   steps:
-#     - name: Pre-Release
-#       if: github.ref == 'refs/heads/next'
-#       env:
-#         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#       run: |
-#         bun nx release --dry-run --skip-publish
-#     #   # git add .
-#     #   # git commit -m "chore(release): {version}"
-#     - name: Stable Release
-#       if: github.ref == 'refs/heads/stable'
-#       run: |
-#         bun nx release --dry-run --skip-publish
-#       # git add .
-#       # git commit -m "chore(release): {version}"
-#   outputs:
-#     shell_output: ${{ steps.build_packages_cmd.outputs.result }}
+            | Metric | Value | Change |
+            | --- | --- | --- |
+            | Package Size (Uncompressed) | 100MB | +10% |
+            | Package Size (Gzipped) | 100MB | +10% |
+            | Test Coverage | 90% | +0% |
+
+            **Changelog:**
+              - Ok
+              - Dokey
+
+            <details>
+              <summary>**Release Notes**</summary>
+
+              Written notes here about the release in MDX format. Get inspiration from React Native Blogs and Medusa Changelogs.
+            </details>
+
+            ### @letsync/cli (v0.1.0-next.2)
+
+            | Metric | Value | Change |
+            | --- | --- | --- |
+            | Package Size (Uncompressed) | 100MB | +10% |
+            | Package Size (Gzipped) | 100MB | +10% |
+            | Test Coverage | 90% | +0% |
+
+            **Changelog:**
+              - Ok
+              - Dokey
+
+            <details>
+              <summary>**Release Notes**</summary>
+
+              Written notes here about the release in MDX format. Get inspiration from React Native Blogs and Medusa Changelogs.
+            </details>
+
+            ## 📖 Documentation Changes
+
+            Preview Deployment: [link](...)
+
+            **Changelog:**
+              - Ok
+              - Dokey
+
+  workflow_status:
+    name: Workflow status
+    needs: [publish, deploy]
+    if: ${{ always() && !cancelled() && github.event_name == 'pull_request' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          echo "## ${{ needs.publish.result == 'success' && '✅' || '❌' }} Publish Packages" >> $GITHUB_STEP_SUMMARY
+          echo "```bash\n${{ needs.publish.outputs.versioning }}\n```" >> $GITHUB_STEP_SUMMARY
+          echo "```bash\n${{ needs.publish.outputs.changelog }}\n```" >> $GITHUB_STEP_SUMMARY
+          echo "```bash\n${{ needs.publish.outputs.publishing }}\n```" >> $GITHUB_STEP_SUMMARY
+          echo "## ${{ needs.deploy.result == 'success' && '✅' || '❌' }} Deploy Website" >> $GITHUB_STEP_SUMMARY
+          echo "```bash\n${{ needs.deploy.outputs.bash }}\n```" >> $GITHUB_STEP_SUMMARY
+      - uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: pr-status-checks
+          message: |
+            ## 🤖 PR Summary ℹ️
+            <sup>This comment is automatically generated and will be overwritten every time changes are committed to this branch.</sup>
+
+            ### Workflows
+
+            Workflow Name | Summary
+            ------------- | -------
+            Next Release Checklist | [Summary](https://github.com/github/docs/actions/runs/${{ github.run_id }}?pr=${{ github.event.pull_request.number }}#summary-${{ github.run_attempt }}})
+            Lint Pull Request | [Summary](https://github.com/github/docs/actions/runs/${{ github.run_id }}?pr=${{ github.event.pull_request.number }}#summary-${{ github.run_attempt }}})
+
+            ### Package Changes
+
+            Merging this pull request will trigger the following releases:
+
+            Package Name | Release Version | Release Notes
+            ------------- | ------ | ----
+            @letsync/core | Build Failed | [Changelog]()
+            @letsync/cli | 0.2.0-next.0 | [Changelog]()
+
+            <sup>Version numbers are subject to change until the release is published.</sup>
+
+            ### Documentation Changes
+
+            Preview Link - [...](...)
+
+            Can documentation changes be applied without version release?
+            
+  deploy:
+    name: Deploy Website
+    if: false
+    runs-on: ubuntu-latest
+    needs: publish
+    outputs:
+      bash: ${{ steps.deploy.outputs.bash }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - run: bun install
+      - id: deploy
+        run: |
+          {
+            echo "bash<<EOF"
+            echo "$(bun run deploy)"
+            echo "EOF"
+          } >> $GITHUB_OUTPUT

@@ -25,10 +25,16 @@ Branches:
   - For stable releases
   - Environment = `Production`
   - Versioning = `x.y.z`
-- `next`
-  - For staging releases
+- `stable-next`
+  - For stable-next releases
   - Environment = `Staging`
-  - Versioning = `x.y.z-next.n`
+- `canary` - WE ARE NOT USING THIS BRANCH / CANARY TAGS UNTIL V1.
+  - For canary releases
+  - Environment = `Production`
+  - Versioning = `x.y.z-canary.n`
+- `canary-next` - WE ARE NOT USING THIS BRANCH / CANARY TAGS UNTIL V1.
+  - For canary-next releases
+  - Environment = `Staging`
 - `<feature-branch>`
   - For development purposes
 
