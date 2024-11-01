@@ -32,7 +32,7 @@
 		"typescript": "^5.6.2"
 	},
 	"dependencies": {
-		"@letsync/core": "workspace:^"
+		"@letsync/core": "0.0.1"
 	},
 	"peerDependencies": {
 		"@letsync/core": "workspace:^",

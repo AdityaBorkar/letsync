@@ -35,4 +35,4 @@ bin
 tsconfig.tsbuildinfo
 
 # TEMPORARY WORKAROUND FOR KNIP
-vitest.config.ts
+tests/vitest.config.ts

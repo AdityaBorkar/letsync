@@ -7,18 +7,26 @@
 		"changelog": {
 			"projectChangelogs": {
 				"createRelease": "github"
+			},
+			"renderOptions": {
+				"authors": true,
+				"mapAuthorsToGitHubUsernames": true,
+				"commitReferences": true,
+				"versionTitleDate": true
 			}
 		},
 		"git": {
 			"commitMessage": "chore(release): {version}"
 		},
+		"versionPlans": true,
+		"version": {
+			"conventionalCommits": true,
+			"preVersionCommand": "bun run build:packages"
+		},
 		"conventionalCommits": {
 			"types": {
-				"chore": {
-					"changelog": false
-				},
 				"docs": {
-					"semverBump": "none",
+					"semverBump": "patch",
 					"changelog": {
 						"title": "Documentation Changes"
 					}
