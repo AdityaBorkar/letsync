@@ -5,7 +5,7 @@
 	"scripts": {
 		"dev": "nx run dev",
 		"commit": "git add . && cz",
-		"format": "bun biome format --write",
+		"format": "bun biome format",
 		"lint:code": "bun biome lint",
 		"lint:knip": "knip",
 		"lint:cspell": "cspell lint . --no-progress",
