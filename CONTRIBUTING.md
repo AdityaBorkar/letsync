@@ -93,3 +93,34 @@ Write here
 ```bash
 gh act -P ubuntu-latest=-self-hosted -W "./.github/workflows/release.yml" | grep --color=always -v '::'
 ```
+
+# GitHub Actions Workflows
+
+## Branches
+
+The list of branches are:
+
+- `stable`
+- `canary`
+- `<FEATURE-BRANCH>`
+
+## FAQs
+
+### How to create a new release?
+
+1. Go to Github Releases
+2. Create a new version
+3. Set the tag to `0.0.0`
+4. Set the target branch as `stable` or `canary`
+5. Publish the release
+
+### How to deploy quick fixes or vulnerability fixes?
+
+1. Revert `stable` branch to the previous release commit head
+2. Create a new release from `stable`
+3. Apply the fix
+4. Create a new release from `stable` again
+
+<!-- # - HUSKY AND COMMIT MESSAGE CHECKS -->
+<!-- # - biome apply all rules for linting -->
+<!-- Enable "Require Signed Commits" -->
