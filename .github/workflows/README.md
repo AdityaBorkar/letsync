@@ -25,3 +25,7 @@ The list of branches are:
 2. Create a new release from `stable`
 3. Apply the fix
 4. Create a new release from `stable` again
+
+
+<!-- # - HUSKY AND COMMIT MESSAGE CHECKS -->
+<!-- # - biome apply all rules for linting -->
