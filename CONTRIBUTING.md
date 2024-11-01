@@ -60,6 +60,25 @@ For maintainers:
 
 Write here
 
+## Flows for this Repository
+
+For contributors:
+
+- Fork the repository and create a new branch `any-name-you-want` from `next` branch.
+- Direct commits to the new branch `any-name-you-want`.
+- Open a PR for publish in the `next` branch. Squash merge.
+- Conventional Commit Message for the PR Commit.
+
+For maintainers:
+
+- Open a PR for publish in the `stable` branch. Squash merge.
+- Conventional Commit Message for the PR Commit.
+- Release and Publish Workflows
+
+## How to set Environment Variables for Local Development?
+
+Write here
+
 ## Limitations
 
 - We are using BiomeJS v1.9.x. It has the following limitations:
@@ -68,6 +87,12 @@ Write here
   - Astro: Parsing, Formatting and Linting are PARTIALLY SUPPORTED.
   - YAML: Parsing IN PROGRESS. Formatting and Linting NOT SUPPORTED.
   - Markdown: Parsing IN PROGRESS. Formatting and Linting NOT SUPPORTED.
+
+## Test GitHub Actions Locally
+
+```bash
+gh act -P ubuntu-latest=-self-hosted -W "./.github/workflows/release.yml" | grep --color=always -v '::'
+```
 
 ## Test GitHub Actions Locally
 
