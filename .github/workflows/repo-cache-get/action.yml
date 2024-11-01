@@ -1,0 +1,15 @@
+name: 'Get Repository Cache'
+
+runs:
+  using: "composite"
+  steps:    
+    - id: restore-cache
+      name: Restore Repository Cache
+      uses: actions/cache/restore@v4
+      with:
+        path: ~/.bun/install/cache
+        key: ${{ runner.os }}-bun-${{ hashFiles('bun.lockb') }}
+        restore-keys: ${{ runner.os }}-bun
+    - name: Test Run
+      run: bun -v
+      shell: bash
