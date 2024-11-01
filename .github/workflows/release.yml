@@ -1,11 +1,21 @@
-name: Publish
+name: Release Packages
 
 on:
-  pull_request:
-    types:
-      - labeled
-      - unlabeled
-      
+  push:
+    branches: [stable, canary]
+# TODO - HUSKY FOR PRE-COMMITS OR ENABLE
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  issues: write
+  statuses: write
+  contents: write
+  id-token: write
+  pull-requests: write
+
 jobs:
   publish:
     name: Publish Packages and Deployments
