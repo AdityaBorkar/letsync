@@ -93,9 +93,3 @@ Write here
 ```bash
 gh act -P ubuntu-latest=-self-hosted -W "./.github/workflows/release.yml" | grep --color=always -v '::'
 ```
-
-## Test GitHub Actions Locally
-
-```bash
-gh act -P ubuntu-latest=-self-hosted -W "./.github/workflows/release.yml" | grep --color=always -v '::'
-```

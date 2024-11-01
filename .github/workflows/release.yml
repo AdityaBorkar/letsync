@@ -17,7 +17,7 @@ permissions:
 
 jobs:
   publish:
-    if: github.event.release.draft == true && github.event.release.name == 'create release'
+    if: github.event.release.name == 'create release' && github.event.release.tag_name == '0.0.0'
     name: Publish Packages and Deployments
     runs-on: ubuntu-latest
     outputs:
