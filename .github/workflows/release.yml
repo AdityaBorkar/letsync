@@ -1,8 +1,8 @@
 name: Release Packages
 
 on:
-  push:
-    branches: [stable, canary]
+  release:
+    types: [created]
       
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -17,6 +17,7 @@ permissions:
 
 jobs:
   publish:
+    if: github.event.release.draft == true && github.event.release.name == 'create release'
     name: Publish Packages and Deployments
     runs-on: ubuntu-latest
     outputs:
@@ -31,7 +32,7 @@ jobs:
         run: |
           {
             echo "bash<<EOF"
-            echo "$(bun nx release version --first-release --projects=packages/* ${{ github.ref == 'refs/heads/next' && '--preid=next' || '' }})"
+            echo "$(bun nx release version --first-release --projects=packages/* ${{ github.event.release.target_commitish == 'canary' && '--preid=next' || '' }})"
             echo "EOF"
           } >> $GITHUB_OUTPUT
         # if [[ "${{ github.event.pull_request.base.ref }}" == "next" ]]; then
