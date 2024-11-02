@@ -46,7 +46,7 @@ For contributors:
 
 - Go to Github Releases
 - Create a new version
-- Set the tag to `0.0.0`
+- Create a new tag `trigger.release`
 - Set the target branch as `stable` or `canary`
 - Publish the release
 

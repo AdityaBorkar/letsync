@@ -17,7 +17,7 @@ permissions:
 
 jobs:
   publish:
-    if: github.event.release.name == 'create release' && github.event.release.tag_name == '0.0.0'
+    if: github.event.release.tag_name == 'trigger.release'
     name: Publish Packages
     runs-on: ubuntu-latest
     outputs:
