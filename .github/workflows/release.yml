@@ -34,7 +34,7 @@ jobs:
         run: |
           {
             echo "bash<<EOF"
-            echo "$(bun nx release --skip-publish --first-release --projects=packages/* ${{ github.event.release.target_commitish == 'canary' && '--preid=canary' || '' }})"
+            echo "$(bun nx release --skip-publish --verbose --first-release --projects=packages/* ${{ github.event.release.target_commitish == 'canary' && '--preid=canary' || '' }})"
             echo "EOF"
           } >> $GITHUB_OUTPUT
         env:
@@ -56,7 +56,7 @@ jobs:
         run: |
           {
             echo "bash<<EOF"
-            echo "$(bun nx release publish --first-release --projects=packages/*)"
+            echo "$(bun nx release publish --verbose --first-release --projects=packages/*)"
             echo "EOF"
           } >> $GITHUB_OUTPUT
         env:
