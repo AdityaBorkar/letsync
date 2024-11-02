@@ -19,6 +19,7 @@ jobs:
   publish:
     if: github.event.release.name == 'create release' && github.event.release.tag_name == '0.0.0'
     name: Publish Packages
+    name: Publish Packages
     runs-on: ubuntu-latest
     outputs:
       versioning: ${{ steps.versioning.outputs.bash }}
@@ -65,6 +66,8 @@ jobs:
           NPM_CONFIG_PROVENANCE: true
           NODE_AUTH_TOKEN: ${{ secrets.NPM_ACCESS_TOKEN }}
       - id: delete-draft-release
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           {
             echo "bash<<EOF"
