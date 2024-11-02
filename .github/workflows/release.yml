@@ -73,61 +73,6 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
 
-      - uses: marocchino/sticky-pull-request-comment@v2
-        with:
-          header: pr-status-checks
-          message: |
-            ## 🤖 Release Summary ℹ️
-            <sup>This comment is automatically generated and will be overwritten every time changes are committed to this branch.</sup>
-
-            ## 📦 Package Changes
-
-            <sup>Version numbers are subject to change until the release is published.</sup>
-            
-            ### @letsync/core (v0.1.0)
-
-            | Metric | Value | Change |
-            | --- | --- | --- |
-            | Package Size (Uncompressed) | 100MB | +10% |
-            | Package Size (Gzipped) | 100MB | +10% |
-            | Test Coverage | 90% | +0% |
-
-            **Changelog:**
-              - Ok
-              - Dokey
-
-            <details>
-              <summary>**Release Notes**</summary>
-
-              Written notes here about the release in MDX format. Get inspiration from React Native Blogs and Medusa Changelogs.
-            </details>
-
-            ### @letsync/cli (v0.1.0-next.2)
-
-            | Metric | Value | Change |
-            | --- | --- | --- |
-            | Package Size (Uncompressed) | 100MB | +10% |
-            | Package Size (Gzipped) | 100MB | +10% |
-            | Test Coverage | 90% | +0% |
-
-            **Changelog:**
-              - Ok
-              - Dokey
-
-            <details>
-              <summary>**Release Notes**</summary>
-
-              Written notes here about the release in MDX format. Get inspiration from React Native Blogs and Medusa Changelogs.
-            </details>
-
-            ## 📖 Documentation Changes
-
-            Preview Deployment: [link](...)
-
-            **Changelog:**
-              - Ok
-              - Dokey
-
   deploy:
     name: Deploy Website
     if: false
@@ -164,31 +109,53 @@ jobs:
         with:
           header: pr-status-checks
           message: |
-            ## 🤖 PR Summary ℹ️
+            ## 🤖 Release Summary ℹ️
             <sup>This comment is automatically generated and will be overwritten every time changes are committed to this branch.</sup>
-
-            ### Workflows
-
-            Workflow Name | Summary
-            ------------- | -------
-            Next Release Checklist | [Summary](https://github.com/github/docs/actions/runs/${{ github.run_id }}?pr=${{ github.event.pull_request.number }}#summary-${{ github.run_attempt }}})
-            Lint Pull Request | [Summary](https://github.com/github/docs/actions/runs/${{ github.run_id }}?pr=${{ github.event.pull_request.number }}#summary-${{ github.run_attempt }}})
-
-            ### Package Changes
-
-            Merging this pull request will trigger the following releases:
-
-            Package Name | Release Version | Release Notes
-            ------------- | ------ | ----
-            @letsync/core | Build Failed | [Changelog]()
-            @letsync/cli | 0.2.0-next.0 | [Changelog]()
-
+      
+            ## 📦 Package Changes
+      
             <sup>Version numbers are subject to change until the release is published.</sup>
-
-            ### Documentation Changes
-
-            Preview Link - [...](...)
-
-            Can documentation changes be applied without version release?
             
-  
+            ### @letsync/core (v0.1.0)
+      
+            | Metric | Value | Change |
+            | --- | --- | --- |
+            | Package Size (Uncompressed) | 100MB | +10% |
+            | Package Size (Gzipped) | 100MB | +10% |
+            | Test Coverage | 90% | +0% |
+      
+            **Changelog:**
+              - Ok
+              - Dokey
+      
+            <details>
+              <summary>**Release Notes**</summary>
+      
+              Written notes here about the release in MDX format. Get inspiration from React Native Blogs and Medusa Changelogs.
+            </details>
+      
+            ### @letsync/cli (v0.1.0-next.2)
+      
+            | Metric | Value | Change |
+            | --- | --- | --- |
+            | Package Size (Uncompressed) | 100MB | +10% |
+            | Package Size (Gzipped) | 100MB | +10% |
+            | Test Coverage | 90% | +0% |
+      
+            **Changelog:**
+              - Ok
+              - Dokey
+      
+            <details>
+              <summary>**Release Notes**</summary>
+      
+              Written notes here about the release in MDX format. Get inspiration from React Native Blogs and Medusa Changelogs.
+            </details>
+      
+            ## 📖 Documentation Changes
+      
+            Preview Deployment: [link](...)
+      
+            **Changelog:**
+              - Ok
+              - Dokey
