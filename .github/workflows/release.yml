@@ -14,6 +14,8 @@ permissions:
   contents: write
   id-token: write
   pull-requests: write
+  packages: write
+  deployments: write
 
 jobs:
   publish:
@@ -32,7 +34,7 @@ jobs:
         run: |
           {
             echo "bash<<EOF"
-            echo "$(bun nx release version --first-release --projects=packages/* ${{ github.event.release.target_commitish == 'canary' && '--preid=next' || '' }})"
+            echo "$(bun nx release --skip-publish --first-release --projects=packages/* ${{ github.event.release.target_commitish == 'canary' && '--preid=canary' || '' }})"
             echo "EOF"
           } >> $GITHUB_OUTPUT
         # if [[ "${{ github.event.pull_request.base.ref }}" == "next" ]]; then
@@ -41,18 +43,20 @@ jobs:
         #   echo "$(bun nx release version --projects=packages/*)"
         # fi
         env:
+          GH_TOKEN: ${{ github.token }}
           NPM_CONFIG_PROVENANCE: true
           NODE_AUTH_TOKEN: ${{ secrets.NPM_ACCESS_TOKEN }}
-      - id: changelog
-        run: |
-          {
-            echo "bash<<EOF"
-            echo "$(bun nx release changelog --first-release --projects=packages/*)"
-            echo "EOF"
-          } >> $GITHUB_OUTPUT
-        env:
-          NPM_CONFIG_PROVENANCE: true
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_ACCESS_TOKEN }}
+      # - id: changelog
+      #   run: |
+      #     {
+      #       echo "bash<<EOF"
+      #       echo "$(bun nx release changelog --first-release --projects=packages/*)"
+      #       echo "EOF"
+      #     } >> $GITHUB_OUTPUT
+      #   env:
+      #     GH_TOKEN: ${{ github.token }}
+      #     NPM_CONFIG_PROVENANCE: true
+      #     NODE_AUTH_TOKEN: ${{ secrets.NPM_ACCESS_TOKEN }}
       - id: publishing
         run: |
           {
@@ -61,17 +65,18 @@ jobs:
             echo "EOF"
           } >> $GITHUB_OUTPUT
         env:
+          GH_TOKEN: ${{ github.token }}
           NPM_CONFIG_PROVENANCE: true
           NODE_AUTH_TOKEN: ${{ secrets.NPM_ACCESS_TOKEN }}
       - id: delete-draft-release
-        env:
-          GH_TOKEN: ${{ github.token }}
         run: |
           {
             echo "bash<<EOF"
             echo "$(gh release delete ${{ github.event.release.id }} --yes --cleanup-tag)"
             echo "EOF"
           } >> $GITHUB_OUTPUT
+        env:
+          GH_TOKEN: ${{ github.token }}
 
       - uses: marocchino/sticky-pull-request-comment@v2
         with:
