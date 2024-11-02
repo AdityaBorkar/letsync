@@ -26,7 +26,6 @@ jobs:
       changelog: ${{ steps.changelog.outputs.bash }}
       publishing: ${{ steps.publishing.outputs.bash }}
     steps:
-      # TODO - DELETE THE DRAFT RELEASE ON GITHUB THAT TRIGGERED THIS WORKFLOW
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
       - run: bun install
