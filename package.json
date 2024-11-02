@@ -1,5 +1,4 @@
 {
-	"name": "letsync",
 	"license": "MIT",
 	"workspaces": ["www/", "packages/*", "examples/*"],
 	"scripts": {
