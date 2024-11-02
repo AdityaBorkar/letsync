@@ -14,6 +14,8 @@ permissions:
   contents: write
   id-token: write
   pull-requests: write
+  packages: write
+  deployments: write
 
 jobs:
   publish:
@@ -22,7 +24,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       versioning: ${{ steps.versioning.outputs.bash }}
-      changelog: ${{ steps.changelog.outputs.bash }}
+      # changelog: ${{ steps.changelog.outputs.bash }}
       publishing: ${{ steps.publishing.outputs.bash }}
     steps:
       - uses: actions/checkout@v4
@@ -32,27 +34,24 @@ jobs:
         run: |
           {
             echo "bash<<EOF"
-            echo "$(bun nx release version --first-release --projects=packages/* ${{ github.event.release.target_commitish == 'canary' && '--preid=next' || '' }})"
-            echo "EOF"
-          } >> $GITHUB_OUTPUT
-        # if [[ "${{ github.event.pull_request.base.ref }}" == "next" ]]; then
-        #   echo "$(bun nx release version --projects=packages/* --preid=next)"
-        # else
-        #   echo "$(bun nx release version --projects=packages/*)"
-        # fi
-        env:
-          NPM_CONFIG_PROVENANCE: true
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_ACCESS_TOKEN }}
-      - id: changelog
-        run: |
-          {
-            echo "bash<<EOF"
-            echo "$(bun nx release changelog --first-release --projects=packages/*)"
+            echo "$(bun nx release --skip-publish --first-release --projects=packages/* ${{ github.event.release.target_commitish == 'canary' && '--preid=canary' || '' }})"
             echo "EOF"
           } >> $GITHUB_OUTPUT
         env:
+          GH_TOKEN: ${{ github.token }}
           NPM_CONFIG_PROVENANCE: true
           NODE_AUTH_TOKEN: ${{ secrets.NPM_ACCESS_TOKEN }}
+      # - id: changelog
+      #   run: |
+      #     {
+      #       echo "bash<<EOF"
+      #       echo "$(bun nx release changelog --first-release --projects=packages/*)"
+      #       echo "EOF"
+      #     } >> $GITHUB_OUTPUT
+      #   env:
+      #     GH_TOKEN: ${{ github.token }}
+      #     NPM_CONFIG_PROVENANCE: true
+      #     NODE_AUTH_TOKEN: ${{ secrets.NPM_ACCESS_TOKEN }}
       - id: publishing
         run: |
           {
@@ -61,72 +60,18 @@ jobs:
             echo "EOF"
           } >> $GITHUB_OUTPUT
         env:
+          GH_TOKEN: ${{ github.token }}
           NPM_CONFIG_PROVENANCE: true
           NODE_AUTH_TOKEN: ${{ secrets.NPM_ACCESS_TOKEN }}
       - id: delete-draft-release
-        env:
-          GH_TOKEN: ${{ github.token }}
         run: |
           {
             echo "bash<<EOF"
-            echo "$(gh release delete ${{ github.event.release.id }} --yes --cleanup-tag)"
+            echo "$(gh release delete 'trigger.release' --yes --cleanup-tag)"
             echo "EOF"
           } >> $GITHUB_OUTPUT
-
-      - uses: marocchino/sticky-pull-request-comment@v2
-        with:
-          header: pr-status-checks
-          message: |
-            ## 🤖 Release Summary ℹ️
-            <sup>This comment is automatically generated and will be overwritten every time changes are committed to this branch.</sup>
-
-            ## 📦 Package Changes
-
-            <sup>Version numbers are subject to change until the release is published.</sup>
-            
-            ### @letsync/core (v0.1.0)
-
-            | Metric | Value | Change |
-            | --- | --- | --- |
-            | Package Size (Uncompressed) | 100MB | +10% |
-            | Package Size (Gzipped) | 100MB | +10% |
-            | Test Coverage | 90% | +0% |
-
-            **Changelog:**
-              - Ok
-              - Dokey
-
-            <details>
-              <summary>**Release Notes**</summary>
-
-              Written notes here about the release in MDX format. Get inspiration from React Native Blogs and Medusa Changelogs.
-            </details>
-
-            ### @letsync/cli (v0.1.0-next.2)
-
-            | Metric | Value | Change |
-            | --- | --- | --- |
-            | Package Size (Uncompressed) | 100MB | +10% |
-            | Package Size (Gzipped) | 100MB | +10% |
-            | Test Coverage | 90% | +0% |
-
-            **Changelog:**
-              - Ok
-              - Dokey
-
-            <details>
-              <summary>**Release Notes**</summary>
-
-              Written notes here about the release in MDX format. Get inspiration from React Native Blogs and Medusa Changelogs.
-            </details>
-
-            ## 📖 Documentation Changes
-
-            Preview Deployment: [link](...)
-
-            **Changelog:**
-              - Ok
-              - Dokey
+        env:
+          GH_TOKEN: ${{ github.token }}
 
   deploy:
     name: Deploy Website
@@ -157,39 +102,60 @@ jobs:
       - run: |
           echo "## ${{ needs.publish.result == 'success' && '✅' || '❌' }} Publish Packages" >> $GITHUB_STEP_SUMMARY
           echo "```bash\n${{ needs.publish.outputs.versioning }}\n```" >> $GITHUB_STEP_SUMMARY
-          echo "```bash\n${{ needs.publish.outputs.changelog }}\n```" >> $GITHUB_STEP_SUMMARY
           echo "```bash\n${{ needs.publish.outputs.publishing }}\n```" >> $GITHUB_STEP_SUMMARY
           echo "## ${{ needs.deploy.result == 'success' && '✅' || '❌' }} Deploy Website" >> $GITHUB_STEP_SUMMARY
           echo "```bash\n${{ needs.deploy.outputs.bash }}\n```" >> $GITHUB_STEP_SUMMARY
-      - uses: marocchino/sticky-pull-request-comment@v2
-        with:
-          header: pr-status-checks
-          message: |
-            ## 🤖 PR Summary ℹ️
-            <sup>This comment is automatically generated and will be overwritten every time changes are committed to this branch.</sup>
-
-            ### Workflows
-
-            Workflow Name | Summary
-            ------------- | -------
-            Next Release Checklist | [Summary](https://github.com/github/docs/actions/runs/${{ github.run_id }}?pr=${{ github.event.pull_request.number }}#summary-${{ github.run_attempt }}})
-            Lint Pull Request | [Summary](https://github.com/github/docs/actions/runs/${{ github.run_id }}?pr=${{ github.event.pull_request.number }}#summary-${{ github.run_attempt }}})
-
-            ### Package Changes
-
-            Merging this pull request will trigger the following releases:
-
-            Package Name | Release Version | Release Notes
-            ------------- | ------ | ----
-            @letsync/core | Build Failed | [Changelog]()
-            @letsync/cli | 0.2.0-next.0 | [Changelog]()
-
-            <sup>Version numbers are subject to change until the release is published.</sup>
-
-            ### Documentation Changes
-
-            Preview Link - [...](...)
-
-            Can documentation changes be applied without version release?
+      # - uses: marocchino/sticky-pull-request-comment@v2
+      #   with:
+      #     header: pr-status-checks
+      #     message: |
+      #       ## 🤖 Release Summary ℹ️
+      #       <sup>This comment is automatically generated and will be overwritten every time changes are committed to this branch.</sup>
+      
+      #       ## 📦 Package Changes
+      
+      #       <sup>Version numbers are subject to change until the release is published.</sup>
             
-  
+      #       ### @letsync/core (v0.1.0)
+      
+      #       | Metric | Value | Change |
+      #       | --- | --- | --- |
+      #       | Package Size (Uncompressed) | 100MB | +10% |
+      #       | Package Size (Gzipped) | 100MB | +10% |
+      #       | Test Coverage | 90% | +0% |
+      
+      #       **Changelog:**
+      #         - Ok
+      #         - Dokey
+      
+      #       <details>
+      #         <summary>**Release Notes**</summary>
+      
+      #         Written notes here about the release in MDX format. Get inspiration from React Native Blogs and Medusa Changelogs.
+      #       </details>
+      
+      #       ### @letsync/cli (v0.1.0-next.2)
+      
+      #       | Metric | Value | Change |
+      #       | --- | --- | --- |
+      #       | Package Size (Uncompressed) | 100MB | +10% |
+      #       | Package Size (Gzipped) | 100MB | +10% |
+      #       | Test Coverage | 90% | +0% |
+      
+      #       **Changelog:**
+      #         - Ok
+      #         - Dokey
+      
+      #       <details>
+      #         <summary>**Release Notes**</summary>
+      
+      #         Written notes here about the release in MDX format. Get inspiration from React Native Blogs and Medusa Changelogs.
+      #       </details>
+      
+      #       ## 📖 Documentation Changes
+      
+      #       Preview Deployment: [link](...)
+      
+      #       **Changelog:**
+      #         - Ok
+      #         - Dokey
