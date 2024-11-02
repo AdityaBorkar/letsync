@@ -45,7 +45,6 @@ jobs:
           git_user_signingkey: true
       - run: |
           npm config set _auth ${{ secrets.NPM_ACCESS_TOKEN }}
-          npm config set registry 'https://registry.npmjs.org/'
       - id: versioning
         run: |
           {
