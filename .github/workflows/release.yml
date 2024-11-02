@@ -31,7 +31,6 @@ jobs:
           fetch-depth: 0
       - uses: oven-sh/setup-bun@v2
       - run: bun install
-      - run: npm config set _auth ${{ secrets.NPM_ACCESS_TOKEN }}
       - name: Import GPG key
         uses: crazy-max/ghaction-import-gpg@v6
         with:
@@ -44,6 +43,9 @@ jobs:
           git_push_gpgsign: false
           git_tag_gpgsign: true
           git_user_signingkey: true
+      - run: |
+          npm config set _auth ${{ secrets.NPM_ACCESS_TOKEN }}
+          npm config set registry 'https://registry.npmjs.org/'
       - id: versioning
         run: |
           {
@@ -107,8 +109,8 @@ jobs:
           echo "## ${{ needs.publish.result == 'success' && '✅' || '❌' }} Publish Packages" >> $GITHUB_STEP_SUMMARY
           echo "```bash\n${{ needs.publish.outputs.versioning }}\n```" >> $GITHUB_STEP_SUMMARY
           echo "```bash\n${{ needs.publish.outputs.publishing }}\n```" >> $GITHUB_STEP_SUMMARY
-          echo "## ${{ needs.deploy.result == 'success' && '✅' || '❌' }} Deploy Website" >> $GITHUB_STEP_SUMMARY
-          echo "```bash\n${{ needs.deploy.outputs.bash }}\n```" >> $GITHUB_STEP_SUMMARY
+        # echo "## ${{ needs.deploy.result == 'success' && '✅' || '❌' }} Deploy Website" >> $GITHUB_STEP_SUMMARY
+        # echo "```bash\n${{ needs.deploy.outputs.bash }}\n```" >> $GITHUB_STEP_SUMMARY
       # - uses: marocchino/sticky-pull-request-comment@v2
       #   with:
       #     header: pr-status-checks
