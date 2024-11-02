@@ -19,7 +19,6 @@ jobs:
   publish:
     if: github.event.release.name == 'create release' && github.event.release.tag_name == '0.0.0'
     name: Publish Packages
-    name: Publish Packages
     runs-on: ubuntu-latest
     outputs:
       versioning: ${{ steps.versioning.outputs.bash }}
@@ -70,7 +69,7 @@ jobs:
         run: |
           {
             echo "bash<<EOF"
-            echo "$(gh release delete ${{ github.event.release.id }} --yes)"
+            echo "$(gh release delete ${{ github.event.release.id }} --yes --cleanup-tag)"
             echo "EOF"
           } >> $GITHUB_OUTPUT
 
