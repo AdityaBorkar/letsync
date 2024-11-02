@@ -105,57 +105,57 @@ jobs:
           echo "```bash\n${{ needs.publish.outputs.publishing }}\n```" >> $GITHUB_STEP_SUMMARY
           echo "## ${{ needs.deploy.result == 'success' && '✅' || '❌' }} Deploy Website" >> $GITHUB_STEP_SUMMARY
           echo "```bash\n${{ needs.deploy.outputs.bash }}\n```" >> $GITHUB_STEP_SUMMARY
-      - uses: marocchino/sticky-pull-request-comment@v2
-        with:
-          header: pr-status-checks
-          message: |
-            ## 🤖 Release Summary ℹ️
-            <sup>This comment is automatically generated and will be overwritten every time changes are committed to this branch.</sup>
+      # - uses: marocchino/sticky-pull-request-comment@v2
+      #   with:
+      #     header: pr-status-checks
+      #     message: |
+      #       ## 🤖 Release Summary ℹ️
+      #       <sup>This comment is automatically generated and will be overwritten every time changes are committed to this branch.</sup>
       
-            ## 📦 Package Changes
+      #       ## 📦 Package Changes
       
-            <sup>Version numbers are subject to change until the release is published.</sup>
+      #       <sup>Version numbers are subject to change until the release is published.</sup>
             
-            ### @letsync/core (v0.1.0)
+      #       ### @letsync/core (v0.1.0)
       
-            | Metric | Value | Change |
-            | --- | --- | --- |
-            | Package Size (Uncompressed) | 100MB | +10% |
-            | Package Size (Gzipped) | 100MB | +10% |
-            | Test Coverage | 90% | +0% |
+      #       | Metric | Value | Change |
+      #       | --- | --- | --- |
+      #       | Package Size (Uncompressed) | 100MB | +10% |
+      #       | Package Size (Gzipped) | 100MB | +10% |
+      #       | Test Coverage | 90% | +0% |
       
-            **Changelog:**
-              - Ok
-              - Dokey
+      #       **Changelog:**
+      #         - Ok
+      #         - Dokey
       
-            <details>
-              <summary>**Release Notes**</summary>
+      #       <details>
+      #         <summary>**Release Notes**</summary>
       
-              Written notes here about the release in MDX format. Get inspiration from React Native Blogs and Medusa Changelogs.
-            </details>
+      #         Written notes here about the release in MDX format. Get inspiration from React Native Blogs and Medusa Changelogs.
+      #       </details>
       
-            ### @letsync/cli (v0.1.0-next.2)
+      #       ### @letsync/cli (v0.1.0-next.2)
       
-            | Metric | Value | Change |
-            | --- | --- | --- |
-            | Package Size (Uncompressed) | 100MB | +10% |
-            | Package Size (Gzipped) | 100MB | +10% |
-            | Test Coverage | 90% | +0% |
+      #       | Metric | Value | Change |
+      #       | --- | --- | --- |
+      #       | Package Size (Uncompressed) | 100MB | +10% |
+      #       | Package Size (Gzipped) | 100MB | +10% |
+      #       | Test Coverage | 90% | +0% |
       
-            **Changelog:**
-              - Ok
-              - Dokey
+      #       **Changelog:**
+      #         - Ok
+      #         - Dokey
       
-            <details>
-              <summary>**Release Notes**</summary>
+      #       <details>
+      #         <summary>**Release Notes**</summary>
       
-              Written notes here about the release in MDX format. Get inspiration from React Native Blogs and Medusa Changelogs.
-            </details>
+      #         Written notes here about the release in MDX format. Get inspiration from React Native Blogs and Medusa Changelogs.
+      #       </details>
       
-            ## 📖 Documentation Changes
+      #       ## 📖 Documentation Changes
       
-            Preview Deployment: [link](...)
+      #       Preview Deployment: [link](...)
       
-            **Changelog:**
-              - Ok
-              - Dokey
+      #       **Changelog:**
+      #         - Ok
+      #         - Dokey
