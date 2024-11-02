@@ -13,9 +13,6 @@ Right now, we are a small community, hence we haven't created a Discord Server. 
 - NPM and JSR for package publishing
 - Biome for linting, formatting, and organizing imports
 - commitizen and cz-conventional-changelog for commit messages
-
-We follow the following standards:
-
 - [Semantic Versioning](https://semver.org/)
 - [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
 
@@ -25,59 +22,45 @@ Branches:
   - For stable releases
   - Environment = `Production`
   - Versioning = `x.y.z`
-- `stable-next`
-  - For stable-next releases
-  - Environment = `Staging`
 - `canary` - WE ARE NOT USING THIS BRANCH / CANARY TAGS UNTIL V1.
   - For canary releases
   - Environment = `Production`
   - Versioning = `x.y.z-canary.n`
-- `canary-next` - WE ARE NOT USING THIS BRANCH / CANARY TAGS UNTIL V1.
-  - For canary-next releases
-  - Environment = `Staging`
-- `<feature-branch>`
+- `<FEATURE-BRANCH>`
   - For development purposes
 
-> Note: You can create feature-based branches and merge them to `next` branch.
-> `stable` and `next` branches are write protected. No direct commits allowed. Only PRs allowed.
+> `stable` and `canary` branches are write protected. You cannot directly push to them. Only PRs are allowed.
 
-## Flows for this Repository
-
-For contributors:
-
-- Fork the repository and create a new branch `any-name-you-want` from `next` branch.
-- Direct commits to the new branch `any-name-you-want`.
-- Open a PR for publish in the `next` branch. Squash merge.
-- Conventional Commit Message for the PR Commit.
-
-For maintainers:
-
-- Open a PR for publish in the `stable` branch. Squash merge.
-- Conventional Commit Message for the PR Commit.
-- Release and Publish Workflows
-
-## How to set Environment Variables for Local Development?
-
-Write here
-
-## Flows for this Repository
+## How to Contribute?
 
 For contributors:
 
-- Fork the repository and create a new branch `any-name-you-want` from `next` branch.
-- Direct commits to the new branch `any-name-you-want`.
-- Open a PR for publish in the `next` branch. Squash merge.
-- Conventional Commit Message for the PR Commit.
+- Fork the repository
+- Create a new branch `feature-name` from `stable` or `canary` branch.
+- Commit your changes to the new branch `feature-name`.
+- Open a new Pull Request to merge `feature-name` into `stable` or `canary` branch.
+- PR title must validate Conventional Commit Format.
+- Squash and merge into `stable` or `canary` branch.
 
-For maintainers:
+## How to Release?
 
-- Open a PR for publish in the `stable` branch. Squash merge.
-- Conventional Commit Message for the PR Commit.
-- Release and Publish Workflows
+- Go to Github Releases
+- Create a new version
+- Set the tag to `0.0.0`
+- Set the target branch as `stable` or `canary`
+- Publish the release
 
-## How to set Environment Variables for Local Development?
+## FAQs
 
-Write here
+- How to set Environment Variables for Local Development?
+  - Write here
+- How to deploy quick fixes or vulnerability fixes?
+  1. Revert `stable` branch to the previous release commit head
+  2. Create a new release from `stable`
+  3. Apply the fix
+  4. Create a new release from `stable` again
+- How to test GitHub Actions Locally?
+  - `gh act -P ubuntu-latest=-self-hosted -W "./.github/workflows/release.yml" | grep --color=always -v '::'`
 
 ## Limitations
 
@@ -87,39 +70,6 @@ Write here
   - Astro: Parsing, Formatting and Linting are PARTIALLY SUPPORTED.
   - YAML: Parsing IN PROGRESS. Formatting and Linting NOT SUPPORTED.
   - Markdown: Parsing IN PROGRESS. Formatting and Linting NOT SUPPORTED.
-
-## Test GitHub Actions Locally
-
-```bash
-gh act -P ubuntu-latest=-self-hosted -W "./.github/workflows/release.yml" | grep --color=always -v '::'
-```
-
-# GitHub Actions Workflows
-
-## Branches
-
-The list of branches are:
-
-- `stable`
-- `canary`
-- `<FEATURE-BRANCH>`
-
-## FAQs
-
-### How to create a new release?
-
-1. Go to Github Releases
-2. Create a new version
-3. Set the tag to `0.0.0`
-4. Set the target branch as `stable` or `canary`
-5. Publish the release
-
-### How to deploy quick fixes or vulnerability fixes?
-
-1. Revert `stable` branch to the previous release commit head
-2. Create a new release from `stable`
-3. Apply the fix
-4. Create a new release from `stable` again
 
 <!-- # - HUSKY AND COMMIT MESSAGE CHECKS -->
 <!-- # - biome apply all rules for linting -->

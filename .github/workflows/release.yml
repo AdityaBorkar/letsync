@@ -18,7 +18,7 @@ permissions:
 jobs:
   publish:
     if: github.event.release.name == 'create release' && github.event.release.tag_name == '0.0.0'
-    name: Publish Packages and Deployments
+    name: Publish Packages
     runs-on: ubuntu-latest
     outputs:
       versioning: ${{ steps.versioning.outputs.bash }}
@@ -127,6 +127,25 @@ jobs:
               - Ok
               - Dokey
 
+  deploy:
+    name: Deploy Website
+    if: false
+    runs-on: ubuntu-latest
+    outputs:
+      bash: ${{ steps.deploy.outputs.bash }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - run: bun install
+      - id: deploy
+        run: |
+          {
+            echo "bash<<EOF"
+            echo "$(bun run deploy)"
+            echo "EOF"
+          } >> $GITHUB_OUTPUT
+
+
   workflow_status:
     name: Workflow status
     needs: [publish, deploy]
@@ -172,21 +191,4 @@ jobs:
 
             Can documentation changes be applied without version release?
             
-  deploy:
-    name: Deploy Website
-    if: false
-    runs-on: ubuntu-latest
-    needs: publish
-    outputs:
-      bash: ${{ steps.deploy.outputs.bash }}
-    steps:
-      - uses: actions/checkout@v4
-      - uses: oven-sh/setup-bun@v2
-      - run: bun install
-      - id: deploy
-        run: |
-          {
-            echo "bash<<EOF"
-            echo "$(bun run deploy)"
-            echo "EOF"
-          } >> $GITHUB_OUTPUT
+  
