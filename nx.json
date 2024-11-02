@@ -13,14 +13,15 @@
 				"mapAuthorsToGitHubUsernames": true,
 				"commitReferences": true,
 				"versionTitleDate": true
-			},
-			"git": { "commitMessage": "chore(release): {version}" }
+			}
+		},
+		"git": {
+			"commitMessage": "chore(release): {version}"
 		},
 		"versionPlans": true,
 		"version": {
 			"conventionalCommits": true,
-			"preVersionCommand": "bun run build:packages",
-			"git": { "commitMessage": "chore(release): {version}" }
+			"preVersionCommand": "bun run build:packages"
 		},
 		"conventionalCommits": {
 			"types": {
