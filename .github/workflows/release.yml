@@ -24,7 +24,6 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       versioning: ${{ steps.versioning.outputs.bash }}
-      # changelog: ${{ steps.changelog.outputs.bash }}
       publishing: ${{ steps.publishing.outputs.bash }}
     steps:
       - uses: actions/checkout@v4
@@ -41,17 +40,6 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           NPM_CONFIG_PROVENANCE: true
           NODE_AUTH_TOKEN: ${{ secrets.NPM_ACCESS_TOKEN }}
-      # - id: changelog
-      #   run: |
-      #     {
-      #       echo "bash<<EOF"
-      #       echo "$(bun nx release changelog --first-release --projects=packages/*)"
-      #       echo "EOF"
-      #     } >> $GITHUB_OUTPUT
-      #   env:
-      #     GH_TOKEN: ${{ github.token }}
-      #     NPM_CONFIG_PROVENANCE: true
-      #     NODE_AUTH_TOKEN: ${{ secrets.NPM_ACCESS_TOKEN }}
       - id: publishing
         run: |
           {
@@ -95,11 +83,12 @@ jobs:
   workflow_status:
     name: Workflow status
     needs: [publish, deploy]
-    if: ${{ always() && !cancelled() && github.event_name == 'pull_request' }}
+    if: ${{ always() && !cancelled() }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - run: |
+          echo "## Release Summary" >> $GITHUB_STEP_SUMMARY
           echo "## ${{ needs.publish.result == 'success' && '✅' || '❌' }} Publish Packages" >> $GITHUB_STEP_SUMMARY
           echo "```bash\n${{ needs.publish.outputs.versioning }}\n```" >> $GITHUB_STEP_SUMMARY
           echo "```bash\n${{ needs.publish.outputs.publishing }}\n```" >> $GITHUB_STEP_SUMMARY
@@ -109,7 +98,7 @@ jobs:
       #   with:
       #     header: pr-status-checks
       #     message: |
-      #       ## 🤖 Release Summary ℹ️
+      #       ## 🤖  ℹ️
       #       <sup>This comment is automatically generated and will be overwritten every time changes are committed to this branch.</sup>
       
       #       ## 📦 Package Changes
