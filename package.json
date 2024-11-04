@@ -4,6 +4,7 @@
 	"scripts": {
 		"dev": "nx run dev",
 		"commit": "git add . && cz",
+		"branch": "git checkout -b",
 		"format": "bun biome format",
 		"lint:code": "bun biome lint",
 		"lint:knip": "knip",
