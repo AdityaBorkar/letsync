@@ -43,7 +43,7 @@ jobs:
           git_push_gpgsign: false
           git_tag_gpgsign: true
           git_user_signingkey: true
-      - run: npm config set '//registry.npmjs.org/:_auth' ${{ secrets.NPM_ACCESS_TOKEN }}
+      - run: npm config set '//registry.npmjs.org/:_authToken' ${{ secrets.NPM_ACCESS_TOKEN }}
       - id: versioning
         run: |
           {
