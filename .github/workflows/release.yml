@@ -30,7 +30,8 @@ jobs:
         with:
           fetch-depth: 0
       - uses: oven-sh/setup-bun@v2
-      - run: bun install
+      - shell: bash
+        run: bun install
       - name: Import GPG key
         uses: crazy-max/ghaction-import-gpg@v6
         with:
@@ -43,7 +44,8 @@ jobs:
           git_push_gpgsign: false
           git_tag_gpgsign: true
           git_user_signingkey: true
-      - run: |
+      - shell: bash
+        run: |
           npm config set '//registry.npmjs.org/:_authToken' ${{ secrets.NPM_ACCESS_TOKEN }}
           npm config set '//npm.pkg.github.com/:_authToken' ${{ secrets.GITHUB_TOKEN }}
       - id: versioning
@@ -108,7 +110,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: |
+      - shell: bash
+        run: |
           echo "## Release Summary" >> $GITHUB_STEP_SUMMARY
           echo "## ${{ needs.publish.result == 'success' && '✅' || '❌' }} Publish Packages" >> $GITHUB_STEP_SUMMARY
           echo "```\n${{ needs.publish.outputs.versioning }}\n```" >> $GITHUB_STEP_SUMMARY
