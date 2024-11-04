@@ -191,34 +191,34 @@ jobs:
           echo "## ${{ needs.build.result == 'success' && '✅' || '❌' }} Build" >> $GITHUB_STEP_SUMMARY
           echo "${{ needs.build.outputs.website_bash }}" >> $GITHUB_STEP_SUMMARY
           echo "${{ needs.build.outputs.packages_bash }}" >> $GITHUB_STEP_SUMMARY
-      - uses: marocchino/sticky-pull-request-comment@v2
-        if: ${{ github.event_name == 'pull_request' }}
-        with:
-          header: pr-status-checks
-          message: |
-            ## 🤖 PR Summary ℹ️
-            <sup>This comment is automatically generated and will be overwritten every time changes are committed to this branch.</sup>
+      # - uses: marocchino/sticky-pull-request-comment@v2
+      #   if: ${{ github.event_name == 'pull_request' }}
+      #   with:
+      #     header: pr-status-checks
+      #     message: |
+      #       ## 🤖 PR Summary ℹ️
+      #       <sup>This comment is automatically generated and will be overwritten every time changes are committed to this branch.</sup>
 
-            ### Workflows
+      #       ### Workflows
 
-            Workflow Name | Summary
-            ------------- | -------
-            Next Release Checklist | [Summary](https://github.com/github/docs/actions/runs/${{ github.run_id }}?pr=${{ github.event.pull_request.number }}#summary-${{ github.run_attempt }}})
-            Lint Pull Request | [Summary](https://github.com/github/docs/actions/runs/${{ github.run_id }}?pr=${{ github.event.pull_request.number }}#summary-${{ github.run_attempt }}})
+      #       Workflow Name | Summary
+      #       ------------- | -------
+      #       Next Release Checklist | [Summary](https://github.com/github/docs/actions/runs/${{ github.run_id }}?pr=${{ github.event.pull_request.number }}#summary-${{ github.run_attempt }}})
+      #       Lint Pull Request | [Summary](https://github.com/github/docs/actions/runs/${{ github.run_id }}?pr=${{ github.event.pull_request.number }}#summary-${{ github.run_attempt }}})
 
-            ### Package Changes
+      #       ### Package Changes
 
-            Merging this pull request will trigger the following releases:
+      #       Merging this pull request will trigger the following releases:
 
-            Package Name | Release Version | Release Notes
-            ------------- | ------ | ----
-            @letsync/core | Build Failed | [Changelog]()
-            @letsync/cli | 0.2.0-next.0 | [Changelog]()
+      #       Package Name | Release Version | Release Notes
+      #       ------------- | ------ | ----
+      #       @letsync/core | Build Failed | [Changelog]()
+      #       @letsync/cli | 0.2.0-next.0 | [Changelog]()
 
-            <sup>Version numbers are subject to change until the release is published.</sup>
+      #       <sup>Version numbers are subject to change until the release is published.</sup>
 
-            ### Documentation Changes
+      #       ### Documentation Changes
 
-            Preview Link - [...](...)
+      #       Preview Link - [...](...)
 
-            Can documentation changes be applied without version release?
+      #       Can documentation changes be applied without version release?

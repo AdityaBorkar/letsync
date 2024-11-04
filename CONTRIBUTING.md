@@ -70,7 +70,3 @@ For contributors:
   - Astro: Parsing, Formatting and Linting are PARTIALLY SUPPORTED.
   - YAML: Parsing IN PROGRESS. Formatting and Linting NOT SUPPORTED.
   - Markdown: Parsing IN PROGRESS. Formatting and Linting NOT SUPPORTED.
-
-<!-- # - HUSKY AND COMMIT MESSAGE CHECKS -->
-<!-- # - biome apply all rules for linting -->
-<!-- Enable "Require Signed Commits" -->
