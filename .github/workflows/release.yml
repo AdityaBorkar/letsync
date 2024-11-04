@@ -43,12 +43,15 @@ jobs:
           git_push_gpgsign: false
           git_tag_gpgsign: true
           git_user_signingkey: true
-      - run: npm config set '//registry.npmjs.org/:_authToken' ${{ secrets.NPM_ACCESS_TOKEN }}
+      - run: |
+          npm config set '//registry.npmjs.org/:_authToken' ${{ secrets.NPM_ACCESS_TOKEN }}
+          npm config set '//npm.pkg.github.com/:_authToken' ${{ secrets.GITHUB_TOKEN }}
       - id: versioning
+        shell: bash
         run: |
           {
             echo "bash<<EOF"
-            echo "$(bun nx release --skip-publish --verbose --first-release --projects=packages/* ${{ github.event.release.target_commitish == 'canary' && '--preid=canary' || '' }})"
+            echo "$(bun nx release --skip-publish --projects=packages/* ${{ github.event.release.target_commitish == 'canary' && '--preid=canary' || '' }})"
             echo "EOF"
           } >> $GITHUB_OUTPUT
         env:
@@ -56,10 +59,11 @@ jobs:
           NPM_CONFIG_PROVENANCE: true
           NODE_AUTH_TOKEN: ${{ secrets.NPM_ACCESS_TOKEN }}
       - id: publishing
+        shell: bash
         run: |
           {
             echo "bash<<EOF"
-            echo "$(bun nx release publish --verbose --first-release --projects=packages/*)"
+            echo "$(bun nx release publish --projects=packages/*)"
             echo "EOF"
           } >> $GITHUB_OUTPUT
         env:
@@ -67,6 +71,7 @@ jobs:
           NPM_CONFIG_PROVENANCE: true
           NODE_AUTH_TOKEN: ${{ secrets.NPM_ACCESS_TOKEN }}
       - id: delete-draft-release
+        shell: bash
         run: |
           {
             echo "bash<<EOF"
@@ -87,6 +92,7 @@ jobs:
       - uses: oven-sh/setup-bun@v2
       - run: bun install
       - id: deploy
+        shell: bash
         run: |
           {
             echo "bash<<EOF"
