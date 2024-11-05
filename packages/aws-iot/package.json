@@ -17,6 +17,10 @@
 		"provenance": true
 	},
 	"main": "./dist/index.js",
+	"exports": {
+		"./backend": "./dist/backend/index.js",
+		"./frontend": "./dist/frontend/index.js"
+	},
 	"type": "module",
 	"files": ["dist/", "package.json", "LICENSE.md", "README.md"],
 	"scripts": {
