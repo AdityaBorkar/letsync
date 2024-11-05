@@ -11,14 +11,55 @@ import React, { useEffect, useState } from 'react';
 import { LetsyncContext } from './context.js';
 import { frontend } from '@letsync/core';
 
+/**
+ * Props for the LetsyncProvider component.
+ */
 interface LetsyncProviderProps {
+	/**
+	 * Whether to use Web Workers for background processing.
+	 * @default false
+	 */
 	workers?: boolean;
-	database: ClientDbAdapter; // Promise<ClientDbAdapter>;
-	pubsub: PubsubAdapter; // Promise<PubsubAdapter>;
+
+	/**
+	 * The client database adapter instance for handling local data storage.
+	 */
+	database: ClientDbAdapter;
+
+	/**
+	 * The publish/subscribe adapter instance for real-time communication.
+	 */
+	pubsub: PubsubAdapter;
+
+	/**
+	 * Content to show while the Letsync client is initializing.
+	 * @default null
+	 */
 	fallback?: React.ReactNode;
+
+	/**
+	 * The child components that will have access to the Letsync context.
+	 */
 	children: React.ReactNode;
 }
 
+/**
+ * Provider component that initializes the Letsync client and makes it available to child components.
+ *
+ * @example
+ * ```tsx
+ * <LetsyncProvider
+ *   database={myDatabase}
+ *   pubsub={myPubSub}
+ *   fallback={<LoadingSpinner />}
+ * >
+ *   <App />
+ * </LetsyncProvider>
+ * ```
+ *
+ * @param props - The component props
+ * @returns A React component that provides Letsync context to its children
+ */
 export function LetsyncProvider({
 	workers = false,
 	database,
