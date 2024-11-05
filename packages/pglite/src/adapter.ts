@@ -11,23 +11,16 @@ import exportData from './exportData.js';
 import getStorageMetrics from './getStorageMetrics.js';
 
 /**
- * Write your adapter docs here.
+ * Creates a database adapter for use with Letsync.
  *
- * query, exec, sql is merged into one function `sql`
- *
- * transaction`
- *
- * listen, unlisten, subscribe, unsubscribe into `events`
- *
- * export - Exports all data
- *
- * @link https://letsync.dev/docs/integrations/client-database
- *
- * @param props
- *
- * @returns
- *
- * @example
+ * @template DT - Type extending PGlite database
+ * @param {Object} props - The configuration properties
+ * @param {PubsubAdapter} props.pubsub - The pubsub adapter instance
+ * @param {DT} props.database - The PGlite database instance
+ * @param {Config['dbSchema']} props.dbSchema - The database schema configuration
+ * @param {string} [props.apiBaseUrl] - Optional base URL for the API
+ * @returns {ClientDbAdapter} The configured database adapter
+ * @throws {Error} If database is invalid or API base URL is not set
  */
 export default function useDatabaseAdapter<DT extends PGlite>(props: {
 	pubsub: PubsubAdapter;
