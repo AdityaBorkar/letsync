@@ -5,7 +5,6 @@
 		// "oxc.oxc-vscode"
 		"DavidAnson.vscode-markdownlint",
 		"streetsidesoftware.code-spell-checker",
-		"YoavBls.pretty-ts-errors",
-		"esbenp.prettier-vscode"
+		"YoavBls.pretty-ts-errors"
 	]
 }
