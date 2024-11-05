@@ -28,6 +28,20 @@ greet("Hello, world! 💖");
 
 Evaluating if the following features are needed:
 
+- Multiplayer Cursors and Collaborative Editing
+	- 2D canvas cursors & Text carets
+	- Element-based focus-presence
+	- Scroll-based / out-of-bounds helpers (track screen)
+- Realtime Sync
+- File Uploads
+- E2E Encryption
+- Instant Updates
+- Permissions - role-based permissions
+- Authentication
+- Social features - group based permissions
+	- PostgreSQL introspection
+	- Drizzle & Prisma
+
 - Push Notifications
 - Background Sync
 - Multiple Local Databases
