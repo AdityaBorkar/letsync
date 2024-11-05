@@ -61,6 +61,7 @@ jobs:
           NPM_CONFIG_PROVENANCE: true
           NODE_AUTH_TOKEN: ${{ secrets.NPM_ACCESS_TOKEN }}
       - id: publishing
+      # TODO - DO NOT RUN IF PREVIOUS STEP FAILED
         shell: bash
         run: |
           {
@@ -114,10 +115,10 @@ jobs:
         run: |
           echo "## Release Summary" >> $GITHUB_STEP_SUMMARY
           echo "## ${{ needs.publish.result == 'success' && '✅' || '❌' }} Publish Packages" >> $GITHUB_STEP_SUMMARY
-          echo "```\n${{ needs.publish.outputs.versioning }}\n```" >> $GITHUB_STEP_SUMMARY
-          echo "```\n${{ needs.publish.outputs.publishing }}\n```" >> $GITHUB_STEP_SUMMARY
+          echo "\n\nVersioning: \`\`\`bash\n${{ needs.publish.outputs.versioning }}\n\`\`\`" >> $GITHUB_STEP_SUMMARY
+          echo "\n\nPublishing: \`\`\`bash\n${{ needs.publish.outputs.publishing }}\n\`\`\`" >> $GITHUB_STEP_SUMMARY
         # echo "## ${{ needs.deploy.result == 'success' && '✅' || '❌' }} Deploy Website" >> $GITHUB_STEP_SUMMARY
-        # echo "```bash\n${{ needs.deploy.outputs.bash }}\n```" >> $GITHUB_STEP_SUMMARY
+        # echo "\n\nDeploying: \`\`\`bash\n${{ needs.deploy.outputs.bash }}\n\`\`\`" >> $GITHUB_STEP_SUMMARY
       # - uses: marocchino/sticky-pull-request-comment@v2
       #   with:
       #     header: pr-status-checks
