@@ -30,10 +30,10 @@
 	},
 	"devDependencies": {
 		"@types/pg": "^8.11.10",
-		"typescript": "^5.5.4",
-		"@letsync/core": "0.0.1"
+		"typescript": "^5.5.4"
 	},
 	"dependencies": {
-		"pg": "^8.13.0"
+		"pg": "^8.13.0",
+		"@letsync/core": "workspace:^"
 	}
 }

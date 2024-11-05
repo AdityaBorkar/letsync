@@ -37,7 +37,8 @@
 	},
 	"config": {
 		"commitizen": {
-			"path": "cz-conventional-changelog"
+			"path": "cz-conventional-changelog",
+			"gpg_sign": true
 		}
 	}
 }

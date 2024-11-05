@@ -37,9 +37,7 @@
 	},
 	"dependencies": {
 		"@aws-sdk/client-iot-data-plane": "^3.682.0",
-		"mqtt": "^5.10.1"
-	},
-	"peerDependencies": {
+		"mqtt": "^5.10.1",
 		"@letsync/core": "workspace:*"
 	}
 }
