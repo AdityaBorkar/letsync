@@ -4,6 +4,14 @@ import type { Letsync_PubSub_Frontend, Letsync_Config } from '@letsync/core';
 
 // import initialize from "@letsync/core/src/frontend/db/functions/initialize.js";
 
+/**
+ * Creates a Letsync Sync extension.
+ *
+ * @param {Object} params - The parameters for the extension.
+ * @param {Letsync_PubSub_Frontend | Promise<Letsync_PubSub_Frontend>} params.pubsub - The pubsub frontend or a promise that resolves to it.
+ * @param {Letsync_Config} params.config - The configuration for Letsync.
+ * @returns {Extension} The Letsync Sync extension.
+ */
 export default function LetsyncSyncExtension({
 	pubsub,
 	config,
@@ -13,6 +21,12 @@ export default function LetsyncSyncExtension({
 }): Extension {
 	return {
 		name: 'Letsync Sync',
+		/**
+		 * Sets up the Letsync Sync extension.
+		 *
+		 * @param {PGliteInterface} pg - The PGlite interface.
+		 * @returns {Promise<Object>} An object containing the namespace object.
+		 */
 		async setup(pg: PGliteInterface) {
 			console.log({ pg });
 			return {
