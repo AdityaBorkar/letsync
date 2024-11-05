@@ -18,7 +18,6 @@
 		"git": {
 			"commitMessage": "chore(release): {version}"
 		},
-		"versionPlans": true,
 		"version": {
 			"conventionalCommits": true,
 			"preVersionCommand": "bun run build:packages"
