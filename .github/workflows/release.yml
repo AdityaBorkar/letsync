@@ -115,8 +115,19 @@ jobs:
         run: |
           echo "## Release Summary" >> $GITHUB_STEP_SUMMARY
           echo "## ${{ needs.publish.result == 'success' && '✅' || '❌' }} Publish Packages" >> $GITHUB_STEP_SUMMARY
-          echo "\n\nVersioning: \`\`\`bash\n${{ needs.publish.outputs.versioning }}\n\`\`\`" >> $GITHUB_STEP_SUMMARY
-          echo "\n\nPublishing: \`\`\`bash\n${{ needs.publish.outputs.publishing }}\n\`\`\`" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Versioning:" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`bash" >> $GITHUB_STEP_SUMMARY
+          echo "${{ needs.publish.outputs.versioning }}" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Publishing:" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`bash" >> $GITHUB_STEP_SUMMARY
+          echo "${{ needs.publish.outputs.publishing }}" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
         # echo "## ${{ needs.deploy.result == 'success' && '✅' || '❌' }} Deploy Website" >> $GITHUB_STEP_SUMMARY
         # echo "\n\nDeploying: \`\`\`bash\n${{ needs.deploy.outputs.bash }}\n\`\`\`" >> $GITHUB_STEP_SUMMARY
       # - uses: marocchino/sticky-pull-request-comment@v2
