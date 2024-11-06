@@ -25,10 +25,12 @@ jobs:
     outputs:
       versioning: ${{ steps.versioning.outputs.bash }}
       publishing: ${{ steps.publishing.outputs.bash }}
+      fetch-tags: ${{ steps.fetch-tags.outputs.bash }}
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          fetch-tags: true
       - uses: oven-sh/setup-bun@v2
       - shell: bash
         run: bun install
@@ -48,6 +50,14 @@ jobs:
         run: |
           npm config set '//registry.npmjs.org/:_authToken' ${{ secrets.NPM_ACCESS_TOKEN }}
           npm config set '//npm.pkg.github.com/:_authToken' ${{ secrets.GITHUB_TOKEN }}
+      - shell: bash
+        id: fetch-tags
+        run: |
+          {
+            echo "bash<<EOF"
+            echo "$(git fetch --tags --all --verbose)"
+            echo "EOF"
+          } >> $GITHUB_OUTPUT
       - id: versioning
         shell: bash
         run: |
@@ -113,10 +123,18 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          fetch-tags: true
       - shell: bash
         run: |
           echo "## Release Summary" >> $GITHUB_STEP_SUMMARY
-          echo "## ${{ needs.publish.result == 'success' && '✅' || '❌' }} Publish Packages" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Fetching tags:" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`bash" >> $GITHUB_STEP_SUMMARY
+          echo "${{ needs.publish.outputs.fetch-tags }}" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### ${{ needs.publish.result == 'success' && '✅' || '❌' }} Publish Packages" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "Versioning:" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
@@ -130,59 +148,10 @@ jobs:
           echo "${{ needs.publish.outputs.publishing }}" >> $GITHUB_STEP_SUMMARY
           echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-        # echo "## ${{ needs.deploy.result == 'success' && '✅' || '❌' }} Deploy Website" >> $GITHUB_STEP_SUMMARY
-        # echo "\n\nDeploying: \`\`\`bash\n${{ needs.deploy.outputs.bash }}\n\`\`\`" >> $GITHUB_STEP_SUMMARY
-      # - uses: marocchino/sticky-pull-request-comment@v2
-      #   with:
-      #     header: pr-status-checks
-      #     message: |
-      #       ## 🤖  ℹ️
-      #       <sup>This comment is automatically generated and will be overwritten every time changes are committed to this branch.</sup>
-      
-      #       ## 📦 Package Changes
-      
-      #       <sup>Version numbers are subject to change until the release is published.</sup>
-            
-      #       ### @letsync/core (v0.1.0)
-      
-      #       | Metric | Value | Change |
-      #       | --- | --- | --- |
-      #       | Package Size (Uncompressed) | 100MB | +10% |
-      #       | Package Size (Gzipped) | 100MB | +10% |
-      #       | Test Coverage | 90% | +0% |
-      
-      #       **Changelog:**
-      #         - Ok
-      #         - Dokey
-      
-      #       <details>
-      #         <summary>**Release Notes**</summary>
-      
-      #         Written notes here about the release in MDX format. Get inspiration from React Native Blogs and Medusa Changelogs.
-      #       </details>
-      
-      #       ### @letsync/cli (v0.1.0-next.2)
-      
-      #       | Metric | Value | Change |
-      #       | --- | --- | --- |
-      #       | Package Size (Uncompressed) | 100MB | +10% |
-      #       | Package Size (Gzipped) | 100MB | +10% |
-      #       | Test Coverage | 90% | +0% |
-      
-      #       **Changelog:**
-      #         - Ok
-      #         - Dokey
-      
-      #       <details>
-      #         <summary>**Release Notes**</summary>
-      
-      #         Written notes here about the release in MDX format. Get inspiration from React Native Blogs and Medusa Changelogs.
-      #       </details>
-      
-      #       ## 📖 Documentation Changes
-      
-      #       Preview Deployment: [link](...)
-      
-      #       **Changelog:**
-      #         - Ok
-      #         - Dokey
+          echo "### ${{ needs.deploy.result == 'success' && '✅' || '❌' }} Deploy Website" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Deploying:" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`bash" >> $GITHUB_STEP_SUMMARY
+          echo "${{ needs.deploy.outputs.bash }}" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
