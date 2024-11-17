@@ -6,21 +6,25 @@ import {
 import type { Letsync_PubSub_Backend } from '@letsync/core';
 import { PubSubAuthorizer } from './authorizer.js';
 
-/**
- * Creates an AWS IoT PubSub backend instance
- * @param {Object} props - Configuration properties
- * @param {string} props.prefix - Topic prefix for MQTT topics
- * @param {string} props.secret - Secret key used for JWT token validation
- * @returns {Letsync_PubSub_Backend} PubSub backend instance
- */
-export function PubSub({
-	prefix,
-	secret,
-}: {
+type PubSubProps = {
+	client?: IoTDataPlaneClient;
 	prefix: string;
 	secret: string;
-}): Letsync_PubSub_Backend {
-	const client = new IoTDataPlaneClient();
+};
+
+/**
+ * Creates an AWS IoT PubSub backend instance that connects to AWS IoT Core MQTT broker.
+ * Can be initialized with an optional IoT Data Plane client for publishing messages.
+ *
+ * @param props - Configuration options
+ * @param props.client - Optional IoT Data Plane client instance to use for publishing
+ * @param props.prefix - Topic prefix for MQTT topics
+ * @param props.secret - Secret key used to validate JWT tokens for authentication
+ * @returns A PubSub backend instance for real-time messaging
+ */
+export function PubSub(props: PubSubProps): Letsync_PubSub_Backend {
+	const { client: _client, prefix, secret } = props;
+	const client = _client ?? new IoTDataPlaneClient();
 
 	/**
 	 * Publishes a message to an AWS IoT topic

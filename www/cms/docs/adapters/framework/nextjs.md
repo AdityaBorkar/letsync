@@ -3,12 +3,12 @@ title: "NextJS"
 description: "This is a test description"
 ---
 
-We currently support NextJS v14 App Router only. We need open-source contributors to help us write tests and expand support to other versions of NextJS.
+We currently support App Router only. We need open-source contributors to help us write tests and expand support to other versions of NextJS.
 
 ## Installation
 
 ```bash
-pnpm install @letsync/nextjs
+bun add @letsync/nextjs
 ```
 
 ## Server Setup
@@ -23,30 +23,36 @@ import { handlers } from "@/lib/letsync.server";
 export const { GET, POST } = handlers;
 ```
 
-<!-- ```ts
+```ts
 // Path: lib/letsync.server.ts
 
 import { LetsyncHandlers } from "@letsync/nextjs";
-import { LetsyncServerDb } from "@letsync/*";
+import { LetsyncServerDB } from "@letsync/*";
+import { LetsyncServerFS } from "@letsync/*";
 import { PubSub_Backend } from "@letsync/*";
 
 const pubsub = PubSub_Backend(/* PubSub Config */);
 
-export const database = LetsyncServerDb(/* Database */);
+export const database = LetsyncServerDB(/* Database */);
+
+export const filesystem = LetsyncServerFS(/* Filesystem */);
+
+export function auth() {
+  // TODO - AUTHENTICATION & AUTHORIZATION for backend endpoints
+  return {
+    authorized: true,
+    provider: "cookies",
+    endpoints: ["vasundhara-aakash"],
+  };
+}
 
 export const handlers = LetsyncHandlers({
-	database,
-	pubsub,
-	auth() {
-		// TODO - AUTHENTICATION & AUTHORIZATION for backend endpoints
-		return {
-			authorized: true,
-			provider: "cookies",
-			endpoints: ["vasundhara-aakash"],
-		};
-	},
+  db: database,
+  fs: filesystem,
+  pubsub,
+  auth,
 });
-``` -->
+```
 
 ## Client Setup
 
@@ -57,38 +63,12 @@ The `LetsyncProvider` shall establish connections to both the Client Database an
 ```ts
 // Path: app/page.ts
 
-import Providers from './Providers'
+import { LetsyncProvider } from '@/lib/letsync.client';
 
 function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <Providers>
+    <LetsyncProvider>
         {children}
-    </Providers>
-  )
-}
-```
-
-```ts
-// Path: app/Providers.ts
-
-'use client'
-
-import { LetsyncProvider } from '@letsync/nextjs'
-import { LetsyncClientDb } from '@letsync/*' // Replace with the database service you want to use
-import { PubSub_Frontend } from '@letsync/*' // Replace with the pubsub service you want to use
-
-export default function Providers({ children }: { children?: React.ReactNode }) {
-
-  const pubsub = PubSub_Frontend(/* PubSub Config */)
-  const database = LetsyncClientDb(/* DB Client */)
-
-  return (
-    <LetsyncProvider
-      pubsub={pubsub}
-      database={database}
-      fallback={<div>Loading...</div>}
-    >
-      {children}
     </LetsyncProvider>
   )
 }
@@ -100,7 +80,8 @@ export default function Providers({ children }: { children?: React.ReactNode }) 
 'use client'
 
 import { LetsyncProvider } from '@letsync/nextjs'
-import { LetsyncClientDb } from '@letsync/*'
+import { LetsyncClientDB } from '@letsync/*'
+import { LetsyncClientFS } from '@letsync/*'
 import { PubSub_Frontend } from '@letsync/*'
 
 interface LetsyncProviderProps {
@@ -109,14 +90,15 @@ interface LetsyncProviderProps {
 }
 
 export default function LetsyncProvider(props: LetsyncProviderProps) {
-
-  const pubsub = PubSub_Frontend(/* PubSub Config */)
-  const database = LetsyncClientDb(/* DB Client */)
+  const pubsub = PubSub_Frontend(/* PubSub Config */);
+  const database = LetsyncClientDB(/* DB Client */);
+  const filesystem = LetsyncClientFS(/* Filesystem Client */);
 
   return (
     <LetsyncProvider
+      db={database}
+      fs={filesystem}
       pubsub={pubsub}
-      database={database}
       fallback={<div>Loading...</div>}
     >
       {props.children}

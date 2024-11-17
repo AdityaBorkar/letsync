@@ -23,14 +23,10 @@
 		// https://github.com/matzkoh/prettier-plugin-packagejson
 		// https://github.com/JoshuaKGoldberg/prettier-plugin-curly
 	},
-	"organizeImports": {
-		"enabled": true
-	},
+	"organizeImports": { "enabled": true },
 	"linter": {
-		"enabled": true,
-		"rules": {
-			// "all": true
-		}
+		"enabled": true
+		// "rules": { "all": true }
 		// https://github.com/gajus/eslint-plugin-jsdoc
 		// https://github.com/ota-meshi/eslint-plugin-yml
 		// https://github.com/ota-meshi/eslint-plugin-jsonc

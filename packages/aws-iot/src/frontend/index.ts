@@ -1,21 +1,37 @@
 import type { Letsync_PubSub_Frontend } from '@letsync/core';
+import type { MqttClient } from 'mqtt';
 
 import $connect from './connect.js';
 
-/**
- * Creates an AWS IoT PubSub frontend instance
- * @param {Object} props - Configuration properties
- * @param {string} props.authorizer - Name of the AWS IoT custom authorizer
- * @param {string} props.endpoint - AWS IoT endpoint URL
- * @param {string} props.prefix - Topic prefix for MQTT topics
- * @returns {Letsync_PubSub_Frontend} PubSub frontend instance
- */
-export function PubSub(props: {
-	authorizer: string;
-	endpoint: string;
+type PubSubProps = {
 	prefix: string;
-}): Letsync_PubSub_Frontend {
+} & (
+	| {
+			client: MqttClient;
+	  }
+	| {
+			authorizer: string;
+			endpoint: string;
+	  }
+);
+
+/**
+ * Creates an AWS IoT PubSub frontend instance that connects to AWS IoT Core MQTT broker.
+ * Can be initialized either with an existing MQTT client or with AWS IoT endpoint details.
+ *
+ * @param props - Configuration options
+ * @param props.client - Optional existing MQTT client instance to use
+ * @param props.authorizer - Name of the AWS IoT custom authorizer (required if client not provided)
+ * @param props.endpoint - AWS IoT endpoint URL (required if client not provided)
+ * @param props.prefix - Topic prefix for MQTT topics
+ * @returns A PubSub frontend instance for real-time messaging
+ */
+export function PubSub(props: PubSubProps): Letsync_PubSub_Frontend {
 	const superProps = props;
+
+	type ConnectProps<T> = T extends { client: MqttClient }
+		? { token: string; clientId: string }
+		: undefined;
 
 	/**
 	 * Establishes connection to AWS IoT MQTT broker
@@ -24,8 +40,11 @@ export function PubSub(props: {
 	 * @param {string} props.clientId - Unique client identifier
 	 * @returns {Promise<{subscribe: Function, publish: Function, disconnect: Function}>} Connection methods
 	 */
-	async function connect(props: { token: string; clientId: string }) {
-		const connection = await $connect({ ...props, ...superProps });
+	async function connect(props: ConnectProps<PubSubProps>) {
+		const connection =
+			'client' in superProps
+				? superProps.client
+				: await $connect({ ...props, ...superProps });
 
 		/**
 		 * Subscribes to messages on a specific topic
