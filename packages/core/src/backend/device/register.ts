@@ -7,7 +7,7 @@ import type { ApiRouter } from '@/types/ApiRouter.js';
 
 export default async function deviceRegister(params: Params) {
 	try {
-		const { database, pubsub, request, auth, acl } = params;
+		const { databases, pubsub, request, auth, acl } = params;
 		const { userId } = auth;
 
 		const device = { userId, isActive: true, deviceId: createId() };
@@ -30,9 +30,15 @@ export default async function deviceRegister(params: Params) {
 
 		const schema = await getLatestSchema();
 
-		await params.database.waitUntilReady();
-		if (database.type === 'SQL') {
-			await database.query(
+		const db = databases[0]; // TODO - How to select the correct database?
+		if (!db)
+			return new Response(JSON.stringify({ error: 'No database found' }), {
+				status: 500,
+			});
+
+		await db.waitUntilReady();
+		if (db.type === 'SQL') {
+			await db.query(
 				`INSERT INTO devices (deviceId, userId, isActive, schemaVersion) VALUES ('${device.deviceId}', '${device.userId}', TRUE, ${schema.version})`,
 			);
 		}

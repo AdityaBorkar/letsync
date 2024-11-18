@@ -1,5 +1,7 @@
 {
-	"dictionaries": ["typescript"],
+	"dictionaries": [
+		"typescript"
+	],
 	"ignorePaths": [
 		".github",
 		".nx",
@@ -39,6 +41,7 @@
 		"eventsource",
 		"faunadb",
 		"filereader",
+		"filesystems",
 		"firestore",
 		"importscripts",
 		"indexeddb",

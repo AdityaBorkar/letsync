@@ -1,9 +1,14 @@
 import type { Params } from '@/backend/types.js';
 
 export default async function cdcCapture(params: Params) {
-	const { database: serverDb } = params;
-	await serverDb.waitUntilReady();
-	if (serverDb.type === 'NOSQL') return Response.json({});
+	const { databases } = params;
+
+	const db = databases[0]; // TODO - How to select the correct database?
+	if (!db)
+		return Response.json({ error: 'No database found' }, { status: 500 });
+
+	await db.waitUntilReady();
+	if (db.type === 'NOSQL') return Response.json({});
 
 	const auth = params.request.headers.get('Authorization');
 	if (auth !== 'Basic ZFB5emZSMlFSTkNQTVR1U1VaZjVVT3BFeVNkcG03OWE=')
@@ -42,7 +47,7 @@ export default async function cdcCapture(params: Params) {
 			return `(${data.join(', ')})`;
 		})
 		.join(', ');
-	await serverDb.query(
+	await db.query(
 		`INSERT INTO cdc (id, tableName, key, data, updated) VALUES ${cdcData};`,
 	);
 

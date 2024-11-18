@@ -14,7 +14,7 @@ type PublishFn = (
 
 export type Letsync_PubSub_Frontend = {
 	__brand: 'LETSYNC_PUBSUB_FRONTEND';
-	connect: (props: { token: string; clientId: string }) => Promise<{
+	connect: (props?: { token: string; clientId: string }) => Promise<{
 		publish: PublishFn;
 		subscribe: SubscribeFn;
 		disconnect: () => Promise<void>;
@@ -32,7 +32,7 @@ export type Letsync_PubSub_Backend = {
 	}>;
 };
 
-export type PubsubToken = {
+export type PubSubToken = {
 	value: string;
 	expiresAt: number;
 };

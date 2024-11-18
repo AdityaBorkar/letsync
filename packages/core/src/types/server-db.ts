@@ -1,5 +1,4 @@
-// biome-ignore lint/complexity/noUselessTypeConstraint: <explanation>
-export type Letsync_ServerDb<DT extends unknown> = {
+export type Letsync_ServerDB<DT> = {
 	__brand: 'LETSYNC_SERVER_DB';
 	database: DT;
 	waitUntilReady: () => Promise<void>;

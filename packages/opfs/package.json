@@ -1,7 +1,7 @@
 {
-	"name": "@letsync/aws-iot",
-	"description": "AWS IoT adapter for Letsync",
-	"version": "0.1.0",
+	"name": "@letsync/opfs",
+	"description": "OPFS functionality for Letsync",
+	"version": "0.0.2",
 	"license": "MIT",
 	"keywords": [],
 	"author": {
@@ -17,10 +17,6 @@
 		"provenance": true
 	},
 	"main": "./dist/index.js",
-	"exports": {
-		"./backend": "./dist/backend/index.js",
-		"./frontend": "./dist/frontend/index.js"
-	},
 	"type": "module",
 	"files": ["dist/", "package.json", "LICENSE.md", "README.md"],
 	"scripts": {
@@ -29,15 +25,10 @@
 		"typecheck": "tsc --noEmit",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
-	"engines": {
-		"node": ">=18.3.0"
-	},
 	"devDependencies": {
-		"typescript": "^5.5.4"
+		"typescript": "^5.6.2"
 	},
 	"dependencies": {
-		"@aws-sdk/client-iot-data-plane": "^3.682.0",
-		"mqtt": "^5.10.1",
 		"@letsync/core": "workspace:*"
 	}
 }
