@@ -39,11 +39,7 @@ export const filesystem = LetsyncServerFS(/* Filesystem */);
 
 export function auth() {
   // TODO - AUTHENTICATION & AUTHORIZATION for backend endpoints
-  return {
-    authorized: true,
-    provider: "cookies",
-    endpoints: ["vasundhara-aakash"],
-  };
+  return { userId: "unique-user-id", deviceId: "random-cuid2" };
 }
 
 export const handlers = LetsyncHandlers({

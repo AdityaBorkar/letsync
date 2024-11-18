@@ -21,19 +21,19 @@ const RestEndpoints = {
 	},
 } as const;
 
-export default function Router({
+export default function Router<MT extends keyof typeof RestEndpoints>({
 	context,
 	method,
 }: {
 	context: NextContext;
-	method: keyof typeof RestEndpoints;
+	method: MT;
 }) {
 	const endpoints = RestEndpoints[method];
-	const path = `/${context.params.slug.join('/')}`;
+	const path = `/${context.params.slug.join('/')}` as keyof typeof endpoints &
+		string;
 	const isValidPath = Object.keys(endpoints).includes(path);
 	if (!isValidPath) return undefined;
 
-	// @ts-expect-error
 	const func = endpoints[path];
 	return func;
 }

@@ -3,17 +3,18 @@ import type { MqttClient } from 'mqtt';
 
 import $connect from './connect.js';
 
-type PubSubProps = {
+type PubSubClient = {
 	prefix: string;
-} & (
-	| {
-			client: MqttClient;
-	  }
-	| {
-			authorizer: string;
-			endpoint: string;
-	  }
-);
+	client: MqttClient;
+};
+
+type PubSubAuthorizer = {
+	prefix: string;
+	authorizer: string;
+	endpoint: string;
+};
+
+type PubSubProps = PubSubClient | PubSubAuthorizer;
 
 /**
  * Creates an AWS IoT PubSub frontend instance that connects to AWS IoT Core MQTT broker.
@@ -26,12 +27,10 @@ type PubSubProps = {
  * @param props.prefix - Topic prefix for MQTT topics
  * @returns A PubSub frontend instance for real-time messaging
  */
-export function PubSub(props: PubSubProps): Letsync_PubSub_Frontend {
+export function PubSub<PT extends PubSubProps>(
+	props: PT,
+): Letsync_PubSub_Frontend {
 	const superProps = props;
-
-	type ConnectProps<T> = T extends { client: MqttClient }
-		? { token: string; clientId: string }
-		: undefined;
 
 	/**
 	 * Establishes connection to AWS IoT MQTT broker
@@ -40,11 +39,17 @@ export function PubSub(props: PubSubProps): Letsync_PubSub_Frontend {
 	 * @param {string} props.clientId - Unique client identifier
 	 * @returns {Promise<{subscribe: Function, publish: Function, disconnect: Function}>} Connection methods
 	 */
-	async function connect(props: ConnectProps<PubSubProps>) {
+	async function connect(
+		props?: { token: string; clientId: string },
+		// props: PT extends PubSubClient
+		// 	? { token: string; clientId: string }
+		// 	: undefined,
+	) {
 		const connection =
 			'client' in superProps
 				? superProps.client
-				: await $connect({ ...props, ...superProps });
+				: // @ts-expect-error - TODO
+					await $connect({ ...props, ...superProps });
 
 		/**
 		 * Subscribes to messages on a specific topic
