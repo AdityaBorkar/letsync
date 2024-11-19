@@ -1,5 +1,5 @@
-import TypedFetch from '@/frontend-db/utils/TypedFetch.js';
-import type { Props } from '../index.js';
+import TypedFetch from '../../utils/TypedFetch.js';
+import type { Props } from '../../index.js';
 
 export async function getAvailableUpgrades(
 	props: undefined,
@@ -12,14 +12,14 @@ export async function getAvailableUpgrades(
 
 	const SchemaVersions = await TypedFetch({
 		method: 'GET',
-		baseUrl: apiBaseUrl,
+		baseUrl: apiBaseUrl || '',
 		endpoint: '/schema/versions',
 		searchParams: undefined,
 	});
 
 	const upgrades = SchemaVersions.versions
 		.reduce((acc, version) => {
-			if (version > schema.version) {
+			if (version > schema?.version) {
 				acc.push(version);
 			}
 			return acc;

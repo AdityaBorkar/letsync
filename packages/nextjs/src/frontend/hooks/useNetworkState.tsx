@@ -22,6 +22,6 @@ import { LetsyncContext } from '../context.js';
  * ```
  */
 export function useNetworkState() {
-	const { database, pubsub } = useContext(LetsyncContext);
-	return { database, pubsub };
+	const { fs, pubsub } = useContext(LetsyncContext);
+	return { fs, pubsub };
 }

@@ -1,5 +1,5 @@
-import type { Props as SuperProps } from '../index.js';
-import TypedFetch from '@/frontend-db/utils/TypedFetch.js';
+import type { Props as SuperProps } from '../../index.js';
+import TypedFetch from '@/frontend-db/sql/utils/TypedFetch.js';
 
 // biome-ignore lint/suspicious/noEmptyInterface: <explanation>
 interface RegisterProps {
@@ -16,13 +16,13 @@ export async function register(props: RegisterProps, superProps: SuperProps) {
 	const data = existingDevice
 		? await TypedFetch({
 				method: 'GET',
-				baseUrl: apiBaseUrl,
+				baseUrl: apiBaseUrl || '',
 				endpoint: '/device',
 				searchParams: { deviceId: existingDevice.deviceId },
 			})
 		: await TypedFetch({
 				method: 'POST',
-				baseUrl: apiBaseUrl,
+				baseUrl: apiBaseUrl || '',
 				endpoint: '/device',
 				searchParams: undefined,
 			});

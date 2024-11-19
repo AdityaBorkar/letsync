@@ -1,5 +1,10 @@
-export type Letsync_ServerDB<DT> = {
+export namespace ServerDB {
+	export type Adapter<DT> = ServerDB<DT>;
+}
+
+type ServerDB<DT> = {
 	__brand: 'LETSYNC_SERVER_DB';
+	name: string;
 	database: DT;
 	waitUntilReady: () => Promise<void>;
 } & (

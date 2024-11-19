@@ -1,35 +1,10 @@
-// import type { PubsubToken } from "./pubsub.js";
+import type { EventCallbackFn, EventName } from './events.js';
 
-const events = [
-	'auth.grant',
-	'auth.refresh',
-	'auth.revoke',
-	'devices.register',
-	'devices.deregister',
-	'devices.pull',
-	'devices.push',
-	'devices.sync',
-] as const;
-
-export type EventName = (typeof events)[number];
-
-// biome-ignore lint/suspicious/noExplicitAny: <explanation>
-export type EventCallbackFn = (data: any) => void;
-
-// ---
-
-export interface ClientDb_OpsAdapter {
-	txn: MethodTxn;
-	sql: MethodSql;
-	query: MethodQuery;
-	close: () => Promise<void>;
-	exportData: MethodExportData;
-	storageMetrics: MethodStorageMetrics;
-}
-
-export interface ClientDbAdapter {
+export interface ClientDBAdapter<DBClient> {
 	__brand: 'LETSYNC_CLIENT_DATABASE';
+	name: string;
 	sql: MethodSql;
+	client: DBClient;
 	// txn: Method_Txn;
 	// query: Method_Query;
 	exportData: MethodExportData;
@@ -66,7 +41,23 @@ export interface ClientDbAdapter {
 	};
 }
 
-// ---
+export interface ClientDB_SQLOperationsAdapter {
+	txn: MethodTxn;
+	sql: MethodSql;
+	query: MethodQuery;
+	close: () => Promise<void>;
+	exportData: MethodExportData;
+	storageMetrics: MethodStorageMetrics;
+}
+
+export interface ClientDB_NoSQLOperationsAdapter {
+	// txn: MethodTxn;
+	// sql: MethodSql;
+	// query: MethodQuery;
+	close: () => Promise<void>;
+	exportData: MethodExportData;
+	storageMetrics: MethodStorageMetrics;
+}
 
 type MethodSql = <RT>(
 	sqlStrings: TemplateStringsArray,
@@ -98,8 +89,6 @@ type MethodExportData = (
 ) => Promise<File | Blob>;
 
 type MethodStorageMetrics = () => void;
-
-// ---
 
 type Row<
 	T = {

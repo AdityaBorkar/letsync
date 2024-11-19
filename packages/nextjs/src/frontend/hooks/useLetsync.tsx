@@ -23,6 +23,6 @@ import { LetsyncContext } from '../context.js';
  * ```
  */
 export function useLetsync() {
-	const { database, pubsub } = useContext(LetsyncContext);
-	return { database, pubsub };
+	const { db, fs, pubsub } = useContext(LetsyncContext);
+	return { db, fs, pubsub };
 }
