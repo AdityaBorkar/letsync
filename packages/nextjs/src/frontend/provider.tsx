@@ -1,35 +1,31 @@
 'use client';
 
-import type {
-	ClientDbAdapter,
-	ClientDbAdapter as ClientFilesystemAdapter,
-	Letsync_PubSub_Frontend as PubsubAdapter,
-} from '@letsync/core';
+import type { ClientDB, ClientFS, ClientPubsub } from '@letsync/core';
 import type { LetsyncContextType } from './context.js';
 
 // biome-ignore lint/style/useImportType: BIOME BUG
 import React, { useEffect, useState } from 'react';
 import { LetsyncContext } from './context.js';
-import { frontend } from '@letsync/core';
+import { initClient } from '@letsync/core';
 
 /**
  * Props for the LetsyncProvider component.
  */
-interface LetsyncProviderProps {
+interface LetsyncProviderProps<DB, FS, Pubsub> {
 	/**
 	 * The client database adapter instance for handling local data storage.
 	 */
-	db: ClientDbAdapter | ClientDbAdapter[];
+	db: DB | DB[];
 
 	/**
 	 * The client filesystem adapter instance for handling local file storage.
 	 */
-	fs: ClientFilesystemAdapter | ClientFilesystemAdapter[];
+	fs: FS | FS[];
 
 	/**
 	 * The publish/subscribe adapter instance for real-time communication.
 	 */
-	pubsub: PubsubAdapter;
+	pubsub: Pubsub;
 
 	/**
 	 * Whether to use Web Workers for background processing.
@@ -66,22 +62,25 @@ interface LetsyncProviderProps {
  * @param props - The component props
  * @returns A React component that provides Letsync context to its children
  */
-export function LetsyncProvider({
+export function LetsyncProvider<
+	DB extends ClientDB.Adapter<unknown>,
+	FS extends ClientFS.Adapter<unknown>,
+	Pubsub extends ClientPubsub.Adapter,
+>({
 	db: _db,
 	fs: _fs,
 	pubsub,
 	workers = false,
 	fallback,
 	children,
-}: LetsyncProviderProps) {
+}: LetsyncProviderProps<DB, FS, Pubsub>) {
 	const db = Array.isArray(_db) ? _db : [_db];
 	const fs = Array.isArray(_fs) ? _fs : [_fs];
 
 	const [context, setContext] = useState<LetsyncContextType | null>(null);
 
 	useEffect(() => {
-		const letsync = frontend.client
-			.initialize({ db, fs, pubsub, workers })
+		const letsync = initClient({ db, fs, pubsub, workers })
 			.then((letsync) => {
 				const { db, fs, pubsub } = letsync;
 				setContext({ db, fs, pubsub });

@@ -1,7 +1,7 @@
 export * from './types/index.js';
 
-export * as backend from './backend/index.js';
+export * from './server/index.js';
 
 export * from './frontend-db/index.js';
 
-export * as client from './frontend-client/index.js';
+export * from './frontend-client/index.js';

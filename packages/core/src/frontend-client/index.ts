@@ -1,2 +1,1 @@
-import initialize from './initialize.js';
-export const client = { initialize };
+export { initClient } from './init.js';

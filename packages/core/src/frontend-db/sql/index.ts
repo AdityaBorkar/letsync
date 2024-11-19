@@ -1,16 +1,16 @@
 import type { Config, ClientDB, ClientPubsub } from '@/types/index.js';
-import { flush } from './db/flush.js';
-import { pull } from './db/pull.js';
-import { push } from './db/push.js';
-import { live } from './db/live.js';
-import { close } from './db/close.js';
-import { register } from './db/device/register.js';
-import { deregister } from './db/device/deregister.js';
-import { subscribe } from './db/event/subscribe.js';
-import { unsubscribe } from './db/event/unsubscribe.js';
-import { sql } from './db/sql.js';
-import { migrate } from './db/schema/migrate.js';
-import { getAvailableUpgrades } from './db/schema/getAvailableUpgrades.js';
+import { flush } from './functions/flush.js';
+import { pull } from '../../frontend-client/sync/pull.js';
+import { push } from '../../frontend-client/sync/push.js';
+import { live } from '../../frontend-client/sync/live.js';
+import { close } from './functions/close.js';
+import { register } from '../../frontend-client/device/register.js';
+import { deregister } from '../../frontend-client/device/deregister.js';
+import { subscribe } from '../../frontend-client/event/subscribe.js';
+import { unsubscribe } from '../../frontend-client/event/unsubscribe.js';
+import { sql } from './functions/sql.js';
+import { migrate } from './schema/migrate.js';
+import { getAvailableUpgrades } from './schema/getAvailableUpgrades.js';
 import type { TableRecords } from '@/types/db-schema.js';
 import type { ClientDB_MetadataManager } from '@/types/client-db/metadata.js';
 
@@ -20,9 +20,9 @@ interface CreateAdapterConfig extends Config {
 }
 
 export interface Props {
+	schema: string; // TODO
+	apiBaseUrl: string;
 	pubsub: ClientPubsub.Adapter;
-	schema: string;
-	apiBaseUrl: string | undefined;
 	metadata: ClientDB_MetadataManager;
 	operations: ClientDB.OperationsAdapter.SQL;
 }
@@ -40,8 +40,9 @@ export function createAdapter_ClientDB_SQL<DBClient>({
 
 	if (pubsub.__brand !== 'LETSYNC_PUBSUB_FRONTEND')
 		throw new Error('Invalid pubsub');
+	if (!apiBaseUrl) throw new Error('Invalid apiBaseUrl'); // TODO - Ping Check
 
-	const schema = 'DBSchema(config.dbSchema)';
+	const schema = 'DBSchema(config.dbSchema)'; // TODO - FIX
 
 	const metadata = {
 		async remove(key: string) {
@@ -82,23 +83,23 @@ export function createAdapter_ClientDB_SQL<DBClient>({
 		// txn: (tx: any) => txn({ tx, ...Props }),
 		close: () => close({}, props),
 		flush: () => flush({}, props),
-		pull: () => pull({}, props),
-		push: () => push({}, props),
-		live: (endpoints: string[]) => live({ endpoints }, props),
-		device: {
-			register: () => register({}, props),
-			deregister: () => deregister({}, props),
-		},
-		event: {
-			subscribe: (
-				eventName: ClientDB.EventName,
-				callback: ClientDB.EventCallbackFn,
-			) => subscribe({ eventName, callback }, props),
-			unsubscribe: (
-				eventName: ClientDB.EventName,
-				callback: ClientDB.EventCallbackFn,
-			) => unsubscribe({ eventName, callback }, props),
-		},
+		// pull: () => pull({}, props),
+		// push: () => push({}, props),
+		// live: (endpoints: string[]) => live({ endpoints }, props),
+		// device: {
+		// 	register: () => register({}, props),
+		// 	deregister: () => deregister({}, props),
+		// },
+		// event: {
+		// 	subscribe: (
+		// 		eventName: ClientDB.EventName,
+		// 		callback: ClientDB.EventCallbackFn,
+		// 	) => subscribe({ eventName, callback }, props),
+		// 	unsubscribe: (
+		// 		eventName: ClientDB.EventName,
+		// 		callback: ClientDB.EventCallbackFn,
+		// 	) => unsubscribe({ eventName, callback }, props),
+		// },
 		schema: {
 			migrate: (version: number) => migrate({ version }, props),
 			getAvailableUpgrades: () => getAvailableUpgrades(undefined, props),

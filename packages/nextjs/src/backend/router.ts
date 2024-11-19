@@ -1,23 +1,23 @@
-import { backend } from '@letsync/core';
+import { server } from '@letsync/core';
 
 type NextContext = { params: { slug: string[] } };
 
 const RestEndpoints = {
 	GET: {
 		// "/cache": cacheRetrieve,
-		'/db/changes/status': backend.db.changes.status,
-		'/db/changes': backend.db.changes.get,
-		'/db/init': backend.db.init,
+		'/db/changes/status': server.db.changes.status,
+		'/db/changes': server.db.changes.get,
+		'/db/init': server.db.init,
 	},
 	POST: {
 		// "/cache": cacheUpsert,
-		'/db/changes': backend.db.changes.add,
-		'/db/cdc': backend.db.cdc.capture,
-		'/device': backend.device.register,
+		'/db/changes': server.db.changes.add,
+		'/db/cdc': server.db.cdc.capture,
+		'/device': server.device.register,
 	},
 	DELETE: {
 		// "/cache": cacheDelete,
-		'/device': backend.device.unregister,
+		'/device': server.device.unregister,
 	},
 } as const;
 
