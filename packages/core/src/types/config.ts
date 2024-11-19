@@ -1,5 +1,5 @@
 export type Config = {
-	apiBaseUrl?: string;
+	apiBaseUrl: string;
 	localDb?: {
 		/**
 		 * Extends the schema structure for local database

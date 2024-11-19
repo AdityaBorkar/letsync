@@ -1,9 +1,5 @@
 import type { NextRequest } from 'next/server.js';
-import type {
-	Letsync_PubSub_Backend,
-	Letsync_ServerDB,
-	Letsync_ServerFS,
-} from '@letsync/core';
+import type { ServerPubsub, ServerDB, ServerFS } from '@letsync/core';
 
 import Router from './router.js';
 
@@ -13,17 +9,17 @@ export type NextContext = { params: { slug: string[] } };
  * Creates handlers for HTTP methods (GET, POST, DELETE) with authentication and routing.
  *
  * @param {Object} props - The properties for the handlers.
- * @param {Letsync_ServerDb<unknown>} props.db - The database instance.
- * @param {Letsync_ServerFS<unknown>} props.fs - The filesystem instance.
- * @param {Letsync_PubSub_Backend} props.pubsub - The pub/sub backend instance.
+ * @param {ServerDB.Adapter<unknown>} props.db - The database instance.
+ * @param {ServerFS.Adapter<unknown>} props.fs - The filesystem instance.
+ * @param {ServerPubsub.Adapter} props.pubsub - The pub/sub backend instance.
  * @param {Function} props.auth - The authentication function that returns user and device IDs or an error message with a status code.
  *
  * @returns {Object} An object containing async functions for handling GET, POST, and DELETE requests.
  */
 export function LetsyncHandlers(props: {
-	db: Letsync_ServerDB<unknown> | Letsync_ServerDB<unknown>[];
-	fs: Letsync_ServerFS<unknown> | Letsync_ServerFS<unknown>[];
-	pubsub: Letsync_PubSub_Backend;
+	db: ServerDB.Adapter<unknown> | ServerDB.Adapter<unknown>[];
+	fs: ServerFS.Adapter<unknown> | ServerFS.Adapter<unknown>[];
+	pubsub: ServerPubsub.Adapter;
 	auth: (
 		request: NextRequest,
 	) =>

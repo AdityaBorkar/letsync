@@ -6,14 +6,14 @@ import { createAdapter_ClientDB_SQL } from '@letsync/core';
 import exportData from './functions/exportData.js';
 import getStorageMetrics from './functions/getStorageMetrics.js';
 
-interface AdapterConfig extends Config {
+interface InitConfig extends Config {
 	name: string;
 	pubsub: ClientPubsub.Adapter;
 }
 
 export function initClientDB(
 	props: PGlite | PGliteOptions,
-	config: AdapterConfig,
+	config: InitConfig,
 ): ClientDB.Adapter<PGlite> {
 	const client = props instanceof PGlite ? props : new PGlite(props);
 
