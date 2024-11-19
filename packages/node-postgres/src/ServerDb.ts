@@ -1,27 +1,28 @@
 import type {
-	Letsync_ServerDb,
-	Letsync_Config,
+	Letsync_ServerDB,
+	Config,
 	Letsync_PubSub_Backend,
 } from '@letsync/core';
 import type { Client } from 'pg';
 
 export function LetsyncServerDb({
-	pubsub,
+	name,
+	// pubsub,
+	// dbSchema,
 	database,
 }: {
+	name: string;
 	pubsub: Letsync_PubSub_Backend;
-	dbSchema: Letsync_Config['dbSchema'];
+	dbSchema: Config['dbSchema'];
 	database: Client;
 	// | (() => {
 	// 		instance: Client;
 	// 		wrapper: any;
 	//   });
-}): Letsync_ServerDb<Client> {
+}): Letsync_ServerDB<Client> {
 	// TODO - Connection Pooling on backend
 
 	// TODO - MIGRATE / SET SCHEMA
-
-	console.log({ pubsub });
 
 	async function waitUntilReady() {
 		try {
@@ -33,6 +34,7 @@ export function LetsyncServerDb({
 
 	return {
 		__brand: 'LETSYNC_SERVER_DB',
+		name,
 		type: 'SQL',
 		database,
 		waitUntilReady,

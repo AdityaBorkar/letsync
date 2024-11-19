@@ -1,16 +1,15 @@
-import type {
-	ClientDbAdapter,
-	Letsync_PubSub_Frontend as PubsubAdapter,
-} from '@/types/index.js';
+import type { ClientDB, ClientFS, ClientPubsub } from '@/types/index.js';
 
 export default async function initialize({
-	workers,
+	db: _database,
+	fs: _filesystem,
 	pubsub: _pubsub,
-	database: _database,
+	workers,
 }: {
+	db: ClientDB.Adapter<unknown>[];
+	fs: ClientFS.Adapter<unknown>[];
+	pubsub: ClientPubsub.Adapter;
 	workers: boolean;
-	pubsub: PubsubAdapter;
-	database: ClientDbAdapter;
 }) {
 	// TODO - RUN BOTH IN SEPARATE SHARED-WORKERS
 	if (workers)
@@ -21,12 +20,15 @@ export default async function initialize({
 			`INVALID LETSYNC_PUBSUB. Expected: LETSYNC_PUBSUB_FRONTEND, Found: ${_pubsub.__brand}`,
 		);
 
-	const database = _database;
-	if (!database || database.__brand !== 'LETSYNC_CLIENT_DATABASE')
-		throw new Error(
-			`INVALID LETSYNC_CLIENT_DATABASE. Expected: LETSYNC_CLIENT_DATABASE, Found: ${database.__brand}`,
-		);
+	for (const db of _database) {
+		if (!db || db.__brand !== 'LETSYNC_CLIENT_DATABASE')
+			throw new Error(
+				`INVALID LETSYNC_CLIENT_DATABASE. Expected: LETSYNC_CLIENT_DATABASE, Found: ${db.__brand}`,
+			);
+	}
 
+	const database = _database[0];
+	if (!database) throw new Error('No database found');
 	const device = await database.device.register();
 
 	const onInitUpgradeSchemaToLatest = true;
@@ -55,7 +57,8 @@ export default async function initialize({
 
 	return {
 		pubsub,
-		database,
+		db: [database],
+		fs: [],
 		close: () => {
 			pubsub.disconnect();
 			database.close();

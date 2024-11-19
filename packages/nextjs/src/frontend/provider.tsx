@@ -2,6 +2,7 @@
 
 import type {
 	ClientDbAdapter,
+	ClientDbAdapter as ClientFilesystemAdapter,
 	Letsync_PubSub_Frontend as PubsubAdapter,
 } from '@letsync/core';
 import type { LetsyncContextType } from './context.js';
@@ -16,20 +17,25 @@ import { frontend } from '@letsync/core';
  */
 interface LetsyncProviderProps {
 	/**
-	 * Whether to use Web Workers for background processing.
-	 * @default false
-	 */
-	workers?: boolean;
-
-	/**
 	 * The client database adapter instance for handling local data storage.
 	 */
-	database: ClientDbAdapter;
+	db: ClientDbAdapter | ClientDbAdapter[];
+
+	/**
+	 * The client filesystem adapter instance for handling local file storage.
+	 */
+	fs: ClientFilesystemAdapter | ClientFilesystemAdapter[];
 
 	/**
 	 * The publish/subscribe adapter instance for real-time communication.
 	 */
 	pubsub: PubsubAdapter;
+
+	/**
+	 * Whether to use Web Workers for background processing.
+	 * @default false
+	 */
+	workers?: boolean;
 
 	/**
 	 * Content to show while the Letsync client is initializing.
@@ -61,22 +67,24 @@ interface LetsyncProviderProps {
  * @returns A React component that provides Letsync context to its children
  */
 export function LetsyncProvider({
-	workers = false,
-	database,
+	db: _db,
+	fs: _fs,
 	pubsub,
+	workers = false,
 	fallback,
 	children,
 }: LetsyncProviderProps) {
+	const db = Array.isArray(_db) ? _db : [_db];
+	const fs = Array.isArray(_fs) ? _fs : [_fs];
+
 	const [context, setContext] = useState<LetsyncContextType | null>(null);
 
 	useEffect(() => {
 		const letsync = frontend.client
-			.initialize({ workers, pubsub, database })
+			.initialize({ db, fs, pubsub, workers })
 			.then((letsync) => {
-				setContext({
-					database: letsync.database,
-					pubsub: letsync.pubsub,
-				});
+				const { db, fs, pubsub } = letsync;
+				setContext({ db, fs, pubsub });
 				return letsync;
 			})
 			.catch((error) => {
@@ -86,7 +94,7 @@ export function LetsyncProvider({
 		return () => {
 			letsync.then((letsync) => letsync?.close());
 		};
-	}, [workers, pubsub, database]);
+	}, [db, fs, pubsub, workers]);
 
 	if (context === null) return fallback ?? null;
 	return (

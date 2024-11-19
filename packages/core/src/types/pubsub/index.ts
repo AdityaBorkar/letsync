@@ -1,3 +1,12 @@
+export namespace ClientPubsub {
+	export type Adapter = Letsync_PubSub_Frontend;
+}
+
+export namespace ServerPubsub {
+	export type Adapter = Letsync_PubSub_Backend;
+	export type Token = PubSubToken;
+}
+
 type SubscribeFn = (
 	topic: string,
 	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
@@ -12,7 +21,7 @@ type PublishFn = (
 	},
 ) => Promise<void>;
 
-export type Letsync_PubSub_Frontend = {
+type Letsync_PubSub_Frontend = {
 	__brand: 'LETSYNC_PUBSUB_FRONTEND';
 	connect: (props?: { token: string; clientId: string }) => Promise<{
 		publish: PublishFn;
@@ -21,7 +30,7 @@ export type Letsync_PubSub_Frontend = {
 	}>;
 };
 
-export type Letsync_PubSub_Backend = {
+type Letsync_PubSub_Backend = {
 	__brand: 'LETSYNC_PUBSUB_BACKEND';
 	secret: string;
 	publish: PublishFn;
@@ -32,7 +41,7 @@ export type Letsync_PubSub_Backend = {
 	}>;
 };
 
-export type PubSubToken = {
+type PubSubToken = {
 	value: string;
 	expiresAt: number;
 };

@@ -1,4 +1,4 @@
-import type { Props } from './index.js';
+import type { Props } from '../index.js';
 
 interface LiveProps {
 	endpoints: string[];

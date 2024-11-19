@@ -1,13 +1,9 @@
-import type {
-	Letsync_PubSub_Backend,
-	Letsync_ServerDB,
-	Letsync_ServerFS,
-} from '@/types/index.js';
+import type { ServerDB, ServerFS, ServerPubsub } from '@/types/index.js';
 
 export type Params = {
-	databases: Letsync_ServerDB<unknown>[];
-	filesystems: Letsync_ServerFS<unknown>[];
-	pubsub: Letsync_PubSub_Backend;
+	databases: ServerDB.Adapter<unknown>[];
+	filesystems: ServerFS.Adapter<unknown>[];
+	pubsub: ServerPubsub.Adapter;
 	request: Request;
 	auth: {
 		userId: string;

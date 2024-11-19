@@ -1,5 +1,5 @@
-import type { Props } from '../index.js';
-import TypedFetch from '@/frontend-db/utils/TypedFetch.js';
+import type { Props } from '../../index.js';
+import TypedFetch from '@/frontend-db/sql/utils/TypedFetch.js';
 
 // biome-ignore lint/suspicious/noEmptyInterface: <explanation>
 interface DeregisterProps {
@@ -14,9 +14,9 @@ export async function deregister(props: DeregisterProps, superProps: Props) {
 
 	const data = await TypedFetch({
 		method: 'DELETE',
-		baseUrl: apiBaseUrl,
+		baseUrl: apiBaseUrl || '',
 		endpoint: '/device',
-		searchParams: { deviceId: existingDevice.deviceId },
+		searchParams: { deviceId: existingDevice?.deviceId },
 	});
 
 	if (!data.success) {

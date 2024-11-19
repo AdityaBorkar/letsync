@@ -1,4 +1,4 @@
-import type { Props } from './index.js';
+import type { Props } from '../index.js';
 
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
 export function sql<ReturnType>(params: any, props: Props) {

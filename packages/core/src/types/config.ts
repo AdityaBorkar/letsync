@@ -1,4 +1,4 @@
-export type Letsync_Config = {
+export type Config = {
 	apiBaseUrl?: string;
 	localDb?: {
 		/**
