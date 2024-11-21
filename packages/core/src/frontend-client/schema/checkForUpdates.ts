@@ -1,12 +1,15 @@
-import TypedFetch from '../../../util/TypedFetch.js';
-import type { Props } from '../index.js';
+import TypedFetch from '@/util/TypedFetch.js';
+import type { ClientParams } from '../create.js';
 
-export async function getAvailableUpgrades(
-	props: undefined,
-	superProps: Props,
+// biome-ignore lint/suspicious/noEmptyInterface: <explanation>
+interface CheckForUpdatesProps {}
+
+export async function checkForUpdates(
+	props: CheckForUpdatesProps,
+	params: ClientParams,
 ) {
 	console.log({ props });
-	const { metadata, apiBaseUrl } = superProps;
+	const { metadata, apiBaseUrl } = params;
 
 	const schema = await metadata.get('schema');
 
@@ -26,5 +29,7 @@ export async function getAvailableUpgrades(
 		}, [] as number[])
 		.sort((a, b) => a - b);
 
-	return upgrades;
+	// TODO - STORE SCHEMA IN DATABASE
+
+	return upgrades.length > 0;
 }

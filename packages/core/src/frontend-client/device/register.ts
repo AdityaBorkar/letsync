@@ -1,28 +1,27 @@
-import type { Props as SuperProps } from '../../frontend-db/sql/index.js';
-import TypedFetch from '@/frontend-db/common/TypedFetch.js';
+import TypedFetch from '@/util/TypedFetch.js';
+import type { ClientParams } from '../create.js';
 
 // biome-ignore lint/suspicious/noEmptyInterface: <explanation>
 interface RegisterProps {
 	// TODO - ADD METADATA for { organizationId, projectId }
 }
 
-export async function register(props: RegisterProps, superProps: SuperProps) {
+export async function register(props: RegisterProps, params: ClientParams) {
 	console.log({ props });
-
-	const { metadata, apiBaseUrl } = superProps;
+	const { metadata, apiBaseUrl } = params;
 
 	const existingDevice = await metadata.get('device');
 
 	const data = existingDevice
 		? await TypedFetch({
 				method: 'GET',
-				baseUrl: apiBaseUrl || '',
+				baseUrl: apiBaseUrl,
 				endpoint: '/device',
 				searchParams: { deviceId: existingDevice.deviceId },
 			})
 		: await TypedFetch({
 				method: 'POST',
-				baseUrl: apiBaseUrl || '',
+				baseUrl: apiBaseUrl,
 				endpoint: '/device',
 				searchParams: undefined,
 			});
@@ -38,5 +37,5 @@ export async function register(props: RegisterProps, superProps: SuperProps) {
 	await metadata.upsert('cursor', { location: null });
 	await metadata.upsert('schema', schema);
 
-	return { device, pubsub };
+	return { deviceId, userId, isActive, pubsub };
 }

@@ -1,1 +1,1 @@
-export { initClient } from './init.js';
+export { createClient } from './create.js';

@@ -1,14 +1,14 @@
-import type { Props } from '../../frontend-db/sql/index.js';
-import TypedFetch from '@/frontend-db/common/TypedFetch.js';
+import TypedFetch from '@/util/TypedFetch.js';
+import type { ClientParams } from '../create.js';
 
 // biome-ignore lint/suspicious/noEmptyInterface: <explanation>
 interface DeregisterProps {
 	// TODO - DE-REGISTER OTHER DEVICES
 }
 
-export async function deregister(props: DeregisterProps, superProps: Props) {
+export async function deregister(props: DeregisterProps, params: ClientParams) {
 	console.log({ props });
-	const { metadata, apiBaseUrl } = superProps;
+	const { metadata, apiBaseUrl } = params;
 
 	const existingDevice = await metadata.get('device');
 

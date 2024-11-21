@@ -1,4 +1,4 @@
-import type { ApiRouter } from '@/types/ApiRouter.js';
+import type { ApiRouter } from '@/types/server/ApiRouter.js';
 
 export default async function TypedFetch<
 	MethodType extends keyof ApiRouter,

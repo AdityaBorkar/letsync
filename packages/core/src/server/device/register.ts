@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 
 import getLatestSchema from '@/server/utils/getLatestSchema.js';
 import type { Params } from '@/server/types.js';
-import type { ApiRouter } from '@/types/ApiRouter.js';
+import type { ApiRouter } from '@/types/server/ApiRouter.js';
 
 export default async function deviceRegister(params: Params) {
 	try {
