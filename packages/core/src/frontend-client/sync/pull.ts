@@ -1,12 +1,12 @@
-import type { Props } from '../../frontend-db/sql/index.js';
+import type { ClientParams } from '../create.js';
 // import fetcher from '../utils/TypedFetch.js';
 
 // biome-ignore lint/suspicious/noEmptyInterface: <explanation>
 interface PullProps {}
 
-export function pull(props: PullProps, superProps: Props) {
+export function pull(props: PullProps, params: ClientParams) {
 	// const { apiBaseUrl, database, metadata } = superProps;
-	console.log({ props, superProps });
+	console.log({ props, params });
 	// if (WRITE_LOCK) {
 	// 	console.log("FAILED - WRITE LOCK IS ENABLED.");
 	// 	return;

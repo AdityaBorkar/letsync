@@ -1,14 +1,14 @@
-import type { Props } from '../../frontend-db/sql/index.js';
+import type { ClientParams } from '../create.js';
 
 interface LiveProps {
 	endpoints: string[];
 }
 
-export function live(props: LiveProps, superProps: Props) {
+export function live(props: LiveProps, params: ClientParams) {
 	// TODO - MQTT ENDPOINT SUBSCRIPTION
 	const { endpoints } = props;
 	// const { apiBaseUrl, pubsub } = superProps;
-	console.log({ props, superProps });
+	console.log({ props, params });
 
 	// TODO - POLL FOR ALLOWED TOPICS AND THEN SUBSCRIBE TO ALL
 

@@ -8,11 +8,11 @@ export type Connected_PubsubAdapter = Awaited<
 export interface LetsyncContextType {
 	db: ClientDB.Adapter<unknown>[];
 	fs: ClientFS.Adapter<unknown>[];
-	pubsub: Connected_PubsubAdapter;
+	pubsub: ClientPubsub.Adapter;
 }
 
 export const LetsyncContext = createContext<LetsyncContextType>({
 	db: [] as ClientDB.Adapter<unknown>[],
 	fs: [] as ClientFS.Adapter<unknown>[],
-	pubsub: null as unknown as Connected_PubsubAdapter,
+	pubsub: null as unknown as ClientPubsub.Adapter,
 });

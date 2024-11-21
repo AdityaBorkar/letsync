@@ -1,5 +1,3 @@
-import type { EventCallbackFn, EventName } from './events.js';
-
 export interface ClientDBAdapter<DBClient> {
 	__brand: 'LETSYNC_CLIENT_DATABASE';
 	name: string;
@@ -9,36 +7,9 @@ export interface ClientDBAdapter<DBClient> {
 	// query: Method_Query;
 	exportData: MethodExportData;
 	storageMetrics: MethodStorageMetrics;
+	initialize: () => Promise<void>;
 	close: () => Promise<void>;
-	flush: () => Promise<void> | void; // TODO: stick to SYNC / ASYNC
-	pull: () => Promise<void> | void; // TODO: stick to SYNC / ASYNC
-	push: () => Promise<void> | void; // TODO: stick to SYNC / ASYNC
-	live: (endpoints: string[]) => Promise<void> | void; // TODO: stick to SYNC / ASYNC
-	device: {
-		deregister: () => Promise<void>;
-		register: () => Promise<
-			| undefined
-			| {
-					device: {
-						userId: string;
-						deviceId: string;
-						isActive: boolean;
-					};
-					pubsub: {
-						token: string;
-						endpoints: string[];
-					};
-			  }
-		>;
-	};
-	schema: {
-		getAvailableUpgrades: () => Promise<number[]>;
-		migrate: (version: number) => Promise<void>;
-	};
-	event: {
-		subscribe: (event: EventName, callback: EventCallbackFn) => Promise<void>;
-		unsubscribe: (event: EventName, callback: EventCallbackFn) => Promise<void>;
-	};
+	flush: () => Promise<void>;
 }
 
 export interface ClientDB_SQLOperationsAdapter {

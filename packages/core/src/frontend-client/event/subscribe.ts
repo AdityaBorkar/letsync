@@ -1,12 +1,12 @@
-import type { ClientDB } from '@/types/index.js';
-import type { Props } from '../../frontend-db/sql/index.js';
+import type { ClientParams } from '../create.js';
+import type { Client } from '@/types/client/index.js';
 
 type SubscribeProps = {
-	eventName: ClientDB.EventName;
-	callback: ClientDB.EventCallbackFn;
+	eventName: Client.EventName;
+	callback: Client.EventCallbackFn;
 };
 
-export async function subscribe(props: SubscribeProps, superProps: Props) {
+export async function subscribe(props: SubscribeProps, params: ClientParams) {
 	// ...
-	console.log({ props, superProps });
+	console.log({ props, params });
 }

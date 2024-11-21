@@ -10,4 +10,5 @@ export type Config = {
 	dbSchema: {
 		[key: string | 'devices' | 'schemas' | 'cache']: string;
 	};
+	updateSchema?: 'always' | 'never';
 };

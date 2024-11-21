@@ -1,12 +1,12 @@
 'use client';
 
-import type { ClientDB, ClientFS, ClientPubsub } from '@letsync/core';
+import type { ClientDB, ClientFS, ClientPubsub, Config } from '@letsync/core';
 import type { LetsyncContextType } from './context.js';
 
 // biome-ignore lint/style/useImportType: BIOME BUG
 import React, { useEffect, useState } from 'react';
 import { LetsyncContext } from './context.js';
-import { initClient } from '@letsync/core';
+import { createClient } from '@letsync/core';
 
 /**
  * Props for the LetsyncProvider component.
@@ -26,6 +26,11 @@ interface LetsyncProviderProps<DB, FS, Pubsub> {
 	 * The publish/subscribe adapter instance for real-time communication.
 	 */
 	pubsub: Pubsub;
+
+	/**
+	 * The Letsync configuration object.
+	 */
+	config: Config;
 
 	/**
 	 * Whether to use Web Workers for background processing.
@@ -69,35 +74,39 @@ export function LetsyncProvider<
 >({
 	db: _db,
 	fs: _fs,
+	config,
 	pubsub,
-	workers = false,
+	// workers = false,
 	fallback,
 	children,
 }: LetsyncProviderProps<DB, FS, Pubsub>) {
 	const db = Array.isArray(_db) ? _db : [_db];
 	const fs = Array.isArray(_fs) ? _fs : [_fs];
+	const client = createClient({ db, fs, pubsub, config });
 
-	const [context, setContext] = useState<LetsyncContextType | null>(null);
+	const [letsync, setLetsync] = useState<LetsyncContextType | null>(null);
 
 	useEffect(() => {
-		const letsync = initClient({ db, fs, pubsub, workers })
-			.then((letsync) => {
-				const { db, fs, pubsub } = letsync;
-				setContext({ db, fs, pubsub });
-				return letsync;
+		const letsync = client
+			.then(async (client) => {
+				const { init, terminate, ...letsync } = client;
+				await init();
+				setLetsync(letsync);
+				return { terminate };
 			})
 			.catch((error) => {
 				console.error('[Letsync Framework] Initialization Failed: ', error);
+				return { terminate() {} };
 			});
 
 		return () => {
-			letsync.then((letsync) => letsync?.close());
+			letsync.then(({ terminate }) => terminate?.());
 		};
-	}, [db, fs, pubsub, workers]);
+	}, [client]);
 
-	if (context === null) return fallback ?? null;
+	if (letsync === null) return fallback ?? null;
 	return (
-		<LetsyncContext.Provider value={context}>
+		<LetsyncContext.Provider value={letsync}>
 			{children}
 		</LetsyncContext.Provider>
 	);
