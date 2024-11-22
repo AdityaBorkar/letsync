@@ -13,10 +13,12 @@ export interface ClientDBAdapter<DBClient> {
 }
 
 export interface ClientDB_SQLOperationsAdapter {
-	txn: MethodTxn;
+	// txn: MethodTxn;
+	// query: MethodQuery;
 	sql: MethodSql;
-	query: MethodQuery;
+	init: () => Promise<void>;
 	close: () => Promise<void>;
+	flush: () => Promise<void>;
 	exportData: MethodExportData;
 	storageMetrics: MethodStorageMetrics;
 }

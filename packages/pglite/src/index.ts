@@ -1,1 +1,1 @@
-export { initClientDB as ClientDB_PGlite } from './init.js';
+export { initClientDB as ClientDB_PGlite } from './functions/init.js';

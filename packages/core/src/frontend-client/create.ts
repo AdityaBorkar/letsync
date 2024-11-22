@@ -9,8 +9,7 @@ import { deregister } from './device/deregister.js';
 import { push } from './sync/push.js';
 import { pull } from './sync/pull.js';
 import { live } from './sync/live.js';
-import { subscribe } from './event/subscribe.js';
-import { unsubscribe } from './event/unsubscribe.js';
+import { subscribe } from './addEventListener.js';
 import { init as _init } from './init.js';
 import { terminate as _terminate } from './terminate.js';
 import { migrate } from './schema/migrate.js';
@@ -89,15 +88,7 @@ export async function createClient<
 		live: (props: Parameters<typeof live>[0]) => live(props, params),
 		// reconcile: (props: Parameters<typeof reconcile>[0]) =>
 		// 	reconcile(props, params),
-		// discard: (props: Parameters<typeof discard>[0]) =>
-		// 	discard(props, params),
-	};
-
-	const events = {
-		subscribe: (props: Parameters<typeof subscribe>[0]) =>
-			subscribe(props, params),
-		unsubscribe: (props: Parameters<typeof unsubscribe>[0]) =>
-			unsubscribe(props, params),
+		// flush: (props: Parameters<typeof flush>[0]) => flush(props, params),
 	};
 
 	const schema = {
@@ -106,6 +97,14 @@ export async function createClient<
 			checkForUpdates(props, params),
 	};
 
-	// ? NOT SHARED = { config, pubsub, db, fs }
-	return { init, terminate, device, events, schema };
+	const addEventListener = (props: Parameters<typeof subscribe>[0]) =>
+		subscribe(props, params); // TODO - RETURN UNSUBSCRIBE FUNCTION
+
+	return { init, terminate, device, schema, addEventListener, ...params };
 }
+
+// DATABASE RELATED FEATURES:
+// subscribe()
+// write()
+// read()
+// delete()
