@@ -26,3 +26,8 @@ export function live(props: LiveProps, params: ClientParams) {
 // const live = { subscribe, unsubscribe };
 // async function subscribe() {}
 // async function unsubscribe() {}
+
+// TODO - PUBSUB ANNOUNCE
+// TODO - SET LastActive AS TRIGGER ON PUBSUB CLOSE CONNECTIONS
+// pubsub.close(); // if no database / connections are there. outsource to pubsub module
+// console.error("Cannot apply incoming changes because DB is closed")

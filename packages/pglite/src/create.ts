@@ -11,7 +11,7 @@ interface InitConfig extends Config {
 	pubsub: ClientPubsub.Adapter;
 }
 
-export function initClientDB(
+export function createClientDB(
 	props: PGlite | PGliteOptions,
 	config: InitConfig,
 ): ClientDB.Adapter<PGlite> {

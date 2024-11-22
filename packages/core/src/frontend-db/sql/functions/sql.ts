@@ -1,8 +1,12 @@
-import type { Props } from '../index.js';
+import type { ClientDB } from '@/types/index.js';
+
+interface Params {
+	schema: string;
+	operations: ClientDB.OperationsAdapter.SQL;
+}
 
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-export function sql<ReturnType>(params: any, props: Props) {
-	// const { database } = props;
+export function sql<ReturnType>(props: any, params: Params) {
 	console.log({ params, props });
 
 	// TODO -
