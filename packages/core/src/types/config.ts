@@ -1,4 +1,5 @@
 export type Config = {
+	__brand: 'LETSYNC_CONFIG';
 	apiBaseUrl: string;
 	localDb?: {
 		/**

@@ -1,5 +1,5 @@
 import type { ClientParams } from '../functions/create.js';
-// import fetcher from '../utils/TypedFetch.js';
+// import { Fetch } from '@/util/Fetch.js';
 
 // biome-ignore lint/suspicious/noEmptyInterface: <explanation>
 interface PullProps {}

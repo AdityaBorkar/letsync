@@ -9,4 +9,8 @@ type SubscribeProps = {
 export async function subscribe(props: SubscribeProps, params: ClientParams) {
 	// ...
 	console.log({ props, params });
+
+	const unsubscribe = () => {};
+
+	return unsubscribe;
 }

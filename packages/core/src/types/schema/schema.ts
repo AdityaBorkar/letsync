@@ -14,3 +14,7 @@ export interface TableRecords {
 // 		state: string;
 // 	};
 // }
+
+export type Schema = {
+	[key: string]: TableRecords;
+};

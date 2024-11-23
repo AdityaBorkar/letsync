@@ -6,9 +6,9 @@ import type {
 } from '@/types/index.js';
 import { register } from '../device/register.js';
 import { deregister } from '../device/deregister.js';
-import { push } from '../sync/push.js';
-import { pull } from '../sync/pull.js';
-import { live } from '../sync/live.js';
+import { push } from '../device/push.js';
+import { pull } from '../device/pull.js';
+import { live } from '../device/live.js';
 import { subscribe } from './addEventListener.js';
 import { init as _init } from './init.js';
 import { terminate as _terminate } from './terminate.js';
@@ -20,6 +20,8 @@ import type {
 	ClientDB_Store_Metadata,
 	ClientDB_Store_OfflineChanges,
 } from '@/types/client-db/stores.js';
+import { flush } from '../device/flush.js';
+import { reconcile } from '../device/reconcile.js';
 
 export interface ClientParams {
 	db: ClientDB.Adapter<unknown>[];
@@ -47,37 +49,38 @@ export async function createClient<
 	fs: FS;
 	pubsub: PS;
 	config: Config;
-	// workers: boolean;
+	// workers?: boolean;
 }) {
 	// Validation:
 
-	// TODO - VALIDATE CONFIG
+	// const db = (Array.isArray(_db) ? _db : [_db]).reduce(
+	// 	(acc, _db) => {
+	// 		const database = _db({ pubsub, schema });
+	// 		acc.db.push(database);
+	// 		acc.dbNames[database.name] = acc.db.length - 1;
+	// 		return acc;
+	// 	},
+	// 	{
+	// 		db: [] as ClientDB.Adapter<unknown>[],
+	// 		dbNames: {} as Record<string, number>,
+	// 	},
+	// );
 
-	// if (workers) {
-	// 	// RUN BOTH IN SEPARATE SHARED-WORKERS
-	// 	throw new Error('We currently do not support workers.');
-	// }
+	// const fs = (Array.isArray(_fs) ? _fs : [_fs]).reduce(
+	// 	(acc, _fs) => {
+	// 		// const filesystem = _fs({ pubsub, schema });
+	// 		// acc.fs.push(filesystem);
+	// 		// acc.fsNames[filesystem.name] = acc.fs.length - 1;
+	// 		return acc;
+	// 	},
+	// 	{
+	// 		fs: [] as ClientFS.Adapter<unknown>[],
+	// 		fsNames: {} as Record<string, number>,
+	// 	},
+	// );
 
-	if (pubsub?.__brand !== 'LETSYNC_PUBSUB_FRONTEND')
-		throw new Error(
-			`Invalid PubSub Adapter. Expected: LETSYNC_PUBSUB_FRONTEND, Found: ${pubsub.__brand}`,
-		);
-
-	for (const filesystem of fs) {
-		if (filesystem?.__brand !== 'LETSYNC_CLIENT_FILESYSTEM')
-			throw new Error(
-				`Invalid Filesystem Adapter. Expected: LETSYNC_CLIENT_FILESYSTEM, Found: ${filesystem.__brand}`,
-			);
-		await filesystem.init();
-	}
-
-	for (const database of db) {
-		if (database?.__brand !== 'LETSYNC_CLIENT_DATABASE')
-			throw new Error(
-				`Invalid Database Adapter. Expected: LETSYNC_CLIENT_DATABASE, Found: ${database.__brand}`,
-			);
-		await database.init();
-	}
+	// await filesystem.init();
+	// await database.open();
 
 	// API:
 
@@ -100,9 +103,9 @@ export async function createClient<
 		push: (props: Parameters<typeof push>[0]) => push(props, params),
 		pull: (props: Parameters<typeof pull>[0]) => pull(props, params),
 		live: (props: Parameters<typeof live>[0]) => live(props, params),
-		// reconcile: (props: Parameters<typeof reconcile>[0]) =>
-		// 	reconcile(props, params),
-		// flush: (props: Parameters<typeof flush>[0]) => flush(props, params),
+		flush: (props: Parameters<typeof flush>[0]) => flush(props, params),
+		reconcile: (props: Parameters<typeof reconcile>[0]) =>
+			reconcile(props, params),
 	};
 
 	const schema = {
@@ -112,13 +115,7 @@ export async function createClient<
 	};
 
 	const addEventListener = (props: Parameters<typeof subscribe>[0]) =>
-		subscribe(props, params); // TODO - RETURN UNSUBSCRIBE FUNCTION
+		subscribe(props, params);
 
 	return { init, terminate, device, schema, addEventListener, ...params };
 }
-
-// DATABASE RELATED FEATURES:
-// subscribe()
-// write()
-// read()
-// delete()

@@ -2,9 +2,9 @@ import type { ClientParams } from './create.js';
 import { register } from '../device/register.js';
 import { checkForUpdates } from '../schema/checkForUpdates.js';
 import { migrate } from '../schema/migrate.js';
-import { live } from '../sync/live.js';
-import { pull } from '../sync/pull.js';
-import { push } from '../sync/push.js';
+import { live } from '../device/live.js';
+import { pull } from '../device/pull.js';
+import { push } from '../device/push.js';
 import { Console } from '@/util/Console.js';
 
 interface InitProps {

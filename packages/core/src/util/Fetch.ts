@@ -1,6 +1,6 @@
 import type { ApiRouter } from '@/types/server/ApiRouter.js';
 
-export default async function TypedFetch<
+export async function Fetch<
 	MethodType extends keyof ApiRouter,
 	EndpointType extends keyof ApiRouter[MethodType],
 	// @ts-expect-error

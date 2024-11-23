@@ -1,5 +1,7 @@
 export type { Config } from './config.js';
 
+export type { Schema } from './schema/index.js';
+
 export type { ClientDB } from './client-db/index.js';
 
 export type { ServerDB } from './server-db/index.js';

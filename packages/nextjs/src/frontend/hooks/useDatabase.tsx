@@ -22,6 +22,12 @@ import { LetsyncContext } from '../context.js';
 export function useDatabase(name?: string) {
 	const { db } = useContext(LetsyncContext);
 
+	// DATABASE RELATED FEATURES:
+	// subscribe()
+	// write()
+	// read()
+	// delete()
+
 	if (!name && db.length !== 1)
 		throw new Error(
 			'Kindly specify a database name or ensure there is only one database configured.',
