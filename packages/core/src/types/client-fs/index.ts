@@ -2,7 +2,7 @@ type ClientFS<DT> = {
 	__brand: 'LETSYNC_CLIENT_FILESYSTEM';
 	name: string;
 	filesystem: DT;
-	initialize: () => Promise<void>;
+	init: () => Promise<void>;
 };
 
 export namespace ClientFS {

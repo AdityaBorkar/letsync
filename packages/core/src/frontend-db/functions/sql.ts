@@ -1,8 +1,6 @@
-import type { ClientDB } from '@/types/index.js';
-
 interface Params {
 	schema: string;
-	operations: ClientDB.OperationsAdapter.SQL;
+	// operations: ClientDB.OperationsAdapter.SQL;
 }
 
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>

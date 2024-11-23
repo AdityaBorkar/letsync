@@ -4,22 +4,32 @@ import type {
 	ClientPubsub,
 	Config,
 } from '@/types/index.js';
-import { register } from './device/register.js';
-import { deregister } from './device/deregister.js';
-import { push } from './sync/push.js';
-import { pull } from './sync/pull.js';
-import { live } from './sync/live.js';
+import { register } from '../device/register.js';
+import { deregister } from '../device/deregister.js';
+import { push } from '../sync/push.js';
+import { pull } from '../sync/pull.js';
+import { live } from '../sync/live.js';
 import { subscribe } from './addEventListener.js';
 import { init as _init } from './init.js';
 import { terminate as _terminate } from './terminate.js';
-import { migrate } from './schema/migrate.js';
-import { checkForUpdates } from './schema/checkForUpdates.js';
+import { migrate } from '../schema/migrate.js';
+import { checkForUpdates } from '../schema/checkForUpdates.js';
+import { offlineChangesHandler } from '../stores/offlineChanges.js';
+import { metadataHandler } from '../stores/metadata.js';
+import type {
+	ClientDB_Store_Metadata,
+	ClientDB_Store_OfflineChanges,
+} from '@/types/client-db/stores.js';
 
 export interface ClientParams {
 	db: ClientDB.Adapter<unknown>[];
 	fs: ClientFS.Adapter<unknown>[];
 	pubsub: ClientPubsub.Adapter;
 	config: Config;
+	stores: {
+		metadata: ClientDB_Store_Metadata;
+		offlineChanges: ClientDB_Store_OfflineChanges;
+	};
 }
 
 export async function createClient<
@@ -58,7 +68,7 @@ export async function createClient<
 			throw new Error(
 				`Invalid Filesystem Adapter. Expected: LETSYNC_CLIENT_FILESYSTEM, Found: ${filesystem.__brand}`,
 			);
-		await filesystem.initialize();
+		await filesystem.init();
 	}
 
 	for (const database of db) {
@@ -66,12 +76,16 @@ export async function createClient<
 			throw new Error(
 				`Invalid Database Adapter. Expected: LETSYNC_CLIENT_DATABASE, Found: ${database.__brand}`,
 			);
-		await database.initialize();
+		await database.init();
 	}
 
 	// API:
 
-	const params = { db, fs, pubsub, config } satisfies ClientParams;
+	const stores = {
+		metadata: metadataHandler({ db, fs, config }),
+		offlineChanges: offlineChangesHandler({ db, fs, config }),
+	};
+	const params = { db, fs, pubsub, config, stores } satisfies ClientParams;
 
 	const init = (props: Parameters<typeof _init>[0]) => _init(props, params);
 

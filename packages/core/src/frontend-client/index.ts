@@ -1,1 +1,1 @@
-export { createClient } from './create.js';
+export { createClient } from './functions/create.js';
