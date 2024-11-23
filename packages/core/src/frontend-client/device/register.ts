@@ -1,5 +1,6 @@
+import type { ClientParams } from '../functions/create.js';
 import TypedFetch from '@/util/TypedFetch.js';
-import type { ClientParams } from '../create.js';
+import { Console } from '@/util/Console.js';
 
 // biome-ignore lint/suspicious/noEmptyInterface: <explanation>
 interface RegisterProps {
@@ -7,10 +8,14 @@ interface RegisterProps {
 }
 
 export async function register(props: RegisterProps, params: ClientParams) {
-	console.log({ props });
-	const { metadata, apiBaseUrl } = params;
+	props;
+	const { debug } = Console({ fn: 'register' });
+
+	const { apiBaseUrl } = params.config;
+	const { metadata } = params.stores;
 
 	const existingDevice = await metadata.get('device');
+	debug({ existingDevice });
 
 	const data = existingDevice
 		? await TypedFetch({
@@ -23,8 +28,8 @@ export async function register(props: RegisterProps, params: ClientParams) {
 				method: 'POST',
 				baseUrl: apiBaseUrl,
 				endpoint: '/device',
-				searchParams: undefined,
 			});
+	debug({ data });
 
 	const { device, schema, pubsub } = data;
 	const { deviceId, userId, isActive } = device;

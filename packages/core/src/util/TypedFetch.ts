@@ -9,7 +9,7 @@ export default async function TypedFetch<
 	method: MethodType;
 	baseUrl: string;
 	endpoint: EndpointType;
-	searchParams: SearchParamsType;
+	searchParams?: SearchParamsType;
 }) {
 	const { method, baseUrl, endpoint, searchParams } = props;
 	// @ts-expect-error

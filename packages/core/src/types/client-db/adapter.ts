@@ -1,33 +1,11 @@
 export interface ClientDBAdapter<DBClient> {
 	__brand: 'LETSYNC_CLIENT_DATABASE';
-	name: string;
-	sql: MethodSql;
 	client: DBClient;
-	// txn: Method_Txn;
-	// query: Method_Query;
-	exportData: MethodExportData;
-	storageMetrics: MethodStorageMetrics;
-	initialize: () => Promise<void>;
-	close: () => Promise<void>;
-	flush: () => Promise<void>;
-}
-
-export interface ClientDB_SQLOperationsAdapter {
-	// txn: MethodTxn;
-	// query: MethodQuery;
-	sql: MethodSql;
+	name: string;
 	init: () => Promise<void>;
 	close: () => Promise<void>;
 	flush: () => Promise<void>;
-	exportData: MethodExportData;
-	storageMetrics: MethodStorageMetrics;
-}
-
-export interface ClientDB_NoSQLOperationsAdapter {
-	// txn: MethodTxn;
-	// sql: MethodSql;
-	// query: MethodQuery;
-	close: () => Promise<void>;
+	sql: MethodSql;
 	exportData: MethodExportData;
 	storageMetrics: MethodStorageMetrics;
 }
@@ -38,24 +16,24 @@ type MethodSql = <RT>(
 	...params: any[]
 ) => Promise<Results<RT>>;
 
-type MethodQuery = <RT>(
-	query: string,
-	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
-	params?: any[],
-	// options?: QueryOptions,
-) => Promise<Results<RT>>;
+// type MethodQuery = <RT>(
+// 	query: string,
+// 	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+// 	params?: any[],
+// 	// options?: QueryOptions,
+// ) => Promise<Results<RT>>;
 
-interface Transaction {
-	sql: MethodSql;
-	query: MethodQuery;
-	// exec(query: string, options?: QueryOptions): Promise<Array<Results>>;
-	rollback(): Promise<void>;
-	get closed(): boolean;
-}
+// interface Transaction {
+// 	sql: MethodSql;
+// 	query: MethodQuery;
+// 	// exec(query: string, options?: QueryOptions): Promise<Array<Results>>;
+// 	rollback(): Promise<void>;
+// 	get closed(): boolean;
+// }
 
-type MethodTxn = <T>(
-	callback: (tx: Transaction) => Promise<Results<T>>,
-) => Promise<Results<T> | undefined>;
+// type MethodTxn = <T>(
+// 	callback: (tx: Transaction) => Promise<Results<T>>,
+// ) => Promise<Results<T> | undefined>;
 
 type MethodExportData = (
 	compression: 'none' | 'gzip' | 'auto',

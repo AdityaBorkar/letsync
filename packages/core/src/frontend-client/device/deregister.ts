@@ -1,5 +1,6 @@
 import TypedFetch from '@/util/TypedFetch.js';
-import type { ClientParams } from '../create.js';
+import type { ClientParams } from '../functions/create.js';
+import { Console } from '@/util/Console.js';
 
 // biome-ignore lint/suspicious/noEmptyInterface: <explanation>
 interface DeregisterProps {
@@ -7,10 +8,14 @@ interface DeregisterProps {
 }
 
 export async function deregister(props: DeregisterProps, params: ClientParams) {
-	console.log({ props });
-	const { metadata, apiBaseUrl } = params;
+	props;
+	const { debug } = Console({ fn: 'deregister' });
+
+	const { metadata } = params.stores;
+	const { apiBaseUrl } = params.config;
 
 	const existingDevice = await metadata.get('device');
+	debug({ existingDevice });
 
 	const data = await TypedFetch({
 		method: 'DELETE',
@@ -18,6 +23,7 @@ export async function deregister(props: DeregisterProps, params: ClientParams) {
 		endpoint: '/device',
 		searchParams: { deviceId: existingDevice?.deviceId },
 	});
+	debug({ data });
 
 	if (!data.success) {
 		throw new Error('Failed to deregister device');

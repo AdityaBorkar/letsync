@@ -1,10 +1,11 @@
 import type { ClientParams } from './create.js';
-import { register } from './device/register.js';
-import { checkForUpdates } from './schema/checkForUpdates.js';
-import { migrate } from './schema/migrate.js';
-import { live } from './sync/live.js';
-import { pull } from './sync/pull.js';
-import { push } from './sync/push.js';
+import { register } from '../device/register.js';
+import { checkForUpdates } from '../schema/checkForUpdates.js';
+import { migrate } from '../schema/migrate.js';
+import { live } from '../sync/live.js';
+import { pull } from '../sync/pull.js';
+import { push } from '../sync/push.js';
+import { Console } from '@/util/Console.js';
 
 interface InitProps {
 	// workers?: boolean;
@@ -14,6 +15,9 @@ interface InitProps {
 }
 
 export async function init(props: InitProps, params: ClientParams) {
+	const { debug } = Console({ fn: 'init' });
+	debug({ props });
+
 	const { pubsub, config } = params;
 
 	const updateAvailable = await checkForUpdates({}, params);
@@ -21,6 +25,7 @@ export async function init(props: InitProps, params: ClientParams) {
 		await migrate({ version: 'latest' }, params);
 
 	const device = await register({}, params);
+	debug({ device });
 
 	if (props.pushOnInit !== false) await push({}, params);
 	if (props.pullOnInit !== false) await pull({}, params);

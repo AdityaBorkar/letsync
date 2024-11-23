@@ -1,4 +1,4 @@
-import type { ClientParams } from '../create.js';
+import type { ClientParams } from '../functions/create.js';
 // import fetcher from '../utils/TypedFetch.js';
 
 // biome-ignore lint/suspicious/noEmptyInterface: <explanation>
