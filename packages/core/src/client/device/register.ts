@@ -1,5 +1,5 @@
 import type { ClientParams } from '../functions/create.js';
-import TypedFetch from '@/util/TypedFetch.js';
+import { Fetch } from '@/util/Fetch.js';
 import { Console } from '@/util/Console.js';
 
 // biome-ignore lint/suspicious/noEmptyInterface: <explanation>
@@ -18,13 +18,13 @@ export async function register(props: RegisterProps, params: ClientParams) {
 	debug({ existingDevice });
 
 	const data = existingDevice
-		? await TypedFetch({
+		? await Fetch({
 				method: 'GET',
 				baseUrl: apiBaseUrl,
 				endpoint: '/device',
 				searchParams: { deviceId: existingDevice.deviceId },
 			})
-		: await TypedFetch({
+		: await Fetch({
 				method: 'POST',
 				baseUrl: apiBaseUrl,
 				endpoint: '/device',

@@ -2,7 +2,7 @@ export interface ClientDBAdapter<DBClient> {
 	__brand: 'LETSYNC_CLIENT_DATABASE';
 	client: DBClient;
 	name: string;
-	init: () => Promise<void>;
+	open: () => Promise<void>;
 	close: () => Promise<void>;
 	flush: () => Promise<void>;
 	sql: MethodSql;

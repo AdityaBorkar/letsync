@@ -1,6 +1,6 @@
 import type { PGlite } from '@electric-sql/pglite';
 
-export async function init(client: PGlite) {
+export async function open(client: PGlite) {
 	client.waitReady;
 	return;
 }

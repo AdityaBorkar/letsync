@@ -1,4 +1,4 @@
-import TypedFetch from '@/util/TypedFetch.js';
+import { Fetch } from '@/util/Fetch.js';
 import type { ClientParams } from '../functions/create.js';
 import { Console } from '@/util/Console.js';
 
@@ -19,7 +19,7 @@ export async function checkForUpdates(
 	const schema = await metadata.get('schema');
 	debug({ schema });
 
-	const SchemaVersions = await TypedFetch({
+	const SchemaVersions = await Fetch({
 		method: 'GET',
 		baseUrl: apiBaseUrl || '',
 		endpoint: '/schema/versions',

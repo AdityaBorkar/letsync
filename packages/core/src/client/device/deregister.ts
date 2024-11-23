@@ -1,4 +1,4 @@
-import TypedFetch from '@/util/TypedFetch.js';
+import { Fetch } from '@/util/Fetch.js';
 import type { ClientParams } from '../functions/create.js';
 import { Console } from '@/util/Console.js';
 
@@ -17,7 +17,7 @@ export async function deregister(props: DeregisterProps, params: ClientParams) {
 	const existingDevice = await metadata.get('device');
 	debug({ existingDevice });
 
-	const data = await TypedFetch({
+	const data = await Fetch({
 		method: 'DELETE',
 		baseUrl: apiBaseUrl || '',
 		endpoint: '/device',
