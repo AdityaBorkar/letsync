@@ -16,5 +16,5 @@ export interface TableRecords {
 // }
 
 export type Schema = {
-	[key: string]: TableRecords;
+	[key: string | 'devices' | 'schemas' | 'cache']: TableRecords;
 };
