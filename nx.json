@@ -20,7 +20,10 @@
 		},
 		"version": {
 			"conventionalCommits": true,
-			"preVersionCommand": "bun run build:packages"
+			"preVersionCommand": "bun run build:packages",
+			"generatorOptions": {
+				"fallbackCurrentVersionResolver": "disk"
+			}
 		},
 		"conventionalCommits": {
 			"types": {

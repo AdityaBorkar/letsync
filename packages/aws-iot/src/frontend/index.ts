@@ -1,4 +1,4 @@
-import type { Letsync_PubSub_Frontend } from '@letsync/core';
+import type { ClientPubsub } from '@letsync/core';
 import type { MqttClient } from 'mqtt';
 
 import $connect from './connect.js';
@@ -29,7 +29,7 @@ type PubSubProps = PubSubClient | PubSubAuthorizer;
  */
 export function PubSub<PT extends PubSubProps>(
 	props: PT,
-): Letsync_PubSub_Frontend {
+): ClientPubsub.Adapter {
 	const superProps = props;
 
 	/**

@@ -3,7 +3,7 @@ import {
 	PublishCommand,
 } from '@aws-sdk/client-iot-data-plane';
 
-import type { Letsync_PubSub_Backend } from '@letsync/core';
+import type { ServerPubsub } from '@letsync/core';
 import { PubSubAuthorizer } from './authorizer.js';
 
 type PubSubProps = {
@@ -22,7 +22,7 @@ type PubSubProps = {
  * @param props.secret - Secret key used to validate JWT tokens for authentication
  * @returns A PubSub backend instance for real-time messaging
  */
-export function PubSub(props: PubSubProps): Letsync_PubSub_Backend {
+export function PubSub(props: PubSubProps): ServerPubsub.Adapter {
 	const { client: _client, prefix, secret } = props;
 	const client = _client ?? new IoTDataPlaneClient();
 
