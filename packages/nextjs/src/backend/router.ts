@@ -2,7 +2,11 @@ import { server } from '@letsync/core';
 
 type NextContext = { params: { slug: string[] } };
 
-const RestEndpoints = {
+// ! `EndpointFunction` is a workaround to avoid type errors
+// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+type EndpointFunction = (req: any) => Promise<any>;
+
+const RestEndpoints: Record<string, Record<string, EndpointFunction>> = {
 	GET: {
 		// "/cache": cacheRetrieve,
 		'/db/changes/status': server.db.changes.status,
@@ -31,9 +35,11 @@ export default function Router<MT extends keyof typeof RestEndpoints>({
 	const endpoints = RestEndpoints[method];
 	const path = `/${context.params.slug.join('/')}` as keyof typeof endpoints &
 		string;
+	// @ts-expect-error
 	const isValidPath = Object.keys(endpoints).includes(path);
 	if (!isValidPath) return undefined;
 
+	// @ts-expect-error
 	const func = endpoints[path];
 	return func;
 }

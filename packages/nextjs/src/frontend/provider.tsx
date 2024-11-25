@@ -90,7 +90,7 @@ export function LetsyncProvider<
 				`Invalid Config. Expected: LETSYNC_CONFIG, Found: ${config.__brand}`,
 			);
 
-		const { schema } = config; // TODO - SOLVE THIS
+		const { schema } = config;
 
 		const dbList = _db ? (Array.isArray(_db) ? _db : [_db]) : [];
 		const db = dbList.map((db) => {

@@ -21,7 +21,7 @@ export async function init(props: InitProps, params: ClientParams) {
 	const { pubsub, config } = params;
 
 	const updateAvailable = await checkForUpdates({}, params);
-	if (updateAvailable && config.updateSchema === 'always')
+	if (updateAvailable && config.localDb?.updateSchema === 'always')
 		await migrate({ version: 'latest' }, params);
 
 	const device = await register({}, params);
