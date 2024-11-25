@@ -11,7 +11,7 @@ export default async function cdcCapture(params: Params) {
 	if (db.type === 'NOSQL') return Response.json({});
 
 	const auth = params.request.headers.get('Authorization');
-	if (auth !== 'Basic ZFB5emZSMlFSTkNQTVR1U1VaZjVVT3BFeVNkcG03OWE=')
+	if (auth !== `Basic ${process.env.CDC_AUTH_TOKEN}`)
 		return Response.json({ error: 'Invalid Authorization' }, { status: 401 });
 
 	const input = await params.request.json();
