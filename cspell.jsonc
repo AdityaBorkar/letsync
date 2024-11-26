@@ -84,6 +84,9 @@
 		"uncategorized",
 		"unlisten",
 		"vasundhara",
-		"webgpu"
+		"webgpu",
+		"opfs",
+		"schemaname",
+		"tablename"
 	]
 }
