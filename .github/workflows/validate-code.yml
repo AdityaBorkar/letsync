@@ -1,4 +1,4 @@
-name: Code Validation
+hhhhname: Code Validation
 
 on:
   pull_request:
@@ -33,7 +33,7 @@ jobs:
           GITGUARDIAN_API_KEY: ${{ secrets.GITGUARDIAN_API_KEY }}
 
   code_checks:
-    name: Format Code
+    name: Code checks
     runs-on: ubuntu-latest
     outputs:
       format_code: ${{ steps.format_code.outputs.bash }}
@@ -42,10 +42,9 @@ jobs:
       lint_cspell: ${{ steps.lint_cspell.outputs.bash }}
       lint_markdown: ${{ steps.lint_markdown.outputs.bash }}
       build_packages: ${{ steps.build_packages.outputs.bash }}
-      build_packages.exitcode: ${{ steps.build_packages.outputs.exitcode }}
+      build_packages_exitcode: ${{ steps.build_packages.outputs.exitcode }} # TODO - FIGURE OUT WHY THIS IS NOT WORKING
       # build_website: ${{ steps.build_website.outputs.bash }}
     steps:
-      # TODO - RUN ALL STEPS EVEN IF PREVIOUS STEP FAILS AND IN PARALLEL
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
       - run: bun install
@@ -139,7 +138,7 @@ jobs:
       #     } >> $GITHUB_OUTPUT
 
   code_tests:
-    name: Tests
+    name: Code Tests
     runs-on: ubuntu-latest
     outputs:
       bash: ${{ steps.tests.outputs.bash }}
@@ -159,7 +158,7 @@ jobs:
   workflow_status:
     name: Workflow status
     needs: [code_checks, code_tests]
-    if: ${{ always() && !cancelled()  }}
+    if: ${{ always() && !cancelled() }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -167,20 +166,25 @@ jobs:
           echo "<details ${{ needs.code_checks.result == 'success' && 'open' || '' }}><summary><h2>" >> $GITHUB_STEP_SUMMARY
           echo "${{ needs.code_checks.result == 'success' && '✅' || '❌' }} Lint Code" >> $GITHUB_STEP_SUMMARY
           echo "</h2></summary> ${{ needs.code_checks.outputs.format_code }} </details>" >> $GITHUB_STEP_SUMMARY
-          echo "<details ${{ needs.code_checks.result == 'success' && 'open' || '' }}><summary>" >> $GITHUB_STEP_SUMMARY
+          echo "<br /><hr /><br />" >> $GITHUB_STEP_SUMMARY
+          echo "<details ${{ needs.code_checks.result == 'success' && 'open' || '' }}><summary><h2>" >> $GITHUB_STEP_SUMMARY
           echo "${{ needs.code_checks.result == 'success' && '✅' || '❌' }} Lint Knip" >> $GITHUB_STEP_SUMMARY
-          echo "</summary> ${{ needs.code_checks.outputs.lint_knip }} </details>" >> $GITHUB_STEP_SUMMARY
-          echo "<details ${{ needs.code_checks.result == 'success' && 'open' || '' }}><summary>" >> $GITHUB_STEP_SUMMARY
+          echo "</h2></summary> ${{ needs.code_checks.outputs.lint_knip }} </details>" >> $GITHUB_STEP_SUMMARY
+          echo "<br /><hr /><br />" >> $GITHUB_STEP_SUMMARY
+          echo "<details ${{ needs.code_checks.result == 'success' && 'open' || '' }}><summary><h2>" >> $GITHUB_STEP_SUMMARY
           echo "${{ needs.code_checks.result == 'success' && '✅' || '❌' }} Lint Markdown" >> $GITHUB_STEP_SUMMARY
-          echo "</summary> ${{ needs.code_checks.outputs.lint_markdown }} </details>" >> $GITHUB_STEP_SUMMARY
-          echo "<details ${{ needs.code_checks.result == 'success' && 'open' || '' }}><summary>" >> $GITHUB_STEP_SUMMARY
+          echo "</h2></summary> ${{ needs.code_checks.outputs.lint_markdown }} </details>" >> $GITHUB_STEP_SUMMARY
+          echo "<br /><hr /><br />" >> $GITHUB_STEP_SUMMARY
+          echo "<details ${{ needs.code_checks.result == 'success' && 'open' || '' }}><summary><h2>" >> $GITHUB_STEP_SUMMARY
           echo "${{ needs.code_checks.result == 'success' && '✅' || '❌' }} Lint CSpell" >> $GITHUB_STEP_SUMMARY
-          echo "</summary> ${{ needs.code_checks.outputs.lint_cspell }} </details>" >> $GITHUB_STEP_SUMMARY
-          echo "<details ${{ needs.code_checks.result == 'success' && 'open' || '' }}><summary>" >> $GITHUB_STEP_SUMMARY
-          echo "${{ needs.code_checks.outputs.build_packages.exitcode == 0 && '✅' || '❌' }} Build" >> $GITHUB_STEP_SUMMARY
-          echo "</summary>" >> $GITHUB_STEP_SUMMARY
+          echo "</h2></summary> ${{ needs.code_checks.outputs.lint_cspell }} </details>" >> $GITHUB_STEP_SUMMARY
+          echo "<br /><hr /><br />" >> $GITHUB_STEP_SUMMARY
+          echo "<details ${{ needs.code_checks.result == 'success' && 'open' || '' }}><summary><h2>" >> $GITHUB_STEP_SUMMARY
+          echo "${{ needs.code_checks.outputs.build_packages_exitcode }} Build" >> $GITHUB_STEP_SUMMARY
+          echo "</h2></summary>" >> $GITHUB_STEP_SUMMARY
           echo "${{ needs.code_checks.outputs.build_packages }} </details>" >> $GITHUB_STEP_SUMMARY
         # echo "${{ needs.code_checks.outputs.build_website }}" >> $GITHUB_STEP_SUMMARY
+        # == 0 && '✅' || '❌'
       # - uses: marocchino/sticky-pull-request-comment@v2
       #   if: ${{ github.event_name == 'pull_request' }}
       #   with:
