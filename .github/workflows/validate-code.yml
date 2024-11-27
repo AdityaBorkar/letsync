@@ -1,4 +1,4 @@
-hhhhname: Code Validation
+name: Code Validation
 
 on:
   pull_request:
