@@ -60,39 +60,42 @@ jobs:
           } >> $GITHUB_OUTPUT
       - id: versioning
         shell: bash
+        env:
+          CI: true
+          GH_TOKEN: ${{ github.token }}
+          NPM_CONFIG_PROVENANCE: true
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_ACCESS_TOKEN }}
         run: |
           {
             echo "bash<<EOF"
             echo "$(bun nx release --skip-publish --projects=packages/* ${{ github.event.release.target_commitish == 'canary' && '--preid=canary' || '' }})"
             echo "EOF"
           } >> $GITHUB_OUTPUT
+      - id: publishing
+        # TODO - DO NOT RUN IF PREVIOUS STEP FAILED
+        # TODO - FAIL STEPS IF OUTPUT FAILS
+        shell: bash
         env:
+          CI: true
           GH_TOKEN: ${{ github.token }}
           NPM_CONFIG_PROVENANCE: true
           NODE_AUTH_TOKEN: ${{ secrets.NPM_ACCESS_TOKEN }}
-      - id: publishing
-      # TODO - DO NOT RUN IF PREVIOUS STEP FAILED
-        shell: bash
         run: |
           {
             echo "bash<<EOF"
             echo "$(bun nx release publish --projects=packages/*)"
             echo "EOF"
           } >> $GITHUB_OUTPUT
-        env:
-          GH_TOKEN: ${{ github.token }}
-          NPM_CONFIG_PROVENANCE: true
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_ACCESS_TOKEN }}
       - id: delete-draft-release
         shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           {
             echo "bash<<EOF"
             echo "$(gh release delete 'trigger.release' --yes --cleanup-tag)"
             echo "EOF"
           } >> $GITHUB_OUTPUT
-        env:
-          GH_TOKEN: ${{ github.token }}
 
   deploy:
     name: Deploy Website

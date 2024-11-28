@@ -1,7 +1,7 @@
 {
 	"name": "@letsync/opfs",
 	"description": "OPFS functionality for Letsync",
-	"version": "0.0.2",
+	"version": "0.0.3",
 	"license": "MIT",
 	"keywords": [],
 	"author": {

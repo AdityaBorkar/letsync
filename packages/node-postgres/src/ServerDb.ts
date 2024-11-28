@@ -1,8 +1,4 @@
-import type {
-	Letsync_ServerDB,
-	Config,
-	Letsync_PubSub_Backend,
-} from '@letsync/core';
+import type { Config, ServerDB, ServerPubsub } from '@letsync/core';
 import type { Client } from 'pg';
 
 export function LetsyncServerDb({
@@ -12,14 +8,14 @@ export function LetsyncServerDb({
 	database,
 }: {
 	name: string;
-	pubsub: Letsync_PubSub_Backend;
-	dbSchema: Config['dbSchema'];
+	pubsub: ServerPubsub.Adapter;
+	schema: Config['schema'];
 	database: Client;
 	// | (() => {
 	// 		instance: Client;
 	// 		wrapper: any;
 	//   });
-}): Letsync_ServerDB<Client> {
+}): ServerDB.Adapter<Client> {
 	// TODO - Connection Pooling on backend
 
 	// TODO - MIGRATE / SET SCHEMA

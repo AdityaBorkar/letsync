@@ -1,5 +1,5 @@
+import type { ServerDB, ServerFS, ServerPubsub } from '@letsync/core';
 import type { NextRequest } from 'next/server.js';
-import type { ServerPubsub, ServerDB, ServerFS } from '@letsync/core';
 
 import Router from './router.js';
 

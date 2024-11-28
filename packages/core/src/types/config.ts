@@ -4,6 +4,7 @@ export type Config = {
 	__brand: 'LETSYNC_CONFIG';
 	apiBaseUrl: string;
 	schema: Schema;
+
 	localDb?:
 		| undefined
 		| {

@@ -1,6 +1,6 @@
-import type { ClientParams } from '../functions/create.js';
-import { Fetch } from '@/util/Fetch.js';
 import { Console } from '@/util/Console.js';
+import { Fetch } from '@/util/Fetch.js';
+import type { ClientParams } from '../functions/create.js';
 
 // biome-ignore lint/suspicious/noEmptyInterface: <explanation>
 interface RegisterProps {

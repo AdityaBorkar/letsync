@@ -1,5 +1,5 @@
-import { createContext } from 'react';
 import type { ClientDB, ClientFS, ClientPubsub } from '@letsync/core';
+import { createContext } from 'react';
 
 export type Connected_PubsubAdapter = Awaited<
 	ReturnType<ClientPubsub.Adapter['connect']>
