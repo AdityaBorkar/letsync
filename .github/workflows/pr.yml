@@ -1,4 +1,4 @@
-name: PR Validation
+name: PR
 
 on:
     pull_request:
@@ -16,7 +16,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  main:
+  lint_pr_title:
     name: Lint PR Title
     runs-on: ubuntu-latest
     steps:

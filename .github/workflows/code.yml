@@ -1,4 +1,4 @@
-name: Code Checks
+name: Code
 
 on:
   pull_request:
@@ -41,7 +41,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
       - run: bun install
-      - uses: AdityaBorkar/hooop-cloud-github-action@v0.0.2
+      - uses: AdityaBorkar/hooop-cloud-github-action@v0.0.3
         with:
           package-manager: bun
         env:
