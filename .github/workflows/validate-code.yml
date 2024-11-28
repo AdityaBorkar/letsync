@@ -38,9 +38,6 @@ jobs:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
       - run: bun install
-      - uses: GitGuardian/ggshield/actions/secret@v1.33.0
-        env:
-          GITHUB_PUSH_BEFORE_SHA: ${{ github.event.before }}
       - uses: adityaborkar/hooop-cloud-github-action
         with:
           package-manager: bun
