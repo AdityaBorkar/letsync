@@ -41,7 +41,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
       - run: bun install
-      - uses: adityaborkar/hooop-cloud-github-action@v0.0.1
+      - uses: AdityaBorkar/hooop-cloud-github-action@v0.0.2
         with:
           package-manager: bun
         env:
