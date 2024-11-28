@@ -1,11 +1,11 @@
-import type { ClientParams } from './create.js';
-import { register } from '../device/register.js';
-import { checkForUpdates } from '../schema/checkForUpdates.js';
-import { migrate } from '../schema/migrate.js';
+import { Console } from '@/util/Console.js';
 import { live } from '../device/live.js';
 import { pull } from '../device/pull.js';
 import { push } from '../device/push.js';
-import { Console } from '@/util/Console.js';
+import { register } from '../device/register.js';
+import { checkForUpdates } from '../schema/checkForUpdates.js';
+import { migrate } from '../schema/migrate.js';
+import type { ClientParams } from './create.js';
 
 interface InitProps {
 	// workers?: boolean;

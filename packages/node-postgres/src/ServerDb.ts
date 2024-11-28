@@ -1,4 +1,4 @@
-import type { ServerDB, Config, ServerPubsub } from '@letsync/core';
+import type { Config, ServerDB, ServerPubsub } from '@letsync/core';
 import type { Client } from 'pg';
 
 export function LetsyncServerDb({

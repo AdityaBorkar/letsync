@@ -1,11 +1,11 @@
-import type { ClientDB, ClientPubsub, Schema } from '@letsync/core';
 import { PGlite, type PGliteOptions } from '@electric-sql/pglite';
+import type { ClientDB, ClientPubsub, Schema } from '@letsync/core';
 
+import { close } from './functions/close.js';
 import exportData from './functions/exportData.js';
+import { flush } from './functions/flush.js';
 import getStorageMetrics from './functions/getStorageMetrics.js';
 import { open } from './functions/open.js';
-import { flush } from './functions/flush.js';
-import { close } from './functions/close.js';
 import { sql } from './functions/sql.js';
 
 interface createClientDBConfig {

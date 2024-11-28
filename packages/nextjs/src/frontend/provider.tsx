@@ -3,10 +3,10 @@
 import type { ClientDB, ClientFS, ClientPubsub, Config } from '@letsync/core';
 import type { LetsyncContextType } from './context.js';
 
+import { createClient } from '@letsync/core';
 // biome-ignore lint/style/useImportType: BIOME BUG
 import React, { useEffect, useMemo, useState } from 'react';
 import { LetsyncContext } from './context.js';
-import { createClient } from '@letsync/core';
 
 /**
  * Props for the LetsyncProvider component.

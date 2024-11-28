@@ -4,9 +4,8 @@
 	"scripts": {
 		"dev": "nx run dev",
 		"commit": "git add . && cz",
-		"branch": "git checkout -b",
-		"format": "bun biome format",
-		"lint:code": "bun biome lint",
+		"format": "bun biome check --formatter-enabled=true --organize-imports-enabled=true --linter-enabled=false",
+		"lint:code": "bun biome check --formatter-enabled=false --organize-imports-enabled=false --linter-enabled=true",
 		"lint:knip": "knip",
 		"lint:cspell": "cspell lint . --no-progress",
 		"lint:md": "markdownlint \"**/*.md\" --disable MD010 MD013 --ignore \"**/node_modules/**\"",

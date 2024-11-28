@@ -1,27 +1,27 @@
 import type {
+	ClientDB_Store_Metadata,
+	ClientDB_Store_OfflineChanges,
+} from '@/types/client-db/stores.js';
+import type {
 	ClientDB,
 	ClientFS,
 	ClientPubsub,
 	Config,
 } from '@/types/index.js';
-import { register } from '../device/register.js';
 import { deregister } from '../device/deregister.js';
-import { push } from '../device/push.js';
-import { pull } from '../device/pull.js';
+import { flush } from '../device/flush.js';
 import { live } from '../device/live.js';
+import { pull } from '../device/pull.js';
+import { push } from '../device/push.js';
+import { reconcile } from '../device/reconcile.js';
+import { register } from '../device/register.js';
+import { checkForUpdates } from '../schema/checkForUpdates.js';
+import { migrate } from '../schema/migrate.js';
+import { metadataHandler } from '../stores/metadata.js';
+import { offlineChangesHandler } from '../stores/offlineChanges.js';
 import { subscribe } from './addEventListener.js';
 import { init as _init } from './init.js';
 import { terminate as _terminate } from './terminate.js';
-import { migrate } from '../schema/migrate.js';
-import { checkForUpdates } from '../schema/checkForUpdates.js';
-import { offlineChangesHandler } from '../stores/offlineChanges.js';
-import { metadataHandler } from '../stores/metadata.js';
-import type {
-	ClientDB_Store_Metadata,
-	ClientDB_Store_OfflineChanges,
-} from '@/types/client-db/stores.js';
-import { flush } from '../device/flush.js';
-import { reconcile } from '../device/reconcile.js';
 
 export interface ClientParams {
 	db: ClientDB.Adapter<unknown>[];
