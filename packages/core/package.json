@@ -22,12 +22,7 @@
 		".": "./dist/index.js",
 		"./schema": "./dist/schema/index.js"
 	},
-	"files": [
-		"dist/",
-		"package.json",
-		"LICENSE.md",
-		"README.md"
-	],
+	"files": ["dist/", "package.json", "LICENSE.md", "README.md"],
 	"scripts": {
 		"dev": "tsc --watch",
 		"build": "tsc --build",
