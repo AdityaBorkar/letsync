@@ -6,7 +6,7 @@
 		"commit": "git add . && cz",
 		"format": "bun biome check --formatter-enabled=true --organize-imports-enabled=true --linter-enabled=false",
 		"lint:code": "bun biome check --formatter-enabled=false --organize-imports-enabled=false --linter-enabled=true",
-		"lint:knip": "knip",
+		"lint:knip": "knip --reporter markdown",
 		"lint:cspell": "cspell lint . --no-progress",
 		"lint:md": "markdownlint \"**/*.md\" --disable MD010 MD013 --ignore \"**/node_modules/**\"",
 		"typecheck": "nx run-many --target=typecheck --projects=packages/*,www",

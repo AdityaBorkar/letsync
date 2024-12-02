@@ -14,10 +14,6 @@ export interface TableRecords {
 // 		state: string;
 // 	};
 
-
-
-
-
 // }
 
 export type Schema = {
