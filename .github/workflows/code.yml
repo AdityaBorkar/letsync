@@ -41,6 +41,6 @@ jobs:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
       - run: bun install
-      - uses: AdityaBorkar/hooop-cloud-github-action@v0.0.9
+      - uses: AdityaBorkar/hooop-cloud-github-action@v0.0.10
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
