@@ -33,11 +33,13 @@
 		"node": ">=18.3.0"
 	},
 	"devDependencies": {
+		"@types/jsonwebtoken": "^9.0.7",
 		"typescript": "^5.5.4"
 	},
 	"dependencies": {
-		"@aws-sdk/client-iot-data-plane": "^3.682.0",
-		"mqtt": "^5.10.1",
-		"@letsync/core": "workspace:*"
+		"@aws-sdk/client-iot-data-plane": "^3.699.0",
+		"@letsync/core": "workspace:*",
+		"jsonwebtoken": "^9.0.2",
+		"mqtt": "^5.10.3"
 	}
 }

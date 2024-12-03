@@ -33,6 +33,6 @@
 	},
 	"dependencies": {
 		"@electric-sql/pglite": "^0.2.10",
-		"@letsync/core": "workspace:*"
+		"@letsync/core": "^0.0.2"
 	}
 }

@@ -1,16 +1,22 @@
-import type { Letsync_PubSub_Frontend } from '@letsync/core';
+import type { ClientPubsub } from '@letsync/core';
 
 import $connect from './connect.js';
 
 export function PubSub(props: {
-	authorizer: string;
-	endpoint: string;
+	// authorizer: string;
+	// endpoint: string;
 	prefix: string;
-}): Letsync_PubSub_Frontend {
+	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+	client: any;
+}): ClientPubsub.Adapter {
 	const superProps = props;
 
-	async function connect(props: { token: string; clientId: string }) {
-		const connection = await $connect({ ...props, ...superProps });
+	async function connect(props?: { token: string; clientId: string }) {
+		const connection =
+			'client' in superProps
+				? superProps.client
+				: // @ts-expect-error - TODO
+					await $connect({ ...props, ...superProps });
 
 		async function subscribe(topic: string, callback: (data: string) => void) {
 			if (!connection.connected) {

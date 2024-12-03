@@ -3,13 +3,14 @@
 	"workspaces": ["www/", "packages/*", "examples/*"],
 	"scripts": {
 		"dev": "nx run dev",
-		"commit": "git add . && cz",
+		"commit": "git add . && bun run format && bun run lint:code && bun run lint:knip && bun run lint:cspell && bun run lint:md && bun run build:packages && cz",
+		"commit:skip-checks": "git add . && cz",
 		"format": "bun biome check --formatter-enabled=true --organize-imports-enabled=true --linter-enabled=false",
 		"lint:code": "bun biome check --formatter-enabled=false --organize-imports-enabled=false --linter-enabled=true",
-		"lint:knip": "knip",
+		"lint:knip": "knip --production --reporter markdown",
 		"lint:cspell": "cspell lint . --no-progress",
 		"lint:md": "markdownlint \"**/*.md\" --disable MD010 MD013 --ignore \"**/node_modules/**\"",
-		"typecheck": "nx run-many --target=typecheck --projects=packages/*,www",
+		"nuke": "find packages -type d \\( -name \"dist\" -o -name \"node_modules\" \\) -exec rm -rf {} +",
 		"build:packages": "nx run-many --target=build --projects=packages/*",
 		"build:www": "nx run-many --target=build --projects=www"
 	},
@@ -20,7 +21,7 @@
 		"nx",
 		"sharp"
 	],
-	"dependencies": {
+	"devDependencies": {
 		"@biomejs/biome": "^1.9.4",
 		"@nx/js": "20.1.2",
 		"@swc-node/register": "^1.10.9",
