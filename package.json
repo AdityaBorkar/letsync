@@ -3,7 +3,8 @@
 	"workspaces": ["www/", "packages/*", "examples/*"],
 	"scripts": {
 		"dev": "nx run dev",
-		"commit": "git add . && cz",
+		"commit": "git add . && bun run format && bun run lint:code && bun run lint:knip && bun run lint:cspell && bun run lint:md && bun run typecheck && bun run build:packages && cz",
+		"commit:skip-checks": "git add . && cz",
 		"format": "bun biome check --formatter-enabled=true --organize-imports-enabled=true --linter-enabled=false",
 		"lint:code": "bun biome check --formatter-enabled=false --organize-imports-enabled=false --linter-enabled=true",
 		"lint:knip": "knip --reporter markdown",

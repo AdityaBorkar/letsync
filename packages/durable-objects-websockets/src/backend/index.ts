@@ -3,7 +3,7 @@ import {
 	PublishCommand,
 } from '@aws-sdk/client-iot-data-plane';
 
-import type { Letsync_PubSub_Backend } from '@letsync/core';
+import type { ServerPubsub } from '@letsync/core';
 import { PubSubAuthorizer } from './authorizer.js';
 
 export function PubSub({
@@ -12,7 +12,7 @@ export function PubSub({
 }: {
 	prefix: string;
 	secret: string;
-}): Letsync_PubSub_Backend {
+}): ServerPubsub.Adapter {
 	const client = new IoTDataPlaneClient();
 
 	async function publish(
