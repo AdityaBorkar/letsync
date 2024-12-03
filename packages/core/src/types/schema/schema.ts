@@ -17,5 +17,11 @@ export interface TableRecords {
 // }
 
 export type Schema = {
-	[key: string | 'devices' | 'schemas' | 'cache']: TableRecords;
+	[key: string | '_devices' | '_schema' | '_metadata']: {
+		[key: string]: {
+			type: 'string' | 'number';
+			onCreate?: () => string | number | boolean | Date;
+			onUpdate?: () => string | number | boolean | Date;
+		};
+	};
 };

@@ -1,6 +1,7 @@
 import { PGlite, type PGliteOptions } from '@electric-sql/pglite';
 import type { ClientDB, ClientPubsub, Schema } from '@letsync/core';
 
+import { buildSchema } from './functions/buildSchema.js';
 import { close } from './functions/close.js';
 import exportData from './functions/exportData.js';
 import { flush } from './functions/flush.js';
@@ -31,11 +32,12 @@ export function createClientDB(
 			open: () => open(client),
 			flush: () => flush(client),
 			close: () => close(client),
+			storageMetrics: () => getStorageMetrics(client),
+			buildSchema: (schema: Schema) => buildSchema({ client, schema }),
 			sql: <T>(...props: Parameters<typeof client.sql>) =>
 				sql<T>({ client, schema }, ...props),
-			storageMetrics: () => getStorageMetrics(client),
-			exportData: (props: Parameters<typeof exportData>[0]) =>
-				exportData(props, client),
+			exportData: (options: Parameters<typeof exportData>[1]) =>
+				exportData({ client, schema }, options),
 		};
 	};
 }

@@ -22,6 +22,7 @@
 		"astrojs",
 		"asyncgenerator",
 		"asynciterable",
+		"AUTOINCREMENT",
 		"bitstream",
 		"borkar",
 		"btech",
@@ -61,6 +62,7 @@
 		"neondb",
 		"nlcst",
 		"nuxt",
+		"opfs",
 		"pacakge",
 		"paralleldrive",
 		"pglite",
@@ -68,10 +70,12 @@
 		"rarr",
 		"rcompare",
 		"rsort",
+		"schemaname",
 		"serde",
 		"sockjs",
 		"solidstart",
 		"supabase",
+		"tablename",
 		"tailwindcss",
 		"targeting",
 		"triplit",
@@ -84,9 +88,6 @@
 		"uncategorized",
 		"unlisten",
 		"vasundhara",
-		"webgpu",
-		"opfs",
-		"schemaname",
-		"tablename"
+		"webgpu"
 	]
 }

@@ -20,7 +20,8 @@
 	"type": "module",
 	"exports": {
 		".": "./dist/index.js",
-		"./schema": "./dist/schema/index.js"
+		"./schema-sql": "./dist/schema/sql/index.js",
+		"./schema-nosql": "./dist/schema/nosql/index.js"
 	},
 	"files": ["dist/", "package.json", "LICENSE.md", "README.md"],
 	"scripts": {
