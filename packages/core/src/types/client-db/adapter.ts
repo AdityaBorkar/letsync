@@ -1,3 +1,5 @@
+import type { Schema } from '../schema/schema.js';
+
 export interface ClientDBAdapter<DBClient> {
 	__brand: 'LETSYNC_CLIENT_DATABASE';
 	client: DBClient;
@@ -5,6 +7,7 @@ export interface ClientDBAdapter<DBClient> {
 	open: () => Promise<void>;
 	close: () => Promise<void>;
 	flush: () => Promise<void>;
+	buildSchema: (schema: Schema) => Promise<void>;
 	sql: MethodSql;
 	exportData: MethodExportData;
 	storageMetrics: MethodStorageMetrics;
@@ -35,9 +38,9 @@ type MethodSql = <RT>(
 // 	callback: (tx: Transaction) => Promise<Results<T>>,
 // ) => Promise<Results<T> | undefined>;
 
-type MethodExportData = (
-	compression: 'none' | 'gzip' | 'auto',
-) => Promise<File | Blob>;
+type MethodExportData = (options: {
+	compression: 'none' | 'gzip' | 'auto';
+}) => Promise<File | Blob>;
 
 type MethodStorageMetrics = () => void;
 

@@ -16,7 +16,11 @@
 	"publishConfig": {
 		"provenance": true
 	},
-	"main": "./dist/index.js",
+	"exports": {
+		".": "./dist/index.js",
+		"./schema-sql": "./dist/schema/sql/index.js",
+		"./schema-nosql": "./dist/schema/nosql/index.js"
+	},
 	"type": "module",
 	"files": ["dist/", "package.json", "LICENSE.md", "README.md"],
 	"scripts": {

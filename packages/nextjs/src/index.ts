@@ -5,5 +5,3 @@ export { useDatabase } from './frontend/hooks/useDatabase.js';
 export { useNetworkState } from './frontend/hooks/useNetworkState.js';
 
 export { LetsyncConfig } from '@letsync/core';
-
-export * from '@letsync/core/schema';
