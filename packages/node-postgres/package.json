@@ -33,7 +33,7 @@
 		"typescript": "^5.5.4"
 	},
 	"dependencies": {
-		"pg": "^8.13.0",
-		"@letsync/core": "workspace:*"
+		"@letsync/core": "^0.0.2",
+		"pg": "^8.13.0"
 	}
 }

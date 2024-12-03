@@ -1,11 +1,21 @@
 {
 	"$schema": "https://unpkg.com/knip@latest/schema-jsonc.json",
 	"workspaces": {
-		"packages/**": {
+		"packages/*": {
 			"entry": "src/index.{ts,tsx}",
 			"project": "src/**/*.{ts,tsx}"
 		}
 	},
+	"ignore": ["www/src/env.d.ts", "boilerplate/**", "examples/**"],
 	"ignoreWorkspaces": ["www/**"],
-	"ignore": ["www/src/env.d.ts", "boilerplate/**", "examples/**"]
+	"ignoreDependencies": [
+		"@aws-sdk/client-iot-data-plane",
+		"@electric-sql/pglite",
+		"@paralleldrive/cuid2",
+		"@letsync/core",
+		"jsonwebtoken",
+		"pglite",
+		"mqtt",
+		"pg"
+	]
 }
