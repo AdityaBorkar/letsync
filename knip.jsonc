@@ -6,7 +6,7 @@
 			"project": "src/**/*.{ts,tsx}"
 		}
 	},
-	"ignore": ["www/src/env.d.ts", "boilerplate/**", "examples/**"],
+	"ignore": ["www/src/env.d.ts", "boilerplate/**", "examples/**", "scripts/**"],
 	"ignoreWorkspaces": ["www/**"],
 	"ignoreDependencies": [
 		"@aws-sdk/client-iot-data-plane",
