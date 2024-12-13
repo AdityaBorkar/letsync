@@ -1,51 +1,46 @@
 {
-  "name": "@letsync/nextjs",
-  "description": "NextJS API handlers for Letsync",
-  "version": "0.2.0",
-  "license": "MIT",
-  "keywords": [],
-  "author": {
-    "name": "Aditya Borkar",
-    "email": "aditya.borkar.programs@gmail.com",
-    "url": "https://adityaborkar.com"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/AdityaBorkar/letsync"
-  },
-  "publishConfig": {
-    "provenance": true
-  },
-  "exports": {
-    ".": "./dist/index.js",
-    "./schema-sql": "./dist/schema/sql/index.js",
-    "./schema-nosql": "./dist/schema/nosql/index.js"
-  },
-  "type": "module",
-  "files": [
-    "dist/",
-    "package.json",
-    "LICENSE.md",
-    "README.md"
-  ],
-  "scripts": {
-    "dev": "tsc --watch",
-    "build": "tsc --build",
-    "typecheck": "tsc --noEmit",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "engines": {
-    "node": ">=18.3.0"
-  },
-  "devDependencies": {
-    "typescript": "^5.7.2"
-  },
-  "dependencies": {
-    "@letsync/core": "^0.2.0"
-  },
-  "peerDependencies": {
-    "@types/react": ">= 17.0.0 || >= 19.0.0-rc",
-    "react": ">= 17.0.0 || >= 19.0.0-rcx",
-    "next": ">= 14 < 16"
-  }
+	"name": "@letsync/nextjs",
+	"description": "NextJS API handlers for Letsync",
+	"version": "0.2.0",
+	"license": "MIT",
+	"keywords": [],
+	"author": {
+		"name": "Aditya Borkar",
+		"email": "aditya.borkar.programs@gmail.com",
+		"url": "https://adityaborkar.com"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/AdityaBorkar/letsync"
+	},
+	"publishConfig": {
+		"provenance": true
+	},
+	"exports": {
+		".": "./dist/index.js",
+		"./schema-sql": "./dist/schema/sql/index.js",
+		"./schema-nosql": "./dist/schema/nosql/index.js"
+	},
+	"type": "module",
+	"files": ["dist/", "package.json", "LICENSE.md", "README.md"],
+	"scripts": {
+		"dev": "tsc --watch",
+		"build": "tsc --build",
+		"typecheck": "tsc --noEmit",
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"engines": {
+		"node": ">=18.3.0"
+	},
+	"devDependencies": {
+		"typescript": "^5.7.2"
+	},
+	"dependencies": {
+		"@letsync/core": "^0.2.0"
+	},
+	"peerDependencies": {
+		"@types/react": ">= 17.0.0 || >= 19.0.0-rc",
+		"react": ">= 17.0.0 || >= 19.0.0-rcx",
+		"next": ">= 14 < 16"
+	}
 }

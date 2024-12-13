@@ -1,3 +1,17 @@
+## 0.2.0 (2024-12-13)
+
+### 🚀 Features
+
+- api changes ([5716812](https://github.com/AdityaBorkar/letsync/commit/5716812))
+
+### 🧱 Updated Dependencies
+
+- Updated @letsync/core to 0.2.0
+
+### ❤️ Thank You
+
+- Aditya Borkar @AdityaBorkar
+
 ## 0.1.0 (2024-12-12)
 
 ### 🚀 Features

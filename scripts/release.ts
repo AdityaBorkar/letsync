@@ -61,6 +61,12 @@ async function release() {
 	const deleteTag = await exec(
 		`gh release delete ${TRIGGER_RELEASE_TAG_NAME} --yes --cleanup-tag`,
 	);
+	console.log(
+		`<b>Status:</b> ${deleteTag.isSuccess ? '✅' : '❌'} Delete Trigger Release Tag <br/> Executed command: <code>${deleteTag.command}</code>\n`,
+	);
+	console.log(
+		`\`\`\`bash\n${escapeMd(deleteTag.stdout)}\n\n${escapeMd(deleteTag.stderr)}\n\`\`\``,
+	);
 	if (deleteTag.error) return process.exit(1);
 
 	// Release
