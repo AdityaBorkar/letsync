@@ -1,7 +1,7 @@
 {
 	"name": "@letsync/cockroachdb",
 	"description": "CockroachDB adapter for Letsync",
-	"version": "0.0.2",
+	"version": "0.2.0",
 	"license": "MIT",
 	"keywords": [],
 	"author": {
@@ -29,6 +29,6 @@
 		"node": ">=18.3.0"
 	},
 	"devDependencies": {
-		"typescript": "^5.5.4"
+		"typescript": "^5.7.2"
 	}
 }

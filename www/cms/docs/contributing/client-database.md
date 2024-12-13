@@ -95,6 +95,19 @@ To make integrations that adhere to the same mental model as `@letsync/*`, you c
    - Have at least one OAuth provider configured.
    - The example code should live under apps/examples/\<framework-name\>. For example: apps/examples/express.
 
+```ts
+
+interface createClientDBConfig {
+	name: string;
+}
+
+export function createClientDB(
+	config: createClientDBConfig,
+	props?: PGlite | PGliteOptions,
+): ClientDB.CreateAdapter<PGlite> {}
+
+```
+
 <!-- ```ts
 import type {
 	ClientDbAdapter,

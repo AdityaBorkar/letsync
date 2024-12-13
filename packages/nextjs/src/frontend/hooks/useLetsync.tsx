@@ -10,17 +10,8 @@ import { LetsyncContext } from '../context.js';
  * @returns {Object} An object containing:
  *   - database: The Letsync database instance for data management
  *   - pubsub: The publish/subscribe messaging system for real-time communication
+ * 	 - fs: Filesystem
  *
- * @example
- * ```tsx
- * function MyComponent() {
- *   const { database, pubsub } = useLetsync();
- *
- *   // Use database for data operations
- *   // Use pubsub for real-time messaging
- *   return <div>...</div>;
- * }
- * ```
  */
 export function useLetsync() {
 	const { db, fs, pubsub } = useContext(LetsyncContext);

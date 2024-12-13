@@ -1,7 +1,7 @@
 {
 	"name": "@letsync/core",
 	"description": "Core functionality for Letsync",
-	"version": "0.0.2",
+	"version": "0.2.0",
 	"license": "MIT",
 	"keywords": [],
 	"author": {
@@ -34,7 +34,7 @@
 		"node": ">=18.3.0"
 	},
 	"devDependencies": {
-		"typescript": "^5.6.2"
+		"typescript": "^5.7.2"
 	},
 	"dependencies": {
 		"@paralleldrive/cuid2": "^2.2.2",

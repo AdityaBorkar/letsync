@@ -14,8 +14,8 @@ interface createClientDBConfig {
 }
 
 export function createClientDB(
-	props: PGlite | PGliteOptions,
 	config: createClientDBConfig,
+	props?: PGlite | PGliteOptions,
 ): ClientDB.CreateAdapter<PGlite> {
 	const { name } = config;
 	const client = props instanceof PGlite ? props : new PGlite(props);
