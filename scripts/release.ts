@@ -28,12 +28,6 @@ async function release() {
 	// Job Summary
 	console.log('## Release');
 
-	// Environment Variables
-	await exec('export CI=true');
-	await exec('export NPM_CONFIG_PROVENANCE=true');
-	await exec(`export GH_TOKEN=${process.env.GITHUB_TOKEN}`);
-	await exec(`export GITHUB_TOKEN=${process.env.GITHUB_TOKEN}`);
-
 	// GPG Keys
 	await exec(
 		`echo "${process.env.GPG_PRIVATE_KEY}" | gpg --batch --yes --passphrase "${process.env.GPG_PASSPHRASE}" --import`,
@@ -53,9 +47,9 @@ async function release() {
 	await exec(
 		`npm config set '//registry.npmjs.org/:_authToken' ${process.env.NPM_ACCESS_TOKEN}`,
 	);
-	await exec(
-		`npm config set '//npm.pkg.github.com/:_authToken' ${process.env.GITHUB_TOKEN}`,
-	);
+	// await exec(
+	// 	`npm config set '//npm.pkg.github.com/:_authToken' ${process.env.GITHUB_TOKEN}`,
+	// );
 
 	// Delete Trigger Release Tag
 	const deleteTag = await exec(
