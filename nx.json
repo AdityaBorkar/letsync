@@ -16,6 +16,7 @@
 			}
 		},
 		"git": {
+			"commit": true,
 			"commitMessage": "chore(release): {version}"
 		},
 		"version": {
