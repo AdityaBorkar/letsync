@@ -1,7 +1,7 @@
 {
 	"name": "@letsync/pglite",
 	"description": "PGLite adapter for Letsync",
-	"version": "0.0.2",
+	"version": "0.2.0",
 	"license": "MIT",
 	"keywords": [],
 	"author": {
@@ -29,10 +29,10 @@
 		"node": ">=18.3.0"
 	},
 	"devDependencies": {
-		"typescript": "^5.6.2"
+		"typescript": "^5.7.2"
 	},
 	"dependencies": {
-		"@electric-sql/pglite": "^0.2.10",
-		"@letsync/core": "^0.0.2"
+		"@electric-sql/pglite": "^0.2.15",
+		"@letsync/core": "^0.2.0"
 	}
 }

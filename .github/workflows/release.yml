@@ -30,5 +30,6 @@ jobs:
       - uses: oven-sh/setup-bun@v2
       - run: bun install
       - id: release
+        continue-on-error: true
         run: bun ./scripts/release.ts tag=trigger.release type=${{ github.event.release.target_commitish }}
       - run: echo "${{ steps.release.outcome }}" >> $GITHUB_STEP_SUMMARY

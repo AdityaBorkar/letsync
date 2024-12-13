@@ -24,6 +24,6 @@
 	"files": ["dist/", "package.json", "LICENSE.md", "README.md"],
 	"scripts": {},
 	"devDependencies": {
-		"typescript": "^5.5.4"
+		"typescript": "^5.7.2"
 	}
 }
