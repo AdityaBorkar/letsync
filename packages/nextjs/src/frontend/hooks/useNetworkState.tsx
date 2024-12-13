@@ -1,8 +1,11 @@
 'use client';
 
-import { useContext } from 'react';
+import { useEffect, useState } from 'react';
 
-import { LetsyncContext } from '../context.js';
+export enum NetworkStatus {
+	Online = 1,
+	Offline = 0,
+}
 
 /**
  * A React hook that provides access to the Letsync network state.
@@ -22,6 +25,33 @@ import { LetsyncContext } from '../context.js';
  * ```
  */
 export function useNetworkState() {
-	const { fs, pubsub } = useContext(LetsyncContext);
-	return { fs, pubsub };
+	const [networkState, setNetworkState] = useState<NetworkStatus>(
+		'online' in navigator
+			? navigator.onLine
+				? NetworkStatus.Online
+				: NetworkStatus.Offline
+			: NetworkStatus.Online,
+	);
+
+	useEffect(() => {
+		setNetworkState(
+			navigator.onLine ? NetworkStatus.Online : NetworkStatus.Offline,
+		);
+
+		const handleOnline = () => {
+			setNetworkState(NetworkStatus.Online);
+		};
+		const handleOffline = () => {
+			setNetworkState(NetworkStatus.Offline);
+		};
+		window.addEventListener('online', handleOnline);
+		window.addEventListener('offline', handleOffline);
+
+		return () => {
+			window.removeEventListener('online', handleOnline);
+			window.removeEventListener('offline', handleOffline);
+		};
+	}, []);
+
+	return networkState;
 }

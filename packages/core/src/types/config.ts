@@ -4,15 +4,12 @@ export type Config = {
 	__brand: 'LETSYNC_CONFIG';
 	apiBaseUrl: string;
 	schema: Schema;
-
-	localDb?:
-		| undefined
-		| {
-				/**
-				 * Extends the schema structure for local database
-				 * @default '$optimistic'
-				 */
-				optimisticColumnName?: string;
-				updateSchema?: 'always' | 'never';
-		  };
+	localDb?: {
+		/**
+		 * Extends the schema structure for local database
+		 * @default '$optimistic'
+		 */
+		optimisticColumnName?: string;
+		updateSchema?: 'always' | 'never';
+	};
 };

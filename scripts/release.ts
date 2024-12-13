@@ -25,6 +25,9 @@ async function release() {
 	const TARGET_RELEASE_TYPE = args.type;
 	const TRIGGER_RELEASE_TAG_NAME = args.tag;
 
+	// Job Summary
+	console.log('## Release');
+
 	// Environment Variables
 	await exec('export CI=true');
 	await exec('export NPM_CONFIG_PROVENANCE=true');
@@ -55,9 +58,10 @@ async function release() {
 	);
 
 	// Delete Trigger Release Tag
-	await exec(
+	const deleteTag = await exec(
 		`gh release delete ${TRIGGER_RELEASE_TAG_NAME} --yes --cleanup-tag`,
 	);
+	if (deleteTag.error) return process.exit(1);
 
 	// Release
 	const release = await exec(
@@ -66,7 +70,6 @@ async function release() {
 	const releaseTitle = release.isSuccess
 		? 'Release Executed'
 		: 'Release Failed';
-	console.log('## Release');
 	console.log(
 		`<b>Status:</b> ${release.isSuccess ? '✅' : '❌'} ${releaseTitle} <br/> Executed command: <code>${release.command}</code>\n`,
 	);

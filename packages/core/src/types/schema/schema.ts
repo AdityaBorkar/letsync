@@ -1,10 +1,10 @@
-export interface TableRecords {
-	Metadata: {
-		name: string;
-		content: string;
-		lastUpdated: string;
-	};
-}
+// export interface TableRecords {
+// 	Metadata: {
+// 		name: string;
+// 		content: string;
+// 		lastUpdated: string;
+// 	};
+// }
 
 // export interface Metadata {
 // 	Device: {
@@ -13,11 +13,11 @@ export interface TableRecords {
 // 		schemaVersion: string;
 // 		state: string;
 // 	};
-
 // }
 
 export type Schema = {
-	[key: string | '_devices' | '_schema' | '_metadata']: {
+	// '$devices' | '$schema' | '$metadata'
+	[key: string]: {
 		[key: string]: {
 			type: 'string' | 'number';
 			onCreate?: () => string | number | boolean | Date;
