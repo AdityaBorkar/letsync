@@ -1,4 +1,3 @@
-import { escapeMd } from './common/escapeMd';
 import { exec } from './common/exec';
 
 release();
@@ -29,41 +28,18 @@ async function release() {
 	console.log('## Release');
 
 	// Delete Trigger Release Tag
-	const deleteTag = await exec(
+	await exec(
 		`gh release delete ${TRIGGER_RELEASE_TAG_NAME} --yes --cleanup-tag`,
 	);
-	console.log(
-		`<b>Status:</b> ${deleteTag.isSuccess ? '✅' : '❌'} Delete Trigger Release Tag <br/> Executed command: <code>${deleteTag.command}</code>\n`,
-	);
-	console.log(
-		`\`\`\`bash\n${escapeMd(deleteTag.stdout)}\n\n${escapeMd(deleteTag.stderr)}\n\`\`\``,
-	);
-	if (!deleteTag.isSuccess) return process.exit(1);
 
 	// GPG Keys
-	const updateGpg = await exec('sudo apt-get install gnupg');
-	console.log(
-		`<b>Status:</b> ${updateGpg.isSuccess ? '✅' : '❌'} Update GPG <br/> Executed command: <code>${updateGpg.command}</code>\n`,
-	);
-	console.log(
-		`\`\`\`bash\n${escapeMd(updateGpg.stdout)}\n\n${escapeMd(updateGpg.stderr)}\n\`\`\``,
-	);
-	if (!updateGpg.isSuccess) return process.exit(1);
-
+	await exec('sudo apt-get install gnupg');
 	await exec(
 		`echo "${process.env.GPG_PRIVATE_KEY}" | gpg --pinentry-mode loopback --batch --import`,
 	);
-
-	const testSignResult = await exec(
+	await exec(
 		`echo "test message" | gpg --pinentry-mode loopback --batch --yes --local-user "${process.env.GPG_SIGNING_KEY}" --passphrase "${process.env.GPG_PASSPHRASE}" --clear-sign`,
 	);
-	console.log(
-		`<b>Status:</b> ${testSignResult.isSuccess ? '✅' : '❌'} Test GPG Sign <br/> Executed command: <code>${testSignResult.command}</code>\n`,
-	);
-	console.log(
-		`\`\`\`bash\n${escapeMd(testSignResult.stdout)}\n\n${escapeMd(testSignResult.stderr)}\n\`\`\``,
-	);
-	if (!testSignResult.isSuccess) return process.exit(1);
 
 	// Git Config
 	await exec(`git config --global user.name "GitHub Actions Bot"`);
@@ -86,29 +62,10 @@ async function release() {
 	// );
 
 	// Release
-	const release = await exec(
+	await exec(
 		`bun nx release --projects=packages/* ${TARGET_RELEASE_TYPE === 'canary' ? '--preid=canary' : ''}`,
 	);
-	const releaseTitle = release.isSuccess
-		? 'Release Executed'
-		: 'Release Failed';
-	console.log(
-		`<b>Status:</b> ${release.isSuccess ? '✅' : '❌'} ${releaseTitle} <br/> Executed command: <code>${release.command}</code>\n`,
-	);
-	console.log(
-		`\`\`\`bash\n${escapeMd(release.stdout)}\n\n${escapeMd(release.stderr)}\n\`\`\``,
-	);
-	if (!release.isSuccess) return process.exit(1);
 
 	// // Deploy
-	// const deploy = await exec('bun run deploy');
-
-	// // Job Summary
-	// console.log('## Deploy');
-	// console.log(
-	// 	`<b>Status:</b> ${release.isSuccess ? '✅' : '❌'} ${releaseTitle} <br/> Executed command: <code>${release.command}</code>\n`,
-	// );
-	// console.log(
-	// 	`\`\`\`bash\n${escapeMd(release.stdout)}\n\n${escapeMd(release.stderr)}\n\`\`\``,
-	// );
+	// await exec('bun run deploy');
 }
