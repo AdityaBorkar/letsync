@@ -28,14 +28,48 @@ async function release() {
 	// Job Summary
 	console.log('## Release');
 
-	console.log('\nGPG_PRIVATE_KEY = ', process.env.GPG_PRIVATE_KEY?.length);
-	console.log('\nGPG_PASSPHRASE = ', process.env.GPG_PASSPHRASE?.length);
-	console.log('\nGPG_SIGNING_KEY = ', process.env.GPG_SIGNING_KEY?.length);
+	// Delete Trigger Release Tag
+	const deleteTag = await exec(
+		`gh release delete ${TRIGGER_RELEASE_TAG_NAME} --yes --cleanup-tag`,
+	);
+	console.log(
+		`<b>Status:</b> ${deleteTag.isSuccess ? '✅' : '❌'} Delete Trigger Release Tag <br/> Executed command: <code>${deleteTag.command}</code>\n`,
+	);
+	console.log(
+		`\`\`\`bash\n${escapeMd(deleteTag.stdout)}\n\n${escapeMd(deleteTag.stderr)}\n\`\`\``,
+	);
+	if (!deleteTag.isSuccess) return process.exit(1);
 
 	// GPG Keys
-	await exec(
+	const versionGpg = await exec('gpg --version');
+	console.log(
+		`<b>Status:</b> ${versionGpg.isSuccess ? '✅' : '❌'} GPG Version <br/> Executed command: <code>${versionGpg.command}</code>\n`,
+	);
+	console.log(
+		`\`\`\`bash\n${escapeMd(versionGpg.stdout)}\n\n${escapeMd(versionGpg.stderr)}\n\`\`\``,
+	);
+	if (!versionGpg.isSuccess) return process.exit(1);
+
+	const importGpgPrivateKey = await exec(
 		`echo "${process.env.GPG_PRIVATE_KEY}" | gpg --pinentry-mode loopback --batch --import`,
 	);
+	console.log(
+		`<b>Status:</b> ${importGpgPrivateKey.isSuccess ? '✅' : '❌'} Import GPG Private Key <br/> Executed command: <code>${importGpgPrivateKey.command}</code>\n`,
+	);
+	console.log(
+		`\`\`\`bash\n${escapeMd(importGpgPrivateKey.stdout)}\n\n${escapeMd(importGpgPrivateKey.stderr)}\n\`\`\``,
+	);
+	if (!importGpgPrivateKey.isSuccess) return process.exit(1);
+
+	const listGpgKeys = await exec('gpg --list-keys');
+	console.log(
+		`<b>Status:</b> ${listGpgKeys.isSuccess ? '✅' : '❌'} List GPG Keys <br/> Executed command: <code>${listGpgKeys.command}</code>\n`,
+	);
+	console.log(
+		`\`\`\`bash\n${escapeMd(listGpgKeys.stdout)}\n\n${escapeMd(listGpgKeys.stderr)}\n\`\`\``,
+	);
+	if (!listGpgKeys.isSuccess) return process.exit(1);
+
 	const testSignResult = await exec(
 		`echo "test message" | gpg --pinentry-mode loopback --batch --yes --passphrase ${process.env.GPG_PASSPHRASE} --sign`,
 	);
@@ -66,18 +100,6 @@ async function release() {
 	// await exec(
 	// 	`npm config set '//npm.pkg.github.com/:_authToken' ${process.env.GITHUB_TOKEN}`,
 	// );
-
-	// Delete Trigger Release Tag
-	const deleteTag = await exec(
-		`gh release delete ${TRIGGER_RELEASE_TAG_NAME} --yes --cleanup-tag`,
-	);
-	console.log(
-		`<b>Status:</b> ${deleteTag.isSuccess ? '✅' : '❌'} Delete Trigger Release Tag <br/> Executed command: <code>${deleteTag.command}</code>\n`,
-	);
-	console.log(
-		`\`\`\`bash\n${escapeMd(deleteTag.stdout)}\n\n${escapeMd(deleteTag.stderr)}\n\`\`\``,
-	);
-	if (!deleteTag.isSuccess) return process.exit(1);
 
 	// Release
 	const release = await exec(
