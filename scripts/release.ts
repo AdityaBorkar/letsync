@@ -30,9 +30,8 @@ async function release() {
 
 	// GPG Keys
 	await exec(`echo "${process.env.GPG_PRIVATE_KEY}" | gpg --batch --import`);
-	await exec('export GPG_TTY=$(tty)');
 	const testSignResult = await exec(
-		`echo "test message" | gpg --batch --yes --passphrase ${process.env.GPG_PASSPHRASE} --sign`,
+		`echo "test message" | gpg --batch --local-user "${process.env.GPG_SIGNING_KEY}" --passphrase "${process.env.GPG_PASSPHRASE}" --clear-sign`,
 	);
 	console.log(
 		`<b>Status:</b> ${testSignResult.isSuccess ? '✅' : '❌'} Test GPG Sign <br/> Executed command: <code>${testSignResult.command}</code>\n`,
