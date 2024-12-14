@@ -28,10 +28,16 @@ async function release() {
 	// Job Summary
 	console.log('## Release');
 
+	console.log('\nGPG_PRIVATE_KEY = ', process.env.GPG_PRIVATE_KEY?.length);
+	console.log('\nGPG_PASSPHRASE = ', process.env.GPG_PASSPHRASE?.length);
+	console.log('\nGPG_SIGNING_KEY = ', process.env.GPG_SIGNING_KEY?.length);
+
 	// GPG Keys
-	await exec(`echo "${process.env.GPG_PRIVATE_KEY}" | gpg --batch --import`);
+	await exec(
+		`echo "${process.env.GPG_PRIVATE_KEY}" | gpg --pinentry-mode loopback --batch --import`,
+	);
 	const testSignResult = await exec(
-		`echo "test message" | gpg --batch --local-user "${process.env.GPG_SIGNING_KEY}" --passphrase "${process.env.GPG_PASSPHRASE}" --clear-sign`,
+		`echo "test message" | gpg --pinentry-mode loopback --batch --yes --passphrase ${process.env.GPG_PASSPHRASE} --sign`,
 	);
 	console.log(
 		`<b>Status:</b> ${testSignResult.isSuccess ? '✅' : '❌'} Test GPG Sign <br/> Executed command: <code>${testSignResult.command}</code>\n`,
