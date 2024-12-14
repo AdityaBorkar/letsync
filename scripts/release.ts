@@ -29,9 +29,18 @@ async function release() {
 	console.log('## Release');
 
 	// GPG Keys
-	await exec(
-		`echo "${process.env.GPG_PRIVATE_KEY}" | gpg --batch --yes --passphrase "${process.env.GPG_PASSPHRASE}" --import`,
+	await exec(`echo "${process.env.GPG_PRIVATE_KEY}" | gpg --batch --import`);
+	await exec('export GPG_TTY=$(tty)');
+	const testSignResult = await exec(
+		`echo "test message" | gpg --batch --yes --passphrase ${process.env.GPG_PASSPHRASE} --sign`,
 	);
+	console.log(
+		`<b>Status:</b> ${testSignResult.isSuccess ? '✅' : '❌'} Test GPG Sign <br/> Executed command: <code>${testSignResult.command}</code>\n`,
+	);
+	console.log(
+		`\`\`\`bash\n${escapeMd(testSignResult.stdout)}\n\n${escapeMd(testSignResult.stderr)}\n\`\`\``,
+	);
+	if (!testSignResult.isSuccess) return process.exit(1);
 
 	// Git Config
 	await exec(`git config --global user.name "GitHub Actions Bot"`);
