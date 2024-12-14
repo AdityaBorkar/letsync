@@ -34,7 +34,8 @@ jobs:
         run: echo "$(bun ./scripts/release.ts tag=trigger.release type=${{ github.event.release.target_commitish }})" >> $GITHUB_STEP_SUMMARY
         env:
           GH_TOKEN: ${{ github.token }}
+          GPG_SIGNING_KEY: ${{ secrets.GPG_SIGNING_KEY }}
           GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
           NPM_ACCESS_TOKEN: ${{ secrets.NPM_ACCESS_TOKEN }}
-      - run: exit ${{ steps.release.outcome == 'failure' && 1 || 0 }}
+      - run: exit ${{ (steps.release.outcome == 'failure' && 1) || 0 }}

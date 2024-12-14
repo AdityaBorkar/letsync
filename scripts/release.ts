@@ -63,7 +63,7 @@ async function release() {
 	console.log(
 		`\`\`\`bash\n${escapeMd(deleteTag.stdout)}\n\n${escapeMd(deleteTag.stderr)}\n\`\`\``,
 	);
-	if (deleteTag.error) return process.exit(1);
+	if (!deleteTag.isSuccess) return process.exit(1);
 
 	// Release
 	const release = await exec(
@@ -78,7 +78,7 @@ async function release() {
 	console.log(
 		`\`\`\`bash\n${escapeMd(release.stdout)}\n\n${escapeMd(release.stderr)}\n\`\`\``,
 	);
-	if (release.error) return process.exit(1);
+	if (!release.isSuccess) return process.exit(1);
 
 	// // Deploy
 	// const deploy = await exec('bun run deploy');
