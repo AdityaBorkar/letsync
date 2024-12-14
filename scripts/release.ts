@@ -41,6 +41,15 @@ async function release() {
 	if (!deleteTag.isSuccess) return process.exit(1);
 
 	// GPG Keys
+	const updateGpg = await exec('sudo apt-get install gnupg');
+	console.log(
+		`<b>Status:</b> ${updateGpg.isSuccess ? '✅' : '❌'} Update GPG <br/> Executed command: <code>${updateGpg.command}</code>\n`,
+	);
+	console.log(
+		`\`\`\`bash\n${escapeMd(updateGpg.stdout)}\n\n${escapeMd(updateGpg.stderr)}\n\`\`\``,
+	);
+	if (!updateGpg.isSuccess) return process.exit(1);
+
 	await exec(
 		`echo "${process.env.GPG_PRIVATE_KEY}" | gpg --pinentry-mode loopback --batch --import`,
 	);
