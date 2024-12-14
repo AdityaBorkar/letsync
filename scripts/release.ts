@@ -38,7 +38,9 @@ async function release() {
 	await exec(
 		`git config --global user.email "aditya.borkar.programs+github.actions@gmail.com"`,
 	);
-	await exec('git config --global user.signingkey true');
+	await exec(
+		`git config --global user.signingkey ${process.env.GPG_SIGNING_KEY}`,
+	);
 	await exec('git config --global commit.gpgSign true');
 	await exec('git config --global push.gpgSign false');
 	await exec('git config --global tag.gpgSign true');
