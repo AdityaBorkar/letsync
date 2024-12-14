@@ -41,37 +41,12 @@ async function release() {
 	if (!deleteTag.isSuccess) return process.exit(1);
 
 	// GPG Keys
-	const versionGpg = await exec('gpg --version');
-	console.log(
-		`<b>Status:</b> ${versionGpg.isSuccess ? '✅' : '❌'} GPG Version <br/> Executed command: <code>${versionGpg.command}</code>\n`,
-	);
-	console.log(
-		`\`\`\`bash\n${escapeMd(versionGpg.stdout)}\n\n${escapeMd(versionGpg.stderr)}\n\`\`\``,
-	);
-	if (!versionGpg.isSuccess) return process.exit(1);
-
-	const importGpgPrivateKey = await exec(
+	await exec(
 		`echo "${process.env.GPG_PRIVATE_KEY}" | gpg --pinentry-mode loopback --batch --import`,
 	);
-	console.log(
-		`<b>Status:</b> ${importGpgPrivateKey.isSuccess ? '✅' : '❌'} Import GPG Private Key <br/> Executed command: <code>${importGpgPrivateKey.command}</code>\n`,
-	);
-	console.log(
-		`\`\`\`bash\n${escapeMd(importGpgPrivateKey.stdout)}\n\n${escapeMd(importGpgPrivateKey.stderr)}\n\`\`\``,
-	);
-	if (!importGpgPrivateKey.isSuccess) return process.exit(1);
-
-	const listGpgKeys = await exec('gpg --list-keys');
-	console.log(
-		`<b>Status:</b> ${listGpgKeys.isSuccess ? '✅' : '❌'} List GPG Keys <br/> Executed command: <code>${listGpgKeys.command}</code>\n`,
-	);
-	console.log(
-		`\`\`\`bash\n${escapeMd(listGpgKeys.stdout)}\n\n${escapeMd(listGpgKeys.stderr)}\n\`\`\``,
-	);
-	if (!listGpgKeys.isSuccess) return process.exit(1);
 
 	const testSignResult = await exec(
-		`echo "test message" | gpg --pinentry-mode loopback --batch --yes --passphrase ${process.env.GPG_PASSPHRASE} --sign`,
+		`echo "test message" | gpg --pinentry-mode loopback --batch --yes --local-user "${process.env.GPG_SIGNING_KEY}" --passphrase "${process.env.GPG_PASSPHRASE}" --clear-sign`,
 	);
 	console.log(
 		`<b>Status:</b> ${testSignResult.isSuccess ? '✅' : '❌'} Test GPG Sign <br/> Executed command: <code>${testSignResult.command}</code>\n`,
