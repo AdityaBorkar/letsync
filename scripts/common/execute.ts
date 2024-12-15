@@ -20,20 +20,26 @@ export async function execute({
 			const isSuccess = !error;
 
 			console.log(`<b>SUCCESS :</b> ${isSuccess}`);
-			console.log('<b>STDOUT  :</b>');
-			console.log(printBashCodeBlock(stdout));
-			console.log('<b>STDERR  :</b>');
-			console.log(printBashCodeBlock(stderr));
-			console.log('<b>ERROR   :</b>');
-			console.log(printBashCodeBlock(error?.message || ''));
-
-			if (isSuccess) {
-				resolve({ isSuccess, stdout, stderr, error });
-				return;
+			if (stdout.trim()) {
+				console.log('<b>STDOUT  :</b>');
+				console.log(printBashCodeBlock(stdout));
+			}
+			if (stderr.trim()) {
+				console.log('<b>STDERR  :</b>');
+				console.log(printBashCodeBlock(stderr));
+			}
+			if (error?.message.trim()) {
+				console.log('<b>ERROR   :</b>');
+				console.log(printBashCodeBlock(error?.message || ''));
 			}
 
-			process.exitCode = 1;
-			reject();
+			// if (isSuccess) {
+			resolve({ isSuccess, stdout, stderr, error });
+			// 	return;
+			// }
+
+			// process.exitCode = 1;
+			// reject();
 		});
 		console.groupEnd();
 	});
