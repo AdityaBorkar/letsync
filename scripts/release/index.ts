@@ -105,8 +105,8 @@ async function release() {
 		command: 'git config --global tag.gpgSign true',
 	});
 	await execute({
-		subject: 'Enable Git Push Signing',
-		command: 'git config --global push.gpgSign true',
+		subject: 'Disable Git Push Signing',
+		command: 'git config --global push.gpgSign false',
 	});
 	await execute({
 		subject: 'Enable Git Commit Signing',
