@@ -65,11 +65,6 @@ async function release() {
 		subject: 'Set TTY for GPG',
 		command: "echo -e '\n\nexport GPG_TTY=$(tty)\n' >> ~/.bashrc",
 	});
-	await execute({
-		subject: 'GPG Agent Configuration',
-		command:
-			"echo -e '\ndefault-cache-ttl 21600\nmax-cache-ttl 31536000\nallow-preset-passphrase\n' >> ~/.gnupg/gpg-agent.conf",
-	});
 	fs.writeFileSync(PARAMS.FILEPATHS.SECRET_KEY, PARAMS.GPG.PRIVATE_KEY);
 	await execute({
 		subject: 'Import GPG Secret Key',
@@ -84,6 +79,11 @@ async function release() {
 	fs.unlinkSync(PARAMS.FILEPATHS.SECRET_TEXT);
 	// ---
 	// await execute({
+	// 	subject: 'GPG Agent Configuration',
+	// 	command:
+	// 		"echo -e '\ndefault-cache-ttl 21600\nmax-cache-ttl 31536000\nallow-preset-passphrase\n' >> ~/.gnupg/gpg-agent.conf",
+	// });
+	// await execute({
 	// 	subject: 'Reload GPG Agent',
 	// 	command: "gpg-connect-agent 'RELOADAGENT' /bye",
 	// });
@@ -92,10 +92,6 @@ async function release() {
 	// 	passphrase: PARAMS.GPG.PASSPHRASE,
 	// });
 	// ---
-	// await execute({
-	// 	subject: 'Set Trust Level to Ultimate',
-	// 	command: `echo -e "5\ny\n" | gpg --batch --command-fd 0 --edit-key ${PARAMS.GPG.KEY_ID} trust`,
-	// });
 	await execute({
 		subject: 'Set NPM Access Token',
 		command: `npm config set '//registry.npmjs.org/:_authToken' ${PARAMS.NPM.ACCESS_TOKEN}`,

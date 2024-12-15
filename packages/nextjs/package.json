@@ -1,6 +1,6 @@
 {
 	"name": "@letsync/nextjs",
-	"description": "NextJS API handlers for Letsync",
+	"description": "NextJS SDK for Letsync",
 	"version": "0.2.0",
 	"license": "MIT",
 	"keywords": [],

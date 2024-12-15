@@ -1,6 +1,6 @@
 {
 	"name": "@letsync/pglite",
-	"description": "PGLite adapter for Letsync",
+	"description": "pglite adapter for Letsync",
 	"version": "0.2.0",
 	"license": "MIT",
 	"keywords": [],

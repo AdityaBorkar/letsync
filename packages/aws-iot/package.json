@@ -37,7 +37,7 @@
 		"typescript": "^5.7.2"
 	},
 	"dependencies": {
-		"@aws-sdk/client-iot-data-plane": "^3.709.0",
+		"@aws-sdk/client-iot-data-plane": "^3.712.0",
 		"@letsync/core": "0.2.0",
 		"jsonwebtoken": "^9.0.2",
 		"mqtt": "^5.10.3"

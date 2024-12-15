@@ -3,7 +3,7 @@
 	"description": "CockroachDB adapter for Letsync",
 	"version": "0.2.0",
 	"license": "MIT",
-	"keywords": [],
+	"keywords": ["cockroachdb", "letsync", "adapter"],
 	"author": {
 		"name": "Aditya Borkar",
 		"email": "aditya.borkar.programs@gmail.com",
