@@ -1,3 +1,4 @@
+import fs from 'node:fs';
 import { execute } from '../common/execute';
 
 release();
@@ -35,12 +36,12 @@ async function release() {
 			USER_EMAIL: 'aditya.borkar.programs+github.actions@gmail.com',
 		},
 		GPG: {
-			KEY_ID: process.env.GPG_KEY_ID,
-			PASSPHRASE: process.env.GPG_PASSPHRASE,
-			PRIVATE_KEY: process.env.GPG_PRIVATE_KEY,
+			KEY_ID: process.env.GPG_KEY_ID || '',
+			PASSPHRASE: process.env.GPG_PASSPHRASE || '',
+			PRIVATE_KEY: process.env.GPG_PRIVATE_KEY || '',
 		},
 		NPM: {
-			ACCESS_TOKEN: process.env.NPM_ACCESS_TOKEN,
+			ACCESS_TOKEN: process.env.NPM_ACCESS_TOKEN || '',
 		},
 		RELEASE: {
 			TAG: args.tag,
@@ -60,10 +61,16 @@ async function release() {
 		subject: 'Set TTY for GPG',
 		command: 'export GPG_TTY=$(tty)',
 	});
+	// await execute({
+	// 	subject: 'Import GPG Key',
+	// 	command: `echo "${PARAMS.GPG.PRIVATE_KEY}" | gpg --pinentry-mode loopback --batch --passphrase="${PARAMS.GPG.PASSPHRASE}" --import`,
+	// });
+	fs.writeFileSync('./secret-key.asc', PARAMS.GPG.PRIVATE_KEY);
 	await execute({
-		subject: 'Import GPG Private Key',
-		command: `echo "${PARAMS.GPG.PRIVATE_KEY}" | gpg --pinentry-mode loopback --batch --passphrase="${PARAMS.GPG.PASSPHRASE}" --import`,
+		subject: 'Import GPG Secret Key',
+		command: 'gpg --batch --yes --import ./secret-key.asc',
 	});
+	fs.unlinkSync('./secret-key.asc');
 	// await execute({
 	// 	subject: 'Set Trust Level to Ultimate',
 	// 	command: `echo -e "5\ny\n" | gpg --batch --command-fd 0 --edit-key ${PARAMS.GPG.KEY_ID} trust`,

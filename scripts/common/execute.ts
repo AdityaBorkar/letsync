@@ -1,4 +1,5 @@
 import { exec as execAsync } from 'node:child_process';
+import { printBashCodeBlock } from './markdown';
 
 export async function execute({
 	subject,
@@ -14,24 +15,22 @@ export async function execute({
 		error: Error | null;
 	}>((resolve, reject) => {
 		console.group(`### ${subject}`);
-		console.log(`*Command :* ${command}`);
+		console.log(`<b>COMMAND :</b> ${command}`);
 		execAsync(command, (error, stdout, stderr) => {
 			const isSuccess = !error;
 
-			console.log(`*Success :* ${isSuccess}`);
-			console.log(`*STDOUT  :*\n${stdout}`);
-			console.log(`*STDERR  :*\n${stderr}`);
-			console.log(`*ERROR   :*\n${error}`);
+			console.log(`<b>SUCCESS :</b> ${isSuccess}`);
+			console.log('<b>STDOUT  :</b>');
+			console.log(printBashCodeBlock(stdout));
+			console.log('<b>STDERR  :</b>');
+			console.log(printBashCodeBlock(stderr));
+			console.log('<b>ERROR   :</b>');
+			console.log(printBashCodeBlock(error?.message || ''));
 
 			if (isSuccess) {
 				resolve({ isSuccess, stdout, stderr, error });
 				return;
 			}
-
-			// JobSummary.write(`<b>Error:</b> ${isSuccess ? '✅' : '❌'} ${command}`);
-			// JobSummary.write(
-			// 	`\`\`\`bash\n${escapeMd(stdout)}\n\n${escapeMd(stderr)}\n\`\`\``,
-			// );
 
 			process.exitCode = 1;
 			reject();
