@@ -13,7 +13,8 @@
 		"lint:md": "markdownlint \"**/*.md\" --disable MD010 MD013 --ignore \"**/node_modules/**\"",
 		"nuke": "find packages -type d \\( -name \"dist\" -o -name \"node_modules\" \\) -exec rm -rf {} +",
 		"build:packages": "nx run-many --target=build --projects=packages/*",
-		"build:www": "nx run-many --target=build --projects=www"
+		"build:www": "nx run-many --target=build --projects=www",
+		"gh:act": "gh act release -P ubuntu-latest=-self-hosted --action-offline-mode"
 	},
 	"trustedDependencies": [
 		"@biomejs/biome",
