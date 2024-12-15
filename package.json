@@ -14,7 +14,8 @@
 		"nuke": "find packages -type d \\( -name \"dist\" -o -name \"node_modules\" \\) -exec rm -rf {} +",
 		"build:packages": "nx run-many --target=build --projects=packages/*",
 		"build:www": "nx run-many --target=build --projects=www",
-		"gh:act": "gh act release -P ubuntu-latest=-self-hosted --action-offline-mode"
+		"gh:act": "gh act release -P ubuntu-latest=-self-hosted --action-offline-mode",
+		"gh:delete": "git branch | grep -v \"stable\" | xargs git branch -D"
 	},
 	"trustedDependencies": [
 		"@biomejs/biome",

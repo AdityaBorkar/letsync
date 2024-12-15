@@ -13,15 +13,15 @@ export async function execute({
 		stderr: string;
 		error: Error | null;
 	}>((resolve, reject) => {
-		console.group(subject);
-		console.log(`Command: ${command}`);
+		console.group(`### ${subject}`);
+		console.log(`*Command :* ${command}`);
 		execAsync(command, (error, stdout, stderr) => {
 			const isSuccess = !error;
 
-			console.log(`Is Success?: ${isSuccess}`);
-			console.log(`stdout: ${stdout}`);
-			console.log(`stderr: ${stderr}`);
-			console.log(`error: ${error}`);
+			console.log(`*Success :* ${isSuccess}`);
+			console.log(`*STDOUT  :*\n${stdout}`);
+			console.log(`*STDERR  :*\n${stderr}`);
+			console.log(`*ERROR   :*\n${error}`);
 
 			if (isSuccess) {
 				resolve({ isSuccess, stdout, stderr, error });
