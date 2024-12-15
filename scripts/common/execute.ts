@@ -33,13 +33,13 @@ export async function execute({
 				console.log(printBashCodeBlock(error?.message || ''));
 			}
 
-			// if (isSuccess) {
-			resolve({ isSuccess, stdout, stderr, error });
-			// 	return;
-			// }
+			if (isSuccess) {
+				resolve({ isSuccess, stdout, stderr, error });
+				return;
+			}
 
-			// process.exitCode = 1;
-			// reject();
+			process.exitCode = 1;
+			reject();
 		});
 		console.groupEnd();
 	});
