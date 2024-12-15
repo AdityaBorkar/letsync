@@ -59,7 +59,7 @@ async function release() {
 	});
 	await execute({
 		subject: 'Set TTY for GPG',
-		command: 'export GPG_TTY=$(tty)',
+		command: "echo -e '\n\nexport GPG_TTY=$(tty)\n' >> ~/.bashrc",
 	});
 	// await execute({
 	// 	subject: 'Import GPG Key',
@@ -75,14 +75,6 @@ async function release() {
 	// 	subject: 'Set Trust Level to Ultimate',
 	// 	command: `echo -e "5\ny\n" | gpg --batch --command-fd 0 --edit-key ${PARAMS.GPG.KEY_ID} trust`,
 	// });
-	await execute({
-		subject: 'List GPG Keys',
-		command: 'gpg --list-keys',
-	});
-	await execute({
-		subject: 'List GPG Secret Keys',
-		command: 'gpg --list-secret-keys',
-	});
 	await execute({
 		subject: 'Sign Test Message',
 		command: `echo "test message" | gpg --batch --yes --local-user "${PARAMS.GPG.KEY_ID}" --passphrase "${PARAMS.GPG.PASSPHRASE}" --clear-sign`,
