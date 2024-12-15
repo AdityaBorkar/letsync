@@ -57,17 +57,17 @@ async function release() {
 		command: `gh release delete ${PARAMS.RELEASE.TAG} --yes --cleanup-tag`,
 	});
 	await execute({
-		subject: 'Install Gnupg',
-		command: 'sudo apt-get install gnupg',
+		subject: 'Set TTY for GPG',
+		command: 'export GPG_TTY=$(tty)',
 	});
 	await execute({
 		subject: 'Import GPG Private Key',
-		command: `echo "${PARAMS.GPG.PRIVATE_KEY}" | gpg --pinentry-mode loopback --batch --import`,
+		command: `echo "${PARAMS.GPG.PRIVATE_KEY}" | gpg --pinentry-mode loopback --batch --passphrase="${PARAMS.GPG.PASSPHRASE}" --import`,
 	});
-	await execute({
-		subject: 'Set Trust Level to Ultimate',
-		command: `echo -e "5\ny\n" | gpg --batch --command-fd 0 --edit-key ${PARAMS.GPG.KEY_ID} trust`,
-	});
+	// await execute({
+	// 	subject: 'Set Trust Level to Ultimate',
+	// 	command: `echo -e "5\ny\n" | gpg --batch --command-fd 0 --edit-key ${PARAMS.GPG.KEY_ID} trust`,
+	// });
 	await execute({
 		subject: 'List GPG Keys',
 		command: 'gpg --list-keys',
@@ -75,10 +75,6 @@ async function release() {
 	await execute({
 		subject: 'List GPG Secret Keys',
 		command: 'gpg --list-secret-keys',
-	});
-	await execute({
-		subject: 'List Fingerprints',
-		command: 'gpg --fingerprint',
 	});
 	await execute({
 		subject: 'Sign Test Message',
