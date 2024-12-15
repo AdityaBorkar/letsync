@@ -62,6 +62,10 @@ async function release() {
 		command: `gh release delete ${PARAMS.RELEASE.TAG} --yes --cleanup-tag`,
 	});
 	await execute({
+		subject: 'Checkout Stable Branch',
+		command: `git checkout ${PARAMS.RELEASE.TYPE}`,
+	});
+	await execute({
 		subject: 'Set TTY for GPG',
 		command: "echo -e '\n\nexport GPG_TTY=$(tty)\n' >> ~/.bashrc",
 	});
