@@ -47,6 +47,10 @@ async function release() {
 			TAG: args.tag,
 			TYPE: args.type,
 		},
+		FILEPATHS: {
+			SECRET_KEY: './GPG_SECRET_KEY.asc',
+			SECRET_TEXT: './GPG_SECRET_TEXT.txt',
+		},
 	};
 
 	// Job Summary
@@ -61,24 +65,37 @@ async function release() {
 		subject: 'Set TTY for GPG',
 		command: "echo -e '\n\nexport GPG_TTY=$(tty)\n' >> ~/.bashrc",
 	});
-	// await execute({
-	// 	subject: 'Import GPG Key',
-	// 	command: `echo "${PARAMS.GPG.PRIVATE_KEY}" | gpg --pinentry-mode loopback --batch --passphrase="${PARAMS.GPG.PASSPHRASE}" --import`,
-	// });
-	fs.writeFileSync('./secret-key.asc', PARAMS.GPG.PRIVATE_KEY);
+	await execute({
+		subject: 'GPG Agent Configuration',
+		command:
+			"echo -e '\ndefault-cache-ttl 21600\nmax-cache-ttl 31536000\nallow-preset-passphrase\n' >> ~/.gnupg/gpg-agent.conf",
+	});
+	fs.writeFileSync(PARAMS.FILEPATHS.SECRET_KEY, PARAMS.GPG.PRIVATE_KEY);
 	await execute({
 		subject: 'Import GPG Secret Key',
-		command: 'gpg --batch --yes --import ./secret-key.asc',
+		command: `gpg --batch --yes --import ${PARAMS.FILEPATHS.SECRET_KEY}`,
 	});
-	fs.unlinkSync('./secret-key.asc');
+	fs.unlinkSync(PARAMS.FILEPATHS.SECRET_KEY);
+	fs.writeFileSync(PARAMS.FILEPATHS.SECRET_TEXT, PARAMS.GPG.PASSPHRASE);
+	await execute({
+		subject: 'Sign Test Message',
+		command: `echo "TEST MESSAGE" | gpg --batch --yes --pinentry-mode=loopback --local-user="${PARAMS.GPG.KEY_ID}" --passphrase-file=${PARAMS.FILEPATHS.SECRET_TEXT} --clear-sign`,
+	});
+	fs.unlinkSync(PARAMS.FILEPATHS.SECRET_TEXT);
+	// ---
+	// await execute({
+	// 	subject: 'Reload GPG Agent',
+	// 	command: "gpg-connect-agent 'RELOADAGENT' /bye",
+	// });
+	// await PRESET_PASSPHRASE({
+	// 	keyId: PARAMS.GPG.KEY_ID,
+	// 	passphrase: PARAMS.GPG.PASSPHRASE,
+	// });
+	// ---
 	// await execute({
 	// 	subject: 'Set Trust Level to Ultimate',
 	// 	command: `echo -e "5\ny\n" | gpg --batch --command-fd 0 --edit-key ${PARAMS.GPG.KEY_ID} trust`,
 	// });
-	await execute({
-		subject: 'Sign Test Message',
-		command: `echo "test message" | gpg --batch --yes --local-user "${PARAMS.GPG.KEY_ID}" --passphrase "${PARAMS.GPG.PASSPHRASE}" --clear-sign`,
-	});
 	await execute({
 		subject: 'Set NPM Access Token',
 		command: `npm config set '//registry.npmjs.org/:_authToken' ${PARAMS.NPM.ACCESS_TOKEN}`,
