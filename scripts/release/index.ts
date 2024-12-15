@@ -85,7 +85,7 @@ async function release() {
 	});
 	await execute({
 		subject: 'Sign Test Message',
-		command: `echo "test message" | gpg --pinentry-mode loopback --batch --yes --local-user "${PARAMS.GPG.KEY_ID}" --default-key "${PARAMS.GPG.KEY_ID}" --passphrase "${PARAMS.GPG.PASSPHRASE}" --clear-sign`,
+		command: `echo "test message" | gpg --batch --yes --local-user "${PARAMS.GPG.KEY_ID}" --passphrase "${PARAMS.GPG.PASSPHRASE}" --clear-sign`,
 	});
 	await execute({
 		subject: 'Set NPM Access Token',
