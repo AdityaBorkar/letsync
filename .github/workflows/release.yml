@@ -23,28 +23,28 @@ jobs:
     name: Release
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          fetch-tags: true      
-          ssh-key: ${{ secrets.DEPLOYMENT_KEY }}
-          # ref: ${{ github.event.release.target_commitish }}
-      - run: git checkout ${{ github.event.release.target_commitish }}
-      - uses: oven-sh/setup-bun@v2
-      - run: bun install
       - name: Set up SSH
         run: |
           mkdir -p ~/.ssh
           echo "${{ secrets.DEPLOYMENT_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
-          eval "$(ssh-agent -s)"
-          echo "${{ secrets.DEPLOYMENT_KEY_PASSPHRASE }}" | ssh-add ~/.ssh/id_rsa
           ssh-keyscan github.com >> ~/.ssh/known_hosts
-          echo -e "Host github.com\n\tHostName github.com\n\tUser git\n\tIdentityFile ~/.ssh/id_rsa\n" > ~/.ssh/config
-          chmod 600 ~/.ssh/config
+          eval "$(ssh-agent -s)"
+          echo "${{ secrets.DEPLOYMENT_KEY_PASSPHRASE }}" | SSH_ASKPASS=/bin/echo ssh-add ~/.ssh/id_rsa
+        # echo "${{ secrets.DEPLOYMENT_KEY_PASSPHRASE }}" | ssh-add ~/.ssh/id_rsa
+        # echo -e "Host github.com\n\tHostName github.com\n\tUser git\n\tIdentityFile ~/.ssh/id_rsa\n" > ~/.ssh/config
+        # chmod 600 ~/.ssh/config
+        continue-on-error: true
       - run: |
-          ssh-add -l -E sha256
-          ssh-add -l -E md5
+          ssh-add -l
+        continue-on-error: true
+      - run: |
+          ssh-agent -a $SSH_AUTH_SOCK > /dev/null
+          echo 'echo ${{ secrets.DEPLOYMENT_KEY_PASSPHRASE }}' > ~/.ssh_askpass && chmod +x ~/.ssh_askpass
+          echo "${{ secrets.DEPLOYMENT_KEY }}" | tr -d '\r' | DISPLAY=None SSH_ASKPASS=~/.ssh_askpass ssh-add - >/dev/null
+        continue-on-error: true
+      - run: |
+          ssh-add -l
         continue-on-error: true
       - run: |
           ssh -vT git@github.com
@@ -52,6 +52,14 @@ jobs:
       - run: |
           ssh -T git@github.com
         continue-on-error: true
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          fetch-tags: true      
+          # ssh-key: ${{ secrets.DEPLOYMENT_KEY }}
+      - run: git checkout ${{ github.event.release.target_commitish }}
+      - uses: oven-sh/setup-bun@v2
+      - run: bun install
       - run: |
           echo "Created at: $(date '+%Y-%m-%d %H:%M:%S')" > timestamp.txt
       - run: |
