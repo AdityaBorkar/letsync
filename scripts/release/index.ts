@@ -130,12 +130,12 @@ async function release() {
 	// 	command: 'bun nx release publish --projects=packages/*',
 	// });
 	const ReleaseOutput = await nxRelease({
-		projects: ['packages/*'],
+		projects: ['packages/core'],
 		skipPublish: true,
 	});
 	console.log('### Release Output:');
 	console.log(ReleaseOutput.toString());
-	const PublishOutput = await releasePublish({ projects: ['packages/*'] });
+	const PublishOutput = await releasePublish({ projects: ['packages/core'] });
 	console.log('### Publish Output:');
 	console.log(PublishOutput.toString());
 
