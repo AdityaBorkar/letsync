@@ -26,7 +26,10 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          fetch-tags: true
+          fetch-tags: true      
+          ssh-key: ${{ secrets.DEPLOYMENT_KEY }}
+          ref: ${{ github.event.release.target_commitish }}
+      - run: git checkout ${{ github.event.release.target_commitish }}
       - uses: oven-sh/setup-bun@v2
       - run: bun install
       - name: Set up SSH
@@ -34,27 +37,38 @@ jobs:
           mkdir -p ~/.ssh
           echo "${{ secrets.DEPLOYMENT_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
-      - name: Set up SSH
-        run: |
           eval "$(ssh-agent -s)"
           echo "${{ secrets.DEPLOYMENT_KEY_PASSPHRASE }}" | ssh-add ~/.ssh/id_rsa
-      - name: Set up SSH
-        run: |
           ssh-keyscan github.com >> ~/.ssh/known_hosts
-      - name: Set up SSH
-        run: |
           echo -e "Host github.com\n\tHostName github.com\n\tUser git\n\tIdentityFile ~/.ssh/id_rsa\n" > ~/.ssh/config
           chmod 600 ~/.ssh/config
-      - name: Set up Git
+      - run: |
+          ssh-add -l -E sha256
+          ssh-add -l -E md5
         continue-on-error: true
-        run: ssh -T git@github.com
-      - id: release
+      - run: |
+          ssh -vT git@github.com
         continue-on-error: true
-        run: echo "$(bun ./scripts/release/index.ts tag=trigger.release type=${{ github.event.release.target_commitish }})" >> $GITHUB_STEP_SUMMARY
-        env:
-          GH_TOKEN: ${{ github.token }}
-          GPG_KEY_ID: ${{ secrets.GPG_SIGNING_KEY }}
-          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
-          GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
-          NPM_ACCESS_TOKEN: ${{ secrets.NPM_ACCESS_TOKEN }}
+      - run: |
+          ssh -T git@github.com
+        continue-on-error: true
+      - run: |
+          echo "Created at: $(date '+%Y-%m-%d %H:%M:%S')" > timestamp.txt
+      - run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "github-actions@github.com"
+      - run: |
+          git add .
+          git commit -m "docs: test commit"
+          git push origin ${{ github.event.release.target_commitish }}
+      # - id: release
+      #   name: Release Script
+      #   continue-on-error: true
+      #   run: echo "$(bun ./scripts/release/index.ts tag=trigger.release type=${{ github.event.release.target_commitish }})" >> $GITHUB_STEP_SUMMARY
+      #   env:
+      #     GH_TOKEN: ${{ github.token }}
+      #     GPG_KEY_ID: ${{ secrets.GPG_SIGNING_KEY }}
+      #     GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      #     GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+      #     NPM_ACCESS_TOKEN: ${{ secrets.NPM_ACCESS_TOKEN }}
       # TODO: Return exit code 1 if release fails
