@@ -1,3 +1,18 @@
+## 0.2.1 (2024-12-16)
+
+### 🩹 Fixes
+
+- release process ([3700763](https://github.com/AdityaBorkar/letsync/commit/3700763))
+
+### Documentation Changes
+
+- test commit ([08b0b9a](https://github.com/AdityaBorkar/letsync/commit/08b0b9a))
+
+### ❤️ Thank You
+
+- Aditya Borkar @AdityaBorkar
+- GitHub Actions
+
 ## 0.2.0 (2024-12-13)
 
 ### 🚀 Features
