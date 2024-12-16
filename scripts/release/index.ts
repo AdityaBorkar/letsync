@@ -1,4 +1,5 @@
 import fs from 'node:fs';
+import { release as nxRelease, releasePublish } from 'nx/release';
 import { execute } from '../common/execute';
 
 release();
@@ -120,14 +121,23 @@ async function release() {
 		subject: 'Set Git User Signing Key',
 		command: `git config --global user.signingkey ${PARAMS.GPG.KEY_ID}`,
 	});
-	await execute({
-		subject: 'Release Packages',
-		command: `bun nx release --projects=packages/* ${PARAMS.RELEASE.TYPE === 'canary' ? '--preid=canary' : ''}`,
+	// await execute({
+	// 	subject: 'Release Packages',
+	// 	command: `bun nx release --projects=packages/* ${PARAMS.RELEASE.TYPE === 'canary' ? '--preid=canary' : ''}`,
+	// });
+	// await execute({
+	// 	subject: 'Publish Packages',
+	// 	command: 'bun nx release publish --projects=packages/*',
+	// });
+	const ReleaseOutput = await nxRelease({
+		projects: ['packages/*'],
+		skipPublish: true,
 	});
-	await execute({
-		subject: 'Publish Packages',
-		command: 'bun nx release publish --projects=packages/*',
-	});
+	console.log('### Release Output:');
+	console.log(ReleaseOutput.toString());
+	const PublishOutput = await releasePublish({ projects: ['packages/*'] });
+	console.log('### Publish Output:');
+	console.log(PublishOutput.toString());
 
 	// Job Summary
 	console.log('Status: Success');
