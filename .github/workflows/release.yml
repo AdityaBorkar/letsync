@@ -34,8 +34,15 @@ jobs:
           mkdir -p ~/.ssh
           echo "${{ secrets.DEPLOYMENT_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
+      - name: Set up SSH
+        run: |
+          eval "$(ssh-agent -s)"
           echo "${{ secrets.DEPLOYMENT_KEY_PASSPHRASE }}" | ssh-add ~/.ssh/id_rsa
+      - name: Set up SSH
+        run: |
           ssh-keyscan github.com >> ~/.ssh/known_hosts
+      - name: Set up SSH
+        run: |
           echo -e "Host github.com\n\tHostName github.com\n\tUser git\n\tIdentityFile ~/.ssh/id_rsa\n" > ~/.ssh/config
           chmod 600 ~/.ssh/config
       - name: Set up Git
