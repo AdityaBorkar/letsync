@@ -124,7 +124,13 @@ async function release() {
 		subject: 'Release Packages',
 		command: `bun nx release --projects=packages/* ${PARAMS.RELEASE.TYPE === 'canary' ? '--preid=canary' : ''}`,
 	});
+	await execute({
+		subject: 'Publish Packages',
+		command: 'bun nx release publish --projects=packages/*',
+	});
 
 	// Job Summary
 	console.log('Status: Success');
+	process.exitCode = 0;
+	return;
 }
