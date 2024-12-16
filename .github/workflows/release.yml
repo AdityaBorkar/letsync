@@ -28,7 +28,7 @@ jobs:
           fetch-depth: 0
           fetch-tags: true      
           ssh-key: ${{ secrets.DEPLOYMENT_KEY }}
-          ref: ${{ github.event.release.target_commitish }}
+          # ref: ${{ github.event.release.target_commitish }}
       - run: git checkout ${{ github.event.release.target_commitish }}
       - uses: oven-sh/setup-bun@v2
       - run: bun install
