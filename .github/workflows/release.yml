@@ -29,6 +29,18 @@ jobs:
           fetch-tags: true
       - uses: oven-sh/setup-bun@v2
       - run: bun install
+      - name: Set up SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.DEPLOYMENT_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          echo "${{ secrets.DEPLOYMENT_KEY_PASSPHRASE }}" | ssh-add ~/.ssh/id_rsa
+          ssh-keyscan github.com >> ~/.ssh/known_hosts
+          echo -e "Host github.com\n\tHostName github.com\n\tUser git\n\tIdentityFile ~/.ssh/id_rsa\n" > ~/.ssh/config
+          chmod 600 ~/.ssh/config
+      - name: Set up Git
+        continue-on-error: true
+        run: ssh -T git@github.com
       - id: release
         continue-on-error: true
         run: echo "$(bun ./scripts/release/index.ts tag=trigger.release type=${{ github.event.release.target_commitish }})" >> $GITHUB_STEP_SUMMARY
