@@ -26,7 +26,7 @@ jobs:
       - name: Set up SSH
         run: |
           mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_DEPLOY_KEY }}" > ~/.ssh/id_rsa
+          echo "${{ secrets.SSH_DEPLOY_KEY }}" | base64 --decode > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           eval "$(ssh-agent -s)"
           ssh-add ~/.ssh/id_rsa
@@ -39,7 +39,7 @@ jobs:
         with:
           fetch-depth: 0
           fetch-tags: true      
-          # ssh-key: ${{ secrets.DEPLOYMENT_KEY }}
+          # ssh-key: ${{ secrets.SSH_DEPLOY_KEY }}
       - run: |
           git checkout ${{ github.event.release.target_commitish }}
           git remote set-url origin git@github.com:${{ github.repository }}.git
