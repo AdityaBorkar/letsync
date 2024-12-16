@@ -26,30 +26,14 @@ jobs:
       - name: Set up SSH
         run: |
           mkdir -p ~/.ssh
-          echo "${{ secrets.DEPLOYMENT_KEY }}" > ~/.ssh/id_rsa
+          echo "${{ secrets.SSH_DEPLOY_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
+          eval "$(ssh-agent -s)"
+          ssh-add ~/.ssh/id_rsa
           ssh-keyscan github.com >> ~/.ssh/known_hosts
-          eval "$(ssh-agent -s)"
-          echo "${{ secrets.DEPLOYMENT_KEY_PASSPHRASE }}" | SSH_ASKPASS=/bin/echo ssh-add ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/config
-        # echo -e "Host github.com\n\tHostName github.com\n\tUser git\n\tIdentityFile ~/.ssh/id_rsa\n" > ~/.ssh/config
-        continue-on-error: true
-      - run: |
-          eval "$(ssh-agent -s)"
           ssh-add -l
         continue-on-error: true
-      - run: |
-          eval "$(ssh-agent -s)"
-          ssh-agent -a $SSH_AUTH_SOCK > /dev/null
-        # echo 'echo ${{ secrets.DEPLOYMENT_KEY_PASSPHRASE }}' > ~/.ssh_askpass && chmod +x ~/.ssh_askpass
-        # echo "${{ secrets.DEPLOYMENT_KEY }}" | tr -d '\r' | DISPLAY=None SSH_ASKPASS=~/.ssh_askpass ssh-add - >/dev/null
-        continue-on-error: true
-      - run: |
-          eval "$(ssh-agent -s)"
-          ssh-add -l
-        continue-on-error: true
-      - run: |
-          ssh -vT git@github.com
+      - run: ssh -vT git@github.com
         continue-on-error: true
       - uses: actions/checkout@v4
         with:
