@@ -1,50 +1,45 @@
 {
-  "name": "@letsync/aws-iot",
-  "description": "AWS IoT adapter for Letsync",
-  "version": "0.2.1",
-  "license": "MIT",
-  "keywords": [],
-  "author": {
-    "name": "Aditya Borkar",
-    "email": "aditya.borkar.programs@gmail.com",
-    "url": "https://adityaborkar.com"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/AdityaBorkar/letsync"
-  },
-  "publishConfig": {
-    "provenance": true
-  },
-  "main": "./dist/index.js",
-  "exports": {
-    "./backend": "./dist/backend/index.js",
-    "./frontend": "./dist/frontend/index.js"
-  },
-  "type": "module",
-  "files": [
-    "dist/",
-    "package.json",
-    "LICENSE.md",
-    "README.md"
-  ],
-  "scripts": {
-    "dev": "tsc --watch",
-    "build": "tsc --build",
-    "typecheck": "tsc --noEmit",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "engines": {
-    "node": ">=18.3.0"
-  },
-  "devDependencies": {
-    "@types/jsonwebtoken": "^9.0.7",
-    "typescript": "^5.7.2"
-  },
-  "dependencies": {
-    "@aws-sdk/client-iot-data-plane": "^3.712.0",
-    "@letsync/core": "0.2.1",
-    "jsonwebtoken": "^9.0.2",
-    "mqtt": "^5.10.3"
-  }
+	"name": "@letsync/aws-iot",
+	"description": "AWS IoT adapter for Letsync",
+	"version": "0.2.1",
+	"license": "MIT",
+	"keywords": [],
+	"author": {
+		"name": "Aditya Borkar",
+		"email": "aditya.borkar.programs@gmail.com",
+		"url": "https://adityaborkar.com"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/AdityaBorkar/letsync"
+	},
+	"publishConfig": {
+		"provenance": true
+	},
+	"main": "./dist/index.js",
+	"exports": {
+		"./backend": "./dist/backend/index.js",
+		"./frontend": "./dist/frontend/index.js"
+	},
+	"type": "module",
+	"files": ["dist/", "package.json", "LICENSE.md", "README.md"],
+	"scripts": {
+		"dev": "tsc --watch",
+		"build": "tsc --build",
+		"typecheck": "tsc --noEmit",
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"engines": {
+		"node": ">=18.3.0"
+	},
+	"devDependencies": {
+		"@types/jsonwebtoken": "^9.0.7",
+		"typescript": "^5.7.2"
+	},
+	"dependencies": {
+		"@aws-sdk/client-iot-data-plane": "^3.712.0",
+		"@letsync/core": "0.2.1",
+		"jsonwebtoken": "^9.0.2",
+		"mqtt": "^5.10.3"
+	}
 }
