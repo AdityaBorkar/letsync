@@ -1,5 +1,7 @@
 import fs from 'node:fs';
+import { release as nxRelease, releasePublish } from 'nx/release';
 import { execute } from '../common/execute';
+import { printBashCodeBlock } from '../common/markdown';
 
 release();
 
@@ -120,23 +122,27 @@ async function release() {
 		subject: 'Set Git User Signing Key',
 		command: `git config --global user.signingkey ${PARAMS.GPG.KEY_ID}`,
 	});
-	await execute({
-		subject: 'Release Packages',
-		command: `bun nx release --projects=packages/* ${PARAMS.RELEASE.TYPE === 'canary' ? '--preid=canary' : ''}`,
-	});
-	await execute({
-		subject: 'Publish Packages',
-		command: 'bun nx release publish --projects=packages/*',
-	});
-	// const ReleaseOutput = await nxRelease({
-	// 	projects: ['packages/core'],
-	// 	skipPublish: true,
+	// await execute({
+	// 	subject: 'Release Packages',
+	// 	command: `bun nx release --projects=packages/* ${PARAMS.RELEASE.TYPE === 'canary' ? '--preid=canary' : ''}`,
 	// });
-	// console.log('### Release Output:');
-	// console.log(ReleaseOutput.toString());
-	// const PublishOutput = await releasePublish({ projects: ['packages/core'] });
-	// console.log('### Publish Output:');
-	// console.log(PublishOutput.toString());
+	// await execute({
+	// 	subject: 'Publish Packages',
+	// 	command: 'bun nx release publish --projects=packages/*',
+	// });
+
+	const ReleaseOutput = await nxRelease({
+		projects: ['packages/*'],
+		skipPublish: true,
+	});
+	console.group('### Release Output:');
+	console.log(printBashCodeBlock(ReleaseOutput.toString()));
+	console.groupEnd();
+
+	const PublishOutput = await releasePublish({ projects: ['packages/*'] });
+	console.group('### Publish Output:');
+	console.log(printBashCodeBlock(JSON.stringify(PublishOutput, null, 2)));
+	console.groupEnd();
 
 	// Job Summary
 	console.log('Status: Success');
