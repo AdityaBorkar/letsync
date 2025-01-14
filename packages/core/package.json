@@ -23,7 +23,12 @@
 		"./schema-sql": "./dist/schema/sql/index.js",
 		"./schema-nosql": "./dist/schema/nosql/index.js"
 	},
-	"files": ["dist/", "package.json", "LICENSE.md", "README.md"],
+	"files": [
+		"dist/",
+		"package.json",
+		"LICENSE.md",
+		"README.md"
+	],
 	"scripts": {
 		"dev": "tsc --watch",
 		"build": "tsc --build",
@@ -34,7 +39,7 @@
 		"node": ">=18.3.0"
 	},
 	"devDependencies": {
-		"typescript": "^5.7.2"
+		"typescript": "^5.7.3"
 	},
 	"dependencies": {
 		"@paralleldrive/cuid2": "^2.2.2",

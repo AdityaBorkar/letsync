@@ -1,50 +1,54 @@
 {
-	"license": "MIT",
-	"workspaces": ["www/", "packages/*", "examples/*"],
-	"scripts": {
-		"deps:update": "bunx taze -r -w && bun install",
-		"dev": "nx run dev",
-		"commit": "git add . && bun run format && bun run lint:code && bun run lint:knip && bun run lint:cspell && bun run lint:md && bun run build:packages && git add . && bun cz",
-		"commit:skip-checks": "git add . && cz",
-		"format": "bun biome check --formatter-enabled=true --organize-imports-enabled=true --linter-enabled=false",
-		"lint:code": "bun biome check --formatter-enabled=false --organize-imports-enabled=false --linter-enabled=true",
-		"lint:knip": "knip --production --reporter markdown",
-		"lint:cspell": "cspell lint . --no-progress",
-		"lint:md": "markdownlint \"**/*.md\" --disable MD010 MD013 --ignore \"**/node_modules/**\"",
-		"nuke": "find packages -type d \\( -name \"dist\" -o -name \"node_modules\" \\) -exec rm -rf {} +",
-		"build:packages": "nx run-many --target=build --projects=packages/*",
-		"build:www": "nx run-many --target=build --projects=www",
-		"gh:act": "gh act release -P ubuntu-latest=-self-hosted --action-offline-mode",
-		"gh:delete": "git branch | grep -v \"stable\" | xargs git branch -D"
-	},
-	"trustedDependencies": [
-		"@biomejs/biome",
-		"@swc/core",
-		"esbuild",
-		"nx",
-		"sharp"
-	],
-	"devDependencies": {
-		"@biomejs/biome": "^1.9.4",
-		"@nx/js": "20.2.2",
-		"@swc-node/register": "^1.10.9",
-		"@swc/core": "^1.10.1",
-		"@types/node": "^22.10.2",
-		"commitizen": "^4.3.1",
-		"cspell": "^8.17.0",
-		"cz-conventional-changelog": "^3.3.0",
-		"knip": "^5.40.0",
-		"markdownlint-cli": "^0.43.0",
-		"nx": "20.2.2",
-		"typescript": "^5.7.2"
-	},
-	"config": {
-		"commitizen": {
-			"path": "cz-conventional-changelog",
-			"gpg_sign": true
-		}
-	},
-	"dependencies": {
-		"": "."
-	}
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog",
+      "gpg_sign": true
+    }
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.9.4",
+    "@nx/js": "20.3.1",
+    "@swc-node/register": "^1.10.9",
+    "@swc/core": "^1.10.7",
+    "@types/node": "^22.10.6",
+    "commitizen": "^4.3.1",
+    "cspell": "^8.17.2",
+    "cz-conventional-changelog": "^3.3.0",
+    "knip": "^5.42.0",
+    "markdownlint-cli": "^0.43.0",
+    "nx": "20.3.1",
+    "typescript": "^5.7.3"
+  },
+  "license": "MIT",
+  "scripts": {
+    "deps:update": "bunx taze -r -w && bun install",
+    "dev": "nx run dev",
+    "commit": "git add . && bun run format && bun run lint:code && bun run lint:knip && bun run lint:cspell && bun run lint:md && bun run build:packages && git add . && bun cz",
+    "commit:skip-checks": "git add . && cz",
+    "format": "bun biome check --formatter-enabled=true --organize-imports-enabled=true --linter-enabled=false",
+    "lint:code": "bun biome check --formatter-enabled=false --organize-imports-enabled=false --linter-enabled=true",
+    "lint:knip": "knip --production --reporter markdown",
+    "lint:cspell": "cspell lint . --no-progress",
+    "lint:md": "markdownlint \"**/*.md\" --disable MD010 MD013 --ignore \"**/node_modules/**\"",
+    "nuke": "find packages -type d \\( -name \"dist\" -o -name \"node_modules\" \\) -exec rm -rf {} +",
+    "build:packages": "nx run-many --target=build --projects=packages/*",
+    "build:www": "nx run-many --target=build --projects=www",
+    "gh:act": "gh act release -P ubuntu-latest=-self-hosted --action-offline-mode",
+    "gh:delete": "git branch | grep -v \"stable\" | xargs git branch -D"
+  },
+  "trustedDependencies": [
+    "@biomejs/biome",
+    "@prisma/client",
+    "@prisma/engines",
+    "@swc/core",
+    "esbuild",
+    "nx",
+    "prisma",
+    "sharp"
+  ],
+  "workspaces": [
+    "www/",
+    "packages/*",
+    "examples/*"
+  ]
 }

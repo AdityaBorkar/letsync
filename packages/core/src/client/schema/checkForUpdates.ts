@@ -14,14 +14,14 @@ export async function checkForUpdates(
 
 	const { stores } = params;
 	const { metadata } = stores;
-	const { apiBaseUrl } = params.config;
+	const { apiUrl } = params.config;
 
 	const schema = await metadata.get('schema');
 	debug({ schema });
 
 	const SchemaVersions = await Fetch({
 		method: 'GET',
-		baseUrl: apiBaseUrl || '',
+		baseUrl: apiUrl || '',
 		endpoint: '/schema/versions',
 	});
 	debug({ SchemaVersions });

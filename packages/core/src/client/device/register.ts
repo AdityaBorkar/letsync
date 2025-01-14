@@ -11,7 +11,7 @@ export async function register(props: RegisterProps, params: ClientParams) {
 	props;
 	const { debug } = Console({ fn: 'register' });
 
-	const { apiBaseUrl } = params.config;
+	const { apiUrl } = params.config;
 	const { metadata } = params.stores;
 
 	const existingDevice = await metadata.get('device');
@@ -20,13 +20,13 @@ export async function register(props: RegisterProps, params: ClientParams) {
 	const data = existingDevice
 		? await Fetch({
 				method: 'GET',
-				baseUrl: apiBaseUrl,
+				baseUrl: apiUrl,
 				endpoint: '/device',
 				searchParams: { deviceId: existingDevice.deviceId },
 			})
 		: await Fetch({
 				method: 'POST',
-				baseUrl: apiBaseUrl,
+				baseUrl: apiUrl,
 				endpoint: '/device',
 			});
 	debug({ data });

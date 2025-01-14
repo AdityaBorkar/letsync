@@ -1,6 +1,6 @@
 export type { Config } from './config.js';
 
-export type { Schema } from './schema/index.js';
+export type { Schema } from '../../../orm/src/types/schema/index.js';
 
 export type { ClientDB } from './client-db/index.js';
 

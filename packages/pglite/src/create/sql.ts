@@ -3,7 +3,7 @@ import type { Schema } from '@letsync/core';
 
 interface Params {
 	client: PGlite;
-	schema: Schema;
+	schema: Schema | null;
 }
 
 export function sql<T>(

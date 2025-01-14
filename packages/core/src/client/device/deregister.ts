@@ -12,14 +12,14 @@ export async function deregister(props: DeregisterProps, params: ClientParams) {
 	const { debug } = Console({ fn: 'deregister' });
 
 	const { metadata } = params.stores;
-	const { apiBaseUrl } = params.config;
+	const { apiUrl } = params.config;
 
 	const existingDevice = await metadata.get('device');
 	debug({ existingDevice });
 
 	const data = await Fetch({
 		method: 'DELETE',
-		baseUrl: apiBaseUrl || '',
+		baseUrl: apiUrl || '',
 		endpoint: '/device',
 		searchParams: { deviceId: existingDevice?.deviceId },
 	});

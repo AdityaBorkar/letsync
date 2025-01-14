@@ -3,7 +3,11 @@
 	"description": "CockroachDB adapter for Letsync",
 	"version": "0.2.0",
 	"license": "MIT",
-	"keywords": ["cockroachdb", "letsync", "adapter"],
+	"keywords": [
+		"cockroachdb",
+		"letsync",
+		"adapter"
+	],
 	"author": {
 		"name": "Aditya Borkar",
 		"email": "aditya.borkar.programs@gmail.com",
@@ -18,7 +22,12 @@
 	},
 	"main": "./dist/index.js",
 	"type": "module",
-	"files": ["dist/", "package.json", "LICENSE.md", "README.md"],
+	"files": [
+		"dist/",
+		"package.json",
+		"LICENSE.md",
+		"README.md"
+	],
 	"scripts": {
 		"dev": "tsc --watch",
 		"build": "tsc --build",
@@ -29,6 +38,6 @@
 		"node": ">=18.3.0"
 	},
 	"devDependencies": {
-		"typescript": "^5.7.2"
+		"typescript": "^5.7.3"
 	}
 }

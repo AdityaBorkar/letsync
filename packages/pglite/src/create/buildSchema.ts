@@ -1,7 +1,10 @@
 import type { PGlite } from '@electric-sql/pglite';
 import type { Schema } from '@letsync/core';
 
-export async function buildSchema(props: { client: PGlite; schema: Schema }) {
+export async function buildSchema(props: {
+	client: PGlite;
+	schema: Schema | null;
+}) {
 	const { client, schema } = props;
 
 	const ALL_TABLES_SCHEMA = client.sql`SELECT table_name, column_name, data_type, character_maximum_length
