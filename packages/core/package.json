@@ -1,7 +1,7 @@
 {
 	"name": "@letsync/core",
 	"description": "Core library for Letsync Adapter Development",
-	"version": "0.2.1",
+	"version": "0.2.0",
 	"license": "MIT",
 	"keywords": [],
 	"author": {

@@ -1,7 +1,7 @@
 {
 	"name": "@letsync/node-postgres",
 	"description": "Node-postgres adapter for Letsync",
-	"version": "0.2.2",
+	"version": "0.2.0",
 	"license": "MIT",
 	"keywords": [],
 	"author": {

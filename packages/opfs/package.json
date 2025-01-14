@@ -1,7 +1,7 @@
 {
 	"name": "@letsync/opfs",
 	"description": "OPFS adapter for Letsync",
-	"version": "0.2.1",
+	"version": "0.2.0",
 	"license": "MIT",
 	"keywords": [],
 	"author": {

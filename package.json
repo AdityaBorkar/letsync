@@ -43,5 +43,8 @@
 			"path": "cz-conventional-changelog",
 			"gpg_sign": true
 		}
+	},
+	"dependencies": {
+		"": "."
 	}
 }
