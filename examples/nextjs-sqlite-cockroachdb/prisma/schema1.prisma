@@ -5,13 +5,15 @@
 
 generator client {
   provider        = "prisma-client-js"
-  previewFeatures = ["driverAdapters", "prismaSchemaFolder"]
+  previewFeatures = ["driverAdapters"] // prismaSchemaFolder
+  output          = "../node_modules/@prisma/client/DATABASE_NAME"
 }
 
-datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
-}
+// datasource db {
+//   type     = "server"
+//   provider = "cockroachdb"
+//   url      = env("DATABASE_URL")
+// }
 
 model User {
   id           String @id @default(cuid())

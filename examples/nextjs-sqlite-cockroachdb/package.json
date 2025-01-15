@@ -6,13 +6,16 @@
 		"dev": "next dev --turbopack",
 		"build": "next build",
 		"start": "next start",
-		"lint": "next lint"
+		"lint": "next lint",
+		"db:generate": "@letsync/prisma generate"
 	},
 	"dependencies": {
+		"@electric-sql/pglite": "^0.2.15",
 		"@letsync/aws-iot": "workspace:*",
 		"@letsync/cockroachdb": "workspace:*",
 		"@letsync/nextjs": "workspace:*",
 		"@letsync/pglite": "workspace:*",
+		"@letsync/prisma": "workspace:*",
 		"@prisma/client": "^6.2.1",
 		"next": "15.1.4",
 		"pglite-prisma-adapter": "^0.3.0",

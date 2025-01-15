@@ -1,7 +1,11 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
-  /* config options here */
+	serverExternalPackages: [
+		'@electric-sql/pglite-react', // Optional
+		'@electric-sql/pglite',
+	],
+	reactStrictMode: false, // TODO - Remove this
 };
 
 export default nextConfig;

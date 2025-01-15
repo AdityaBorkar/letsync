@@ -3,7 +3,6 @@
 	"files": {
 		"ignoreUnknown": false,
 		"ignore": [
-			"**/lib/*",
 			"**/dist/*",
 			"**/.astro/*",
 			"**/coverage/*",

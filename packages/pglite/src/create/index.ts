@@ -1,5 +1,5 @@
 import type { PGliteOptions } from '@electric-sql/pglite';
-import type { ClientDB, ClientPubsub, Config, Schema } from '@letsync/core';
+import type { ClientDB, ClientPubsub, Config } from '@letsync/core';
 import type { OrmFunction } from '@/types/OrmFunction.js';
 
 import { PGlite } from '@electric-sql/pglite';
@@ -12,14 +12,16 @@ import getStorageMetrics from './getStorageMetrics.js';
 import { open } from './open.js';
 import { sql } from './sql.js';
 
-interface createClientDBConfig {
+type Schema = null;
+
+interface createDBConfig {
 	name: string;
 	orm?: OrmFunction;
 	// TODO: EVENT HANDLERS AND UPDATES HANDLERS
 }
 
-export function createClientDB(
-	config: createClientDBConfig,
+export function createDB(
+	config: createDBConfig,
 	props?: PGlite | PGliteOptions,
 ): ClientDB.CreateAdapter<PGlite> {
 	const { name } = config;

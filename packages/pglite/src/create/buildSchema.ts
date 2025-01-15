@@ -1,5 +1,6 @@
 import type { PGlite } from '@electric-sql/pglite';
-import type { Schema } from '@letsync/core';
+// import type { Schema } from '@letsync/core';
+type Schema = null;
 
 export async function buildSchema(props: {
 	client: PGlite;
@@ -14,12 +15,14 @@ export async function buildSchema(props: {
 
 	console.log({ ALL_TABLES_SCHEMA });
 
+	// @ts-expect-error
 	for (const tableName in schema) {
 		const table = schema[tableName];
 		if (!table) continue;
 
 		const fields = Object.entries(table).map(([fieldName, field]) => {
 			// TODO - DEFINE TYPE
+			// @ts-expect-error
 			return `${fieldName} ${field.type}`;
 		});
 

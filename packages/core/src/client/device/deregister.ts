@@ -25,7 +25,7 @@ export async function deregister(props: DeregisterProps, params: ClientParams) {
 	});
 	debug({ data });
 
-	if (!data.success) {
+	if (!data.ack) {
 		throw new Error('Failed to deregister device');
 	}
 

@@ -22,12 +22,7 @@
 		"./schema-nosql": "./dist/schema/nosql/index.js"
 	},
 	"type": "module",
-	"files": [
-		"dist/",
-		"package.json",
-		"LICENSE.md",
-		"README.md"
-	],
+	"files": ["dist/", "package.json", "LICENSE.md", "README.md"],
 	"scripts": {
 		"dev": "tsc --watch",
 		"build": "tsc --build",
@@ -45,7 +40,7 @@
 	},
 	"peerDependencies": {
 		"@types/react": ">= 17.0.0 || >= 19.0.0-rc",
-		"react": ">= 17.0.0 || >= 19.0.0-rcx",
+		"react": ">= 17.0.0 || >= 19.0.0-rc",
 		"next": ">= 14 < 16"
 	}
 }

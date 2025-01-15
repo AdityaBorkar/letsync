@@ -1,5 +1,6 @@
 import type { PGlite } from '@electric-sql/pglite';
-import type { Schema } from '@letsync/core';
+// import type { Schema } from '@letsync/core';
+type Schema = null;
 
 interface Params {
 	client: PGlite;

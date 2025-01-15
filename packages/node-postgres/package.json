@@ -18,12 +18,7 @@
 	},
 	"main": "./dist/index.js",
 	"type": "module",
-	"files": [
-		"dist/",
-		"package.json",
-		"LICENSE.md",
-		"README.md"
-	],
+	"files": ["dist/", "package.json", "LICENSE.md", "README.md"],
 	"scripts": {
 		"dev": "tsc --watch",
 		"build": "tsc --build",
@@ -38,7 +33,7 @@
 		"typescript": "^5.7.3"
 	},
 	"dependencies": {
-		"@letsync/core": "^0.2.1",
+		"@letsync/core": "workspace:*",
 		"pg": "^8.13.1"
 	}
 }

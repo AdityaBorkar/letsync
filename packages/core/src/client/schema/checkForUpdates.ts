@@ -22,20 +22,21 @@ export async function checkForUpdates(
 	const SchemaVersions = await Fetch({
 		method: 'GET',
 		baseUrl: apiUrl || '',
-		endpoint: '/schema/versions',
+		endpoint: '/schema',
 	});
+	console.log({ SchemaVersions });
 	debug({ SchemaVersions });
 
 	// TODO - STORE SCHEMA IN DATABASE
-
-	const upgrades = SchemaVersions.versions
-		.reduce((acc, version) => {
-			if (version > schema?.version) {
-				acc.push(version);
-			}
-			return acc;
-		}, [] as number[])
-		.sort((a, b) => a - b);
+	const upgrades = [];
+	// const upgrades = SchemaVersions.versions
+	// 	.reduce((acc, version) => {
+	// 		if (version > schema?.version) {
+	// 			acc.push(version);
+	// 		}
+	// 		return acc;
+	// 	}, [] as number[])
+	// 	.sort((a, b) => a - b);
 
 	return upgrades.length > 0;
 }

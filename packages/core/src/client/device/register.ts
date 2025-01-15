@@ -17,20 +17,23 @@ export async function register(props: RegisterProps, params: ClientParams) {
 	const existingDevice = await metadata.get('device');
 	debug({ existingDevice });
 
-	const data = existingDevice
-		? await Fetch({
-				method: 'GET',
-				baseUrl: apiUrl,
-				endpoint: '/device',
-				searchParams: { deviceId: existingDevice.deviceId },
-			})
-		: await Fetch({
-				method: 'POST',
-				baseUrl: apiUrl,
-				endpoint: '/device',
-			});
+	const data =
+		//  existingDevice
+		// 	? await Fetch({
+		// 			method: 'GET',
+		// 			baseUrl: apiUrl,
+		// 			endpoint: '/device',
+		// 			searchParams: { deviceId: existingDevice.deviceId },
+		// 		})
+		// 	:
+		await Fetch({
+			method: 'POST',
+			baseUrl: apiUrl,
+			endpoint: '/device',
+		});
 	debug({ data });
 
+	// @ts-ignore
 	const { device, schema, pubsub } = data;
 	const { deviceId, userId, isActive } = device;
 

@@ -18,12 +18,7 @@
 	},
 	"main": "./dist/index.js",
 	"type": "module",
-	"files": [
-		"dist/",
-		"package.json",
-		"LICENSE.md",
-		"README.md"
-	],
+	"files": ["dist/", "package.json", "LICENSE.md", "README.md"],
 	"scripts": {
 		"dev": "tsc --watch",
 		"build": "tsc --build",
@@ -38,7 +33,7 @@
 	},
 	"dependencies": {
 		"@aws-sdk/client-iot-data-plane": "^3.726.1",
-		"@letsync/core": "^0.2.1",
+		"@letsync/core": "workspace:*",
 		"jsonwebtoken": "^9.0.2",
 		"mqtt": "^5.10.3"
 	}
