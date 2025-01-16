@@ -7,7 +7,7 @@
 		"build": "next build",
 		"start": "next start",
 		"lint": "next lint",
-		"db:generate": "@letsync/prisma generate"
+		"db:generate": "letsync-prisma generate"
 	},
 	"dependencies": {
 		"@electric-sql/pglite": "^0.2.15",

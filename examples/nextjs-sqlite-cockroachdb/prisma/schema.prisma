@@ -1,0 +1,53 @@
+// TODO - MAKE A COMPILER
+
+// THIS MUST BE THE NAME OF THE DATABASE
+generator cockroachdb {
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"] // prismaSchemaFolder
+  // output              = "../node_modules/@prisma/client/cockroachdb" // ! NOT RESPECTED
+
+  datasource_provider = "cockroachdb"
+  datasource_url      = env("COCKROACHDB_DATABASE_URL") // DEFAULT
+
+  letsync_type   = "server"
+  letsync_common = "include" // DEFAULT: true for "server" and false for "local"
+}
+
+// THIS MUST BE THE NAME OF THE DATABASE
+generator pglite {
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"] // prismaSchemaFolder
+  // output                         = "../node_modules/@prisma/client/pglite" // ! NOT RESPECTED
+
+  datasource_provider = "postgresql"
+  datasource_url      = env("PGLITE_DATABASE_URL") // DEFAULT
+
+  letsync_type                   = "local"
+  letsync_models                 = [User, "dir:./schema"] // CURRENT FILE IS INCLUDED BY DEFAULT.
+  letsync_common                 = "exclude" // DEFAULT: true for "server" and false for "local"
+  letsync_optimistic_column_name = "$optimistic" // DEFAULT: $optimistic
+}
+
+model User {
+  id       String @id @default(cuid())
+  name     String
+  email    String @unique
+  password String
+
+  // CAN ONLY BE USED FOR BLOCKS
+  // # "server-only-fields-block"
+  passwordHash String
+
+  // CAN ONLY BE USED FOR BLOCKS
+  // # "local-only-fields-block"
+  theme String
+}
+
+model UserData {
+  // # "server-only"
+  id           String @id @default(cuid())
+  name         String
+  email        String @unique
+  password     String
+  passwordHash String
+}

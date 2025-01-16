@@ -1,7 +1,9 @@
 ---
-import GitHubLogo from '@/assets/GitHub.svg';
-import XLogo from '@/assets/X.svg';
-import { cn } from '@/lib/utils';
+import GitHubLogo from "@/assets/GitHub.svg";
+import XLogo from "@/assets/X.svg";
+import { cn } from "@/lib/utils";
+
+import "@/layouts/global.css";
 
 interface Props {
 	title: string;
@@ -23,139 +25,158 @@ const { title, description, segment } = Astro.props;
 		<title>{title}</title>
 		<meta name="description" content={description} />
 	</head>
-	<body class="text-gray-200 h-screen antialiased cursor-default text-sm">
+	<body
+		class="text-text-primary h-screen antialiased bg-bg-primary cursor-default text-sm"
+	>
 		<header
-			class="sticky top-0 z-40 backdrop-blur-lg border-b border-gray-700/50 w-full"
+			class="sticky top-0 z-50 backdrop-blur-sm border-b bg-bg-primary/80 border-gray-700/50 w-full"
 		>
-			<div class="grid w-[80vw] max-w-[96rem] mx-auto grid-cols-3 px-4 py-2">
+			<div
+				class="grid w-[80vw] max-w-[96rem] mx-auto grid-cols-3 px-4 py-2"
+			>
 				<a href="/" class="ml-8 py-2">
-					<img src="/logo.svg" alt="letsync.dev" class="inline-block" />
+					<img
+						src="/logo.svg"
+						alt="letsync.dev"
+						class="inline-block"
+					/>
 					<span
-						class="text-xs ml-2 text-blue-400 tracking-wider font-semibold inline"
+						class="text-xs ml-2 text-orange-500 tracking-wider font-semibold inline"
 					>
-						BETA
+						ALPHA
 					</span>
 				</a>
 				<input
 					type="text"
 					placeholder="Search / AI Assistant"
-					class="rounded-full invisible px-6 py-2 bg-gray-900 border border-gray-700 w-full"
+					class="rounded-lg px-6 py-2 bg-gray-900 border border-gray-800 w-full"
 				/>
-				<nav class="flex justify-end gap-2">
+				<!-- TODO - SEARCH ICON -->
+
+				<nav class="flex flex-row justify-end items-center gap-4 px-8">
+					<a
+						href="/docs"
+						class={cn(
+							"py-2 px-3 rounded-md",
+							segment === "docs"
+								? "bg-gray-800"
+								: "hover:bg-gray-900",
+						)}
+					>
+						Documentation</a
+					>
+					<a
+						href="/reference"
+						class={cn(
+							"py-2 px-3 rounded-md",
+							segment === "reference"
+								? "bg-gray-800"
+								: "hover:bg-gray-900",
+						)}>Reference</a
+					>
 					<a
 						href="https://x.com/adityab_tech"
-						class="mt-1 p-2 rounded-full size-8 text-gray-400 hover:text-gray-200 bg-white"
+						class="rounded-md size-9 p-2 bg-gray-800 text-gray-200"
 					>
+						<!-- TODO - REACT ICONS -->
 						<img src={XLogo.src} />
 					</a>
-					<!-- <a
-						href="https://discord.gg/letsync"
-						class="px-4 text-gray-400 hover:text-gray-200"
-					>
-						Discord
-					</a> -->
 					<a
 						href="https://github.com/AdityaBorkar/letsync"
-						class="mt-1 p-2 rounded-full size-8 text-gray-400 hover:text-gray-200 bg-white"
+						class="rounded-md size-9 p-2 bg-gray-800 text-gray-200"
 					>
+						<!-- TODO - REACT ICONS -->
 						<img src={GitHubLogo.src} />
 					</a>
-					<!-- <a
-						class="hover:bg-gray-100 bg-gray-300 font-medium text-gray-950 transition-all duration-300 rounded-full px-4 py-2"
-						href="https://console.letsync.dev/"
-					>
-						Login
-					</a> -->
 				</nav>
 			</div>
 		</header>
 
-		<div class="top-0 left-0 w-full absolute">
+		<!-- <div class="sticky top-0 left-0 w-full">
 			<div
 				class="h-screen *:h-screen grid grid-cols-[16rem_auto_16rem] w-[80vw] max-w-[96rem] mx-auto *:pt-16"
 			>
-				<aside
-					class="flex w-full overflow-auto max-w-[16rem] text-gray-300 ml-auto flex-col gap-2"
-				>
-					<nav class="flex flex-col py-4 px-8">
-						<a
-							href="/docs"
-							class={cn(
-								"py-2 px-4 rounded-md",
-								segment === "docs" ? "bg-gray-800" : "hover:bg-gray-900"
-							)}
-						>
-							Documentation</a
-						>
-						<a
-							href="/reference"
-							class={cn(
-								"py-2 px-4 rounded-md",
-								segment === "reference" ? "bg-gray-800" : "hover:bg-gray-900"
-							)}>API Reference</a
-						>
-					</nav>
-					<div class="border-gray-700 border-b w-[calc(70%)] mx-auto"></div>
-					<slot name="navigation" />
-				</aside>
-
-				<main
-					class="dark:prose-invert prose pr-8 pl-12 overflow-auto min-w-full"
-				>
-					<slot />
-
-					<p
-						class="py-8 mt-8 border-t border-gray-700 text-gray-400 text-center"
-					>
-						Created with ❤️ by
-						<a href="https://adityaborkar.com" class="text-blue-400">
-							Aditya Borkar
-						</a>
-					</p>
-				</main>
-
-				<aside
-					class="flex text-neutral-400 flex-col overflow-auto gap-2 px-8 border-gray-700"
-				>
-					<div
-						class="mt-16 mb-4 uppercase tracking-wider text-xs text-gray-500 font-medium"
-					>
-						On This Page
-					</div>
-
-					<slot name="on-this-page" />
-				</aside>
 			</div>
-		</div>
-	</body>
-</html>
+		</div> -->
 
-<style is:global>
-	:root {
-		--accent: 136, 58, 234;
-		--accent-light: 224, 204, 250;
-		--accent-dark: 49, 10, 101;
-		--accent-gradient: linear-gradient(
-			45deg,
-			rgb(var(--accent)),
-			rgb(var(--accent-light)) 30%,
-			white 60%
-		);
-	}
-	html {
-		font-family: "Inter", system-ui, sans-serif;
-		background: #13151a;
-		background-size: 224px;
-	}
-	code {
-		font-family:
-			Menlo,
-			Monaco,
-			Lucida Console,
-			Liberation Mono,
-			DejaVu Sans Mono,
-			Bitstream Vera Sans Mono,
-			Courier New,
-			monospace;
-	}
-</style>
+		<aside
+			class="flex fixed top-[4rem] left-0 right-[calc((100vw-48rem)/2-20rem)] w-[20rem] overflow-auto h-[calc(100vh-4rem)] bg-red-800 max-w-[18rem] text-gray-300 ml-auto flex-col gap-2"
+		>
+			<slot name="navigation" />
+		</aside>
+
+		<main
+			class="dark:prose-invert prose mx-auto pr-8 pl-12 overflow-auto min-w-[48rem] text-sm"
+		>
+			<slot />
+
+			<p
+				class="py-8 mt-8 border-t border-gray-700 text-gray-400 text-center"
+			>
+				Created with ❤️ by
+				<a
+					target="_blank"
+					href="https://adityaborkar.com"
+					class="text-white underline-offset-4"
+				>
+					Aditya Borkar
+				</a>
+			</p>
+		</main>
+
+		<aside
+			class="fixed top-8 right-[calc((100vw-48rem)/2-20rem)] w-[20rem] flex text-neutral-400 flex-col overflow-auto gap-2 px-8 border-gray-700"
+		>
+			<div
+				class="mt-16 mb-4 uppercase tracking-wider text-xs text-gray-500 font-medium"
+			>
+				On This Page
+			</div>
+
+			<slot name="on-this-page" />
+
+			<a
+				href="https://github.com/letsync/letsync/tree/main/website/src/pages/docs"
+				class="mt-8 block px-2 pt-4 border-t border-gray-700"
+			>
+				Edit this page on GitHub
+			</a>
+			<a
+				href="https://github.com/letsync/letsync/tree/main/website/src/pages/docs"
+				class="mt-8 block px-2 pt-4 border-t border-gray-700"
+			>
+				Scroll to top
+			</a>
+		</aside>
+	</body>
+
+	<style is:global>
+		:root {
+			--accent: 136, 58, 234;
+			--accent-light: 224, 204, 250;
+			--accent-dark: 49, 10, 101;
+			--accent-gradient: linear-gradient(
+				45deg,
+				rgb(var(--accent)),
+				rgb(var(--accent-light)) 30%,
+				white 60%
+			);
+		}
+		html {
+			font-family: "Inter", system-ui, sans-serif;
+			background: #13151a;
+			background-size: 224px;
+		}
+		code {
+			font-family:
+				Menlo,
+				Monaco,
+				Lucida Console,
+				Liberation Mono,
+				DejaVu Sans Mono,
+				Bitstream Vera Sans Mono,
+				Courier New,
+				monospace;
+		}
+	</style>
+</html>

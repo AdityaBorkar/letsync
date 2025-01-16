@@ -1,6 +1,6 @@
 {
 	"name": "@letsync/prisma",
-	"description": "Prisma adapter for Letsync",
+	"description": "Prisma for Letsync",
 	"version": "0.1.0",
 	"license": "MIT",
 	"keywords": [],
@@ -22,7 +22,7 @@
 		"./cli": "./dist/cli/index.js"
 	},
 	"bin": {
-		"@letsync/prisma": "./dist/cli/index.js"
+		"letsync-prisma": "./dist/cli/index.js"
 	},
 	"type": "module",
 	"files": ["dist/", "package.json", "LICENSE.md", "README.md"],
@@ -35,5 +35,8 @@
 	"devDependencies": {
 		"typescript": "^5.7.3"
 	},
-	"dependencies": {}
+	"dependencies": {
+		"chalk": "^5.4.1",
+		"commander": "^13.0.0"
+	}
 }

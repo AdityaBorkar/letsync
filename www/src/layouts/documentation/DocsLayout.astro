@@ -1,6 +1,6 @@
 ---
-import { getCollection } from 'astro:content';
-import BaseLayout from './BaseLayout.astro';
+import { getCollection } from "astro:content";
+import BaseLayout from "./BaseLayout.astro";
 
 interface Props {
 	title: string;
@@ -9,60 +9,68 @@ interface Props {
 
 const { title, description } = Astro.props;
 
-const allDocs = await getCollection('docs');
+const allDocs = await getCollection("docs");
 
 const pages = allDocs
 	.map((doc) => {
-		const group = doc.id.split('/');
+		const group = doc.id.split("/");
 		group.pop();
 		return {
 			href: `docs/${doc.id}`,
 			index: doc.data.index,
 			label: doc.data.title,
-			group: group.join('/'),
+			group: group.join("/"),
 		};
 	})
 	.sort((a, b) =>
-		typeof a.index === 'undefined' || typeof b.index === 'undefined'
+		typeof a.index === "undefined" || typeof b.index === "undefined"
 			? a.label.localeCompare(b.label)
 			: a.index - b.index,
 	);
 
 const navigation = [
 	{
-		label: 'Getting Started',
-		items: pages.filter((page) => page.group === 'getting-started'),
+		label: "Getting Started",
+		items: pages.filter((page) => page.group === "getting-started"),
 	},
 	{
-		label: 'Adapters',
+		label: "Adapters",
 		items: [
 			{
-				label: 'Framework',
-				items: pages.filter((page) => page.group === 'adapters/framework'),
+				label: "Framework",
+				items: pages.filter(
+					(page) => page.group === "adapters/framework",
+				),
 			},
 			{
-				label: 'Client DB',
-				items: pages.filter((page) => page.group === 'adapters/client-db'),
+				label: "Client DB",
+				items: pages.filter(
+					(page) => page.group === "adapters/client-db",
+				),
 			},
 			{
-				label: 'Server DB',
-				items: pages.filter((page) => page.group === 'adapters/server-db'),
+				label: "Server DB",
+				items: pages.filter(
+					(page) => page.group === "adapters/server-db",
+				),
 			},
 			{
-				label: 'PubSub',
-				items: pages.filter((page) => page.group === 'adapters/pubsub'),
+				label: "PubSub",
+				items: pages.filter((page) => page.group === "adapters/pubsub"),
 			},
 		],
 	},
 	{
-		label: 'Contributing',
-		items: pages.filter((page) => page.group === 'contributing'),
+		label: "Contributing",
+		items: pages.filter((page) => page.group === "contributing"),
 	},
 ];
 ---
 
 <BaseLayout segment="docs" title={`Docs | ${title}`} description={description}>
-	<slot />
+	<article class="min-h-[calc(100vh-8rem)]">
+		<slot />
+	</article>
 
 	<slot slot="on-this-page" name="on-this-page" />
 

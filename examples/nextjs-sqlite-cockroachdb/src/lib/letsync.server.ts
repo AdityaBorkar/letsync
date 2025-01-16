@@ -3,7 +3,7 @@ import 'server-only';
 // import { Resource } from 'sst';
 // import { PubSub_Backend } from '@letsync/aws-iot';
 import { ServerDB_CockroachDB } from '@letsync/cockroachdb';
-// import { PrismaCockroachDB } from '@letsync/cockroachdb/prisma';
+import { PrismaCockroachDB } from '@letsync/cockroachdb/prisma';
 
 export const pubsub = null as any;
 // PubSub_Backend({
@@ -15,7 +15,7 @@ export const pubsub = null as any;
 export const database = ServerDB_CockroachDB(
 	{
 		name: 'cockroachdb',
-		// orm: PrismaCockroachDB ,
+		orm: PrismaCockroachDB,
 		// pubsub
 	},
 	{

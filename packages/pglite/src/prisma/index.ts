@@ -2,9 +2,9 @@
 // import type { PGliteOptions } from '@electric-sql/pglite';
 import type { PGlite } from '@electric-sql/pglite';
 
-import { PrismaPGlite as OrmAdapter } from 'pglite-prisma-adapter';
 // @ts-ignore
 import { PrismaClient } from '@prisma/client';
+import { PrismaPGlite as OrmAdapter } from 'pglite-prisma-adapter';
 
 export function PrismaPGlite(pglite: PGlite) {
 	const adapter = new OrmAdapter(pglite);

@@ -1,12 +1,12 @@
 ---
-import { getCollection, render } from 'astro:content';
-import DocsLayout from '@/layouts/documentation/DocsLayout.astro';
+import { getCollection, render } from "astro:content";
+import DocsLayout from "@/layouts/documentation/DocsLayout.astro";
 
 export async function getStaticPaths() {
-	const pages = await getCollection('docs');
+	const pages = await getCollection("docs");
 	return pages.map((page) => ({
 		params: { slug: page.id },
-		props: { page, group: page.id.split('/') },
+		props: { page, group: page.id.split("/") },
 	}));
 }
 

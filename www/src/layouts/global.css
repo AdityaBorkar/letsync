@@ -1,0 +1,10 @@
+@import "tailwindcss";
+
+@plugin '@tailwindcss/typography';
+
+@layer base {
+	:root {
+		--color-bg-primary: var(--color-neutral-950);
+		--color-text-primary: var(--color-neutral-200);
+	}
+}
