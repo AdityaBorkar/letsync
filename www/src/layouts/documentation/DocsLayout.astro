@@ -1,5 +1,6 @@
 ---
 import { getCollection } from "astro:content";
+import { cn } from "@/lib/utils";
 import BaseLayout from "./BaseLayout.astro";
 
 interface Props {
@@ -28,6 +29,8 @@ const pages = allDocs
 			: a.index - b.index,
 	);
 
+console.log({ pages });
+
 const navigation = [
 	{
 		label: "Getting Started",
@@ -41,6 +44,10 @@ const navigation = [
 				items: pages.filter(
 					(page) => page.group === "adapters/framework",
 				),
+			},
+			{
+				label: "ORM",
+				items: pages.filter((page) => page.group === "adapters/orm"),
 			},
 			{
 				label: "Client DB",
@@ -61,6 +68,10 @@ const navigation = [
 		],
 	},
 	{
+		label: "Comparisons",
+		items: pages.filter((page) => page.group === "comparisons"),
+	},
+	{
 		label: "Contributing",
 		items: pages.filter((page) => page.group === "contributing"),
 	},
@@ -68,17 +79,17 @@ const navigation = [
 ---
 
 <BaseLayout segment="docs" title={`Docs | ${title}`} description={description}>
-	<article class="min-h-[calc(100vh-8rem)]">
+	<article class="min-h-[calc(100vh-8rem)] px-16">
 		<slot />
 	</article>
 
-	<slot slot="on-this-page" name="on-this-page" />
+	<slot name="on-this-page" slot="on-this-page" />
 
-	<nav class="flex flex-col py-4 px-8" slot="navigation">
+	<nav class="flex flex-col py-4 gap-2" slot="navigation">
 		{
 			navigation.map(({ label, items }) => (
 				<div class="flex flex-col mt-8 first:mt-0">
-					<div class="text-xs ml-4 mb-2 text-gray-500 font-medium uppercase tracking-wider">
+					<div class="text-xs ml-4 mb-2 text-text-primary font-bold uppercase tracking-wider">
 						{label}
 					</div>
 					{items.map((item) => {
@@ -86,25 +97,32 @@ const navigation = [
 							return (
 								<a
 									href={item.href}
-									class="py-1 px-4 rounded-md hover:bg-gray-800"
+									class="py-1.5 px-4 rounded-md hover:bg-neutral-800/50 hover:text-text-primary text-[0.85rem]"
 								>
 									{item.label}
 								</a>
 							);
 						return (
-							<>
-								<div class="py-1 px-4 rounded-md hover:bg-gray-800">
+							<details open class="group relative">
+								<summary
+									class={cn(
+										"py-1.5 px-4 rounded-md hover:bg-neutral-800/50 hover:text-text-primary text-[0.85rem]",
+										"after:h-[calc(100%-2rem)] after:top-8 after:left-6 after:absolute after:border-l-2 after:border-neutral-700",
+										"group-open:after:visible after:invisible",
+									)}
+								>
 									{item.label}
-								</div>
+									<span class="absolute top-3 right-6 ml-2 inline-block w-0 h-0 border-t-4 border-l-4 border-b-4 border-transparent border-l-white transition-transform duration-300 group-open:rotate-90" />
+								</summary>
 								{item.items.map((subItem) => (
 									<a
 										href={subItem.href}
-										class="ml-4 py-1 px-4 rounded-md hover:bg-gray-800"
+										class="ml-8 block py-1.5 px-2 rounded-md hover:bg-neutral-800/50 hover:text-text-primary text-[0.85rem]"
 									>
 										{subItem.label}
 									</a>
 								))}
-							</>
+							</details>
 						);
 					})}
 				</div>

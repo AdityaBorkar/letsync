@@ -1,6 +1,6 @@
 ---
 index: 5
-group: "Integrations"
+group: "contributing"
 title: "Server Database"
 description: "This is a test description"
 ---

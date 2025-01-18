@@ -1,6 +1,6 @@
 ---
 index: 6
-group: "Integrations"
+group: "contributing"
 title: "PubSub"
 description: "This is a test description"
 # pubDate: "2024-01-01"

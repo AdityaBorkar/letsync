@@ -2,9 +2,79 @@
 
 @plugin '@tailwindcss/typography';
 
-@layer base {
-	:root {
-		--color-bg-primary: var(--color-neutral-950);
-		--color-text-primary: var(--color-neutral-200);
-	}
+/* TODO - Page Transitions */
+/* TODO - CHANGE FONT */
+/* TODO - BRING IN MORE AESTHETICS */
+/* TODO - Analytics, Open Graph, SEO */
+
+:root {
+	--color-bg-primary: var(--color-neutral-950);
+	--color-bg-secondary: var(--color-neutral-800);
+
+	--color-text-primary: var(--color-neutral-200);
+	--color-text-secondary: var(--color-neutral-400);
+	--color-text-tertiary: var(--color-neutral-500);
+
+	--color-border: var(--color-neutral-700);
+}
+
+* {
+	@apply transition-all duration-300;
+}
+
+html {
+	font-family: "Inter", system-ui, sans-serif;
+}
+
+details > summary {
+	list-style: none;
+}
+
+details > summary::-webkit-details-marker {
+	display: none;
+}
+
+::-webkit-scrollbar {
+	width: 6px;
+}
+
+::-webkit-scrollbar-track {
+	background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+	background-color: var(--color-bg-secondary);
+	border-radius: 10px;
+	border: 1px solid var(--color-bg-secondary);
+}
+
+::-webkit-scrollbar:hover {
+	width: 8px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background-color: var(--color-text-secondary);
+	border: 1px solid var(--color-text-secondary);
+}
+
+/* Below: Polyfill for color variables NOT WORKING */
+
+@utility bg-bg-primary {
+	background-color: var(--color-bg-primary);
+}
+
+@utility bg-bg-secondary {
+	background-color: var(--color-bg-secondary);
+}
+
+@utility text-text-primary {
+	color: var(--color-text-primary);
+}
+
+@utility text-text-secondary {
+	color: var(--color-text-secondary);
+}
+
+@utility text-text-tertiary {
+	color: var(--color-text-tertiary);
 }

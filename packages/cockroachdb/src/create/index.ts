@@ -1,5 +1,5 @@
-import type { ServerDB, ServerPubsub, Config } from '@letsync/core';
 import type { OrmFunction } from '@/types/OrmFunction.js';
+import type { Config, ServerDB, ServerPubsub } from '@letsync/core';
 import type { ClientConfig } from 'pg';
 
 import { Client } from 'pg';

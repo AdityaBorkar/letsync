@@ -1,7 +1,7 @@
 ---
 index: 1
-group: "getting-started"
-title: "About"
+group: "comparisons"
+title: "Prisma Live"
 description: "This is a test description"
 ---
 

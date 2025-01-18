@@ -5,6 +5,7 @@ import 'server-only';
 import { ServerDB_CockroachDB } from '@letsync/cockroachdb';
 import { PrismaCockroachDB } from '@letsync/cockroachdb/prisma';
 
+// @ts-ignore
 export const pubsub = null as any;
 // PubSub_Backend({
 // 	prefix: `${Resource.App.name}-${Resource.App.stage}`,

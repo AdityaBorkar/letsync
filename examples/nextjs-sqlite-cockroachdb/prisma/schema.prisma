@@ -9,8 +9,7 @@ generator cockroachdb {
   datasource_provider = "cockroachdb"
   datasource_url      = env("COCKROACHDB_DATABASE_URL") // DEFAULT
 
-  letsync_type   = "server"
-  letsync_common = "include" // DEFAULT: true for "server" and false for "local"
+  letsync_type = "server"
 }
 
 // THIS MUST BE THE NAME OF THE DATABASE
@@ -24,28 +23,28 @@ generator pglite {
 
   letsync_type                   = "local"
   letsync_models                 = [User, "dir:./schema"] // CURRENT FILE IS INCLUDED BY DEFAULT.
-  letsync_common                 = "exclude" // DEFAULT: true for "server" and false for "local"
   letsync_optimistic_column_name = "$optimistic" // DEFAULT: $optimistic
 }
 
 model User {
-  id       String @id @default(cuid())
+  id       String @id @default(cuid(2))
   name     String
   email    String @unique
   password String
 
   // CAN ONLY BE USED FOR BLOCKS
-  // # "server-only-fields-block"
+  // @@server-fields-block
   passwordHash String
 
   // CAN ONLY BE USED FOR BLOCKS
-  // # "local-only-fields-block"
+  // @@client-fields-block
   theme String
 }
 
 model UserData {
-  // # "server-only"
-  id           String @id @default(cuid())
+  // @@server-model
+  // @@client-model
+  id           String @id @default(cuid(2))
   name         String
   email        String @unique
   password     String

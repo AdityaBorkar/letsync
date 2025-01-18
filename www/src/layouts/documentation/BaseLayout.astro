@@ -1,6 +1,6 @@
 ---
-import GitHubLogo from "@/assets/GitHub.svg";
-import XLogo from "@/assets/X.svg";
+import GitHubLogo from "@/assets/GitHub.svg?raw";
+import XLogo from "@/assets/X.svg?raw";
 import { cn } from "@/lib/utils";
 
 import "@/layouts/global.css";
@@ -26,93 +26,87 @@ const { title, description, segment } = Astro.props;
 		<meta name="description" content={description} />
 	</head>
 	<body
-		class="text-text-primary h-screen antialiased bg-bg-primary cursor-default text-sm"
+		class="text-text-secondary h-screen antialiased bg-bg-primary cursor-default text-sm"
 	>
 		<header
-			class="sticky top-0 z-50 backdrop-blur-sm border-b bg-bg-primary/80 border-gray-700/50 w-full"
+			class="sticky top-0 z-50 backdrop-blur-sm border-b bg-bg-primary/80 border-neutral-700/50 w-full"
 		>
 			<div
-				class="grid w-[80vw] max-w-[96rem] mx-auto grid-cols-3 px-4 py-2"
+				class="grid w-[80vw] max-w-[84rem] mx-auto grid-cols-3 px-4 py-2"
 			>
 				<a href="/" class="ml-8 py-2">
-					<img
+					<!-- <img
 						src="/logo.svg"
 						alt="letsync.dev"
 						class="inline-block"
-					/>
+					/> -->
 					<span
-						class="text-xs ml-2 text-orange-500 tracking-wider font-semibold inline"
+						class="text-xs ml-2 text-sky-400 tracking-wider font-bold inline"
 					>
 						ALPHA
 					</span>
 				</a>
-				<input
-					type="text"
-					placeholder="Search / AI Assistant"
-					class="rounded-lg px-6 py-2 bg-gray-900 border border-gray-800 w-full"
-				/>
-				<!-- TODO - SEARCH ICON -->
+				<div class="relative">
+					<input
+						type="text"
+						placeholder="Search / AI Assistant"
+						class="rounded-lg pl-10 pr-6 py-2 bg-bg-secondary border border-neutral-700/50 w-full"
+					/>
+					<div class="absolute top-2 left-3">
+						<Fragment set:html={GitHubLogo} />
+						<!-- TODO - SEARCH ICON -->
+					</div>
+				</div>
 
 				<nav class="flex flex-row justify-end items-center gap-4 px-8">
 					<a
 						href="/docs"
 						class={cn(
-							"py-2 px-3 rounded-md",
-							segment === "docs"
-								? "bg-gray-800"
-								: "hover:bg-gray-900",
+							"py-2 px-4 rounded-md text-text-secondary font-medium relative hover:bg-neutral-900",
+							segment === "docs" &&
+								"text-text-primary after:w-full after:absolute after:-bottom-2 after:left-0 after:border-b after:border-white",
 						)}
 					>
-						Documentation</a
-					>
+						Documentation
+					</a>
 					<a
 						href="/reference"
 						class={cn(
-							"py-2 px-3 rounded-md",
-							segment === "reference"
-								? "bg-gray-800"
-								: "hover:bg-gray-900",
-						)}>Reference</a
+							"py-2 px-4 rounded-md text-text-secondary font-medium relative hover:bg-neutral-900",
+							segment === "reference" &&
+								"text-text-primary after:w-full after:absolute after:-bottom-2 after:left-0 after:border-b after:border-white",
+						)}
 					>
+						Reference
+					</a>
 					<a
 						href="https://x.com/adityab_tech"
-						class="rounded-md size-9 p-2 bg-gray-800 text-gray-200"
+						class="rounded-md size-8 p-1 hover:bg-bg-secondary"
 					>
-						<!-- TODO - REACT ICONS -->
-						<img src={XLogo.src} />
+						<Fragment set:html={XLogo} />
 					</a>
 					<a
 						href="https://github.com/AdityaBorkar/letsync"
-						class="rounded-md size-9 p-2 bg-gray-800 text-gray-200"
+						class="rounded-md size-8 p-1 hover:bg-bg-secondary"
 					>
-						<!-- TODO - REACT ICONS -->
-						<img src={GitHubLogo.src} />
+						<Fragment set:html={GitHubLogo} />
 					</a>
 				</nav>
 			</div>
 		</header>
 
-		<!-- <div class="sticky top-0 left-0 w-full">
-			<div
-				class="h-screen *:h-screen grid grid-cols-[16rem_auto_16rem] w-[80vw] max-w-[96rem] mx-auto *:pt-16"
-			>
-			</div>
-		</div> -->
-
 		<aside
-			class="flex fixed top-[4rem] left-0 right-[calc((100vw-48rem)/2-20rem)] w-[20rem] overflow-auto h-[calc(100vh-4rem)] bg-red-800 max-w-[18rem] text-gray-300 ml-auto flex-col gap-2"
+			class="fixed top-[3.5rem] left-[calc((100vw-48rem)/2-16rem)] w-[16rem] overflow-auto h-[calc(100vh-3.5rem)]"
 		>
 			<slot name="navigation" />
 		</aside>
 
 		<main
-			class="dark:prose-invert prose mx-auto pr-8 pl-12 overflow-auto min-w-[48rem] text-sm"
+			class="dark:prose-invert prose mx-auto overflow-auto min-w-[48rem] text-sm"
 		>
 			<slot />
 
-			<p
-				class="py-8 mt-8 border-t border-gray-700 text-gray-400 text-center"
-			>
+			<p class="py-10 mt-8 mb-1 border-t border-neutral-700 text-center">
 				Created with ❤️ by
 				<a
 					target="_blank"
@@ -125,58 +119,9 @@ const { title, description, segment } = Astro.props;
 		</main>
 
 		<aside
-			class="fixed top-8 right-[calc((100vw-48rem)/2-20rem)] w-[20rem] flex text-neutral-400 flex-col overflow-auto gap-2 px-8 border-gray-700"
+			class="fixed top-[3.5rem] right-[calc((100vw-48rem)/2-16rem-4rem)] w-[16rem] overflow-auto h-[calc(100vh-3.5rem)]"
 		>
-			<div
-				class="mt-16 mb-4 uppercase tracking-wider text-xs text-gray-500 font-medium"
-			>
-				On This Page
-			</div>
-
 			<slot name="on-this-page" />
-
-			<a
-				href="https://github.com/letsync/letsync/tree/main/website/src/pages/docs"
-				class="mt-8 block px-2 pt-4 border-t border-gray-700"
-			>
-				Edit this page on GitHub
-			</a>
-			<a
-				href="https://github.com/letsync/letsync/tree/main/website/src/pages/docs"
-				class="mt-8 block px-2 pt-4 border-t border-gray-700"
-			>
-				Scroll to top
-			</a>
 		</aside>
 	</body>
-
-	<style is:global>
-		:root {
-			--accent: 136, 58, 234;
-			--accent-light: 224, 204, 250;
-			--accent-dark: 49, 10, 101;
-			--accent-gradient: linear-gradient(
-				45deg,
-				rgb(var(--accent)),
-				rgb(var(--accent-light)) 30%,
-				white 60%
-			);
-		}
-		html {
-			font-family: "Inter", system-ui, sans-serif;
-			background: #13151a;
-			background-size: 224px;
-		}
-		code {
-			font-family:
-				Menlo,
-				Monaco,
-				Lucida Console,
-				Liberation Mono,
-				DejaVu Sans Mono,
-				Bitstream Vera Sans Mono,
-				Courier New,
-				monospace;
-		}
-	</style>
 </html>

@@ -1,6 +1,6 @@
+import type { OrmFunction } from '@/types/OrmFunction.js';
 import type { PGliteOptions } from '@electric-sql/pglite';
 import type { ClientDB, ClientPubsub, Config } from '@letsync/core';
-import type { OrmFunction } from '@/types/OrmFunction.js';
 
 import { PGlite } from '@electric-sql/pglite';
 

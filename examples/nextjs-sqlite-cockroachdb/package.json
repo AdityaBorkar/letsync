@@ -9,6 +9,9 @@
 		"lint": "next lint",
 		"db:generate": "letsync-prisma generate"
 	},
+	"prisma": {
+		"schema": "prisma/schema.prisma"
+	},
 	"dependencies": {
 		"@electric-sql/pglite": "^0.2.15",
 		"@letsync/aws-iot": "workspace:*",

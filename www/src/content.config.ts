@@ -10,6 +10,18 @@ const docs = defineCollection({
 		title: z.string(),
 		description: z.string(),
 		index: z.number().optional(),
+		group: z
+			.enum([
+				'getting-started',
+				'adapters/framework',
+				'adapters/client-db',
+				'adapters/server-db',
+				'adapters/pubsub',
+				'adapters/orm',
+				'comparisons',
+				'contributing',
+			])
+			.optional(),
 	}),
 });
 

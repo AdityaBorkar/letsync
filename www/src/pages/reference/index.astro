@@ -37,7 +37,8 @@ for (const pkg of packagesCollection) {
 
 	<div class="grid grid-cols-4 gap-4">
 		{
-			new Array(...packages).map((pkg) => (
+			// ...packages
+			new Array().map((pkg) => (
 				<a
 					class="text-center font-medium no-underline bg-gray-800 p-4 rounded-md hover:bg-gray-700"
 					href={`reference/${pkg}/latest`}

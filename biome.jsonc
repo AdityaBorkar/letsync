@@ -4,6 +4,7 @@
 		"ignoreUnknown": false,
 		"ignore": [
 			"**/dist/*",
+			"**/.next/*",
 			"**/.astro/*",
 			"**/coverage/*",
 			"**/CHANGELOG.md",

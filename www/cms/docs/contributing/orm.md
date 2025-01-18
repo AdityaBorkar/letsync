@@ -1,13 +1,15 @@
 ---
-index: 2
+index: 3
 group: "contributing"
-title: "Framework"
+title: "ORM"
 description: "This is a test description"
+# pubDate: "2024-01-01"
+# updatedDate: "2024-01-01"
 ---
 
 ## Help Needed
 
-If you are interested in bringing @letsync/* support to your favorite framework, we would love to hear from you! Create a PR to add your package to the list above.
+In case you are a maintainer of a package that uses @letsync/*, feel free to reach out to Aditya Borkar or [hello@letsync.dev](mailto:hello@letsync.dev), if you want to collaborate on making it an official package, maintained in our repository. If you are interested in bringing @letsync/* support to your favorite framework, we would love to hear from you! Create a PR to add your package to the list above.
 
 ## List of Integration Packages
 
@@ -15,19 +17,8 @@ Here are the state of planned and released integrations under the @letsync/* sco
 
 > [!TIP]
 > Integrations listed as "Planned" are something we'd love help with! See the help needed section below.
-
 > [!IMPORTANT]
 > Kindly star the packages you use and love. It helps us a lot.
-
-| Name         | Maintainer | Status | Weekly Downloads | Links 		|
-| ------------ | ---------- | ------ | -------- | -------- 					|
-| NextJS       | Letsync    | Alpha  | 0        | NPM, Deno, GitHub, Guide 	|      
-| React        | Letsync    | Alpha  | 0        | NPM, Deno, GitHub, Guide 	|      
-| React Native |            |        |          |         					|
-| VueJS        |            |        |          |          					| 
-| Svelte       |            |        |          |          					| 
-| Angular      |            |        |          |         					|
-|              |            |        |          |         					|
 
 ## Guide for making an integration package for "Client Database"
 
@@ -66,12 +57,13 @@ To make integrations that adhere to the same mental model as `@letsync/*`, you c
    - Have at least one OAuth provider configured.
    - The example code should live under apps/examples/\<framework-name\>. For example: apps/examples/express.
 
-<!-- ```ts
-export function LetsyncFramework(props: any): LetsyncFramework;
+<!-- 
+```ts
+export function LetsyncPubSub(props: any): LetsyncPubSub;
 
-// import { LetsyncFramework } from "@letsync/core";
-type LetsyncFrameworkDb = {
-	__brand: "LETSYNC_Framework_DB";
+// import { LetsyncPubSub } from "@letsync/core";
+type LetsyncPubSubDb = {
+	__brand: "LETSYNC_PubSub_DB";
 	database: "<This must be the instance of the database you are using>";
 	close: () => Promise<void>;
 	flush: () => Promise<void>;

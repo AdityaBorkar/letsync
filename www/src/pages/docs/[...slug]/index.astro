@@ -12,21 +12,26 @@ export async function getStaticPaths() {
 
 const { page, group } = Astro.props;
 const { Content, headings } = await render(page);
-
-console.log({ headings });
 ---
 
 <DocsLayout title={page.data.title} description={page.data.description}>
-	<p class="mt-4 text-gray-500">
-		{group.join(" > ")} > {page.data.title}
+	<p class="mt-8 capitalize text-neutral-500">
+		{group.join(" > ")}
+		<!-- > {page.data.title} -->
 	</p>
 
 	<h1 class="mt-8">{page.data.title}</h1>
 
 	<Content />
 
-	<div slot="on-this-page">
-		<ul>
+	<nav class="flex flex-col h-full gap-2" slot="on-this-page">
+		<div
+			class="mt-12 mb-4 uppercase tracking-wider text-xs text-text-primary font-medium"
+		>
+			On This Page
+		</div>
+
+		<ul class="grow">
 			{
 				headings.map((heading) => (
 					<li>
@@ -41,11 +46,23 @@ console.log({ headings });
 				))
 			}
 		</ul>
-		<a
-			href="https://github.com/letsync/letsync/tree/main/website/src/pages/docs"
-			class="mt-8 block px-2 pt-4 border-t border-gray-700"
-		>
-			Edit this page on GitHub
-		</a>
-	</div>
+
+		<div class="border-t flex flex-col border-neutral-700 py-4">
+			<a
+				target="_blank"
+				href={`https://github.com/letsync/letsync/tree/main/website/src/pages/${page.id}`}
+				class="block px-4 py-2 hover:bg-bg-secondary hover:text-text-primary cursor-alias rounded-md"
+			>
+				<!-- EDIT LOGO -->
+				Edit this page on GitHub
+			</a>
+			<button
+				type="button"
+				class="block text-left px-4 py-2 hover:bg-bg-secondary hover:text-text-primary rounded-md"
+			>
+				<!-- ARROW UP LOGO -->
+				Scroll to top
+			</button>
+		</div>
+	</nav>
 </DocsLayout>

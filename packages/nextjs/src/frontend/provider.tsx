@@ -3,9 +3,9 @@
 import type { ClientDB, ClientFS, ClientPubsub } from '@letsync/core';
 import type { LetsyncContextType } from './context.js';
 
+import { createClient } from '@letsync/core';
 // biome-ignore lint/style/useImportType: BIOME BUG
 import React, { useEffect, useMemo, useState } from 'react';
-import { createClient } from '@letsync/core';
 
 import { LetsyncContext } from './context.js';
 

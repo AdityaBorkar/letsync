@@ -21,12 +21,7 @@
 	},
 	"main": "./dist/index.js",
 	"type": "module",
-	"files": [
-		"dist/",
-		"package.json",
-		"LICENSE.md",
-		"README.md"
-	],
+	"files": ["dist/", "package.json", "LICENSE.md", "README.md"],
 	"scripts": {},
 	"devDependencies": {
 		"typescript": "^5.7.3"

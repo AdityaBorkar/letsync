@@ -1,4 +1,6 @@
 ---
+index: 1
+group: "adapters/framework"
 title: "NextJS"
 description: "This is a test description"
 ---

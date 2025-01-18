@@ -1,6 +1,6 @@
 ---
-index: 5
-group: "Getting Started"
+index: 4
+group: "getting-started"
 title: "Devtool"
 description: "This is a test description"
 # pubDate: "2024-01-01"
