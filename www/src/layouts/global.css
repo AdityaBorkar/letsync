@@ -22,6 +22,10 @@
 	@apply transition-all duration-300;
 }
 
+*::selection {
+	@apply bg-yellow-500 text-white dark:text-black;
+}
+
 html {
 	font-family: "Inter", system-ui, sans-serif;
 }

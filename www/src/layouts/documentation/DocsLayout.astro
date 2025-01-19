@@ -85,10 +85,10 @@ const navigation = [
 
 	<slot name="on-this-page" slot="on-this-page" />
 
-	<nav class="flex flex-col py-4 gap-2" slot="navigation">
+	<nav class="flex flex-col py-4 pr-4 gap-2" slot="navigation">
 		{
 			navigation.map(({ label, items }) => (
-				<div class="flex flex-col mt-8 first:mt-0">
+				<div class="flex flex-col mt-6 first:mt-0">
 					<div class="text-xs ml-4 mb-2 text-text-primary font-bold uppercase tracking-wider">
 						{label}
 					</div>
@@ -97,13 +97,13 @@ const navigation = [
 							return (
 								<a
 									href={item.href}
-									class="py-1.5 px-4 rounded-md hover:bg-neutral-800/50 hover:text-text-primary text-[0.85rem]"
+									class=" py-1.5 px-4 rounded-md hover:bg-neutral-800/50 hover:text-text-primary text-[0.85rem]"
 								>
 									{item.label}
 								</a>
 							);
 						return (
-							<details open class="group relative">
+							<details class="group relative">
 								<summary
 									class={cn(
 										"py-1.5 px-4 rounded-md hover:bg-neutral-800/50 hover:text-text-primary text-[0.85rem]",
@@ -117,9 +117,13 @@ const navigation = [
 								{item.items.map((subItem) => (
 									<a
 										href={subItem.href}
-										class="ml-8 block py-1.5 px-2 rounded-md hover:bg-neutral-800/50 hover:text-text-primary text-[0.85rem]"
+										class="relative group ml-8 block py-1.5 px-2 rounded-md hover:bg-neutral-800/50 hover:text-text-primary text-[0.85rem]"
 									>
 										{subItem.label}
+
+										<div class="absolute group-hover:block hidden top-2 text-xs right-4">
+											P
+										</div>
 									</a>
 								))}
 							</details>

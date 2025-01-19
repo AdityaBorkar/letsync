@@ -8,12 +8,9 @@ program
 	.description('Letsync Prisma CLI')
 	.version('1.0.0');
 
-// program.action(() => {
-// 	console.log(`CWD: ${process.cwd()}`);
-// });
-
 program
 	.command('generate')
+	.option('-w, --watch', 'Watch for changes and generate schemas')
 	.description('Generate Prisma schemas')
 	.action(generate);
 

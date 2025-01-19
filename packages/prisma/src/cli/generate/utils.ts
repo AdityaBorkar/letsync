@@ -1,14 +1,14 @@
-import { existsSync } from 'node:fs';
-import { mkdir, readFile, writeFile } from 'node:fs/promises';
-import path from 'node:path';
+import { existsSync, readdirSync, readFileSync } from 'node:fs';
+import { join } from 'node:path';
 import { default as prisma } from '@prisma/internals';
+import chalk from 'chalk';
 
 export async function findPrismaSchemaPath(
 	cwd: string,
 ): Promise<[string, string] | null> {
 	const schemaPaths = [
-		path.join(cwd, 'prisma/schema.prisma'),
-		path.join(cwd, 'schema.prisma'),
+		join(cwd, 'prisma/schema.prisma'),
+		join(cwd, 'schema.prisma'),
 	];
 
 	const prismaConfig = await prisma.getPrismaConfigFromPackageJson(cwd);
@@ -18,27 +18,40 @@ export async function findPrismaSchemaPath(
 		const exists = existsSync(schemaPath);
 		if (!exists) return null;
 
-		const schemaContent = await readFile(schemaPath, 'utf8');
+		const schemaContent = readFileSync(schemaPath, 'utf8');
 		return [schemaPath, schemaContent];
 	}
 
 	const schemaPath = schemaPaths.find(existsSync) || null;
 	if (!schemaPath) return null;
 
-	const schemaContent = await readFile(schemaPath, 'utf8');
+	const schemaContent = readFileSync(schemaPath, 'utf8');
 	return [schemaPath, schemaContent];
 }
 
-export async function writeFileWithDir(filepath: string, content: string) {
-	try {
-		// Create directory path if it doesn't exist
-		const dir = path.dirname(filepath);
-		await mkdir(dir, { recursive: true });
-
-		// Write file (creates or overwrites)
-		await writeFile(filepath, content);
-		console.log('File written successfully');
-	} catch (err) {
-		console.error('Error:', err);
-	}
+export function readFiles({
+	cwd,
+	relativePath: $relativePath,
+}: {
+	cwd: string;
+	relativePath: string;
+}): { path: string; content: string }[] {
+	const currentPath = join(cwd, $relativePath);
+	return readdirSync(currentPath, { withFileTypes: true }).flatMap((entry) => {
+		const relativePath = join($relativePath, entry.name);
+		if (entry.isDirectory()) return readFiles({ relativePath, cwd });
+		const content = readFileSync(join(cwd, relativePath), 'utf8');
+		return { path: relativePath, content };
+	});
 }
+
+export const Console = {
+	warn: (...message: string[]) =>
+		console.warn(chalk.bgBlue('[LETSYNC]'), ...message),
+	info: (...message: string[]) =>
+		console.info(chalk.bgBlue('[LETSYNC]'), ...message),
+	error: (...message: string[]) =>
+		console.error(chalk.bgBlue('[LETSYNC]'), chalk.red(...message)),
+	debug: (...message: string[]) =>
+		console.debug(chalk.bgBlue('[LETSYNC]'), chalk.gray(...message)),
+};

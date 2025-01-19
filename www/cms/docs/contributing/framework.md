@@ -5,11 +5,7 @@ title: "Framework"
 description: "This is a test description"
 ---
 
-## Help Needed
-
-If you are interested in bringing @letsync/* support to your favorite framework, we would love to hear from you! Create a PR to add your package to the list above.
-
-## List of Integration Packages
+## List of Packages
 
 Here are the state of planned and released integrations under the @letsync/* scope. It also includes community created and maintained integrations.
 
@@ -33,7 +29,7 @@ Here are the state of planned and released integrations under the @letsync/* sco
 
 To make integrations that adhere to the same mental model as `@letsync/*`, you can follow the below guide.
 
-1. Copy the template from [https://github.com/letsync/letsync/tree/main/packages/client-database-template](https://github.com/letsync/letsync/tree/main/packages/client-database-template)
+1. Copy the template from [https://github.com/letsync/letsync/tree/main/templates/framework](https://github.com/letsync/letsync/tree/main/templates/framework)
 
    ```bash
    [Copy Button]

@@ -51,9 +51,10 @@ generator your_db_name {
     // Your database connection URL
     datasource_url = "postgresql://user:password@localhost:5432/mydb"
 }
-```
 
-4. Generate your Prisma client:
+4. Write a model with `@@server-model` or `@@client-model` or `@@server-fields-block` or `@@client-fields-block`.
+
+5. Generate your Prisma client:
 ```bash
 bun add @letsync/prisma
 bunx letsync-prisma generate
@@ -71,4 +72,5 @@ When you run `letsync-prisma generate`, the CLI:
 - Any `generator` blocks in other file than main schema will be ignored
 - Any `datasource` blocks will be ignored
 - Inline comments in your schema will be moved to their own lines
+- If you are using any other package along-side Letsync with Prisma, you may encounter issues. Raise the issue on [Letsync Discord](https://discord.gg/letsync) and we'll help you out!
 - If you hit any errors, check if they're coming from Letsync or Prisma (this helps us fix bugs faster!)
