@@ -1,6 +1,10 @@
 ---
 import { getCollection, render } from "astro:content";
-import DocsLayout from "@/layouts/documentation/DocsLayout.astro";
+
+import EditFile from "@/assets/EditFile.svg";
+import ArrowUp from "@/assets/ArrowUp.svg";
+import ChevronRight from "@/assets/ChevronRight.svg";
+import DocsLayout from "@/layouts/DocsLayout.astro";
 
 export async function getStaticPaths() {
 	const pages = await getCollection("docs");
@@ -15,9 +19,18 @@ const { Content, headings } = await render(page);
 ---
 
 <DocsLayout title={page.data.title} description={page.data.description}>
-	<p class="mt-8 capitalize text-neutral-500">
-		{group.join(" > ")}
-		<!-- > {page.data.title} -->
+	<p
+		class="mt-8 pt-0.5 uppercase text-xs font-semibold tracking-wider text-neutral-500"
+	>
+		{
+			group.map((item) => (
+				// TODO: improve casing
+				<>
+					{item}
+					<ChevronRight class="inline fill-neutral-600 -mt-1" />
+				</>
+			))
+		}
 	</p>
 
 	<h1 class="mt-8">{page.data.title}</h1>
@@ -35,32 +48,39 @@ const { Content, headings } = await render(page);
 			{
 				headings.map((heading) => (
 					<li>
-						<a
-							class="block hover:text-neutral-200 py-1"
+						{/* TODO: Highlight if you are on that section */}
+						<button
+							type="button"
+							class="block text-left hover:text-neutral-200 py-1"
 							style={`padding-left: ${heading.depth - 2}rem`}
-							href={`docs/${page.id}#${heading.slug}`}
+							data-scroll-to={`#${heading.slug}`}
 						>
 							{heading.text}
-						</a>
+						</button>
 					</li>
 				))
 			}
 		</ul>
 
-		<div class="border-t flex flex-col border-neutral-700 py-4">
+		<div class="border-t flex flex-col border-neutral-700/50 py-4">
 			<a
 				target="_blank"
-				href={`https://github.com/letsync/letsync/tree/main/website/src/pages/${page.id}`}
-				class="block px-4 py-2 hover:bg-bg-secondary hover:text-text-primary cursor-alias rounded-md"
+				href={`https://github.com/AdityaBorkar/letsync/tree/stable/www/cms/docs/${page.id}.md`}
+				class="group block px-4 py-2 hover:bg-bg-secondary hover:text-text-primary cursor-alias rounded-md"
 			>
-				<!-- EDIT LOGO -->
+				<EditFile
+					class="fill-neutral-500 inline-block size-5 mr-1 -mt-0.5 group-hover:fill-neutral-200"
+				/>
 				Edit this page on GitHub
 			</a>
 			<button
+				data-scroll-to="body"
 				type="button"
-				class="block text-left px-4 py-2 hover:bg-bg-secondary hover:text-text-primary rounded-md"
+				class="group block text-left px-4 py-2 hover:bg-bg-secondary hover:text-text-primary rounded-md"
 			>
-				<!-- ARROW UP LOGO -->
+				<ArrowUp
+					class="fill-neutral-500 inline-block size-5 mr-1 -mt-0.5 group-hover:fill-neutral-200"
+				/>
 				Scroll to top
 			</button>
 		</div>

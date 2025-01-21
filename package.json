@@ -10,6 +10,7 @@
 		"@nx/js": "20.3.1",
 		"@swc-node/register": "^1.10.9",
 		"@swc/core": "^1.10.7",
+		"@types/jsdoc-to-markdown": "^7.0.6",
 		"@types/node": "^22.10.6",
 		"commitizen": "^4.3.1",
 		"cspell": "^8.17.2",
@@ -46,5 +47,8 @@
 		"prisma",
 		"sharp"
 	],
-	"workspaces": ["www/", "packages/*", "examples/*"]
+	"workspaces": ["www/", "packages/*", "examples/*"],
+	"dependencies": {
+		"jsdoc-to-markdown": "^9.1.1"
+	}
 }

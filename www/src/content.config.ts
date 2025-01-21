@@ -3,7 +3,7 @@ import { glob } from 'astro/loaders';
 
 const docs = defineCollection({
 	loader: glob({
-		pattern: '**/[^wip-]*.md',
+		pattern: '**/!(wip-)*.md',
 		base: './cms/docs',
 	}),
 	schema: z.object({
@@ -27,11 +27,13 @@ const docs = defineCollection({
 
 const reference = defineCollection({
 	loader: glob({
-		pattern: '**/[^wip-]*.md',
+		pattern: '**/!(wip-)*.md',
 		base: './cms/reference',
 	}),
 	schema: z.object({
 		title: z.string(),
+		description: z.string(),
+		index: z.number().optional(),
 	}),
 });
 

@@ -1,0 +1,152 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "./BaseLayout.astro";
+
+interface Props {
+	title: string;
+	description: string;
+}
+
+const pages = (await getCollection("docs"))
+	.map((doc) => {
+		const group = doc.id.split("/");
+		group.pop();
+		return {
+			href: `docs/${doc.id}`,
+			index: doc.data.index,
+			label: doc.data.title,
+			group: group.join("/"),
+		};
+	})
+	.sort((a, b) =>
+		typeof a.index === "undefined" || typeof b.index === "undefined"
+			? a.label.localeCompare(b.label)
+			: a.index - b.index,
+	);
+
+const navigation = [
+	{
+		label: "Getting Started",
+		items: pages.filter((page) => page.group === "getting-started"),
+	},
+	{
+		label: "Feedback",
+		items: [
+			{
+				label: "Wishlist",
+				href: "/docs/wishlist",
+			},
+			{
+				label: "Raise an Issue",
+				href: "/docs/issue",
+			},
+		],
+	},
+	// {
+	// 	label: "Adapters",
+	// 	items: [
+	// 		{
+	// 			label: "Framework",
+	// 			items: pages.filter(
+	// 				(page) => page.group === "adapters/framework",
+	// 			),
+	// 		},
+	// 		{
+	// 			label: "ORM",
+	// 			items: pages.filter((page) => page.group === "adapters/orm"),
+	// 		},
+	// 		{
+	// 			label: "Client Database",
+	// 			items: pages.filter(
+	// 				(page) => page.group === "adapters/client-db",
+	// 			),
+	// 		},
+	// 		{
+	// 			label: "Server Database",
+	// 			items: pages.filter(
+	// 				(page) => page.group === "adapters/server-db",
+	// 			),
+	// 		},
+	// 		{
+	// 			label: "PubSub",
+	// 			items: pages.filter((page) => page.group === "adapters/pubsub"),
+	// 		},
+	// 		{
+	// 			label: "Storage",
+	// 			items: pages.filter(
+	// 				(page) => page.group === "adapters/storage",
+	// 			),
+	// 		},
+	// 	],
+	// },
+	{
+		label: "Comparisons",
+		items: pages.filter((page) => page.group === "comparisons"),
+	},
+	{
+		label: "Contributing",
+		items: pages.filter((page) => page.group === "contributing"),
+	},
+];
+---
+
+<BaseLayout
+	segment="docs"
+	title={`Docs | ${Astro.props.title}`}
+	description={Astro.props.description}
+>
+	<article class="min-h-[calc(100vh-8rem)] px-16">
+		<slot />
+	</article>
+
+	<slot name="on-this-page" slot="on-this-page" />
+
+	<nav class="flex flex-col py-4 pr-4 gap-2" slot="navigation">
+		{
+			navigation.map(({ label, items }) => (
+				<div class="flex flex-col mt-6 first:mt-4">
+					<div class="text-xs ml-4 mb-2 text-text-primary font-bold uppercase tracking-wider">
+						{label}
+					</div>
+					{items.map((item) => {
+						// if ("href" in item)
+						return (
+							<a
+								href={item.href}
+								class=" py-1.5 px-4 rounded-md hover:bg-neutral-800/50 hover:text-text-primary text-[0.85rem]"
+							>
+								{item.label}
+							</a>
+						);
+						// return (
+						// 	<details class="group relative" open>
+						// 		<summary
+						// 			class={cn(
+						// 				"py-1.5 px-4 rounded-md hover:bg-neutral-800/50 hover:text-text-primary text-[0.85rem]",
+						// 				"after:h-[calc(100%-2rem)] after:top-8 after:left-6 after:absolute after:border-l-2 after:border-neutral-700",
+						// 				"group-open:after:visible after:invisible",
+						// 			)}
+						// 		>
+						// 			{item.label}
+						// 			<span class="absolute top-3 right-6 ml-2 inline-block w-0 h-0 border-t-4 border-l-4 border-b-4 border-transparent border-l-white transition-transform duration-300 group-open:rotate-90" />
+						// 		</summary>
+						// 		{item.items.map((subItem) => (
+						// 			<a
+						// 				href={subItem.href}
+						// 				class="relative group/link ml-8 block py-1.5 px-2 rounded-md hover:bg-neutral-800/50 hover:text-text-primary text-[0.85rem]"
+						// 			>
+						// 				{subItem.label}
+
+						// 				<div class="absolute group-hover/link:block hidden top-2 text-xs right-4">
+						// 					P
+						// 				</div>
+						// 			</a>
+						// 		))}
+						// 	</details>
+						// );
+					})}
+				</div>
+			))
+		}
+	</nav>
+</BaseLayout>

@@ -17,9 +17,7 @@
 		"provenance": true
 	},
 	"exports": {
-		".": "./dist/index.js",
-		"./schema-sql": "./dist/schema/sql/index.js",
-		"./schema-nosql": "./dist/schema/nosql/index.js"
+		".": "./dist/index.js"
 	},
 	"type": "module",
 	"files": ["dist/", "package.json", "LICENSE.md", "README.md"],

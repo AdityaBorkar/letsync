@@ -1,7 +1,7 @@
 ---
-import { cn } from '@/lib/utils';
-
-import '@/layouts/global.css';
+import { cn } from "@/lib/utils";
+import LetsyncLogo from "@/assets/LetsyncLogo.svg";
+import "@/layouts/global.css";
 
 interface Props {
 	title: string;
@@ -31,13 +31,8 @@ const { title, description, class: className } = Astro.props;
 		<header
 			class="flex justify-between shadow-lg items-center backdrop-blur-lg border border-neutral-700/50 rounded-full p-2 fixed top-8 left-[calc(50%-28rem)] max-w-[56rem] w-full z-50"
 		>
-			<a href="/" class="ml-4">
-				<!-- <img src="/logo.svg" alt="letsync" class="inline-block" /> -->
-				<span
-					class="text-xs ml-2 text-sky-300 tracking-wider font-semibold inline"
-				>
-					ALPHA
-				</span>
+			<a href="/">
+				<LetsyncLogo class="py-1.5 inline-block" />
 			</a>
 			<nav class="flex justify-end gap-2">
 				<a

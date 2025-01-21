@@ -1,5 +1,6 @@
 ---
-import MarketingLayout from '@/layouts/MarketingLayout.astro';
+import MarketingLayout from "@/layouts/MarketingLayout.astro";
+import LetsyncLogo from "@/assets/LetsyncLogo.svg";
 ---
 
 <MarketingLayout title="Product" description="Product for letsync">
@@ -7,12 +8,11 @@ import MarketingLayout from '@/layouts/MarketingLayout.astro';
 		class="h-screen text-center w-full flex flex-col justify-center items-center"
 	>
 		<h2 class="text-4xl font-bold">
-			letsync
-			<br />
+			<LetsyncLogo class="inline-block size-96" />
 			<br />
 			Sync for next-gen web applications.
 		</h2>
-		<div class="text-xl mt-16 text-text-tertiary">
+		<div class="text-xl mt-16 max-w-[40rem] text-text-tertiary">
 			Get ready to provide your users with an fast and elegant user
 			experience along with a great developer experience.
 		</div>

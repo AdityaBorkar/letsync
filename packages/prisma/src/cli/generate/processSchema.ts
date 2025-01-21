@@ -79,9 +79,12 @@ function processModel(block: Model) {
 		common: [],
 	};
 
-	const blockLetsyncProperties = {
+	const letsyncProperties = {
 		type: 'client-block', // 'client-model'
 	};
+
+	const FIRST_BLOCK = block.properties[0];
+	console.log(FIRST_BLOCK);
 
 	block.properties.map((property) => {
 		// console.log(property);
@@ -95,6 +98,11 @@ function processModel(block: Model) {
 		}
 
 		if (property.type === 'comment') {
+			if (property.text.trim().startsWith('// @@server-model')) {
+				if (letsyncProperties.type === 'server-block') {
+				} else if (letsyncProperties.type === 'client-block') {
+				}
+			}
 			console.log('COMMENT');
 		}
 

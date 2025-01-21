@@ -1,23 +1,27 @@
 ---
-import MarketingLayout from '@/layouts/MarketingLayout.astro';
+import MarketingLayout from "@/layouts/MarketingLayout.astro";
 ---
 
 <MarketingLayout title="Features" description="Features for letsync">
 	<div
 		class="h-screen text-center w-full flex flex-col justify-center items-center"
 	>
-		<h2 class="text-4xl font-bold my-24">Features</h2>
+		<h2
+			class="text-5xl font-bold my-24 text-transparent bg-clip-text bg-gradient-to-b from-neutral-100 to-neutral-100/50"
+		>
+			Features
+		</h2>
 
-		<div class="grid grid-cols-3 max-w-4xl mx-auto gap-16">
+		<div class="grid grid-cols-2 max-w-4xl mx-auto gap-16">
 			<div
 				class="max-w-96 text-left p-4 rounded-md border border-neutral-800"
 			>
-				Swap database providers with ease
+				Bring in your favorite database (Partially Available)
 			</div>
 			<div
 				class="max-w-96 text-left p-4 rounded-md border border-neutral-800"
 			>
-				Use multiple database providers in a single app (Coming Soon)
+				Bring in your favorite ORM
 			</div>
 			<div
 				class="max-w-96 text-left p-4 rounded-md border border-neutral-800"
@@ -27,28 +31,23 @@ import MarketingLayout from '@/layouts/MarketingLayout.astro';
 			<div
 				class="max-w-96 text-left p-4 rounded-md border border-neutral-800"
 			>
-				Privacy by default - You choose the data to sync
+				Secure by default - You choose the data to sync
 			</div>
 			<div
 				class="max-w-96 text-left p-4 rounded-md border border-neutral-800"
 			>
-				Data Ownership is decided by you - User / Company (Coming Soon)
+				Works offline out-of-the-box
 			</div>
-			<div
-				class="max-w-96 text-left p-4 rounded-md border border-neutral-800"
-			>
-				Works offline
-			</div>
-			<div
+			<!-- <div
 				class="max-w-96 text-left p-4 rounded-md border border-neutral-800"
 			>
 				Versioning and Conflict Resolution (Coming Soon)
-			</div>
-			<div
+			</div> -->
+			<!-- <div
 				class="max-w-96 text-left p-4 rounded-md border border-neutral-800"
 			>
 				End-to-End (E2E) Encryption (Coming Soon)
-			</div>
+			</div> -->
 		</div>
 
 		<!-- Testimonials -->

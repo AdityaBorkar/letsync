@@ -1,23 +1,26 @@
 ---
-import { getCollection, render } from 'astro:content';
-import RefLayout from '@/layouts/documentation/RefLayout.astro';
+import { getCollection, render } from "astro:content";
+import RefLayout from "@/layouts/RefLayout.astro";
+import ArrowUp from "@/assets/ArrowUp.svg";
+import EditFile from "@/assets/EditFile.svg";
+import ChevronRight from "@/assets/ChevronRight.svg";
 
 // TODO - AUTO GENERATE REFERENCE PAGES ACCORDING TO THE JSDOCS
 
 export async function getStaticPaths() {
-	const pages = await getCollection('reference');
+	const pages = await getCollection("reference");
 	return pages.flatMap((page) => {
 		// @ts-expect-error
-		const [name, version, ...slug] = page.id.split('/');
+		const [name, version, ...slug] = page.id.split("/");
 		return [
 			{
 				// TODO - INACCURATE PATH, AS IT GENERATES `latest` for all versions
-				params: { slug: [name, 'latest', ...slug].join('/') },
-				props: { page, group: page.id.split('/') },
+				params: { slug: [name, "latest", ...slug].join("/") },
+				props: { page, group: page.id.split("/") },
 			},
 			{
 				params: { slug: page.id },
-				props: { page, group: page.id.split('/') },
+				props: { page, group: page.id.split("/") },
 			},
 		];
 	});
@@ -25,71 +28,154 @@ export async function getStaticPaths() {
 
 const { page, group } = Astro.props;
 const { Content, headings } = await render(page);
+const title = page.data.title;
+
+const api_reference = (await getCollection("reference"))
+	.map((doc) => {
+		if (!doc.id.startsWith(group[0] || "")) return;
+		const groupName = doc.id.split("/")[2];
+		if (!groupName) return;
+		return {
+			href: `reference/${doc.id}`,
+			index: doc.data.index,
+			label: doc.data.title,
+			group: groupName,
+		};
+	})
+	.filter((doc) => doc !== undefined)
+	.sort((a, b) =>
+		typeof a.index === "undefined" || typeof b.index === "undefined"
+			? a.label.localeCompare(b.label)
+			: a.index - b.index,
+	);
 
 const navigation = [
-	// TODO - GET FUNCTIONS
 	{
-		label: 'Getting Started',
-		items: [
-			{
-				href: '/docs/installation',
-				label: 'Installation',
-			},
-		],
+		label: "API Reference",
+		items: api_reference.filter((doc) => doc.group === "api"),
+	},
+	{
+		label: "Meta",
+		items: api_reference.filter((doc) => doc.group === "meta"),
 	},
 ];
 ---
 
-<RefLayout title={page.data.title} description={page.data.title}>
-	<div class="mt-8" slot="navigation-list">
+<RefLayout title={title} description={title}>
+	<p
+		class="mt-8 pt-0.5 uppercase text-xs font-semibold tracking-wider text-neutral-500"
+	>
 		{
-			navigation.map(({ label, items }) => (
-				<div class="flex flex-col mt-8 first:mt-0">
-					<div class="text-xs ml-4 mb-2 text-neutral-500 font-medium uppercase tracking-wider">
-						{label}
-					</div>
-					{items.map((item) => (
-						<a
-							href={item.href}
-							class="py-1 px-4 rounded-md hover:bg-neutral-800"
-						>
-							{item.label}
-						</a>
-					))}
-				</div>
+			group.map((item) => (
+				// TODO: improve casing
+				<>
+					{item}
+					<ChevronRight class="inline fill-neutral-600 -mt-1" />
+				</>
 			))
 		}
-	</div>
-
-	<p class="mt-4 text-neutral-500">
-		{group.join(" > ")} > {page.data.title}
 	</p>
 
-	<h1 class="mt-8">{page.data.title}</h1>
+	<h1 class="mt-8">{title}</h1>
 
 	<Content />
 
-	<div slot="on-this-page">
-		<ul>
+	<nav class="flex flex-col py-4 pr-4 gap-2" slot="navigation-list">
+		{
+			navigation.map(({ label, items }) => (
+				<div class="flex flex-col mt-6 first:mt-4">
+					<div class="text-xs ml-4 mb-2 text-text-primary font-bold uppercase tracking-wider">
+						{label}
+					</div>
+					{items.map((item) => {
+						if ("href" in item)
+							return (
+								<a
+									href={item.href}
+									class=" py-1.5 px-4 rounded-md hover:bg-neutral-800/50 hover:text-text-primary text-[0.85rem]"
+								>
+									{item.label}
+								</a>
+							);
+						// return (
+						// 	<details class="group relative" open>
+						// 		<summary
+						// 			class={cn(
+						// 				"py-1.5 px-4 rounded-md hover:bg-neutral-800/50 hover:text-text-primary text-[0.85rem]",
+						// 				"after:h-[calc(100%-2rem)] after:top-8 after:left-6 after:absolute after:border-l-2 after:border-neutral-700",
+						// 				"group-open:after:visible after:invisible",
+						// 			)}
+						// 		>
+						// 			{item.label}
+						// 			<span class="absolute top-3 right-6 ml-2 inline-block w-0 h-0 border-t-4 border-l-4 border-b-4 border-transparent border-l-white transition-transform duration-300 group-open:rotate-90" />
+						// 		</summary>
+						// 		{item.items.map((subItem) => (
+						// 			<a
+						// 				href={subItem.href}
+						// 				class="relative group/link ml-8 block py-1.5 px-2 rounded-md hover:bg-neutral-800/50 hover:text-text-primary text-[0.85rem]"
+						// 			>
+						// 				{subItem.label}
+
+						// 				<div class="absolute group-hover/link:block hidden top-2 text-xs right-4">
+						// 					P
+						// 				</div>
+						// 			</a>
+						// 		))}
+						// 	</details>
+						// );
+					})}
+				</div>
+			))
+		}
+	</nav>
+
+	<nav class="flex flex-col h-full gap-2" slot="on-this-page">
+		<div
+			class="mt-12 mb-4 uppercase tracking-wider text-xs text-text-primary font-medium"
+		>
+			On This Page
+		</div>
+
+		<ul class="grow">
 			{
 				headings.map((heading) => (
 					<li>
-						<a
-							class="block hover:text-neutral-200 py-1"
+						{/* TODO: Highlight if you are on that section */}
+						<button
+							type="button"
+							class="block text-left hover:text-neutral-200 py-1"
 							style={`padding-left: ${heading.depth - 2}rem`}
-							href={`docs/${page.id}#${heading.slug}`}
+							data-scroll-to={`#${heading.slug}`}
 						>
 							{heading.text}
-						</a>
+						</button>
 					</li>
 				))
 			}
 		</ul>
-		<a
-			href="https://github.com/AdityaBorkar/letsync/tree/main/website/src/pages/reference"
-			class="mt-8 block px-2 pt-4 border-t border-neutral-700"
-		>
-			Edit this page on GitHub
-		</a>
-	</div>
+
+		<div class="border-t flex flex-col border-neutral-700/50 py-4">
+			<!-- TODO - Fix links for `latest` -->
+			<a
+				target="_blank"
+				href={`https://github.com/AdityaBorkar/letsync/tree/stable/www/cms/docs/${page.id}`}
+				class="group block px-4 py-2 hover:bg-bg-secondary hover:text-text-primary cursor-alias rounded-md"
+			>
+				<EditFile
+					class="fill-neutral-500 inline-block size-5 mr-1 -mt-0.5 group-hover:fill-neutral-200"
+				/>
+				Edit this page on GitHub
+			</a>
+			<button
+				data-scroll-to="body"
+				type="button"
+				class="group block text-left px-4 py-2 hover:bg-bg-secondary hover:text-text-primary rounded-md"
+			>
+				<ArrowUp
+					class="fill-neutral-500 inline-block size-5 mr-1 -mt-0.5 group-hover:fill-neutral-200"
+				/>
+				Scroll to top
+			</button>
+		</div>
+	</nav>
 </RefLayout>

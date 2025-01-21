@@ -1,9 +1,15 @@
 ---
-import DocsLayout from '@/layouts/documentation/DocsLayout.astro';
+import DocsLayout from "@/layouts/DocsLayout.astro";
+import ChevronRight from "@/assets/ChevronRight.svg";
 ---
 
 <DocsLayout title="Home" description="Home">
-	<p class="mt-4 text-gray-500">Docs</p>
+	<p
+		class="mt-8 pt-0.5 uppercase text-xs font-semibold tracking-wider text-neutral-500"
+	>
+		Docs
+		<ChevronRight class="inline fill-neutral-600 -mt-1" />
+	</p>
 
 	<h1 class="mt-8">Documentation</h1>
 

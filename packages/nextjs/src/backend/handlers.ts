@@ -45,14 +45,6 @@ export function LetsyncHandlers(props: {
 	// 	throw new Error('Invalid pubsub');
 
 	return {
-		/**
-		 * Handles GET requests.
-		 *
-		 * @param {NextRequest} request - The incoming request object.
-		 * @param {NextContext} context - The context for the request.
-		 *
-		 * @returns {Promise<Response>} The response object.
-		 */
 		async GET(request: NextRequest, context: NextContext) {
 			const func = await getFuncFromRouter({ context, method: 'GET' });
 			if (!func) return new Response('Not found', { status: 404 });
@@ -64,14 +56,6 @@ export function LetsyncHandlers(props: {
 			return Response.json(response);
 		},
 
-		/**
-		 * Handles POST requests.
-		 *
-		 * @param {NextRequest} request - The incoming request object.
-		 * @param {NextContext} context - The context for the request.
-		 *
-		 * @returns {Promise<Response>} The response object.
-		 */
 		async POST(request: NextRequest, context: NextContext) {
 			const func = await getFuncFromRouter({ context, method: 'POST' });
 			if (!func) return new Response('Not found', { status: 404 });
@@ -83,14 +67,6 @@ export function LetsyncHandlers(props: {
 			return Response.json(response);
 		},
 
-		/**
-		 * Handles DELETE requests.
-		 *
-		 * @param {NextRequest} request - The incoming request object.
-		 * @param {NextContext} context - The context for the request.
-		 *
-		 * @returns {Promise<Response>} The response object.
-		 */
 		async DELETE(request: NextRequest, context: NextContext) {
 			const func = await getFuncFromRouter({ context, method: 'DELETE' });
 			if (!func) return new Response('Not found', { status: 404 });

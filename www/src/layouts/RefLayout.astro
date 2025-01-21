@@ -1,0 +1,107 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "./BaseLayout.astro";
+
+interface Props {
+	title: string;
+	description: string;
+}
+
+const packages = (await getCollection("reference")).reduce(
+	(packages, pkg) => {
+		const pathName = pkg.id.split("/");
+		const packageName = pathName[0];
+		const versionName = pathName[1];
+		if (!packageName || !versionName) return packages;
+
+		if (!(packageName in packages)) packages[packageName] = [];
+		if (!packages[packageName]?.includes(versionName)) {
+			packages[packageName]?.push(versionName);
+		}
+		return packages;
+	},
+	{} as { [name: string]: string[] },
+);
+---
+
+<BaseLayout
+	segment="reference"
+	title={`Reference | ${Astro.props.title}`}
+	description={Astro.props.description}
+>
+	<article class="min-h-[calc(100vh-8rem)] px-16">
+		<slot />
+	</article>
+
+	<slot slot="on-this-page" name="on-this-page" />
+
+	<nav class="flex flex-col py-4 pr-4 gap-2" slot="navigation">
+		<div class="border-b py-4 border-neutral-700/50">
+			<div class="grid grid-cols-2 gap-2">
+				<div>
+					<label
+						for="package"
+						class="block text-text-secondary pb-1 pl-1 text-xs"
+					>
+						Package
+					</label>
+					<select
+						id="package"
+						class="w-full bg-neutral-800/50 text-text-primary rounded-md p-2"
+						onchange=""
+					>
+						<option value="" disabled selected> Select </option>
+						{
+							Object.keys(packages).map((pkg) => (
+								<option value={pkg}>{pkg}</option>
+							))
+						}
+					</select>
+				</div>
+
+				<div>
+					<label
+						for="version"
+						class="block text-text-secondary pb-1 pl-1 text-xs"
+					>
+						Version
+					</label>
+					<select
+						id="version"
+						class="w-full bg-neutral-800/50 text-text-primary rounded-md p-2"
+						onchange=""
+					>
+						<option value="" disabled selected> Select </option>
+					</select>
+				</div>
+			</div>
+
+			<slot name="navigation-list" />
+		</div>
+	</nav>
+
+	<script define:vars={{ packages }}>
+		const packageSelect = document.querySelector("#package");
+		const versionSelect = document.querySelector("#version");
+		if (packageSelect && versionSelect) {
+			packageSelect.addEventListener("change", (e) => {
+				const pkgName = e.target.value;
+				const versions = packages[pkgName];
+				versionSelect.innerHTML = versions
+					?.map(
+						(version) =>
+							`<option value="${version}">${version}</option>`,
+					)
+					.join("");
+				const latest = versions.pop();
+				window.location.href = `/reference/${pkgName}/latest`;
+			});
+		}
+
+		versionSelect.addEventListener("change", (e) => {
+			const pkgName = packageSelect.value;
+			const version = e.target.value;
+			window.location.href = `/reference/${pkgName}/${version}`;
+		});
+	</script>
+</BaseLayout>
