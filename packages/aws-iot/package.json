@@ -1,7 +1,7 @@
 {
 	"name": "@letsync/aws-iot",
 	"description": "AWS IoT adapter for Letsync",
-	"version": "0.2.2",
+	"version": "0.2.0",
 	"license": "MIT",
 	"keywords": [],
 	"author": {
@@ -34,11 +34,11 @@
 	},
 	"devDependencies": {
 		"@types/jsonwebtoken": "^9.0.7",
-		"typescript": "^5.7.2"
+		"typescript": "^5.7.3"
 	},
 	"dependencies": {
-		"@aws-sdk/client-iot-data-plane": "^3.712.0",
-		"@letsync/core": "0.2.1",
+		"@aws-sdk/client-iot-data-plane": "^3.726.1",
+		"@letsync/core": "workspace:*",
 		"jsonwebtoken": "^9.0.2",
 		"mqtt": "^5.10.3"
 	}

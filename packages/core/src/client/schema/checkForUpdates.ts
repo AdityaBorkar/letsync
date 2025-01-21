@@ -14,28 +14,29 @@ export async function checkForUpdates(
 
 	const { stores } = params;
 	const { metadata } = stores;
-	const { apiBaseUrl } = params.config;
+	const { apiUrl } = params.config;
 
 	const schema = await metadata.get('schema');
 	debug({ schema });
 
 	const SchemaVersions = await Fetch({
 		method: 'GET',
-		baseUrl: apiBaseUrl || '',
-		endpoint: '/schema/versions',
+		baseUrl: apiUrl || '',
+		endpoint: '/schema',
 	});
+	console.log({ SchemaVersions });
 	debug({ SchemaVersions });
 
 	// TODO - STORE SCHEMA IN DATABASE
-
-	const upgrades = SchemaVersions.versions
-		.reduce((acc, version) => {
-			if (version > schema?.version) {
-				acc.push(version);
-			}
-			return acc;
-		}, [] as number[])
-		.sort((a, b) => a - b);
+	const upgrades = [];
+	// const upgrades = SchemaVersions.versions
+	// 	.reduce((acc, version) => {
+	// 		if (version > schema?.version) {
+	// 			acc.push(version);
+	// 		}
+	// 		return acc;
+	// 	}, [] as number[])
+	// 	.sort((a, b) => a - b);
 
 	return upgrades.length > 0;
 }

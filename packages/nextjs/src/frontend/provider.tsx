@@ -1,11 +1,13 @@
 'use client';
 
-import type { ClientDB, ClientFS, ClientPubsub, Config } from '@letsync/core';
+import type { ClientDB, ClientFS, ClientPubsub } from '@letsync/core';
+import type { LetsyncContextType } from './context.js';
+
 import { createClient } from '@letsync/core';
 // biome-ignore lint/style/useImportType: BIOME BUG
 import React, { useEffect, useMemo, useState } from 'react';
 
-import { LetsyncContext, type LetsyncContextType } from './context.js';
+import { LetsyncContext } from './context.js';
 
 /**
  * Props for the LetsyncProvider component.
@@ -27,9 +29,14 @@ interface LetsyncProviderProps<DB, FS, Pubsub> {
 	pubsub: Pubsub;
 
 	/**
-	 * The Letsync configuration object.
+	 * The API URL for the Letsync server.
 	 */
-	config: Config;
+	apiUrl: string;
+
+	// /**
+	//  * The Letsync configuration object.
+	//  */
+	// config: Config;
 
 	/**
 	 * Whether to use Web Workers for background processing.
@@ -73,27 +80,25 @@ export function LetsyncProvider<
 >({
 	db: _db,
 	fs: _fs,
-	config,
+	apiUrl,
 	pubsub,
 	fallback,
 	children,
 }: LetsyncProviderProps<DB, FS, Pubsub>) {
 	const client = useMemo(() => {
-		if (pubsub.__brand !== 'LETSYNC_PUBSUB_FRONTEND')
-			throw new Error(
-				`Invalid PubSub Adapter. Expected: LETSYNC_PUBSUB_FRONTEND, Found: ${pubsub.__brand}`,
-			);
+		const config = {
+			apiUrl: apiUrl || process.env.LETSYNC_API_URL || '/api/letsync',
+		};
 
-		if (config.__brand !== 'LETSYNC_CONFIG')
-			throw new Error(
-				`Invalid Config. Expected: LETSYNC_CONFIG, Found: ${config.__brand}`,
-			);
-
-		const { schema } = config;
+		// TODO - WIP
+		// if (pubsub.__brand !== 'LETSYNC_PUBSUB_FRONTEND')
+		// 	throw new Error(
+		// 		`Invalid PubSub Adapter. Expected: LETSYNC_PUBSUB_FRONTEND, Found: ${pubsub.__brand}`,
+		// 	);
 
 		const dbList = _db ? (Array.isArray(_db) ? _db : [_db]) : [];
 		const db = dbList.map((db) => {
-			const database = db({ pubsub, schema });
+			const database = db({ pubsub, config });
 			if (database.__brand !== 'LETSYNC_CLIENT_DATABASE')
 				throw new Error(
 					`Invalid Database Adapter. Expected: LETSYNC_CLIENT_DATABASE, Found: ${database.__brand}`,
@@ -103,16 +108,17 @@ export function LetsyncProvider<
 
 		const fsList = _fs ? (Array.isArray(_fs) ? _fs : [_fs]) : [];
 		const fs = fsList.map((fs) => {
+			const filesystem = fs; // TODO: WIP
 			if (fs.__brand !== 'LETSYNC_CLIENT_FILESYSTEM')
 				throw new Error(
 					`Invalid Filesystem Adapter. Expected: LETSYNC_CLIENT_FILESYSTEM, Found: ${fs.__brand}`,
 				);
-			return fs;
+			return filesystem;
 		});
 
 		const client = createClient({ db, fs, pubsub, config });
 		return client;
-	}, [pubsub, config, _db, _fs]);
+	}, [pubsub, _db, _fs, apiUrl]);
 
 	const [letsync, setLetsync] = useState<LetsyncContextType | null>(null);
 
@@ -120,7 +126,7 @@ export function LetsyncProvider<
 		const letsync = client
 			.then(async (client) => {
 				const { init, terminate, ...letsync } = client;
-				await init({});
+				await init();
 				setLetsync(letsync);
 				return { terminate };
 			})
@@ -130,7 +136,7 @@ export function LetsyncProvider<
 			});
 
 		return () => {
-			letsync.then(({ terminate }) => terminate?.({}));
+			letsync.then(({ terminate }) => terminate());
 		};
 	}, [client]);
 

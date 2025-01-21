@@ -1,10 +1,12 @@
-import type { ApiRouter } from '@/types/server/ApiRouter.js';
+import type { server } from '@/server/index.js';
+
+type ApiRouter = typeof server.router;
 
 export async function Fetch<
 	MethodType extends keyof ApiRouter,
 	EndpointType extends keyof ApiRouter[MethodType],
 	// @ts-expect-error
-	SearchParamsType extends ApiRouter[MethodType][EndpointType]['searchParams'],
+	SearchParamsType extends ApiRouter[MethodType][EndpointType]['searchParams'], // ! THIS DOES NOT WORk
 >(props: {
 	method: MethodType;
 	baseUrl: string;
@@ -16,11 +18,12 @@ export async function Fetch<
 	const url = `${baseUrl}${endpoint}?${new URLSearchParams(searchParams)}`;
 	const response = await fetch(url, { method })
 		.then((res) => {
-			// TODO - Zod Verify Response
-			return res.json() as Promise<
+			const data = res.json() as Promise<
 				// @ts-expect-error
-				ApiRouter[MethodType][EndpointType]['response']
+				ReturnType<ApiRouter[MethodType][EndpointType]>
 			>;
+			// TODO - zod.parse(data)
+			return data;
 		})
 		.catch((error) => {
 			console.error({ error });

@@ -8,6 +8,7 @@ import type {
 	ClientPubsub,
 	Config,
 } from '@/types/index.js';
+
 import { deregister } from '../device/deregister.js';
 import { flush } from '../device/flush.js';
 import { live } from '../device/live.js';
@@ -51,48 +52,15 @@ export async function createClient<
 	config: Config;
 	// workers?: boolean;
 }) {
-	// Validation:
-
-	// const db = (Array.isArray(_db) ? _db : [_db]).reduce(
-	// 	(acc, _db) => {
-	// 		const database = _db({ pubsub, schema });
-	// 		acc.db.push(database);
-	// 		acc.dbNames[database.name] = acc.db.length - 1;
-	// 		return acc;
-	// 	},
-	// 	{
-	// 		db: [] as ClientDB.Adapter<unknown>[],
-	// 		dbNames: {} as Record<string, number>,
-	// 	},
-	// );
-
-	// const fs = (Array.isArray(_fs) ? _fs : [_fs]).reduce(
-	// 	(acc, _fs) => {
-	// 		// const filesystem = _fs({ pubsub, schema });
-	// 		// acc.fs.push(filesystem);
-	// 		// acc.fsNames[filesystem.name] = acc.fs.length - 1;
-	// 		return acc;
-	// 	},
-	// 	{
-	// 		fs: [] as ClientFS.Adapter<unknown>[],
-	// 		fsNames: {} as Record<string, number>,
-	// 	},
-	// );
-
-	// await filesystem.init();
-	// await database.open();
-
-	// API:
-
 	const stores = {
 		metadata: metadataHandler({ db, fs, config }),
 		offlineChanges: offlineChangesHandler({ db, fs, config }),
 	};
 	const params = { db, fs, pubsub, config, stores } satisfies ClientParams;
 
-	const init = (props: Parameters<typeof _init>[0]) => _init(props, params);
+	const init = (props?: Parameters<typeof _init>[0]) => _init(props, params);
 
-	const terminate = (props: Parameters<typeof _terminate>[0]) =>
+	const terminate = (props?: Parameters<typeof _terminate>[0]) =>
 		_terminate(props, params);
 
 	const device = {

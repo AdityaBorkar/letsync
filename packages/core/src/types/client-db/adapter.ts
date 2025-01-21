@@ -1,5 +1,3 @@
-import type { Schema } from '../schema/schema.js';
-
 export interface ClientDBAdapter<DBClient> {
 	__brand: 'LETSYNC_CLIENT_DATABASE';
 	client: DBClient;
@@ -7,7 +5,7 @@ export interface ClientDBAdapter<DBClient> {
 	open: () => Promise<void>;
 	close: () => Promise<void>;
 	flush: () => Promise<void>;
-	buildSchema: (schema: Schema) => Promise<void>;
+	buildSchema: (schema: null) => Promise<void>;
 	sql: MethodSql;
 	exportData: MethodExportData;
 	storageMetrics: MethodStorageMetrics;

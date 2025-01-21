@@ -1,7 +1,7 @@
 {
 	"name": "@letsync/node-postgres",
 	"description": "Node-postgres adapter for Letsync",
-	"version": "0.2.2",
+	"version": "0.2.0",
 	"license": "MIT",
 	"keywords": [],
 	"author": {
@@ -30,10 +30,10 @@
 	},
 	"devDependencies": {
 		"@types/pg": "^8.11.10",
-		"typescript": "^5.7.2"
+		"typescript": "^5.7.3"
 	},
 	"dependencies": {
-		"@letsync/core": "^0.2.1",
+		"@letsync/core": "workspace:*",
 		"pg": "^8.13.1"
 	}
 }

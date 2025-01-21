@@ -1,7 +1,7 @@
 {
 	"name": "@letsync/durable-objects-websockets",
 	"description": "Durable Objects (Websockets) functionality for Letsync",
-	"version": "0.2.2",
+	"version": "0.2.0",
 	"license": "MIT",
 	"keywords": [],
 	"author": {
@@ -29,11 +29,11 @@
 		"node": ">=18.3.0"
 	},
 	"devDependencies": {
-		"typescript": "^5.7.2"
+		"typescript": "^5.7.3"
 	},
 	"dependencies": {
-		"@aws-sdk/client-iot-data-plane": "^3.712.0",
-		"@letsync/core": "^0.2.1",
+		"@aws-sdk/client-iot-data-plane": "^3.726.1",
+		"@letsync/core": "workspace:*",
 		"jsonwebtoken": "^9.0.2",
 		"mqtt": "^5.10.3"
 	}

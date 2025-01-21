@@ -1,5 +1,5 @@
+import type { Config } from '../config.js';
 import type { ClientPubsub } from '../pubsub/index.js';
-import type { Schema } from '../schema/schema.js';
 import type { ClientDBAdapter } from './adapter.js';
 
 export namespace ClientDB {
@@ -7,6 +7,6 @@ export namespace ClientDB {
 
 	export type CreateAdapter<DBClient> = (props: {
 		pubsub: ClientPubsub.Adapter;
-		schema: Schema;
+		config: Config;
 	}) => ClientDB.Adapter<DBClient>;
 }

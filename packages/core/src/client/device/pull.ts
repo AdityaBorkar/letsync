@@ -5,7 +5,7 @@ import type { ClientParams } from '../functions/create.js';
 interface PullProps {}
 
 export function pull(props: PullProps, params: ClientParams) {
-	// const { apiBaseUrl, database, metadata } = superProps;
+	// const { apiUrl, database, metadata } = superProps;
 	console.log({ props, params });
 	// if (WRITE_LOCK) {
 	// 	console.log("FAILED - WRITE LOCK IS ENABLED.");
@@ -19,7 +19,7 @@ export function pull(props: PullProps, params: ClientParams) {
 	// console.log({ cursor });
 
 	// const CdcList = await fetcher(
-	// 	`${apiBaseUrl}/changes?cursor=${cursor}`,
+	// 	`${apiUrl}/changes?cursor=${cursor}`,
 	// 	"GET",
 	// );
 

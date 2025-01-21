@@ -6,9 +6,10 @@ import { printBashCodeBlock } from '../common/markdown';
 release();
 
 /**
- * Example:
+ * * Example:
  * bun ./scripts/release.ts tag=trigger.release type=canary
  * bun ./scripts/release.ts tag=trigger.release type=${{ github.event.release.target_commitish }}
+ *
  */
 async function release() {
 	// // Debug Mode

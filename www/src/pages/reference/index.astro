@@ -1,59 +1,59 @@
 ---
-import { getCollection } from 'astro:content';
-import RefLayout from '@/layouts/documentation/RefLayout.astro';
+import { getCollection } from "astro:content";
+import RefLayout from "@/layouts/RefLayout.astro";
+import ChevronRight from "@/assets/ChevronRight.svg";
 
-const packages = new Set<string>();
-
-const packagesCollection = await getCollection('reference');
-for (const pkg of packagesCollection) {
-	const pathName = pkg.id.split('/');
-	packages.add(pathName[0] || 'Unknown');
-}
+const packages = (await getCollection("reference")).reduce((set, pkg) => {
+	const packageName = pkg.id.split("/")[0] || "Unknown";
+	set.add(packageName);
+	return set;
+}, new Set() as Set<string>);
 ---
 
 <RefLayout title="Home" description="Home">
-	<p class="mt-4 text-gray-500">Reference</p>
+	<p
+		class="mt-8 pt-0.5 uppercase text-xs font-semibold tracking-wider text-neutral-500"
+	>
+		Reference
+		<ChevronRight class="inline fill-neutral-600 -mt-1" />
+	</p>
 
 	<h1 class="mt-8">Reference</h1>
 
-	<div
-		class="text-red-800 bg-red-200 p-4 rounded-md font-bold my-16 text-center"
-	>
-		NOTE - API Reference is work-in-progress. Kindly refer to the
-		"Documentation" for now.
+	<div>
+		Write the list of information available in the docs and how to navigate
+		through them.
 	</div>
 
-	<div class="flex mb-16 flex-row gap-4">
-		<div class="flex flex-row gap-4">
-			<div>List View</div>
-			<div>Grid View</div>
+	<!-- <div class="flex mb-4 flex-row gap-4 mt-8">
+		<div class="flex flex-row gap-4 text-center">
+			<div class="bg-neutral-800 rounded-md">List View</div>
+			<div class="bg-neutral-800 rounded-md">Grid View</div>
 		</div>
 		<input
 			type="search"
 			placeholder="Search Package"
-			class="w-full mt-4 py-2 px-4 text-sm rounded-md border border-gray-800 bg-gray-700"
+			class="w-full py-2.5 px-4 grow text-sm rounded-md bg-bg-secondary"
 		/>
-	</div>
+	</div> -->
 
-	<div class="grid grid-cols-4 gap-4">
+	<div class="mt-8 grid grid-cols-4 gap-4 text-center">
 		{
-			new Array(...packages).map((pkg) => (
-				<a
-					class="text-center font-medium no-underline bg-gray-800 p-4 rounded-md hover:bg-gray-700"
-					href={`reference/${pkg}/latest`}
-				>
-					<img
-						src={`/images/packages/${pkg}.png`}
-						alt={pkg}
-						class="block mx-auto size-8"
-					/>
-					{pkg}
-				</a>
-			))
+			new Array(...packages)
+				.sort((a, b) => a.localeCompare(b))
+				.map((pkg) => (
+					<a
+						class="font-medium no-underline py-4 bg-neutral-800/50 rounded-md hover:bg-bg-secondary"
+						href={`reference/${pkg}/latest`}
+					>
+						<img
+							src={`/logo/${pkg}.png`}
+							alt={pkg}
+							class="mt-0 mx-auto mb-2 rounded-lg block size-10"
+						/>
+						{pkg}
+					</a>
+				))
 		}
-	</div>
-
-	<div slot="on-this-page">
-		<a href="/reference">Reference</a>
 	</div>
 </RefLayout>

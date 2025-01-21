@@ -1,0 +1,47 @@
+---
+import DocsLayout from "@/layouts/DocsLayout.astro";
+
+// TODO - Link with GitHub issues and allow users to vote on them.
+
+// Do not use local storage for wishlist. Because it is not a page that is visited often.
+---
+
+<DocsLayout title="Wishlist" description="Wishlist">
+    <p class="mt-4 text-gray-500">Wishlist</p>
+
+    <div>
+        <p>
+            We are always looking for ways to improve Letsync. If you have any
+            ideas or suggestions, please let us know by raising an issue.
+        </p>
+    </div>
+
+    <div class="my-4 flex flex-row border-b border-neutral-700/50 py-1 gap-2">
+        <div class="px-4 py-2 hover:bg-bg-secondary rounded-md">All Issues</div>
+        <div class="px-4 py-2 hover:bg-bg-secondary rounded-md">
+            Upvoted By Me
+        </div>
+        <div class="px-4 py-2 hover:bg-bg-secondary rounded-md">
+            Created By Me
+        </div>
+        <div class="grow"></div>
+        <div
+            class="py-2 px-4 hover:bg-green-900 rounded-md bg-green-800 text-white"
+        >
+            New Wish
+        </div>
+    </div>
+
+    <div>
+        <div
+            class="grid grid-cols-[auto_6rem] bg-neutral-900 rounded-md px-4 py-2 gap-2"
+        >
+            <div>
+                <div class="mb-2">ISSUE TITLE</div>
+                <div>ISSUE DESCRIPTION</div>
+            </div>
+            <div class="text-center py-4 bg-neutral-700 rounded-md">[CH] 4</div>
+            <!-- <div>Status Working</div> -->
+        </div>
+    </div>
+</DocsLayout>

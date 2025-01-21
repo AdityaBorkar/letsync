@@ -1,6 +1,6 @@
 ---
 index: 6
-group: "Getting Started"
+group: "getting-started"
 title: "Deployment"
 description: "This is a test description"
 # pubDate: "2024-01-01"

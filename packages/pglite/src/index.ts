@@ -1,1 +1,1 @@
-export { createClientDB as ClientDB_PGlite } from './create.js';
+export { createDB as ClientDB_PGlite } from './create/index.js';

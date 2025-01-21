@@ -7,7 +7,7 @@ interface LiveProps {
 export function live(props: LiveProps, params: ClientParams) {
 	// TODO - MQTT ENDPOINT SUBSCRIPTION
 	const { endpoints } = props;
-	// const { apiBaseUrl, pubsub } = superProps;
+	// const { apiUrl, pubsub } = superProps;
 	console.log({ props, params });
 
 	// TODO - POLL FOR ALLOWED TOPICS AND THEN SUBSCRIBE TO ALL

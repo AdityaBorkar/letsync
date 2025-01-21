@@ -1,0 +1,50 @@
+// TODO - MAKE A COMPILER
+
+// THIS MUST BE THE NAME OF THE DATABASE
+generator cockroachdb {
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"] // prismaSchemaFolder
+  // output              = "../node_modules/@prisma/client/cockroachdb" // ! NOT RESPECTED
+
+  datasource_provider = "cockroachdb"
+  datasource_url      = env("COCKROACHDB_DATABASE_URL") // DEFAULT
+
+  letsync_type = "server"
+}
+
+// THIS MUST BE THE NAME OF THE DATABASE
+generator pglite {
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"] // prismaSchemaFolder
+  // output                         = "../node_modules/@prisma/client/pglite" // ! NOT RESPECTED
+
+  datasource_provider = "postgresql"
+  datasource_url      = env("PGLITE_DATABASE_URL") // DEFAULT
+
+  letsync_type                   = "local"
+  letsync_models                 = [User, "dir:./schema"] // CURRENT FILE IS INCLUDED BY DEFAULT.
+  letsync_optimistic_column_name = "$optimistic" // DEFAULT: $optimistic
+}
+
+model User {
+  id       String @id @default(cuid(2))
+  name     String
+  email    String @unique
+  password String
+
+  // @@server-fields-block
+  passwordHash String
+
+  // @@client-fields-block
+  theme String
+}
+
+model UserData {
+  // @@server-model
+  // @@client-model
+  id           String @id @default(cuid(2))
+  name         String
+  email        String @unique
+  password     String
+  passwordHash String
+}

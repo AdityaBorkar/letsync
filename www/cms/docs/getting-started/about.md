@@ -1,6 +1,6 @@
 ---
 index: 1
-group: "Getting Started"
+group: "getting-started"
 title: "About"
 description: "This is a test description"
 ---

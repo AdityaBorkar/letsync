@@ -1,7 +1,7 @@
 {
 	"name": "@letsync/d1",
 	"description": "D1 functionality for Letsync",
-	"version": "0.2.1",
+	"version": "0.2.0",
 	"license": "MIT",
 	"keywords": [],
 	"author": {
@@ -29,7 +29,7 @@
 		"node": ">=18.3.0"
 	},
 	"devDependencies": {
-		"typescript": "^5.7.2"
+		"typescript": "^5.7.3"
 	},
 	"dependencies": {}
 }

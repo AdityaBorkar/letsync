@@ -1,7 +1,7 @@
 {
 	"name": "@letsync/pglite",
 	"description": "pglite adapter for Letsync",
-	"version": "0.2.2",
+	"version": "0.2.0",
 	"license": "MIT",
 	"keywords": [],
 	"author": {
@@ -16,7 +16,10 @@
 	"publishConfig": {
 		"provenance": true
 	},
-	"main": "./dist/index.js",
+	"exports": {
+		".": "./dist/index.js",
+		"./prisma": "./dist/prisma/index.js"
+	},
 	"type": "module",
 	"files": ["dist/", "package.json", "LICENSE.md", "README.md"],
 	"scripts": {
@@ -29,10 +32,12 @@
 		"node": ">=18.3.0"
 	},
 	"devDependencies": {
-		"typescript": "^5.7.2"
+		"typescript": "^5.7.3"
 	},
 	"dependencies": {
 		"@electric-sql/pglite": "^0.2.15",
-		"@letsync/core": "^0.2.1"
+		"@letsync/core": "workspace:*",
+		"@prisma/client": "^6.2.1",
+		"pglite-prisma-adapter": "^0.3.0"
 	}
 }

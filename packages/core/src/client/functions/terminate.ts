@@ -1,7 +1,6 @@
 import type { ClientParams } from './create.js';
 
-// biome-ignore lint/suspicious/noEmptyInterface: <explanation>
-interface TerminateProps {}
+type TerminateProps = undefined;
 
 export async function terminate(props: TerminateProps, params: ClientParams) {
 	// pubsub.disconnect();

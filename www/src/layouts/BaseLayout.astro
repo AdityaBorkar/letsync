@@ -1,0 +1,128 @@
+---
+import XLogo from "@/assets/X.svg";
+import GitHubLogo from "@/assets/GitHub.svg";
+import LetsyncLogo from "@/assets/LetsyncLogo.svg";
+import { cn } from "@/lib/utils";
+
+import "@/layouts/global.css";
+import Search from "@/components/Search.astro";
+
+interface Props {
+	title: string;
+	description: string;
+	segment: string;
+}
+
+const { title, description, segment } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<base href="/" />
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title}</title>
+		<meta name="description" content={description} />
+	</head>
+	<body
+		class="text-text-secondary antialiased bg-bg-primary cursor-default text-sm"
+	>
+		<header
+			class="sticky top-0 z-50 backdrop-blur-sm border-b bg-bg-primary/80 border-neutral-700/50 w-full"
+		>
+			<div class="grid w-[80vw] max-w-[85rem] mx-auto grid-cols-3 py-2">
+				<a href="/" class="pl-10">
+					<LetsyncLogo class="py-1" />
+				</a>
+
+				<Search />
+
+				<nav class="flex flex-row justify-end items-center">
+					<a
+						href="/docs"
+						class={cn(
+							"py-2 px-4 rounded-md text-text-secondary font-medium relative hover:bg-neutral-900",
+							segment === "docs" &&
+								"text-text-primary after:w-full after:absolute after:-bottom-2 after:left-0 after:border-b after:border-white",
+						)}
+					>
+						Docs
+					</a>
+					<a
+						href="/reference"
+						class={cn(
+							"py-2 px-4 rounded-md text-text-secondary font-medium relative hover:bg-neutral-900",
+							segment === "reference" &&
+								"text-text-primary after:w-full after:absolute after:-bottom-2 after:left-0 after:border-b after:border-white",
+						)}
+					>
+						Reference
+					</a>
+					<a
+						target="_blank"
+						href="https://x.com/adityab_tech"
+						class="group rounded-md size-8 p-1 hover:bg-neutral-800/50 ml-2 cursor-alias"
+					>
+						<XLogo class="fill-neutral-400" />
+					</a>
+					<a
+						target="_blank"
+						href="https://github.com/AdityaBorkar/letsync"
+						class="group rounded-md size-8 p-1 hover:bg-neutral-800/50 relative ml-2 cursor-alias"
+					>
+						<GitHubLogo class="fill-neutral-400" />
+						<div
+							class="absolute top-1 left-10 whitespace-nowrap text-xs font-medium border border-neutral-600/50 bg-neutral-800 py-1 px-2 text-white rounded-md"
+						>
+							Star Us!
+						</div>
+					</a>
+				</nav>
+			</div>
+		</header>
+
+		<aside
+			class="fixed top-[3.5rem] left-[calc((100vw-48rem)/2-16rem)] w-[16rem] overflow-auto h-[calc(100vh-3.5rem)]"
+		>
+			<slot name="navigation" />
+		</aside>
+
+		<main class="dark:prose-invert prose mx-auto min-w-[48rem] text-sm">
+			<slot />
+
+			<!--
+			<p class="py-10 mt-8 mb-1 text-text-tertiary text-center">
+				Created with ❤️ by
+				<a
+					target="_blank"
+					href="https://adityaborkar.com"
+					class="text-text-secondary underline-offset-4"
+				>
+					Aditya Borkar
+				</a>
+			</p>
+			-->
+		</main>
+
+		<aside
+			class="fixed top-[3.5rem] right-[calc((100vw-48rem)/2-16rem-4rem)] w-[16rem] overflow-auto h-[calc(100vh-3.5rem)]"
+		>
+			<slot name="on-this-page" />
+		</aside>
+	</body>
+
+	<script>
+		document.querySelectorAll("[data-scroll-to]").forEach((button) => {
+			button.addEventListener("click", () => {
+				const top =
+					// @ts-expect-error - Dataset is not typed
+					document.querySelector(button.dataset.scrollTo)?.offsetTop -
+					80;
+				window.scrollTo({ top, behavior: "smooth" });
+			});
+		});
+	</script>
+</html>

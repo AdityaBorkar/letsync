@@ -1,9 +1,9 @@
+import type { Params } from '@/server/types.js';
+
 import { createId } from '@paralleldrive/cuid2';
 import jwt from 'jsonwebtoken';
 
-import type { Params } from '@/server/types.js';
-import getLatestSchema from '@/server/utils/getLatestSchema.js';
-import type { ApiRouter } from '@/types/server/ApiRouter.js';
+import getLatestSchema from '../schema/getLatest.js';
 
 export default async function deviceRegister(params: Params) {
 	try {
@@ -53,7 +53,7 @@ export default async function deviceRegister(params: Params) {
 			device,
 			schema,
 			pubsub: { token, endpoints },
-		} satisfies ApiRouter['POST']['/device']['response'];
+		};
 
 		return new Response(JSON.stringify(response), { status: 200 });
 	} catch (error) {

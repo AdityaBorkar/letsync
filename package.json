@@ -1,6 +1,26 @@
 {
+	"config": {
+		"commitizen": {
+			"path": "cz-conventional-changelog",
+			"gpg_sign": true
+		}
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^1.9.4",
+		"@nx/js": "20.3.1",
+		"@swc-node/register": "^1.10.9",
+		"@swc/core": "^1.10.7",
+		"@types/jsdoc-to-markdown": "^7.0.6",
+		"@types/node": "^22.10.6",
+		"commitizen": "^4.3.1",
+		"cspell": "^8.17.2",
+		"cz-conventional-changelog": "^3.3.0",
+		"knip": "^5.42.0",
+		"markdownlint-cli": "^0.43.0",
+		"nx": "20.3.1",
+		"typescript": "^5.7.3"
+	},
 	"license": "MIT",
-	"workspaces": ["www/", "packages/*", "examples/*"],
 	"scripts": {
 		"deps:update": "bunx taze -r -w && bun install",
 		"dev": "nx run dev",
@@ -19,29 +39,16 @@
 	},
 	"trustedDependencies": [
 		"@biomejs/biome",
+		"@prisma/client",
+		"@prisma/engines",
 		"@swc/core",
 		"esbuild",
 		"nx",
+		"prisma",
 		"sharp"
 	],
-	"devDependencies": {
-		"@biomejs/biome": "^1.9.4",
-		"@nx/js": "20.2.2",
-		"@swc-node/register": "^1.10.9",
-		"@swc/core": "^1.10.1",
-		"@types/node": "^22.10.2",
-		"commitizen": "^4.3.1",
-		"cspell": "^8.17.0",
-		"cz-conventional-changelog": "^3.3.0",
-		"knip": "^5.40.0",
-		"markdownlint-cli": "^0.43.0",
-		"nx": "20.2.2",
-		"typescript": "^5.7.2"
-	},
-	"config": {
-		"commitizen": {
-			"path": "cz-conventional-changelog",
-			"gpg_sign": true
-		}
+	"workspaces": ["www/", "packages/*", "examples/*"],
+	"dependencies": {
+		"jsdoc-to-markdown": "^9.1.1"
 	}
 }
