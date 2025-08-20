@@ -11,10 +11,3 @@
 9. Deploy using SST
 10. Attach analytics, speed insights
 10. Link to Google Search Console
-
-## Repository Checklist:
-
-1. GitHub Actions and CI/CD Pipeline and Scripts - Write documentation.
-2. Automate `README.md` generation.
-3. Update SECURITY.md, CONTRIBUTING.md, CODE_OF_CONDUCT.md
-4. Automate releases on NPM and JSR

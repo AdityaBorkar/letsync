@@ -1,10 +1,4 @@
 {
-	"config": {
-		"commitizen": {
-			"path": "cz-conventional-changelog",
-			"gpg_sign": true
-		}
-	},
 	"devDependencies": {
 		"@biomejs/biome": "^1.9.4",
 		"@nx/js": "20.3.1",
@@ -20,7 +14,6 @@
 		"nx": "20.3.1",
 		"typescript": "^5.7.3"
 	},
-	"license": "MIT",
 	"scripts": {
 		"deps:update": "bunx taze -r -w && bun install",
 		"dev": "nx run dev",
